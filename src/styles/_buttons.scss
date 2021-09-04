@@ -1,0 +1,32 @@
+:root {
+  --icon-button-size: 40px;
+}
+
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: var(--white);
+  cursor: pointer;
+  border: 0;
+
+  &:hover {
+    background-color: var(--white-1);
+  }
+
+  &.--icon {
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
+    border-radius: 50%;
+  }
+
+
+  &.--lighter {
+    background-color: var(--white-1);
+
+    &:hover {
+      background-color: var(--white-2);
+    }
+  }
+}
