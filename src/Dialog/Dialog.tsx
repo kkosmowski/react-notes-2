@@ -36,3 +36,4 @@ export const DialogControls = styled.div`
   button + button {
     margin-left: 8px;
   }
+`;
