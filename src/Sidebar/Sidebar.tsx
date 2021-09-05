@@ -18,6 +18,6 @@ const SidebarWrapper = styled.aside`
   align-items: center;
   padding: 16px 0;
   width: var(--sidebar-width);
-  background-color: #191919;
+  background-color: var(--dark200);
   color: #eee;
 `;

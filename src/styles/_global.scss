@@ -1,4 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
 :root {
   --sidebar-width: 64px;
   --icon-size: 24px;
+  --wrapper-horizontal-padding: 32px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font: 300 16px Lato, Arial, sans-serif;
 }

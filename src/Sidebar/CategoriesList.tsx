@@ -5,10 +5,10 @@ import styled from 'styled-components';
 export const CategoriesList = (): ReactElement => {
   //@todo: temporary
   const mockedCategories: ReactElement[] = [
-    <Category><Folder /></Category>,
-    <Category><Folder /></Category>,
-    <Category><Folder /></Category>,
-    <Category><Folder /></Category>,
+    <Category key="0"><Folder /></Category>,
+    <Category key="1"><Folder /></Category>,
+    <Category key="2"><Folder /></Category>,
+    <Category key="3"><Folder /></Category>,
   ];
   const [categories, setCategories] = useState<ReactElement[]>(mockedCategories);
 
@@ -30,14 +30,14 @@ const CategoriesListWrapper = styled.ul`
 const Category = styled.li`
   display: flex;
   padding: 10px 0 10px calc((var(--sidebar-width) - var(--icon-size)) / 2);
-  border-bottom: 1px solid var(--white-2);
+  border-bottom: 1px solid var(--white-13);
 
   &:first-child {
-    border-top: 1px solid var(--white-2);
+    border-top: 1px solid var(--white-13);
   }
 
   &:hover {
-    background-color: var(--white-1);
+    background-color: var(--white-7);
     cursor: pointer;
   }
 `;

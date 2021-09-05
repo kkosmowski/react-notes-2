@@ -12,7 +12,7 @@
   border: 0;
 
   &:hover {
-    background-color: var(--white-1);
+    background-color: var(--white-7);
   }
 
   &.--icon {
@@ -21,12 +21,44 @@
     border-radius: 50%;
   }
 
+  &.--regular,
+  &.--contained {
+    padding: 0 16px;
+    height: 32px;
+    line-height: 1;
+    border-radius: 2px;
 
+  }
+
+  &.--regular {
+    &.--primary {
+      color: var(--primary);
+
+      &:hover {
+        background-color: var(--primary900);
+      }
+    }
+  }
+
+  &.--contained {
+    font-weight: 700;
+
+    &.--primary {
+      color: var(--dark50);
+      background-color: var(--primary);
+
+      &:hover {
+        background-color: var(--primary100);
+      }
+    }
+  }
+
+  &.--regular,
   &.--lighter {
-    background-color: var(--white-1);
+    background-color: var(--white-7);
 
     &:hover {
-      background-color: var(--white-2);
+      background-color: var(--white-13);
     }
   }
 }
