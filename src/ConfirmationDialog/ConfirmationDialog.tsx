@@ -1,12 +1,13 @@
 import { ReactElement } from 'react';
-import { DialogConfig } from '../store/interfaces/dialog-config,interface';
-import { DialogControls, Dialog } from '../Dialog/Dialog';
+import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
+import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as uiActions from '../store/actions/ui.actions';
 import { connect } from 'react-redux';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
+import { DialogControls } from '../Dialog/styles/Dialog.styles';
 
 interface Props {
   opened: boolean;

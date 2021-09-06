@@ -1,41 +1,36 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { DialogControls, Dialog } from '../Dialog/Dialog';
+import { Dialog } from '../Dialog/Dialog';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as uiActions from '../store/actions/ui.actions';
 import * as noteActions from '../store/actions/note.actions';
 import { connect } from 'react-redux';
-import { DialogConfig } from '../store/interfaces/dialog-config,interface';
+import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { NoteDialogForm } from './NoteDialogForm';
-import { NoteDialogFormValue } from './note-dialog-form.interface';
-import { Category } from '../domain/interfaces/category.interface';
+import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { v4 as uuidv4 } from 'uuid';
 import { Note } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
+import { Category } from '../domain/interfaces/category.interface';
+import { DialogControls } from '../Dialog/styles/Dialog.styles';
 
 interface Props {
   opened: boolean;
+  categories: Category[];
   confirmationResult: boolean | null;
   uiActions: any;
   noteActions: any;
 }
-
-const mockedCategories: Category[] = [ // @todo temp
-  {
-    id: uuidv4(), name: 'asd', notes: []
-  },
-  {
-    id: uuidv4(), name: 'hehe', notes: []
-  }
-];
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
   content: '',
 };
 
-export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, noteActions }: Props): ReactElement => {
+export const NoteDialogComponent = (
+  { opened, categories, confirmationResult, uiActions, noteActions }: Props
+): ReactElement => {
   const config: DialogConfig = {
     width: '400px',
     flex: true
@@ -104,7 +99,7 @@ export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, not
       <NoteDialogForm
         onFormChange={ handleFormChange }
         initialForm={ emptyForm }
-        categories={ mockedCategories }
+        categories={ categories }
         clear={ clearForm }
       />
 
@@ -129,9 +124,10 @@ export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, not
   );
 };
 
-const mapStateToProps = ({ ui }: MainState) => ({
+const mapStateToProps = ({ category, ui }: MainState) => ({
   opened: ui.noteDialogOpened,
   confirmationResult: ui.confirmationDialogResult,
+  categories: category.categories
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

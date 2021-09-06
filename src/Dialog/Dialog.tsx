@@ -1,8 +1,6 @@
 import { ReactElement } from 'react';
-import { DialogConfig } from '../store/interfaces/dialog-config,interface';
-import { DialogContainer } from './Dialog.styles';
-import { DialogWrapper } from './Dialog.styles';
-import styled from 'styled-components';
+import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
+import { DialogContainer, DialogWrapper } from './styles/Dialog.styles';
 import { Backdrop } from '../Backdrop/Backdrop';
 
 interface Props {
@@ -28,13 +26,3 @@ export const Dialog = ({ opened, config, children, onClose }: Props): ReactEleme
     )
     : null;
 };
-
-export const DialogControls = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  button + button {
-    margin-left: 8px;
-  }
-`;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DialogConfig } from '../store/interfaces/dialog-config,interface';
+import { DialogConfig } from '../../domain/interfaces/dialog-config.interface';
 
 export const DialogWrapper = styled.div`
   position: absolute;
@@ -16,6 +16,7 @@ export const DialogWrapper = styled.div`
 
 export const DialogContainer = styled.div<DialogConfig>`
   position: relative;
+  z-index: 100;
   width: 100%;
   ${ ({ flex }) => flex ? 'display: flex; flex-direction: column;' : '' }
   height: ${ ({ height }) => height || '60%' };
@@ -25,4 +26,14 @@ export const DialogContainer = styled.div<DialogConfig>`
   background-color: var(--dark300);
   border-radius: 4px;
   box-shadow: 0 0 16px var(--dark100);
+`;
+
+export const DialogControls = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  button + button {
+    margin-left: 8px;
+  }
 `;

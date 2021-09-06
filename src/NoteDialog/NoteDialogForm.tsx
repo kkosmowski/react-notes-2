@@ -1,7 +1,7 @@
 import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 import { InputWithLabel } from '../InputWithLabel/InputWithLabel';
 import styled from 'styled-components';
-import { NoteDialogFormValue } from './note-dialog-form.interface';
+import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { EntityUid } from '../domain/types/entity-uid.type';
 
