@@ -2,8 +2,13 @@
 
 :root {
   --sidebar-width: 64px;
+  --sidebar-width-opened: 240px;
+  --sidebar-transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  --sidebar-backdrop-transition: opacity 0.25s ease-in-out;
+
   --icon-size: 24px;
   --wrapper-horizontal-padding: 32px;
+
 }
 
 *, *::before, *::after {
@@ -12,4 +17,8 @@
 
 body {
   font: 300 16px Lato, Arial, sans-serif;
+}
+
+.--primary {
+  color: var(--primary);
 }

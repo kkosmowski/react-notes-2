@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import { DialogConfig } from '../store/interfaces/dialog-config,interface';
-import { DialogBackdrop, DialogContainer } from './Dialog.styles';
+import { DialogContainer } from './Dialog.styles';
 import { DialogWrapper } from './Dialog.styles';
 import styled from 'styled-components';
+import { Backdrop } from '../Backdrop/Backdrop';
 
 interface Props {
   opened: boolean;
@@ -15,7 +16,7 @@ export const Dialog = ({ opened, config, children, onClose }: Props): ReactEleme
   return opened
     ? (
       <DialogWrapper>
-        <DialogBackdrop onClick={ onClose } />
+        <Backdrop onClick={ onClose } />
         <DialogContainer
           width={ config?.width }
           height={ config?.height }

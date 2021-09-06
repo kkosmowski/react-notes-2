@@ -1,7 +1,7 @@
-import { NoteActions, UiActions } from '../../store/actions/actions.enum';
+import { ActionTypes } from '../../store/actions/actions.enum';
 
 export interface Action {
-  type: UiActions | NoteActions;
+  type: ActionTypes;
   payload?: any;
   error?: any;
 }

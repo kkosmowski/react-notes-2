@@ -27,17 +27,6 @@
     height: 32px;
     line-height: 1;
     border-radius: 2px;
-
-  }
-
-  &.--regular {
-    &.--primary {
-      color: var(--primary);
-
-      &:hover {
-        background-color: var(--primary900);
-      }
-    }
   }
 
   &.--contained {
@@ -59,6 +48,17 @@
 
     &:hover {
       background-color: var(--white-13);
+    }
+  }
+
+  &.--primary {
+    color: var(--primary);
+
+    &.--lighter,
+    &.--regular {
+      &:hover {
+        background-color: var(--primary900);
+      }
     }
   }
 }

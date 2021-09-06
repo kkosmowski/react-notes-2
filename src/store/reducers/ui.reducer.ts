@@ -43,6 +43,5 @@ export default function ui(state = initialState, action: Action): UiState {
       };
     }
   }
-
   return state;
 }

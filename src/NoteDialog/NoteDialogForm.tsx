@@ -14,6 +14,7 @@ interface Props {
 
 export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }: Props): ReactElement => {
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
+  const [selectedCategories, setSelectedCategories] = useState<Record<EntityUid, boolean>>({});
 
   useEffect(() => {
     onFormChange(form);
@@ -21,7 +22,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
 
   useEffect(() => {
     clearForm();
-  }, [clear])
+  }, [clear]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, control: keyof NoteDialogFormValue): void => {
     setForm({
@@ -31,18 +32,9 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
   };
 
   const onCategoriesChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const formCategories: EntityUid[] = [...form.categories];
-    // @todo change Array to Map
-    e.target.checked
-      ? formCategories.push(e.target.value)
-      : formCategories.splice(formCategories.indexOf(e.target.value), 1);
-    setForm({
-      ...form,
-      categories: formCategories
-    });
-    console.log({
-      ...form,
-      categories: formCategories
+    setSelectedCategories({
+      ...selectedCategories,
+      [e.target.value]: e.target.checked
     });
   };
 
@@ -77,7 +69,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
               id="category"
               name={ category.id }
               value={ category.id }
-              checked={ form.categories.map((categoryId) => categoryId).includes(category.id) }
+              checked={ selectedCategories[category.id] }
             />
             { category.name }
           </label>

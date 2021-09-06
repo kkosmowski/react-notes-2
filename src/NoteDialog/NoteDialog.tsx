@@ -23,17 +23,16 @@ interface Props {
 
 const mockedCategories: Category[] = [ // @todo temp
   {
-    id: uuidv4(), name: 'asd'
+    id: uuidv4(), name: 'asd', notes: []
   },
   {
-    id: uuidv4(), name: 'hehe'
+    id: uuidv4(), name: 'hehe', notes: []
   }
 ];
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
   content: '',
-  categories: []
 };
 
 export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, noteActions }: Props): ReactElement => {
@@ -64,14 +63,12 @@ export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, not
     }
   };
 
-  const closeDialog = (): void => {
-    uiActions.closeNoteDialog();
+  const isFormEmpty = (): boolean => {
+    return form.title === emptyForm.title && form.content === emptyForm.content;
   };
 
-  const isFormEmpty = (): boolean => {
-    return form.title === emptyForm.title &&
-      form.content === emptyForm.content &&
-      !form.categories.length;
+  const closeDialog = (): void => {
+    uiActions.closeNoteDialog();
   };
 
   const handleFormChange = (form: NoteDialogFormValue): void => {
@@ -83,7 +80,7 @@ export const NoteDialogComponent = ({ opened, confirmationResult, uiActions, not
       ...form,
       id: uuidv4(),
     };
-    noteActions.add(note);
+    noteActions.create(note);
   };
 
   const handleAddAndClose = (): void => {

@@ -3,6 +3,7 @@ import { DialogConfig } from '../store/interfaces/dialog-config,interface';
 
 export const DialogWrapper = styled.div`
   position: absolute;
+  z-index: 200;
   left: 0;
   top: 0;
   display: flex;
@@ -11,16 +12,6 @@ export const DialogWrapper = styled.div`
   width: 100%;
   height: 100%;
   animation: 0.15s forwards fadeIn ease-in-out;
-`;
-
-export const DialogBackdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--dark100-50);
-  cursor: pointer;
 `;
 
 export const DialogContainer = styled.div<DialogConfig>`
