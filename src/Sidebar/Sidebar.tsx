@@ -1,47 +1,46 @@
-import { ReactElement } from 'react';
-import styled from 'styled-components';
+import { ReactElement, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { AddCategoryButton } from './AddCategoryButton';
 import { CategoriesList } from './CategoriesList';
+import { MainState } from '../store/interfaces/main-state.interface';
+import { bindActionCreators, Dispatch } from 'redux';
+import * as uiActions from '../store/actions/ui.actions';
+import { connect } from 'react-redux';
+import { SidebarWrapper } from './styles/Sidebar.styles';
 
-export const Sidebar = (): ReactElement => {
+interface Props {
+  opened: boolean;
+  uiActions: any;
+}
+
+export const SidebarComponent = ({ opened, uiActions }: Props): ReactElement => {
+  const [addCategory, setAddCategory] = useState<void[]>([]); // @todo temporary hack
+
+  const handleCategoryAdd = (): void => {
+    setAddCategory([...addCategory]);
+  };
+
+  const handleSidebarClose = (): void => {
+    uiActions.closeSidebar();
+  };
+
   return (
     <>
-      <SidebarWrapper>
-        <AddCategoryButton />
-        <CategoriesList />
+      <SidebarWrapper className={ opened ? '--opened' : '' }>
+        <AddCategoryButton onClick={ handleCategoryAdd } />
+        <CategoriesList add={ addCategory } />
       </SidebarWrapper>
-      <Backdrop className="sidebar-backdrop" />
+      <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
     </>
   );
 };
 
-const SidebarWrapper = styled.aside`
-  position: relative;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  padding: 16px 0;
-  width: var(--sidebar-width);
-  background-color: var(--dark200);
-  color: #eee;
-  overflow: hidden;
-  transition: var(--sidebar-transition);
-  will-change: width;
+const mapStateToProps = ({ ui }: MainState) => ({
+  opened: ui.sidebarOpened,
+});
 
-  &:hover {
-    background-color: var(--dark100);
-    width: var(--sidebar-width-opened);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  uiActions: bindActionCreators(uiActions, dispatch),
+});
 
-    + .sidebar-backdrop {
-      opacity: 1;
-    }
-  }
-
-  + .sidebar-backdrop {
-    opacity: 0;
-    pointer-events: none;
-    transition: var(--sidebar-backdrop-transition);
-    will-change: opacity;
-  }
-`;
+export const Sidebar = connect(mapStateToProps, mapDispatchToProps)(SidebarComponent);

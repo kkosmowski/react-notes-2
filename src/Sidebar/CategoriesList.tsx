@@ -1,21 +1,35 @@
-import { ReactElement, useEffect, useState } from 'react';
-import { Folder, FolderOpen } from '@material-ui/icons';
-import styled from 'styled-components';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Category } from '../domain/interfaces/category.interface';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as categoryActions from '../store/actions/category.actions';
+import * as uiActions from '../store/actions/ui.actions';
 import { connect } from 'react-redux';
-import { EntityUid } from '../domain/types/entity-uid.type';
 import { rootCategory } from '../domain/consts/root-category.const';
+import { v4 as uuidv4 } from 'uuid';
+import { CategoriesListWrapper } from './styles/CategoryList.styles';
+import { CategoryListItem } from './CategoryListItem';
 
 interface Props {
+  add: void[];
   categories: Category[];
-  selectedCategory: Category;
+  selected: Category;
+  edited: Category | null;
+  temporary: Category | null;
   categoryActions: any;
+  uiActions: any;
 }
 
-export const CategoriesListComponent = ({ categories, selectedCategory, categoryActions }: Props): ReactElement => {
+const emptyCategory: Category = {
+  id: '',
+  name: '',
+  notes: [],
+};
+
+export const CategoriesListComponent = (
+  { add, categories, selected, edited, temporary, categoryActions, uiActions }: Props
+): ReactElement => {
+  const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
 
   useEffect(() => {
@@ -24,21 +38,51 @@ export const CategoriesListComponent = ({ categories, selectedCategory, category
 
   useEffect(() => {
     mapCategoriesToCategoryListItems();
-  }, [categories, selectedCategory]);
+  }, [categories, temporary, selected]);
 
-  const isSelectedCategory = (categoryId: EntityUid): boolean => {
-    return selectedCategory.id === categoryId;
+  useEffect(() => {
+    if (!initialRender.current) {
+      const newCategory: Category = { ...emptyCategory, id: uuidv4() };
+      if (!temporary) {
+        categoryActions.addTemporary(newCategory);
+        uiActions.openSidebar();
+      }
+    } else {
+      initialRender.current = false;
+    }
+  }, [add]);
+
+  const handleCategorySelect = (category: Category): void => {
+    if (selected.id !== category.id) {
+      categoryActions.select(category);
+    }
+  };
+
+  const handleCategorySave = (name: string): void => {
+    categoryActions.createFromTemporary({ ...edited, name });
+    categoryActions.select(edited!.id);
+    categoryActions.finishEditingCategory();
+  };
+
+  const handleCancel = (): void => {
+    categoryActions.deleteTemporary();
   };
 
   const mapCategoriesToCategoryListItems = (): void => {
-    const elements: ReactElement[] = [rootCategory, ...categories].map((category) => (
+    const _categories = [rootCategory, ...categories];
+    if (temporary) {
+      _categories.push(temporary);
+    }
+    const elements: ReactElement[] = _categories.map((category: Category) => (
       <CategoryListItem
-        onClick={ () => categoryActions.select(category) }
+        onSelect={ handleCategorySelect }
+        onSave={ handleCategorySave }
+        onCancel={ handleCancel }
+        data={ category }
+        selected={ selected.id === category.id }
+        edited={ edited?.id === category.id }
         key={ category.id }
-      >
-        { isSelectedCategory(category.id) ? <FolderOpen className="icon --selected" /> : <Folder className="icon" /> }
-        <span>{ category.name }</span>
-      </CategoryListItem>
+      />
     ));
     setCategoryElements(elements);
   };
@@ -50,46 +94,16 @@ export const CategoriesListComponent = ({ categories, selectedCategory, category
   );
 };
 
-const CategoriesListWrapper = styled.ul`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding-top: 16px;
-  line-height: 1;
-`;
-
-const CategoryListItem = styled.li`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  padding: 10px 0 10px calc((var(--sidebar-width) - var(--icon-size)) / 2);
-  cursor: pointer;
-  border-bottom: 1px solid var(--white-7);
-
-  &:first-child {
-    border-top: 1px solid var(--white-7);
-  }
-
-  &:hover {
-    background-color: var(--white-7);
-  }
-
-  > .icon {
-    margin-right: calc((var(--sidebar-width) - var(--icon-size)) / 2);
-
-    &.--selected {
-      color: var(--primary);
-    }
-  }
-`;
-
 const mapStateToProps = ({ category }: MainState) => ({
   categories: category.categories,
-  selectedCategory: category.selectedCategory,
+  selected: category.selectedCategory,
+  edited: category.editedCategory,
+  temporary: category.temporaryCategory
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   categoryActions: bindActionCreators(categoryActions, dispatch),
+  uiActions: bindActionCreators(uiActions, dispatch),
 });
 
 export const CategoriesList = connect(mapStateToProps, mapDispatchToProps)(CategoriesListComponent);

@@ -26,3 +26,15 @@ export function closeConfirmationDialog(result: boolean): ActionFunction<void> {
     dispatch({ type: UiActions.CLOSE_CONFIRMATION_DIALOG, payload: result });
   };
 }
+
+export function openSidebar(): ActionFunction<void> {
+  return function (dispatch: Dispatch): void {
+    dispatch({ type: UiActions.OPEN_SIDEBAR });
+  };
+}
+
+export function closeSidebar(): ActionFunction<void> {
+  return function (dispatch: Dispatch): void {
+    dispatch({ type: UiActions.CLOSE_SIDEBAR });
+  };
+}

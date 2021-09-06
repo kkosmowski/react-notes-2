@@ -4,10 +4,12 @@ import { CategoryState } from '../interfaces/category-state.interface';
 import { rootCategory } from '../../domain/consts/root-category.const';
 
 const initialState: CategoryState = {
-  categories: [rootCategory],
+  categories: [],
   categoryCreationInProgress: false,
   categoriesLoading: false,
-  selectedCategory: rootCategory
+  selectedCategory: rootCategory,
+  editedCategory: null,
+  temporaryCategory: null
 };
 
 export function category(state: CategoryState = initialState, action: Action): CategoryState {
@@ -33,6 +35,14 @@ export function category(state: CategoryState = initialState, action: Action): C
         categoriesLoading: false,
       };
     }
+
+    case CategoryActions.ADD_TEMPORARY_CATEGORY: {
+      return {
+        ...state,
+        temporaryCategory: action.payload,
+      };
+    }
+
     case CategoryActions.CREATE_CATEGORY: {
       return {
         ...state,
@@ -43,7 +53,8 @@ export function category(state: CategoryState = initialState, action: Action): C
     case CategoryActions.CREATE_CATEGORY_SUCCESS: {
       return {
         ...state,
-        categories: [action.payload, ...state.categories],
+        categories: [...state.categories, action.payload],
+        temporaryCategory: null,
         categoryCreationInProgress: false,
       };
     }
@@ -55,10 +66,31 @@ export function category(state: CategoryState = initialState, action: Action): C
       };
     }
 
+    case CategoryActions.DELETE_TEMPORARY_CATEGORY: {
+      return {
+        ...state,
+        temporaryCategory: null,
+      };
+    }
+
     case CategoryActions.SELECT_CATEGORY: {
       return {
         ...state,
         selectedCategory: action.payload,
+      };
+    }
+
+    case CategoryActions.EDIT_CATEGORY: {
+      return {
+        ...state,
+        editedCategory: action.payload,
+      };
+    }
+
+    case CategoryActions.EDIT_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        editedCategory: null
       };
     }
   }

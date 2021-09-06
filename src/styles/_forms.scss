@@ -1,6 +1,22 @@
+.input {
+  min-width: 0;
+  font: inherit;
+  background-color: transparent;
+  border: 0;
 
-ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+  &.--text {
+    padding: 8px;
+    background-color: var(--white-4);
+    color: var(--white-82);
+    outline: none;
+
+    &::placeholder {
+      color: var(--white-60);
+    }
+
+    &:focus {
+      background-color: var(--white-7);
+    }
+  }
+
 }

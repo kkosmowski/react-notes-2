@@ -5,4 +5,6 @@ export interface CategoryState {
   categoryCreationInProgress: boolean;
   categoriesLoading: boolean;
   selectedCategory: Category;
+  editedCategory: Category | null;
+  temporaryCategory: Category | null;
 }

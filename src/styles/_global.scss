@@ -22,3 +22,9 @@ body {
 .--primary {
   color: var(--primary);
 }
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

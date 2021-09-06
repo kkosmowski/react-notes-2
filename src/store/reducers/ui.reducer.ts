@@ -7,6 +7,8 @@ const initialState: UiState = {
   confirmationDialogOpened: false,
   confirmationDialogData: null,
   confirmationDialogResult: null,
+  editedCategoryId: null,
+  sidebarOpened: false,
 };
 
 export default function ui(state = initialState, action: Action): UiState {
@@ -41,6 +43,20 @@ export default function ui(state = initialState, action: Action): UiState {
         confirmationDialogData: null,
         confirmationDialogResult: action.payload,
       };
+    }
+
+    case UiActions.OPEN_SIDEBAR: {
+      return {
+        ...state,
+        sidebarOpened: true
+      }
+    }
+
+    case UiActions.CLOSE_SIDEBAR: {
+      return {
+        ...state,
+        sidebarOpened: false
+      }
     }
   }
   return state;

@@ -9,17 +9,22 @@
   "categories": [
     {
       "id": "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
-      "name": "Test category",
+      "name": "Test cat",
       "notes": [
         "b666d9a5-04de-411f-9260-9413c6d20136"
       ]
     },
     {
       "id": "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
-      "name": "Test category 2",
+      "name": "Category 2",
       "notes": [
         "b666d9a5-04de-411f-9260-9413c6d20136"
       ]
+    },
+    {
+      "id": "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
+      "name": "New category",
+      "notes": []
     }
   ]
 }
