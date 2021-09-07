@@ -1,19 +1,21 @@
 import { ReactElement } from 'react';
 import { CreateNewFolder } from '@material-ui/icons';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: () => void;
 }
 
 export const AddCategoryButton = ({ onClick }: Props): ReactElement => {
+  const { t } = useTranslation('SIDEBAR');
   return (
     <AddCategoryButtonWrapper>
       <Button onClick={ onClick } className="button --icon --lighter --primary" type="button">
         <CreateNewFolder />
       </Button>
 
-      <span className="--primary">Add new category</span>
+      <span className="--primary">{ t('ADD_CATEGORY') }</span>
     </AddCategoryButtonWrapper>
   );
 };

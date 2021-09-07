@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { EntityUid } from '../domain/types/entity-uid.type';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   initialForm: NoteDialogFormValue;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }: Props): ReactElement => {
+  const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [selectedCategories, setSelectedCategories] = useState<Record<EntityUid, boolean>>({});
 
@@ -48,19 +50,19 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
         id="title"
         onChange={ (e) => onChange(e, 'title') }
         value={ form.title }
-        label="Title"
+        label={ t('TITLE') }
       />
 
       <InputWithLabel
         id="content"
         onChange={ (e) => onChange(e, 'content') }
         value={ form.content }
-        label="Content"
+        label={ t('CONTENT') }
         type="textarea"
       />
 
       <CategoriesWrapper> {/* @todo */ }
-        <label>Categories</label>
+        <label>{ t('CATEGORIES') }</label>
         { categories.map((category) => (
           <label key={ category.id }>
             <input

@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
 import { ListItem } from './styles/CategoryListItem.styles';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onCancel }: Props): ReactElement => {
+  const { t } = useTranslation('SIDEBAR');
   const [name, setName] = useState<string>(data.name);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const saveButtonId: string = 'save-category';
@@ -56,7 +58,7 @@ export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onC
         value={ name }
         ref={ nameInputRef }
         className="input --text category-name"
-        placeholder="Category name..."
+        placeholder={ t('CATEGORY_NAME_PLACEHOLDER') }
         type="text"
       />
       <button

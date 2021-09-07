@@ -14,6 +14,7 @@ import { Note } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   opened: boolean;
@@ -31,6 +32,7 @@ export const emptyForm: NoteDialogFormValue = {
 export const NoteDialogComponent = (
   { opened, categories, confirmationResult, uiActions, noteActions }: Props
 ): ReactElement => {
+  const { t } = useTranslation(['MAIN', 'CONFIRMATION']);
   const config: DialogConfig = {
     width: '400px',
     flex: true
@@ -49,10 +51,10 @@ export const NoteDialogComponent = (
       closeDialog();
     } else {
       const data: ConfirmationDialogData = {
-        title: 'Leave?',
-        message: 'Are you sure you want to leave your progress?',
-        cancelButtonText: 'No, cancel',
-        confirmButtonText: 'Yes, leave'
+        title: t('CONFIRMATION:TITLE.LEAVE'),
+        message: t('CONFIRMATION:MESSAGE.LEAVE_PROGRESS'),
+        cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
+        confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE')
       };
       uiActions.openConfirmationDialog(data);
     }
@@ -94,7 +96,7 @@ export const NoteDialogComponent = (
       opened={ opened }
       config={ config }
     >
-      <DialogTitle>Add note</DialogTitle>
+      <DialogTitle>{ t('ADD_NOTE') }</DialogTitle>
 
       <NoteDialogForm
         onFormChange={ handleFormChange }
@@ -106,17 +108,17 @@ export const NoteDialogComponent = (
       <DialogControls>
         <div>
           <button onClick={ handleClose } className="button --regular" type="button">
-            Cancel
+            { t('CANCEL') }
           </button>
         </div>
 
         <div>
           <button onClick={ handleAddAndNext } className="button --contained --primary" type="button">
-            Save & next
+            { t('SAVE_AND_NEXT') }
           </button>
 
           <button onClick={ handleAddAndClose } className="button --contained --primary" type="button">
-            Save & close
+            { t('SAVE_AND_CLOSE') }
           </button>
         </div>
       </DialogControls>
