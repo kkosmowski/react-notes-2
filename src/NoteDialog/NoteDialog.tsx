@@ -10,7 +10,7 @@ import { DialogTitle } from '../Dialog/DialogTitle';
 import { NoteDialogForm } from './NoteDialogForm';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { v4 as uuidv4 } from 'uuid';
-import { Note } from '../domain/interfaces/note.interface';
+import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
@@ -73,7 +73,7 @@ export const NoteDialogComponent = (
   };
 
   const addNote = (): void => {
-    const note: Note = {
+    const note: NoteInterface = {
       ...form,
       id: uuidv4(),
     };

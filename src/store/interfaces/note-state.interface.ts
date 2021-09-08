@@ -1,7 +1,8 @@
-import { Note } from '../../domain/interfaces/note.interface';
+import { NoteInterface } from '../../domain/interfaces/note.interface';
 
 export interface NoteState {
-  notes: Note[];
-  openedNote: Note | null;
+  notes: NoteInterface[];
+  notesLoading: boolean;
+  openedNote: NoteInterface | null;
   noteCreationInProgress: boolean;
 }

@@ -27,8 +27,7 @@ const ControlsBarComponent = ({ noteDialogOpened, uiActions }: ControlsBarProps)
 };
 
 const Bar = styled.div`
-  padding: 8px 16px 8px var(--wrapper-horizontal-padding);
-  margin-left: calc(-1 * var(--wrapper-horizontal-padding));
+  padding: 8px var(--wrapper-horizontal-padding);
   background-color: var(--dark200);
 `;
 

@@ -7,4 +7,3 @@ export const CategoriesListWrapper = styled.ul`
   padding-top: 16px;
   line-height: 1;
 `;
-
