@@ -3,6 +3,8 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { HttpService } from '../../services/http.service';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
+import { EntityUid } from '../../domain/types/entity-uid.type';
+import { addNoteToCategories } from './category.actions';
 
 export function get(): ActionFunction<Promise<void>> {
   return function (dispatch: Dispatch): Promise<void> {
@@ -12,7 +14,8 @@ export function get(): ActionFunction<Promise<void>> {
       .then((notes: NoteInterface[]) => {
         dispatch({ type: NoteActions.GET_NOTES_SUCCESS, payload: notes });
       })
-      .catch(() => {
+      .catch(error => {
+        console.error(error);
         dispatch({ type: NoteActions.GET_NOTES_FAIL });
       });
   };
@@ -26,7 +29,8 @@ export function create(note: NoteInterface): ActionFunction<Promise<void>> {
       .then(() => {
         dispatch({ type: NoteActions.CREATE_NOTE_SUCCESS, payload: note });
       })
-      .catch(() => {
+      .catch(error => {
+        console.error(error);
         dispatch({ type: NoteActions.CREATE_NOTE_FAIL });
       });
   };

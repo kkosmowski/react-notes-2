@@ -3,37 +3,42 @@ import { InputWithLabel } from '../InputWithLabel/InputWithLabel';
 import styled from 'styled-components';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { Category } from '../domain/interfaces/category.interface';
-import { EntityUid } from '../domain/types/entity-uid.type';
 import { useTranslation } from 'react-i18next';
+import { SelectedCategories } from '../domain/types/selected-categories.type';
 
 interface Props {
   initialForm: NoteDialogFormValue;
   categories: Category[];
   onFormChange: (form: NoteDialogFormValue) => void;
+  onCategoriesChange: (categories: SelectedCategories) => void;
   clear: void[];
 }
 
-export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }: Props): ReactElement => {
+export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange, onCategoriesChange }: Props): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
-  const [selectedCategories, setSelectedCategories] = useState<Record<EntityUid, boolean>>({});
+  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
 
   useEffect(() => {
     onFormChange(form);
   }, [form]);
 
   useEffect(() => {
+    onCategoriesChange(selectedCategories);
+  }, [selectedCategories]);
+
+  useEffect(() => {
     clearForm();
   }, [clear]);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, control: keyof NoteDialogFormValue): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, control: keyof NoteDialogFormValue): void => {
     setForm({
       ...form,
       [control]: e.target.value
     });
   };
 
-  const onCategoriesChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleCategoriesChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSelectedCategories({
       ...selectedCategories,
       [e.target.value]: e.target.checked
@@ -44,18 +49,19 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
     setForm(initialForm);
   };
 
+  // @todo change "{ (e) => handleChange(e, 'title') }" into "{ handleChange }" (use id as a control name)
   return (
     <FormWrapper>
       <InputWithLabel
         id="title"
-        onChange={ (e) => onChange(e, 'title') }
+        onChange={ (e) => handleChange(e, 'title') }
         value={ form.title }
         label={ t('TITLE') }
       />
 
       <InputWithLabel
         id="content"
-        onChange={ (e) => onChange(e, 'content') }
+        onChange={ (e) => handleChange(e, 'content') }
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
@@ -66,7 +72,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
         { categories.map((category) => (
           <label key={ category.id }>
             <input
-              onChange={ onCategoriesChange }
+              onChange={ handleCategoriesChange }
               type="checkbox"
               id="category"
               name={ category.id }
