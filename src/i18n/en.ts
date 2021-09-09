@@ -5,6 +5,7 @@ export const en = {
     CANCEL: 'Cancel',
     SAVE_AND_NEXT: 'Save & next',
     SAVE_AND_CLOSE: 'Save & close',
+    NO_NOTES: 'No notes to display.',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',

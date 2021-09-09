@@ -5,6 +5,7 @@ export const pl = {
     CANCEL: 'Anuluj',
     SAVE_AND_NEXT: 'Zapisz',
     SAVE_AND_CLOSE: 'Zapisz i zamknij',
+    NO_NOTES: 'Brak notatek do wyświetlenia.',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',
