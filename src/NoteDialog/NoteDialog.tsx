@@ -4,7 +4,6 @@ import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as uiActions from '../store/actions/ui.actions';
 import * as noteActions from '../store/actions/note.actions';
-import * as categoryActions from '../store/actions/category.actions';
 import { connect } from 'react-redux';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogTitle } from '../Dialog/DialogTitle';
@@ -16,9 +15,6 @@ import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog
 import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
-import { SelectedCategories } from '../domain/types/selected-categories.type';
-import { EntityUid } from '../domain/types/entity-uid.type';
-import { getSelectedCategoriesIds } from '../utils/get-selected-categories-ids.util';
 
 interface Props {
   opened: boolean;
@@ -26,16 +22,16 @@ interface Props {
   confirmationResult: boolean | null;
   uiActions: any;
   noteActions: any;
-  categoryActions: any;
 }
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
   content: '',
+  categories: [],
 };
 
 export const NoteDialogComponent = (
-  { opened, categories, confirmationResult, uiActions, noteActions, categoryActions }: Props
+  { opened, categories, confirmationResult, uiActions, noteActions }: Props
 ): ReactElement => {
   const { t } = useTranslation(['MAIN', 'CONFIRMATION']);
   const config: DialogConfig = {
@@ -43,7 +39,6 @@ export const NoteDialogComponent = (
     flex: true
   };
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
-  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
 
   useEffect(() => {
@@ -78,21 +73,12 @@ export const NoteDialogComponent = (
     setForm(form);
   };
 
-  const handleCategoriesChange = (categories: SelectedCategories): void => {
-    setSelectedCategories(categories);
-  };
-
   const addNote = (): void => {
     const note: NoteInterface = {
       ...form,
       id: uuidv4(),
     };
-    noteActions
-      .create(note)
-      .then(() => {
-        const noteCategories: EntityUid[] = getSelectedCategoriesIds(selectedCategories);
-        categoryActions.addNoteToCategories(noteCategories, note.id);
-      });
+    noteActions.create(note);
   };
 
   const handleAddAndClose = (): void => {
@@ -115,7 +101,6 @@ export const NoteDialogComponent = (
 
       <NoteDialogForm
         onFormChange={ handleFormChange }
-        onCategoriesChange={ handleCategoriesChange }
         initialForm={ emptyForm }
         categories={ categories }
         clear={ clearForm }
@@ -151,7 +136,6 @@ const mapStateToProps = ({ category, ui }: MainState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   uiActions: bindActionCreators(uiActions, dispatch),
   noteActions: bindActionCreators(noteActions, dispatch),
-  categoryActions: bindActionCreators(categoryActions, dispatch),
 });
 
 export const NoteDialog = connect(mapStateToProps, mapDispatchToProps)(NoteDialogComponent);

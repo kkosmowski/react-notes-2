@@ -7,6 +7,5 @@ i18next.init(i18nConfig);
 
 export let rootCategory: Category = {
   id: NIL,
-  name: i18next.t('MAIN:ROOT_CATEGORY'),
-  notes: null
+  name: i18next.t('MAIN:ROOT_CATEGORY')
 };

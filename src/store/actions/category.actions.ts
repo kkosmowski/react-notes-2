@@ -66,35 +66,3 @@ export function finishEditingCategory(): ActionFunction<void> {
     dispatch({ type: CategoryActions.EDIT_CATEGORY_SUCCESS });
   };
 }
-
-export function addNoteToCategories(categoryIds: EntityUid[], noteId: EntityUid): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: CategoryActions.UPDATE_CATEGORIES_STARTED });
-
-    const categories: Category[] = [...store.getState().category.categories];
-    const promises: Promise<void>[] = [];
-    for (let categoryId of categoryIds) { // unfortunately no better approach possible with json-server
-      const currentCategory: Category = categories.find((category) => category.id === categoryId)!;
-      currentCategory.notes
-        ? currentCategory.notes.push(noteId)
-        : currentCategory.notes = [noteId];
-      promises.push(HttpService.put<Category>(
-        `/categories/${ categoryId }`,
-        currentCategory
-      ).then(() => {
-        dispatch({ type: CategoryActions.UPDATE_CATEGORY_SUCCESS, payload: currentCategory });
-      }).catch(error => {
-        console.error(error);
-      }));
-    }
-
-    Promise
-      .all(promises)
-      .then(() => {
-        dispatch({ type: CategoryActions.UPDATE_CATEGORIES_FINISHED });
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-}

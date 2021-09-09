@@ -3,8 +3,6 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { HttpService } from '../../services/http.service';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
-import { EntityUid } from '../../domain/types/entity-uid.type';
-import { addNoteToCategories } from './category.actions';
 
 export function get(): ActionFunction<Promise<void>> {
   return function (dispatch: Dispatch): Promise<void> {

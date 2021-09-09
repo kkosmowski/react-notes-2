@@ -23,7 +23,6 @@ interface Props {
 const emptyCategory: Category = {
   id: '',
   name: '',
-  notes: [],
 };
 
 export const CategoriesListComponent = (

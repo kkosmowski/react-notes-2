@@ -5,16 +5,16 @@ import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.inter
 import { Category } from '../domain/interfaces/category.interface';
 import { useTranslation } from 'react-i18next';
 import { SelectedCategories } from '../domain/types/selected-categories.type';
+import { getSelectedCategoriesIds } from '../utils/get-selected-categories-ids.util';
 
 interface Props {
   initialForm: NoteDialogFormValue;
   categories: Category[];
   onFormChange: (form: NoteDialogFormValue) => void;
-  onCategoriesChange: (categories: SelectedCategories) => void;
   clear: void[];
 }
 
-export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange, onCategoriesChange }: Props): ReactElement => {
+export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }: Props): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
@@ -24,7 +24,10 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange, o
   }, [form]);
 
   useEffect(() => {
-    onCategoriesChange(selectedCategories);
+    setForm({
+      ...form,
+      categories: getSelectedCategoriesIds(selectedCategories)
+    });
   }, [selectedCategories]);
 
   useEffect(() => {
