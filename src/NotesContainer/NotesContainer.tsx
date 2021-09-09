@@ -13,6 +13,7 @@ import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../Loader/Loader';
 import { LoaderCentered } from '../domain/enums/loader-centered.enum';
+import { LoaderSize } from '../domain/enums/loader-size.enum';
 
 interface Props {
   notes: NoteInterface[];
@@ -65,7 +66,7 @@ export const NotesContainerComponent = (
   return (
     <NotesWrapper ref={ containerRef } columns={ numberOfColumns }>
       { notesLoading
-        ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } />
+        ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } size={ LoaderSize.Medium } />
         : notesToRender
           ? notesToRender.length
             ? notesToRender

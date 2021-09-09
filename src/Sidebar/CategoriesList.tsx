@@ -9,10 +9,13 @@ import { rootCategory } from '../domain/consts/root-category.const';
 import { v4 as uuidv4 } from 'uuid';
 import { CategoriesListWrapper } from './styles/CategoryList.styles';
 import { CategoryListItem } from './CategoryListItem';
+import { Loader } from '../Loader/Loader';
+import { LoaderSize } from '../domain/enums/loader-size.enum';
 
 interface Props {
   add: void[];
   categories: Category[];
+  loading: boolean;
   selected: Category;
   edited: Category | null;
   temporary: Category | null;
@@ -26,7 +29,7 @@ const emptyCategory: Category = {
 };
 
 export const CategoriesListComponent = (
-  { add, categories, selected, edited, temporary, categoryActions, uiActions }: Props
+  { add, categories, loading, selected, edited, temporary, categoryActions, uiActions }: Props
 ): ReactElement => {
   const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
@@ -51,22 +54,6 @@ export const CategoriesListComponent = (
     }
   }, [add]);
 
-  const handleCategorySelect = (category: Category): void => {
-    if (selected.id !== category.id) {
-      categoryActions.select(category);
-    }
-  };
-
-  const handleCategorySave = (name: string): void => {
-    categoryActions.createFromTemporary({ ...edited, name });
-    categoryActions.select(edited!.id);
-    categoryActions.finishEditingCategory();
-  };
-
-  const handleCancel = (): void => {
-    categoryActions.deleteTemporary();
-  };
-
   const mapCategoriesToCategoryListItems = (): void => {
     const _categories = [rootCategory, ...categories];
     if (temporary) {
@@ -86,15 +73,33 @@ export const CategoriesListComponent = (
     setCategoryElements(elements);
   };
 
+  const handleCategorySelect = (category: Category): void => {
+    if (selected.id !== category.id) {
+      categoryActions.select(category);
+    }
+  };
+
+  const handleCategorySave = (name: string): void => {
+    categoryActions.createFromTemporary({ ...edited, name });
+    categoryActions.select(edited!.id);
+    categoryActions.finishEditingCategory();
+  };
+
+  const handleCancel = (): void => {
+    categoryActions.deleteTemporary();
+  };
+
   return (
     <CategoriesListWrapper>
       { categoryElements }
+      { loading ? <Loader size={ LoaderSize.Small } /> : null }
     </CategoriesListWrapper>
   );
 };
 
 const mapStateToProps = ({ category }: MainState) => ({
   categories: category.categories,
+  loading: category.categoriesLoading,
   selected: category.selectedCategory,
   edited: category.editedCategory,
   temporary: category.temporaryCategory
