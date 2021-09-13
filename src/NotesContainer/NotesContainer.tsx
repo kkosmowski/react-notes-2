@@ -34,9 +34,12 @@ export const NotesContainerComponent = (
 
   useEffect(() => {
     noteActions.get();
+  }, []);
+
+  useEffect(() => {
     calculateNumberOfColumns();
     initResizeListener();
-  }, []);
+  }, [notes]);
 
   useEffect(() => {
     if (selectedCategory.id === rootCategory.id) {
@@ -60,7 +63,8 @@ export const NotesContainerComponent = (
 
   const calculateNumberOfColumns = (): void => {
     const containerWidth: number = containerRef.current!.clientWidth;
-    setNumberOfColumns(Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1);
+    const theoreticalNumberOfColumns: number = Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1;
+    setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
   };
 
   return (
