@@ -2,10 +2,12 @@ import { NoteState } from '../interfaces/note-state.interface';
 import { Action } from '../../domain/interfaces/action.interface';
 import { NoteActions } from '../actions/actions.enum';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
+import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 
 const initialState: NoteState = {
   notes: [],
   notesLoading: false,
+  noteSelectionMode: NoteSelectionMode.Single,
   openedNote: null,
   noteCreationInProgress: false
 };
@@ -53,6 +55,13 @@ export function note(state: NoteState = initialState, action: Action): NoteState
       return {
         ...state,
         noteCreationInProgress: false,
+      };
+    }
+
+    case NoteActions.CHANGE_SELECTION_MODE: {
+      return {
+        ...state,
+        noteSelectionMode: action.payload,
       };
     }
   }

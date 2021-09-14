@@ -5,30 +5,34 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as noteActions from '../store/actions/note.actions';
 import { connect } from 'react-redux';
 import { Note } from '../Note/Note';
-import styled from 'styled-components';
 import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
-import { CircularProgress, debounce } from '@material-ui/core';
+import { debounce } from '@material-ui/core';
 import { Category } from '../domain/interfaces/category.interface';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../Loader/Loader';
 import { LoaderCentered } from '../domain/enums/loader-centered.enum';
 import { LoaderSize } from '../domain/enums/loader-size.enum';
+import { EntityUid } from '../domain/types/entity-uid.type';
+import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
+import { NoNotesText, NotesWrapper } from './NotesContainer.styles';
 
 interface Props {
   notes: NoteInterface[];
   notesLoading: boolean;
+  noteSelectionMode: NoteSelectionMode;
   selectedCategory: Category;
   noteActions: any;
 }
 
 export const NotesContainerComponent = (
-  { notes, notesLoading, selectedCategory, noteActions }: Props
+  { notes, notesLoading, noteSelectionMode, selectedCategory, noteActions }: Props
 ): ReactElement => {
   const { t } = useTranslation('MAIN');
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[] | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
+  const [selectedNotes, setSelectedNotes] = useState<Record<EntityUid, boolean>>({});
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText>{ t('NO_NOTES') }</NoNotesText>;
 
@@ -52,10 +56,16 @@ export const NotesContainerComponent = (
 
   useEffect(() => {
     const _notes: ReactElement[] = currentCategoryNotes.map((note) => (
-      <Note data={ note } key={ note.id } />
+      <Note
+        onSelect={ handleNoteSelect }
+        data={ note }
+        isSelected={ selectedNotes[note.id] }
+        selectionMode={ noteSelectionMode }
+        key={ note.id }
+      />
     ));
     setNotesToRender(_notes);
-  }, [currentCategoryNotes]);
+  }, [currentCategoryNotes, selectedNotes]);
 
   const initResizeListener = (): void => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));
@@ -65,6 +75,13 @@ export const NotesContainerComponent = (
     const containerWidth: number = containerRef.current!.clientWidth;
     const theoreticalNumberOfColumns: number = Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1;
     setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
+  };
+
+  const handleNoteSelect = (noteId: EntityUid): void => {
+    setSelectedNotes({
+      ...(noteSelectionMode === NoteSelectionMode.Multi ? selectedNotes : {}),
+      [noteId]: !selectedNotes[noteId]
+    });
   };
 
   return (
@@ -81,21 +98,10 @@ export const NotesContainerComponent = (
   );
 };
 
-const NotesWrapper = styled.section<{ columns: number }>`
-  position: relative;
-  display: grid; // @todo to optional refactor into custom masonry
-  grid-template-columns: repeat(${ ({ columns }) => columns }, 1fr);
-  grid-gap: 8px;
-  padding: var(--wrapper-horizontal-padding);
-`;
-
-const NoNotesText = styled.p`
-  color: var(--white-60);
-`;
-
 const mapStateToProps = ({ note, category }: MainState) => ({
   notes: note.notes,
   notesLoading: note.notesLoading,
+  noteSelectionMode: note.noteSelectionMode,
   selectedCategory: category.selectedCategory,
 });
 

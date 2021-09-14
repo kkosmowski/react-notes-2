@@ -3,6 +3,7 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { HttpService } from '../../services/http.service';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
+import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 
 export function get(): ActionFunction<Promise<void>> {
   return function (dispatch: Dispatch): Promise<void> {
@@ -31,5 +32,11 @@ export function create(note: NoteInterface): ActionFunction<Promise<void>> {
         console.error(error);
         dispatch({ type: NoteActions.CREATE_NOTE_FAIL });
       });
+  };
+}
+
+export function changeSelectionMode(mode: NoteSelectionMode): ActionFunction<void> {
+  return function (dispatch: Dispatch): void {
+    dispatch({ type: NoteActions.CREATE_NOTE, payload: mode });
   };
 }
