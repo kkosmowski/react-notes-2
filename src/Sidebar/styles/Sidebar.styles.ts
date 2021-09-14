@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { transition } from '../../styles/styled-components-utils/transition.mixin';
 
 export const SidebarWrapper = styled.aside`
   position: relative;
@@ -10,8 +11,7 @@ export const SidebarWrapper = styled.aside`
   background-color: var(--dark200);
   color: #eee;
   overflow: hidden;
-  transition: var(--sidebar-transition);
-  will-change: width;
+  ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
 
   &.--opened,
   &:hover {
@@ -27,7 +27,6 @@ export const SidebarWrapper = styled.aside`
   + .sidebar-backdrop {
     opacity: 0;
     pointer-events: none;
-    transition: var(--sidebar-backdrop-transition);
-    will-change: opacity;
+    ${ transition('opacity', '0.25s') }
   }
 `;
