@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   opened: boolean;
+  openedNote: NoteInterface | null;
   categories: Category[];
   confirmationResult: boolean | null;
   uiActions: any;
@@ -31,14 +32,14 @@ export const emptyForm: NoteDialogFormValue = {
 };
 
 export const NoteDialogComponent = (
-  { opened, categories, confirmationResult, uiActions, noteActions }: Props
+  { opened, openedNote, categories, confirmationResult, uiActions, noteActions }: Props
 ): ReactElement => {
   const { t } = useTranslation(['MAIN', 'CONFIRMATION']);
   const config: DialogConfig = {
     width: '400px',
     flex: true
   };
-  const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
+  const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export const NoteDialogComponent = (
       closeDialog();
     } else {
       const data: ConfirmationDialogData = {
-        title: t('CONFIRMATION:TITLE.LEAVE'),
+        title: t('CONFIRMATION:TITLE.LEAVE_PROGRESS'),
         message: t('CONFIRMATION:MESSAGE.LEAVE_PROGRESS'),
         cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
         confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE')
@@ -67,6 +68,7 @@ export const NoteDialogComponent = (
 
   const closeDialog = (): void => {
     uiActions.closeNoteDialog();
+    noteActions.setOpenedNote(null);
   };
 
   const handleFormChange = (form: NoteDialogFormValue): void => {
@@ -91,6 +93,23 @@ export const NoteDialogComponent = (
     setClearForm([...clearForm]);
   };
 
+  const handleDelete = (): void => {
+    // @todo add confirmation
+    noteActions.deleteNote(openedNote!.id);
+    closeDialog();
+  };
+
+  const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
+    <button onClick={ handleAddAndNext } className="button --contained --primary" type="button">
+      { t('SAVE_AND_NEXT') }
+    </button>
+  )
+  const deleteNoteButton: ReactElement<HTMLButtonElement> = (
+    <button onClick={ handleDelete } className="button --contained --warn" type="button">
+      { t('DELETE') }
+    </button>
+  );
+
   return (
     <Dialog
       onClose={ handleClose }
@@ -101,7 +120,7 @@ export const NoteDialogComponent = (
 
       <NoteDialogForm
         onFormChange={ handleFormChange }
-        initialForm={ emptyForm }
+        initialForm={ openedNote || emptyForm }
         categories={ categories }
         clear={ clearForm }
       />
@@ -114,9 +133,7 @@ export const NoteDialogComponent = (
         </div>
 
         <div>
-          <button onClick={ handleAddAndNext } className="button --contained --primary" type="button">
-            { t('SAVE_AND_NEXT') }
-          </button>
+          { openedNote ? deleteNoteButton : saveAndContinueButton }
 
           <button onClick={ handleAddAndClose } className="button --contained --primary" type="button">
             { t('SAVE_AND_CLOSE') }
@@ -127,8 +144,9 @@ export const NoteDialogComponent = (
   );
 };
 
-const mapStateToProps = ({ category, ui }: MainState) => ({
+const mapStateToProps = ({ category, note, ui }: MainState) => ({
   opened: ui.noteDialogOpened,
+  openedNote: note.openedNote,
   confirmationResult: ui.confirmationDialogResult,
   categories: category.categories
 });

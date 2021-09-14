@@ -3,6 +3,7 @@ export const pl = {
     ADD_NOTE: 'Dodaj notatkę',
     ROOT_CATEGORY: 'Wszystkie',
     CANCEL: 'Anuluj',
+    DELETE: 'Usuń',
     SAVE_AND_NEXT: 'Zapisz',
     SAVE_AND_CLOSE: 'Zapisz i zamknij',
     NO_NOTES: 'Brak notatek do wyświetlenia.',

@@ -64,6 +64,13 @@ export function note(state: NoteState = initialState, action: Action): NoteState
         noteSelectionMode: action.payload,
       };
     }
+
+    case NoteActions.SET_OPENED_NOTE: {
+      return {
+        ...state,
+        openedNote: action.payload,
+      };
+    }
   }
   return state;
 }

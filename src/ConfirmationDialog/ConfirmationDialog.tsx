@@ -8,6 +8,7 @@ import * as uiActions from '../store/actions/ui.actions';
 import { connect } from 'react-redux';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
+import styled from 'styled-components';
 
 interface Props {
   opened: boolean;
@@ -37,7 +38,7 @@ export const ConfirmationDialogComponent = ({ opened, data, uiActions }: Props):
     >
       <DialogTitle>{ data ? data.title : '' }</DialogTitle>
 
-      <p>{ data ? data.message : '' }</p>
+      <Message>{ data ? data.message : '' }</Message>
 
       <DialogControls>
         <button
@@ -54,6 +55,10 @@ export const ConfirmationDialogComponent = ({ opened, data, uiActions }: Props):
     </Dialog>
   );
 };
+
+const Message = styled.p`
+  margin: 16px 0;
+`;
 
 const mapStateToProps = ({ ui }: MainState) => ({
   opened: ui.confirmationDialogOpened,

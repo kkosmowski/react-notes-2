@@ -52,5 +52,6 @@ const InputStyles = `
 const Input = styled.input`${ InputStyles }`;
 const TextArea = styled.textarea`
   ${ InputStyles };
+  min-height: 140px;
   resize: vertical;
 `;

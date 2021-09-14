@@ -40,6 +40,15 @@
         background-color: var(--primary100);
       }
     }
+
+    &.--warn {
+      color: var(--dark50);
+      background-color: var(--warn);
+
+      &:hover {
+        background-color: var(--warn100);
+      }
+    }
   }
 
   &.--regular,
@@ -58,6 +67,17 @@
     &.--regular {
       &:hover {
         background-color: var(--primary900);
+      }
+    }
+  }
+
+  &.--warn {
+    color: var(--warn);
+
+    &.--lighter,
+    &.--regular {
+      &:hover {
+        background-color: var(--warn900);
       }
     }
   }

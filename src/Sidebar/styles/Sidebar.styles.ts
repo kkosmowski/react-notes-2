@@ -9,10 +9,10 @@ export const SidebarWrapper = styled.aside`
   padding: 16px 0;
   width: var(--sidebar-width);
   background-color: var(--dark200);
-  color: #eee;
+  color: var(--white-82);
   overflow: hidden;
-  ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
 
+  ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
   &.--opened,
   &:hover {
     background-color: var(--dark100);
