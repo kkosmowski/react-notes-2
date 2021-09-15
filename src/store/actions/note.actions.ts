@@ -48,10 +48,33 @@ export function setOpenedNote(note: NoteInterface | null): ActionFunction<void> 
   };
 }
 
-export function deleteNote(noteId: EntityUid): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    // @todo
-    console.log('delete note');
-    // dispatch({ type: NoteActions.DELETE_NOTE, payload: noteId });
-  };
+export function deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch({ type: NoteActions.DELETE_NOTE });
+    //@todo implement soft delete (as a separate "Archive" feature)
+    return HttpService
+      .delete(`/notes/${ noteId }`)
+      .then(() => {
+        dispatch({ type: NoteActions.DELETE_NOTE_SUCCESS, payload: noteId });
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch({ type: NoteActions.DELETE_NOTE_FAIL });
+      });
+  }
+}
+
+export function updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch({ type: NoteActions.UPDATE_NOTE });
+    return HttpService
+      .put(`/notes/${ note.id }`, note)
+      .then(() => {
+        dispatch({ type: NoteActions.UPDATE_NOTE_SUCCESS, payload: note });
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch({ type: NoteActions.UPDATE_NOTE_FAIL });
+      });
+  }
 }

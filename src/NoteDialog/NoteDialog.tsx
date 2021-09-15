@@ -15,6 +15,7 @@ import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog
 import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
+import { note } from '../store/reducers/note.reducer';
 
 interface Props {
   opened: boolean;
@@ -83,8 +84,15 @@ export const NoteDialogComponent = (
     noteActions.create(note);
   };
 
-  const handleAddAndClose = (): void => {
-    addNote();
+  const handleSaveAndClose = (): void => {
+    if (openedNote) {
+      noteActions.updateNote({
+        ...openedNote,
+        ...form
+      });
+    } else {
+      addNote();
+    }
     closeDialog();
   };
 
@@ -135,7 +143,7 @@ export const NoteDialogComponent = (
         <div>
           { openedNote ? deleteNoteButton : saveAndContinueButton }
 
-          <button onClick={ handleAddAndClose } className="button --contained --primary" type="button">
+          <button onClick={ handleSaveAndClose } className="button --contained --primary" type="button">
             { t('SAVE_AND_CLOSE') }
           </button>
         </div>
@@ -155,5 +163,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   uiActions: bindActionCreators(uiActions, dispatch),
   noteActions: bindActionCreators(noteActions, dispatch),
 });
-
+ 
 export const NoteDialog = connect(mapStateToProps, mapDispatchToProps)(NoteDialogComponent);

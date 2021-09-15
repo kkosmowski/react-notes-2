@@ -25,11 +25,13 @@
       "title": "test note 4",
       "content": "Phasellus ut blandit nibh, et molestie sapien. Nullam eget malesuada turpis, et blandit nulla. Praesent faucibus lectus eget semper mattis.",
       "id": "4cc0e8fa-082f-49bd-8f76-2d927643d7bc",
-      "categories": []
+      "categories": [
+        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
+      ]
     },
     {
       "title": "test note 5",
-      "content": "Morbi semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
+      "content": "Hello semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
       "id": "f7f711c7-d233-4307-997f-0ff7d522d64e",
       "categories": []
     },
@@ -37,12 +39,6 @@
       "title": "super duper long note title ",
       "content": "Lorem ipsum",
       "id": "06069df6-359f-4cc2-b778-f7fee5fb8cb6",
-      "categories": []
-    },
-    {
-      "title": "super duper long note title super duper long note title super duper long note title ",
-      "content": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-      "id": "15069df4-359f-4cc2-b778-f7fee5fb8cb6",
       "categories": []
     }
   ],
