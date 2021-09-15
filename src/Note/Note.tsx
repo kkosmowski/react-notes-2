@@ -8,9 +8,10 @@ import { NoteContent, NoteElement, NoteTitle } from './Note.styles';
 interface Props extends NoteSelectionProps {
   data: NoteInterface;
   onSelect: (id: EntityUid) => void;
+  onOpen: (note: NoteInterface) => void;
 }
 
-export const Note = ({ data, isSelected, selectionMode, onSelect }: Props): ReactElement => {
+export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Props): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
@@ -27,9 +28,14 @@ export const Note = ({ data, isSelected, selectionMode, onSelect }: Props): Reac
     onSelect(data.id);
   };
 
+  const handleOpen = (): void => {
+    onOpen(data);
+  };
+
   return (
     <NoteElement
       onClick={ handleSelect }
+      onDoubleClick={ handleOpen }
       isSelected={ isSelected }
       selectionMode={ selectionMode }
     >

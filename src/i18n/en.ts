@@ -3,6 +3,7 @@ export const en = {
     ADD_NOTE: 'Add a note',
     ROOT_CATEGORY: 'All',
     CANCEL: 'Cancel',
+    DELETE: 'Delete',
     SAVE_AND_NEXT: 'Save & next',
     SAVE_AND_CLOSE: 'Save & close',
     NO_NOTES: 'No notes to display.',

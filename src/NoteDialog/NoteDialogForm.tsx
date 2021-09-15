@@ -21,6 +21,9 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
 
   useEffect(() => {
     onFormChange(form);
+    if (form.categories.length) {
+      setInitialSelectedCategories();
+    }
   }, [form]);
 
   useEffect(() => {
@@ -31,13 +34,13 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
   }, [selectedCategories]);
 
   useEffect(() => {
-    clearForm();
+    setForm(initialForm);
   }, [clear]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, control: keyof NoteDialogFormValue): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setForm({
       ...form,
-      [control]: e.target.value
+      [e.target.id]: e.target.value
     });
   };
 
@@ -48,8 +51,14 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
     });
   };
 
-  const clearForm = (): void => {
-    setForm(initialForm);
+  const setInitialSelectedCategories = (): void => {
+    const _selectedCategories: SelectedCategories = {};
+
+    form.categories.forEach((categoryId) => {
+      _selectedCategories[categoryId] = true;
+    });
+
+    setSelectedCategories(_selectedCategories);
   };
 
   // @todo change "{ (e) => handleChange(e, 'title') }" into "{ handleChange }" (use id as a control name)
@@ -57,14 +66,14 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
     <FormWrapper>
       <InputWithLabel
         id="title"
-        onChange={ (e) => handleChange(e, 'title') }
+        onChange={ handleChange }
         value={ form.title }
         label={ t('TITLE') }
       />
 
       <InputWithLabel
         id="content"
-        onChange={ (e) => handleChange(e, 'content') }
+        onChange={ handleChange }
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
@@ -91,8 +100,9 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
 };
 
 const FormWrapper = styled.div`
-  padding: 64px 0;
+  margin: 24px 0;
   flex: 1;
+  overflow: auto;
 
   > *:not(:last-child) {
     margin-bottom: 32px;

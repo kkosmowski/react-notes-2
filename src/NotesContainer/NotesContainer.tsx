@@ -3,6 +3,7 @@ import { NoteInterface } from '../domain/interfaces/note.interface';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as noteActions from '../store/actions/note.actions';
+import * as uiActions from '../store/actions/ui.actions';
 import { connect } from 'react-redux';
 import { Note } from '../Note/Note';
 import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
@@ -23,10 +24,11 @@ interface Props {
   noteSelectionMode: NoteSelectionMode;
   selectedCategory: Category;
   noteActions: any;
+  uiActions: any;
 }
 
 export const NotesContainerComponent = (
-  { notes, notesLoading, noteSelectionMode, selectedCategory, noteActions }: Props
+  { notes, notesLoading, noteSelectionMode, selectedCategory, noteActions, uiActions }: Props
 ): ReactElement => {
   const { t } = useTranslation('MAIN');
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
@@ -58,6 +60,7 @@ export const NotesContainerComponent = (
     const _notes: ReactElement[] = currentCategoryNotes.map((note) => (
       <Note
         onSelect={ handleNoteSelect }
+        onOpen={ handleNoteOpen }
         data={ note }
         isSelected={ selectedNotes[note.id] }
         selectionMode={ noteSelectionMode }
@@ -84,6 +87,11 @@ export const NotesContainerComponent = (
     });
   };
 
+  const handleNoteOpen = (note: NoteInterface): void => {
+    noteActions.setOpenedNote(note);
+    uiActions.openNoteDialog();
+  };
+
   return (
     <NotesWrapper ref={ containerRef } columns={ numberOfColumns }>
       { notesLoading
@@ -107,6 +115,7 @@ const mapStateToProps = ({ note, category }: MainState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   noteActions: bindActionCreators(noteActions, dispatch),
+  uiActions: bindActionCreators(uiActions, dispatch),
 });
 
 export const NotesContainer = connect(mapStateToProps, mapDispatchToProps)(NotesContainerComponent);

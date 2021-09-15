@@ -40,7 +40,7 @@ const CategoryTitle = styled.h1`
   display: inline-block;
   font-size: 36px;
   font-weight: inherit;
-  margin: 0 var(--wrapper-horizontal-padding) 8px;
+  margin: 0 var(--wrapper-horizontal-padding) 16px;
 `;
 
 const mapStateToProps = ({ category }: MainState) => ({

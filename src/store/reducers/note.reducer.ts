@@ -9,7 +9,9 @@ const initialState: NoteState = {
   notesLoading: false,
   noteSelectionMode: NoteSelectionMode.Single,
   openedNote: null,
-  noteCreationInProgress: false
+  noteCreationInProgress: false,
+  noteUpdateInProgress: false,
+  noteDeletionInProgress: false,
 };
 
 export function note(state: NoteState = initialState, action: Action): NoteState {
@@ -62,6 +64,58 @@ export function note(state: NoteState = initialState, action: Action): NoteState
       return {
         ...state,
         noteSelectionMode: action.payload,
+      };
+    }
+
+    case NoteActions.SET_OPENED_NOTE: {
+      return {
+        ...state,
+        openedNote: action.payload,
+      };
+    }
+
+    case NoteActions.DELETE_NOTE: {
+      return {
+        ...state,
+        noteDeletionInProgress: true,
+      };
+    }
+
+    case NoteActions.DELETE_NOTE_SUCCESS: {
+      return {
+        ...state,
+        noteDeletionInProgress: false,
+        notes: state.notes.filter((note) => note.id !== action.payload)
+      };
+    }
+
+    case NoteActions.DELETE_NOTE_FAIL: {
+      return {
+        ...state,
+        noteDeletionInProgress: false,
+      };
+    }
+
+    case NoteActions.UPDATE_NOTE: {
+      return {
+        ...state,
+        noteUpdateInProgress: true,
+      };
+    }
+
+    case NoteActions.UPDATE_NOTE_SUCCESS: {
+      const updated: NoteInterface = action.payload;
+      return {
+        ...state,
+        noteUpdateInProgress: false,
+        notes: state.notes.map((note) => note.id === updated.id ? updated : note)
+      };
+    }
+
+    case NoteActions.UPDATE_NOTE_FAIL: {
+      return {
+        ...state,
+        noteUpdateInProgress: false,
       };
     }
   }

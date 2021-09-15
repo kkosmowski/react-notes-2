@@ -7,4 +7,6 @@ export interface NoteState {
   noteSelectionMode: NoteSelectionMode;
   openedNote: NoteInterface | null;
   noteCreationInProgress: boolean;
+  noteUpdateInProgress: boolean;
+  noteDeletionInProgress: boolean;
 }
