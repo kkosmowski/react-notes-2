@@ -15,7 +15,6 @@ import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog
 import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
-import { note } from '../store/reducers/note.reducer';
 
 interface Props {
   opened: boolean;
@@ -50,7 +49,7 @@ export const NoteDialogComponent = (
   }, [confirmationResult]);
 
   const handleClose = (): void => {
-    if (isFormEmpty()) {
+    if (!isFormTouched()) {
       closeDialog();
     } else {
       const data: ConfirmationDialogData = {
@@ -63,8 +62,11 @@ export const NoteDialogComponent = (
     }
   };
 
-  const isFormEmpty = (): boolean => {
-    return form.title === emptyForm.title && form.content === emptyForm.content;
+  const isFormTouched = (): boolean => {
+    const initialForm = openedNote || emptyForm;
+    // @todo add categories check
+    console.log(initialForm);
+    return form.title !== initialForm.title || form.content !== initialForm.content;
   };
 
   const closeDialog = (): void => {
