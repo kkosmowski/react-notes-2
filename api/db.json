@@ -33,7 +33,9 @@
       "title": "test note 5",
       "content": "Hello semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
       "id": "f7f711c7-d233-4307-997f-0ff7d522d64e",
-      "categories": []
+      "categories": [
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+      ]
     },
     {
       "title": "super duper long note title ",

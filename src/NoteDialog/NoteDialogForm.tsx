@@ -20,18 +20,17 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
 
   useEffect(() => {
-    onFormChange(form);
     if (form.categories.length) {
       setInitialSelectedCategories();
     }
   }, [form]);
 
   useEffect(() => {
-    setForm({
+    onFormChange({
       ...form,
       categories: getSelectedCategoriesIds(selectedCategories)
     });
-  }, [selectedCategories]);
+  }, [form, selectedCategories]);
 
   useEffect(() => {
     setForm(initialForm);
@@ -89,7 +88,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
               id="category"
               name={ category.id }
               value={ category.id }
-              checked={ selectedCategories[category.id] }
+              checked={ selectedCategories[category.id] || false }
             />
             { category.name }
           </label>
