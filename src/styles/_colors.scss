@@ -1,10 +1,11 @@
 :root {
   --white: #fff;
-  --white-82: #ffffffd1;
-  --white-60: #ffffff99;
-  --white-13: #ffffff22;
-  --white-7: #ffffff11;
-  --white-4: #ffffff0a;
+  --white-82: rgba(255, 255, 255, 0.82);
+  --white-64: rgba(255, 255, 255, 0.64);
+  --white-61: rgba(255, 255, 255, 0.61);
+  --white-16: rgba(255, 255, 255, 0.16);
+  --white-7: rgba(255, 255, 255, 0.07);
+  --white-4: rgba(255, 255, 255, 0.04);
 
 
   --dark50: #101010;
@@ -23,12 +24,10 @@
   --primary800: #2b3c37;
   --primary900: #27312e;
 
-  // @todo improve warn colors (currently too dark)
-  --warn: #de294c;
-  --warn100: #f52a51;
-  --warn200: #c3203f;
-  --warn300: #a5213a;
+  --warn: #ff325b;
+  --warn100: #ff4267;
 
+  // @todo adjust darker shades to new warn color
   --warn800: #44272d;
   --warn900: #3a272a;
 }

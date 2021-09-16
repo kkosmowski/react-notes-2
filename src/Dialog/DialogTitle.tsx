@@ -23,6 +23,6 @@ const StyledH2 = styled.h2`
     bottom: -4px;
     width: 5ch;
     height: 2px;
-    background-color: var(--white-13);
+    background-color: var(--white-16);
   }
 `;

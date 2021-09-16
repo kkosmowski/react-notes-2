@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 
 const Label = styled.label`
   margin-bottom: 4px;
-  color: var(--white-60);
+  color: var(--white-64);
 `;
 
 const InputStyles = `
@@ -53,7 +53,7 @@ const InputStyles = `
   }
   
   &:not([disabled]):focus {
-    border-color: var(--white-13);
+    border-color: var(--white-16);
   }
 `;
 
