@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  children: ReactElement | string;
+  children: ReactNode;
 }
 
 export const DialogTitle = ({ children }: Props): ReactElement => (

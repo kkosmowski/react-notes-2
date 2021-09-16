@@ -1,5 +1,6 @@
 :root {
   --icon-button-size: 40px;
+  --icon-button-size-small: 28px;
 }
 
 .button {
@@ -16,9 +17,22 @@
   }
 
   &.--icon {
-    width: var(--icon-button-size);
-    height: var(--icon-button-size);
     border-radius: 50%;
+
+    &:not(.--small) {
+      width: var(--icon-button-size);
+      height: var(--icon-button-size);
+    }
+
+    &.--small {
+      width: var(--icon-button-size-small);
+      height: var(--icon-button-size-small);
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
   }
 
   &.--regular,
@@ -60,7 +74,7 @@
     }
   }
 
-  &.--primary {
+  &:not(.--contained).--primary {
     color: var(--primary);
 
     &.--lighter,
@@ -71,7 +85,7 @@
     }
   }
 
-  &.--warn {
+  &:not(.--contained).--warn {
     color: var(--warn);
 
     &.--lighter,

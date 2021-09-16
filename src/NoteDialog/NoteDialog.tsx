@@ -13,8 +13,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { Category } from '../domain/interfaces/category.interface';
-import { DialogControls } from '../Dialog/styles/Dialog.styles';
+import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
+import { NoteDialogActions } from './NoteDialogActions';
 
 interface Props {
   opened: boolean;
@@ -34,11 +35,13 @@ export const emptyForm: NoteDialogFormValue = {
 export const NoteDialogComponent = (
   { opened, openedNote, categories, confirmationResult, uiActions, noteActions }: Props
 ): ReactElement => {
-  const { t } = useTranslation(['MAIN', 'CONFIRMATION']);
+  const { t } = useTranslation(['MAIN', 'NOTE_DIALOG', 'CONFIRMATION']);
   const config: DialogConfig = {
     width: '400px',
     flex: true
   };
+  const [isEditMode, setIsEditMode] = useState<boolean>(!openedNote);
+  const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
 
@@ -47,6 +50,22 @@ export const NoteDialogComponent = (
       closeDialog();
     }
   }, [confirmationResult]);
+
+  useEffect(() => {
+    setIsEditMode(!openedNote);
+  }, [openedNote]);
+
+  useEffect(() => {
+    if (openedNote) {
+      if (isEditMode) {
+        setDialogTitleKey('NOTE_DIALOG:EDIT_NOTE');
+      } else {
+        setDialogTitleKey('NOTE_DIALOG:VIEW_NOTE');
+      }
+    } else {
+      setDialogTitleKey('ADD_NOTE');
+    }
+  }, [openedNote, isEditMode]);
 
   const handleClose = (): void => {
     if (!isFormTouched()) {
@@ -63,9 +82,11 @@ export const NoteDialogComponent = (
   };
 
   const isFormTouched = (): boolean => {
+    if (!isEditMode) {
+      return false;
+    }
     const initialForm = openedNote || emptyForm;
     // @todo add categories check
-    console.log(initialForm);
     return form.title !== initialForm.title || form.content !== initialForm.content;
   };
 
@@ -86,12 +107,18 @@ export const NoteDialogComponent = (
     noteActions.create(note);
   };
 
-  const handleSaveAndClose = (): void => {
-    if (openedNote) {
+  const updateNote = (): void => {
+    if (isFormTouched()) {
       noteActions.updateNote({
         ...openedNote,
         ...form
       });
+    }
+  };
+
+  const handleSaveAndClose = (): void => {
+    if (openedNote) {
+      updateNote();
     } else {
       addNote();
     }
@@ -109,11 +136,27 @@ export const NoteDialogComponent = (
     closeDialog();
   };
 
+  const handleEditCancel = (): void => {
+    setClearForm([]);
+    setIsEditMode(!isEditMode);
+  };
+
+  const handleEditReset = (): void => {
+    setClearForm([]);
+  };
+
+  const handleEditModeChange = (): void => {
+    if (isEditMode) {
+      updateNote();
+    }
+    setIsEditMode(!isEditMode);
+  };
+
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
     <button onClick={ handleAddAndNext } className="button --contained --primary" type="button">
       { t('SAVE_AND_NEXT') }
     </button>
-  )
+  );
   const deleteNoteButton: ReactElement<HTMLButtonElement> = (
     <button onClick={ handleDelete } className="button --contained --warn" type="button">
       { t('DELETE') }
@@ -126,9 +169,19 @@ export const NoteDialogComponent = (
       opened={ opened }
       config={ config }
     >
-      <DialogTitle>{ t('ADD_NOTE') }</DialogTitle>
+      <DialogHeader>
+        <DialogTitle>{ t(dialogTitleKey) }</DialogTitle>
+        <NoteDialogActions
+          openedNote={ openedNote }
+          isEditMode={ isEditMode }
+          onCancel={ handleEditCancel }
+          onReset={ handleEditReset }
+          onEditModeChange={ handleEditModeChange }
+        />
+      </DialogHeader>
 
       <NoteDialogForm
+        isEditMode={ isEditMode }
         onFormChange={ handleFormChange }
         initialForm={ openedNote || emptyForm }
         categories={ categories }
@@ -146,7 +199,7 @@ export const NoteDialogComponent = (
           { openedNote ? deleteNoteButton : saveAndContinueButton }
 
           <button onClick={ handleSaveAndClose } className="button --contained --primary" type="button">
-            { t('SAVE_AND_CLOSE') }
+            { t(isEditMode ? 'SAVE_AND_CLOSE' : 'CLOSE') }
           </button>
         </div>
       </DialogControls>
@@ -165,5 +218,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   uiActions: bindActionCreators(uiActions, dispatch),
   noteActions: bindActionCreators(noteActions, dispatch),
 });
- 
+
 export const NoteDialog = connect(mapStateToProps, mapDispatchToProps)(NoteDialogComponent);

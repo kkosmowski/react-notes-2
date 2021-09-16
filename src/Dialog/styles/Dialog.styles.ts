@@ -14,6 +14,11 @@ export const DialogWrapper = styled.div`
   animation: 0.15s forwards fadeIn ease-in-out;
 `;
 
+export const DialogHeader = styled.header`
+  display: flex;
+  align-items: center;
+`;
+
 export const DialogContainer = styled.div<DialogConfig>`
   position: relative;
   z-index: 100;

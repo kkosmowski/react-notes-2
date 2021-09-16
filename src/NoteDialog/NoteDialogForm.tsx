@@ -10,11 +10,12 @@ import { getSelectedCategoriesIds } from '../utils/get-selected-categories-ids.u
 interface Props {
   initialForm: NoteDialogFormValue;
   categories: Category[];
-  onFormChange: (form: NoteDialogFormValue) => void;
+  isEditMode: boolean;
   clear: void[];
+  onFormChange: (form: NoteDialogFormValue) => void;
 }
 
-export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }: Props): ReactElement => {
+export const NoteDialogForm = ({ initialForm, clear, categories, isEditMode, onFormChange }: Props): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
@@ -60,7 +61,6 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
     setSelectedCategories(_selectedCategories);
   };
 
-  // @todo change "{ (e) => handleChange(e, 'title') }" into "{ handleChange }" (use id as a control name)
   return (
     <FormWrapper>
       <InputWithLabel
@@ -68,6 +68,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
         onChange={ handleChange }
         value={ form.title }
         label={ t('TITLE') }
+        disabled={ !isEditMode }
       />
 
       <InputWithLabel
@@ -76,9 +77,11 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
+        disabled={ !isEditMode }
       />
 
-      <CategoriesWrapper> {/* @todo */ }
+      {/* @todo fix categories selection (when selecting category and editing title/content, selection is lost) */ }
+      <CategoriesWrapper> {/* @todo style the category checkboxes */ }
         <label>{ t('CATEGORIES') }</label>
         { categories.map((category) => (
           <label key={ category.id }>
@@ -89,6 +92,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, onFormChange }:
               name={ category.id }
               value={ category.id }
               checked={ selectedCategories[category.id] || false }
+              disabled={ !isEditMode }
             />
             { category.name }
           </label>

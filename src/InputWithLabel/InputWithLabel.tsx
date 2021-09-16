@@ -6,16 +6,17 @@ interface Props {
   label: string;
   value: any;
   type?: 'text' | 'textarea';
+  disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-export const InputWithLabel = ({ id, label, value, type, onChange }: Props): ReactElement => {
+export const InputWithLabel = ({ id, label, value, type, disabled, onChange }: Props): ReactElement => {
   return (
     <Wrapper>
       <Label>{ label }</Label>
       { type === 'textarea'
-        ? <TextArea id={ id } value={ value } onChange={ onChange } />
-        : <Input type="text" id={ id } value={ value } onChange={ onChange } />
+        ? <TextArea id={ id } value={ value } disabled={ disabled } onChange={ onChange } />
+        : <Input type="text" id={ id } value={ value } disabled={ disabled } onChange={ onChange } />
       }
     </Wrapper>
   );
@@ -28,6 +29,7 @@ const Wrapper = styled.div`
 
 const Label = styled.label`
   margin-bottom: 4px;
+  color: var(--white-60);
 `;
 
 const InputStyles = `
@@ -39,12 +41,18 @@ const InputStyles = `
   color: var(--white);
   outline: none;
   border: 2px solid transparent;
+
+  &[disabled] {
+    padding: 8px;
+    background-color: transparent;
+    resize: none;
+  }
   
-  &:hover {
+  &:not([disabled]):hover {
     background-color: var(--white-7);
   }
   
-  &:focus {
+  &:not([disabled]):focus {
     border-color: var(--white-13);
   }
 `;

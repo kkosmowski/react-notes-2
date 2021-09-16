@@ -6,6 +6,10 @@ export const en = {
     DELETE: 'Delete',
     SAVE_AND_NEXT: 'Save & next',
     SAVE_AND_CLOSE: 'Save & close',
+    SAVE: 'Save',
+    EDIT: 'Edit',
+    CLOSE: 'Close',
+    RESET: 'Reset',
     NO_NOTES: 'No notes to display.',
   },
   SIDEBAR: {
@@ -13,6 +17,8 @@ export const en = {
     CATEGORY_NAME_PLACEHOLDER: 'Category name...',
   },
   NOTE_DIALOG: {
+    EDIT_NOTE: 'Edit note',
+    VIEW_NOTE: 'View note',
     TITLE: 'Title',
     CONTENT: 'Content',
     CATEGORIES: 'Categories',
