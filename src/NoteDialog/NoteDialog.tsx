@@ -16,6 +16,7 @@ import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
 import { NoteDialogActions } from './NoteDialogActions';
+import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';
 
 interface Props {
   opened: boolean;
@@ -40,7 +41,7 @@ export const NoteDialogComponent = (
     width: '400px',
     flex: true
   };
-  const [isEditMode, setIsEditMode] = useState<boolean>(!openedNote);
+  const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
@@ -52,12 +53,8 @@ export const NoteDialogComponent = (
   }, [confirmationResult]);
 
   useEffect(() => {
-    setIsEditMode(!openedNote);
-  }, [openedNote]);
-
-  useEffect(() => {
     if (openedNote) {
-      if (isEditMode) {
+      if (isEditMode(editMode)) {
         setDialogTitleKey('NOTE_DIALOG:EDIT_NOTE');
       } else {
         setDialogTitleKey('NOTE_DIALOG:VIEW_NOTE');
@@ -65,7 +62,7 @@ export const NoteDialogComponent = (
     } else {
       setDialogTitleKey('ADD_NOTE');
     }
-  }, [openedNote, isEditMode]);
+  }, [openedNote, editMode]);
 
   const handleClose = (): void => {
     if (!isFormTouched()) {
@@ -82,7 +79,7 @@ export const NoteDialogComponent = (
   };
 
   const isFormTouched = (): boolean => {
-    if (!isEditMode) {
+    if (!isEditMode(editMode)) {
       return false;
     }
     const initialForm = openedNote || emptyForm;
@@ -91,6 +88,7 @@ export const NoteDialogComponent = (
   };
 
   const closeDialog = (): void => {
+    setEditMode(NoteEditMode.None);
     uiActions.closeNoteDialog();
     noteActions.setOpenedNote(null);
   };
@@ -138,7 +136,7 @@ export const NoteDialogComponent = (
 
   const handleEditCancel = (): void => {
     setClearForm([]);
-    setIsEditMode(!isEditMode);
+    setEditMode(NoteEditMode.None);
   };
 
   const handleEditReset = (): void => {
@@ -146,10 +144,14 @@ export const NoteDialogComponent = (
   };
 
   const handleEditModeChange = (): void => {
-    if (isEditMode) {
+    if (isEditMode(editMode)) {
       updateNote();
     }
-    setIsEditMode(!isEditMode);
+    setEditMode(toggleEditMode(editMode));
+  };
+
+  const handlePartialEditModeChange = (mode: NoteEditMode): void => {
+    setEditMode(mode);
   };
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
@@ -173,7 +175,7 @@ export const NoteDialogComponent = (
         <DialogTitle>{ t(dialogTitleKey) }</DialogTitle>
         <NoteDialogActions
           openedNote={ openedNote }
-          isEditMode={ isEditMode }
+          isEditMode={ isEditMode(editMode) }
           onCancel={ handleEditCancel }
           onReset={ handleEditReset }
           onEditModeChange={ handleEditModeChange }
@@ -181,8 +183,9 @@ export const NoteDialogComponent = (
       </DialogHeader>
 
       <NoteDialogForm
-        isEditMode={ isEditMode }
+        editMode={ editMode }
         onFormChange={ handleFormChange }
+        onPartialEditModeChange={ handlePartialEditModeChange }
         initialForm={ openedNote || emptyForm }
         categories={ categories }
         clear={ clearForm }
@@ -199,7 +202,7 @@ export const NoteDialogComponent = (
           { openedNote ? deleteNoteButton : saveAndContinueButton }
 
           <button onClick={ handleSaveAndClose } className="button --contained --primary" type="button">
-            { t(isEditMode ? 'SAVE_AND_CLOSE' : 'CLOSE') }
+            { t(isEditMode(editMode) ? 'SAVE_AND_CLOSE' : 'CLOSE') }
           </button>
         </div>
       </DialogControls>

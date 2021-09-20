@@ -6,16 +6,26 @@ import { Category } from '../domain/interfaces/category.interface';
 import { useTranslation } from 'react-i18next';
 import { SelectedCategories } from '../domain/types/selected-categories.type';
 import { getSelectedCategoriesIds } from '../utils/get-selected-categories-ids.util';
+import {
+  isContentEdited,
+  isEditModeBoth,
+  isTitleEdited,
+  NoteEditMode
+} from '../domain/interfaces/note-edit-mode.interface';
+import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 
 interface Props {
   initialForm: NoteDialogFormValue;
   categories: Category[];
-  isEditMode: boolean;
+  editMode: NoteEditMode;
   clear: void[];
   onFormChange: (form: NoteDialogFormValue) => void;
+  onPartialEditModeChange: (mode: NoteEditMode) => void;
 }
 
-export const NoteDialogForm = ({ initialForm, clear, categories, isEditMode, onFormChange }: Props): ReactElement => {
+export const NoteDialogForm = (
+  { initialForm, clear, categories, editMode, onFormChange, onPartialEditModeChange }: Props
+): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
@@ -37,7 +47,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, isEditMode, onF
     setForm(initialForm);
   }, [clear]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+  const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
     setForm({
       ...form,
       [e.target.id]: e.target.value
@@ -61,23 +71,44 @@ export const NoteDialogForm = ({ initialForm, clear, categories, isEditMode, onF
     setSelectedCategories(_selectedCategories);
   };
 
+  const handleEditModeChange = (id: string): void => {
+    let mode: NoteEditMode;
+
+    switch (id) {
+      case 'title': {
+        mode = NoteEditMode.Title;
+        break;
+      }
+      case 'content': {
+        mode = NoteEditMode.Content;
+        break;
+      }
+      default:
+        mode = NoteEditMode.None;
+        break;
+    }
+    onPartialEditModeChange(mode);
+  };
+
   return (
     <FormWrapper>
       <InputWithLabel
         id="title"
         onChange={ handleChange }
+        onDoubleClick={ handleEditModeChange }
         value={ form.title }
         label={ t('TITLE') }
-        disabled={ !isEditMode }
+        disabled={ !isTitleEdited(editMode) }
       />
 
       <InputWithLabel
         id="content"
         onChange={ handleChange }
+        onDoubleClick={ handleEditModeChange }
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
-        disabled={ !isEditMode }
+        disabled={ !isContentEdited(editMode) }
       />
 
       {/* @todo fix categories selection (when selecting category and editing title/content, selection is lost) */ }
@@ -92,7 +123,7 @@ export const NoteDialogForm = ({ initialForm, clear, categories, isEditMode, onF
               name={ category.id }
               value={ category.id }
               checked={ selectedCategories[category.id] || false }
-              disabled={ !isEditMode }
+              disabled={ !isEditModeBoth(editMode) }
             />
             { category.name }
           </label>
