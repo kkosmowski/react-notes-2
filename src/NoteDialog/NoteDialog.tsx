@@ -83,8 +83,18 @@ export const NoteDialogComponent = (
       return false;
     }
     const initialForm = openedNote || emptyForm;
-    // @todo add categories check
-    return form.title !== initialForm.title || form.content !== initialForm.content;
+    return form.title !== initialForm.title || form.content !== initialForm.content || areCategoriesTouched(initialForm);
+  };
+
+  const areCategoriesTouched = (initialForm: NoteDialogFormValue): boolean => {
+    for (const category of categories) {
+      const onlyInitialFormIncludes = initialForm.categories.includes(category.id) && !form.categories.includes(category.id);
+      const onlyCurrentFormIncludes = !initialForm.categories.includes(category.id) && form.categories.includes(category.id);
+      if (onlyInitialFormIncludes || onlyCurrentFormIncludes) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const closeDialog = (): void => {
