@@ -9,6 +9,8 @@ const initialState: UiState = {
   confirmationDialogResult: null,
   editedCategoryId: null,
   sidebarOpened: false,
+  snackbarVisible: false,
+  snackbarData: null,
 };
 
 const uiReducer = createReducer(initialState, (builder) => {
