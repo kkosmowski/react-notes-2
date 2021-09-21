@@ -6,7 +6,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { Category } from '../domain/interfaces/category.interface';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as categoryActions from '../store/actions/category.actions';
+import * as categoryActions from '../store/actionCreators/category.action-creators';
 import { connect } from 'react-redux';
 import { NotesContainer } from '../NotesContainer/NotesContainer';
 

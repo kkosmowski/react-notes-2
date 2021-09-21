@@ -1,6 +1,6 @@
 import { UiState } from '../interfaces/ui-state.interface';
-import { UiActions } from '../actions/actions.enum';
-import { Action } from '../../domain/interfaces/action.interface';
+import { createReducer } from '@reduxjs/toolkit';
+import uiActions from '../actions/ui.actions';
 
 const initialState: UiState = {
   noteDialogOpened: false,
@@ -11,53 +11,32 @@ const initialState: UiState = {
   sidebarOpened: false,
 };
 
-export default function ui(state = initialState, action: Action): UiState {
-  switch (action.type) {
-    case (UiActions.OPEN_NOTE_DIALOG): {
-      return {
-        ...state,
-        noteDialogOpened: true,
-      };
-    }
+const uiReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(uiActions.openNoteDialog, (state) => {
+      state.noteDialogOpened = true;
+    })
+    .addCase(uiActions.closeNoteDialog, (state) => {
+      state.noteDialogOpened = false;
+    })
 
-    case (UiActions.CLOSE_NOTE_DIALOG): {
-      return {
-        ...state,
-        noteDialogOpened: false,
-      };
-    }
+    .addCase(uiActions.openConfirmationDialog, (state, action) => {
+      state.confirmationDialogOpened = true;
+      state.confirmationDialogResult = null;
+      state.confirmationDialogData = action.payload || null;
+    })
+    .addCase(uiActions.closeConfirmationDialog, (state, action) => {
+      state.confirmationDialogOpened = false;
+      state.confirmationDialogData = null;
+      state.confirmationDialogResult = action.payload || null;
+    })
 
-    case (UiActions.OPEN_CONFIRMATION_DIALOG): {
-      return {
-        ...state,
-        confirmationDialogOpened: true,
-        confirmationDialogData: action.payload,
-        confirmationDialogResult: null,
-      };
-    }
+    .addCase(uiActions.openSidebar, (state) => {
+      state.sidebarOpened = true;
+    })
+    .addCase(uiActions.closeSidebar, (state) => {
+      state.sidebarOpened = false;
+    })
+});
 
-    case (UiActions.CLOSE_CONFIRMATION_DIALOG): {
-      return {
-        ...state,
-        confirmationDialogOpened: false,
-        confirmationDialogData: null,
-        confirmationDialogResult: action.payload,
-      };
-    }
-
-    case UiActions.OPEN_SIDEBAR: {
-      return {
-        ...state,
-        sidebarOpened: true
-      }
-    }
-
-    case UiActions.CLOSE_SIDEBAR: {
-      return {
-        ...state,
-        sidebarOpened: false
-      }
-    }
-  }
-  return state;
-}
+export default uiReducer;

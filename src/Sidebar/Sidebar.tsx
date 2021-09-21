@@ -4,7 +4,7 @@ import { AddCategoryButton } from './AddCategoryButton';
 import { CategoriesList } from './CategoriesList';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../store/actions/ui.actions';
+import * as uiActions from '../store/actionCreators/ui.action-creators';
 import { connect } from 'react-redux';
 import { SidebarWrapper } from './styles/Sidebar.styles';
 

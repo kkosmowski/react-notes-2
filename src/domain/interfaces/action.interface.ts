@@ -1,7 +1,7 @@
-import { ActionTypes } from '../../store/actions/actions.enum';
+import { ActionCreator } from '@reduxjs/toolkit';
 
 export interface Action {
-  type: ActionTypes;
+  type: ActionCreator<any>;
   payload?: any;
   error?: any;
 }

@@ -1,8 +1,8 @@
 import { NoteState } from '../interfaces/note-state.interface';
-import { Action } from '../../domain/interfaces/action.interface';
-import { NoteActions } from '../actions/actions.enum';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
+import { createReducer } from '@reduxjs/toolkit';
+import noteActions from '../actions/note.actions';
 
 const initialState: NoteState = {
   notes: [],
@@ -14,110 +14,70 @@ const initialState: NoteState = {
   noteDeletionInProgress: false,
 };
 
-export function note(state: NoteState = initialState, action: Action): NoteState {
-  switch (action.type) {
-    case NoteActions.GET_NOTES: {
-      return {
-        ...state,
-        notesLoading: true,
-      };
-    }
+const noteReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(noteActions.getNotes, (state) => {
+      state.notesLoading = true;
+    })
+    .addCase(noteActions.getNotesSuccess, (state, action) => {
+      state.notesLoading = false;
+      if (action.payload) {
+        state.notes = (action.payload as NoteInterface[]).reverse();
+      }
+    })
+    .addCase(noteActions.getNotesFail, (state) => {
+      state.notesLoading = false;
+    })
 
-    case NoteActions.GET_NOTES_SUCCESS: {
-      return {
-        ...state,
-        notes: (action.payload as NoteInterface[]).reverse(),
-        notesLoading: false,
-      };
-    }
+    .addCase(noteActions.createNote, (state) => {
+      state.noteCreationInProgress = true;
+    })
+    .addCase(noteActions.createNoteSuccess, (state, action) => {
+      state.noteCreationInProgress = false;
+      if (action.payload) {
+        state.notes = [action.payload, ...state.notes];
+      }
+    })
+    .addCase(noteActions.createNoteFail, (state) => {
+      state.noteCreationInProgress = false;
+    })
 
-    case NoteActions.GET_NOTES_FAIL: {
-      return {
-        ...state,
-        notesLoading: false,
-      };
-    }
+    .addCase(noteActions.changeSelectionMode, (state, action) => {
+      if (action.payload) {
+        state.noteSelectionMode = action.payload;
+      }
+    })
 
-    case NoteActions.CREATE_NOTE: {
-      return {
-        ...state,
-        noteCreationInProgress: true,
-      };
-    }
+    .addCase(noteActions.setOpenedNote, (state, action) => {
+      state.openedNote = action.payload || null;
+    })
 
-    case NoteActions.CREATE_NOTE_SUCCESS: {
-      return {
-        ...state,
-        notes: [action.payload, ...state.notes],
-        noteCreationInProgress: false,
-      };
-    }
+    .addCase(noteActions.updateNote, (state) => {
+      state.noteUpdateInProgress = true;
+    })
+    .addCase(noteActions.updateNoteSuccess, (state, action) => {
+      state.noteUpdateInProgress = false;
+      if (action.payload) {
+        const updated: NoteInterface = action.payload;
+        state.notes = state.notes.map((note) => note.id === updated.id ? updated : note)
+      }
+    })
+    .addCase(noteActions.updateNoteFail, (state) => {
+      state.noteUpdateInProgress = false;
+    })
 
-    case NoteActions.CREATE_NOTE_FAIL: {
-      return {
-        ...state,
-        noteCreationInProgress: false,
-      };
-    }
+    .addCase(noteActions.deleteNote, (state) => {
+      state.noteDeletionInProgress = true;
+    })
+    .addCase(noteActions.deleteNoteSuccess, (state, action) => {
+      state.noteDeletionInProgress = false;
+      if (action.payload) {
+        state.notes = state.notes.filter((note) => note.id !== action.payload)
+      }
+    })
+    .addCase(noteActions.deleteNoteFail, (state) => {
+      state.noteDeletionInProgress = false;
+    })
+});
 
-    case NoteActions.CHANGE_SELECTION_MODE: {
-      return {
-        ...state,
-        noteSelectionMode: action.payload,
-      };
-    }
-
-    case NoteActions.SET_OPENED_NOTE: {
-      return {
-        ...state,
-        openedNote: action.payload,
-      };
-    }
-
-    case NoteActions.DELETE_NOTE: {
-      return {
-        ...state,
-        noteDeletionInProgress: true,
-      };
-    }
-
-    case NoteActions.DELETE_NOTE_SUCCESS: {
-      return {
-        ...state,
-        noteDeletionInProgress: false,
-        notes: state.notes.filter((note) => note.id !== action.payload)
-      };
-    }
-
-    case NoteActions.DELETE_NOTE_FAIL: {
-      return {
-        ...state,
-        noteDeletionInProgress: false,
-      };
-    }
-
-    case NoteActions.UPDATE_NOTE: {
-      return {
-        ...state,
-        noteUpdateInProgress: true,
-      };
-    }
-
-    case NoteActions.UPDATE_NOTE_SUCCESS: {
-      const updated: NoteInterface = action.payload;
-      return {
-        ...state,
-        noteUpdateInProgress: false,
-        notes: state.notes.map((note) => note.id === updated.id ? updated : note)
-      };
-    }
-
-    case NoteActions.UPDATE_NOTE_FAIL: {
-      return {
-        ...state,
-        noteUpdateInProgress: false,
-      };
-    }
-  }
-  return state;
-}
+export default noteReducer;

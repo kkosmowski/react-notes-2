@@ -4,7 +4,7 @@ import { AddNoteButton } from './AddNoteButton';
 import { connect } from 'react-redux';
 import { MainState } from '../../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../../store/actions/ui.actions';
+import * as uiActions from '../../store/actionCreators/ui.action-creators';
 import { UiState } from '../../store/interfaces/ui-state.interface';
 
 interface Props extends UiState {

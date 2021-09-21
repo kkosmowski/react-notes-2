@@ -1,40 +1,14 @@
-import { UiActions } from './actions.enum';
-import { ActionFunction } from '../../domain/types/action-function.type';
-import { Dispatch } from 'redux';
-import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
+import { createAction } from '@reduxjs/toolkit';
 
-export function openNoteDialog(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_NOTE_DIALOG });
-  };
-}
+const uiActions = {
+  openNoteDialog: createAction('ui/openNoteDialog'),
+  closeNoteDialog: createAction('ui/closeNoteDialog'),
 
-export function closeNoteDialog(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_NOTE_DIALOG });
-  };
-}
+  openConfirmationDialog: createAction('ui/openConfirmationDialog'),
+  closeConfirmationDialog: createAction('ui/closeConfirmationDialog'),
 
-export function openConfirmationDialog(data: ConfirmationDialogData): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_CONFIRMATION_DIALOG, payload: data });
-  };
-}
+  openSidebar: createAction('ui/openSidebar'),
+  closeSidebar: createAction('ui/closeSidebar'),
+};
 
-export function closeConfirmationDialog(result: boolean): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_CONFIRMATION_DIALOG, payload: result });
-  };
-}
-
-export function openSidebar(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_SIDEBAR });
-  };
-}
-
-export function closeSidebar(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_SIDEBAR });
-  };
-}
+export default uiActions;

@@ -4,7 +4,7 @@ import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { MainState } from '../store/interfaces/main-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../store/actions/ui.actions';
+import * as uiActions from '../store/actionCreators/ui.action-creators';
 import { connect } from 'react-redux';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
