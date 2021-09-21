@@ -7,71 +7,75 @@ import { EntityUid } from '../../domain/types/entity-uid.type';
 import noteActions from '../actions/note.actions';
 import { Action } from '../../domain/interfaces/action.interface';
 
-export function get(): ActionFunction<Promise<void>> {
-  return function (dispatch: Dispatch): Promise<void> {
-    dispatch({ type: noteActions.getNotes });
-    return HttpService
-      .get('/notes')
-      .then((notes: NoteInterface[]) => {
-        dispatch({ type: noteActions.getNotesSuccess, payload: notes });
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch({ type: noteActions.getNotesFail });
-      });
-  };
-}
+const NoteActions = {
+  get(): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch({ type: noteActions.getNotes });
+      return HttpService
+        .get('/notes')
+        .then((notes: NoteInterface[]) => {
+          dispatch({ type: noteActions.getNotesSuccess, payload: notes });
+        })
+        .catch(error => {
+          console.error(error);
+          dispatch({ type: noteActions.getNotesFail });
+        });
+    };
+  },
 
-export function create(note: NoteInterface): ActionFunction<Promise<void>> {
-  return function (dispatch: Dispatch): Promise<void> {
-    dispatch({ type: noteActions.createNote });
-    return HttpService
-      .post<NoteInterface>('/notes', note)
-      .then(() => {
-        dispatch({ type: noteActions.createNoteSuccess, payload: note });
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch({ type: noteActions.createNoteFail });
-      });
-  };
-}
+  create(note: NoteInterface): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch({ type: noteActions.createNote });
+      return HttpService
+        .post<NoteInterface>('/notes', note)
+        .then(() => {
+          dispatch({ type: noteActions.createNoteSuccess, payload: note });
+        })
+        .catch(error => {
+          console.error(error);
+          dispatch({ type: noteActions.createNoteFail });
+        });
+    };
+  },
 
-export function changeSelectionMode(mode: NoteSelectionMode): Action {
-  return ({ type: noteActions.changeSelectionMode, payload: mode });
-}
+  changeSelectionMode(mode: NoteSelectionMode): Action {
+    return ({ type: noteActions.changeSelectionMode, payload: mode });
+  },
 
-export function setOpenedNote(note: NoteInterface | null): Action {
-  return ({ type: noteActions.setOpenedNote, payload: note });
-}
+  setOpenedNote(note: NoteInterface | null): Action {
+    return ({ type: noteActions.setOpenedNote, payload: note });
+  },
 
-export function deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
-  return function (dispatch: Dispatch): Promise<void> {
-    dispatch({ type: noteActions.deleteNote });
-    //@todo implement soft delete (as a separate "Archive" feature)
-    return HttpService
-      .delete(`/notes/${ noteId }`)
-      .then(() => {
-        dispatch({ type: noteActions.deleteNoteSuccess, payload: noteId });
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch({ type: noteActions.deleteNoteFail });
-      });
+  deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch({ type: noteActions.deleteNote });
+      //@todo implement soft delete (as a separate "Archive" feature)
+      return HttpService
+        .delete(`/notes/${ noteId }`)
+        .then(() => {
+          dispatch({ type: noteActions.deleteNoteSuccess, payload: noteId });
+        })
+        .catch(error => {
+          console.error(error);
+          dispatch({ type: noteActions.deleteNoteFail });
+        });
+    }
+  },
+
+  updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch({ type: noteActions.updateNote });
+      return HttpService
+        .put(`/notes/${ note.id }`, note)
+        .then(() => {
+          dispatch({ type: noteActions.updateNoteSuccess, payload: note });
+        })
+        .catch(error => {
+          console.error(error);
+          dispatch({ type: noteActions.updateNoteFail });
+        });
+    }
   }
-}
+};
 
-export function updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
-  return function (dispatch: Dispatch): Promise<void> {
-    dispatch({ type: noteActions.updateNote });
-    return HttpService
-      .put(`/notes/${ note.id }`, note)
-      .then(() => {
-        dispatch({ type: noteActions.updateNoteSuccess, payload: note });
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch({ type: noteActions.updateNoteFail });
-      });
-  }
-}
+export default NoteActions;

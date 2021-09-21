@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { AddCategoryButton } from './AddCategoryButton';
 import { CategoriesList } from './CategoriesList';
-import { MainState } from '../store/interfaces/main-state.interface';
+import { RootState } from '../store/interfaces/root-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as uiActions from '../store/actionCreators/ui.action-creators';
 import { connect } from 'react-redux';
@@ -35,7 +35,7 @@ export const SidebarComponent = ({ opened, uiActions }: Props): ReactElement => 
   );
 };
 
-const mapStateToProps = ({ ui }: MainState) => ({
+const mapStateToProps = ({ ui }: RootState) => ({
   opened: ui.sidebarOpened,
 });
 

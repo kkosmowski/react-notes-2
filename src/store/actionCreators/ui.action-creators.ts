@@ -2,29 +2,33 @@ import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dia
 import uiActions from '../actions/ui.actions';
 import { Action } from '../../domain/interfaces/action.interface';
 
-export function openNoteDialog(): Action {
-  return { type: uiActions.openNoteDialog };
-}
-export function closeNoteDialog(): Action {
-  return { type: uiActions.closeNoteDialog };
-}
+const UiActions = {
+  openNoteDialog(): Action {
+    return { type: uiActions.openNoteDialog };
+  },
+  closeNoteDialog(): Action {
+    return { type: uiActions.closeNoteDialog };
+  },
 
-export function openConfirmationDialog(data: ConfirmationDialogData): Action {
-  return {
-    type: uiActions.openConfirmationDialog,
-    payload: data
-  };
-}
-export function closeConfirmationDialog(result: boolean): Action {
-  return {
-    type: uiActions.closeConfirmationDialog,
-    payload: result
-  };
-}
+  openConfirmationDialog(data: ConfirmationDialogData): Action {
+    return {
+      type: uiActions.openConfirmationDialog,
+      payload: data
+    };
+  },
+  closeConfirmationDialog(result: boolean): Action {
+    return {
+      type: uiActions.closeConfirmationDialog,
+      payload: result
+    };
+  },
 
-export function openSidebar(): Action {
-  return { type: uiActions.openSidebar };
-}
-export function closeSidebar(): Action {
-  return { type: uiActions.closeSidebar };
-}
+  openSidebar(): Action {
+    return { type: uiActions.openSidebar };
+  },
+  closeSidebar(): Action {
+    return { type: uiActions.closeSidebar };
+  },
+};
+
+export default UiActions;

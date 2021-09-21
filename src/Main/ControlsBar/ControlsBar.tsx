@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import styled from 'styled-components';
 import { AddNoteButton } from './AddNoteButton';
 import { connect } from 'react-redux';
-import { MainState } from '../../store/interfaces/main-state.interface';
+import { RootState } from '../../store/interfaces/root-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as uiActions from '../../store/actionCreators/ui.action-creators';
 import { UiState } from '../../store/interfaces/ui-state.interface';
@@ -31,7 +31,7 @@ const Bar = styled.div`
   background-color: var(--dark200);
 `;
 
-const mapStateToProps = ({ ui }: MainState) => ({
+const mapStateToProps = ({ ui }: RootState) => ({
   noteDialogOpened: ui.noteDialogOpened,
 });
 

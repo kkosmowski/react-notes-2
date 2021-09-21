@@ -4,7 +4,7 @@ import { ControlsBar } from './ControlsBar/ControlsBar';
 import { NoteDialog } from '../NoteDialog/NoteDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { Category } from '../domain/interfaces/category.interface';
-import { MainState } from '../store/interfaces/main-state.interface';
+import { RootState } from '../store/interfaces/root-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as categoryActions from '../store/actionCreators/category.action-creators';
 import { connect } from 'react-redux';
@@ -43,7 +43,7 @@ const CategoryTitle = styled.h1`
   margin: 0 var(--wrapper-horizontal-padding) 16px;
 `;
 
-const mapStateToProps = ({ category }: MainState) => ({
+const mapStateToProps = ({ category }: RootState) => ({
   selectedCategory: category.selectedCategory,
 });
 

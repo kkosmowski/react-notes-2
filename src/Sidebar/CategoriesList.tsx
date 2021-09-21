@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Category } from '../domain/interfaces/category.interface';
-import { MainState } from '../store/interfaces/main-state.interface';
+import { RootState } from '../store/interfaces/root-state.interface';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as categoryActions from '../store/actionCreators/category.action-creators';
 import * as uiActions from '../store/actionCreators/ui.action-creators';
@@ -97,7 +97,7 @@ export const CategoriesListComponent = (
   );
 };
 
-const mapStateToProps = ({ category }: MainState) => ({
+const mapStateToProps = ({ category }: RootState) => ({
   categories: category.categories,
   loading: category.categoriesLoading,
   selected: category.selectedCategory,
