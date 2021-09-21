@@ -27,8 +27,11 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(uiActions.closeConfirmationDialog, (state, action) => {
       state.confirmationDialogOpened = false;
+      state.confirmationDialogResult = {
+        result: action.payload,
+        action: state.confirmationDialogData!.action,
+      };
       state.confirmationDialogData = null;
-      state.confirmationDialogResult = action.payload || null;
     })
 
     .addCase(uiActions.openSidebar, (state) => {

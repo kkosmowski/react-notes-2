@@ -6,6 +6,10 @@ export const pl = {
     DELETE: 'Usuń',
     SAVE_AND_NEXT: 'Zapisz',
     SAVE_AND_CLOSE: 'Zapisz i zamknij',
+    SAVE: 'Zapisz',
+    EDIT: 'Edytuj',
+    CLOSE: 'Zamnkij',
+    RESET: 'Resetuj',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
   },
   SIDEBAR: {
@@ -20,13 +24,16 @@ export const pl = {
   CONFIRMATION: {
     TITLE: {
       LEAVE_PROGRESS: 'Porzucić zmiany?',
+      DELETE_NOTE: 'Usunąć notatkę?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Czy na pewno chcesz porzucić swoje zmiany?',
+      DELETE_NOTE: 'Czy na pewno chcesz usunąć tę notatkę?',
     },
     CONTROLS: {
       NO_CANCEL: 'Nie, anuluj',
       YES_LEAVE: 'Tak, porzuć',
+      YES_DELETE: 'Tak, usuń',
     },
   },
 };
