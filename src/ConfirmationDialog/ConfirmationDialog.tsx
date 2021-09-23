@@ -5,27 +5,32 @@ import { DialogTitle } from '../Dialog/DialogTitle';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
 import styled from 'styled-components';
 import UiActions from '../store/actionCreators/ui.action-creators';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { selectConfirmationData, selectConfirmationDialogOpened } from '../store/selectors/ui.selectors';
+import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 
 export const ConfirmationDialog = (): ReactElement => {
-  const config: DialogConfig = {
+  const opened: boolean = useSelector(selectConfirmationDialogOpened);
+  const data: ConfirmationDialogData | null = useSelector(selectConfirmationData);
+  const dispatch = useDispatch();
+  const dialogConfig: DialogConfig = {
     width: '360px',
     height: 'auto',
     flex: true
   };
 
   const handleCancel = (): void => {
-    UiActions.closeConfirmationDialog(false);
+    dispatch(UiActions.closeConfirmationDialog(false));
   };
 
   const handleConfirm = (): void => {
-    UiActions.closeConfirmationDialog(true);
+    dispatch(UiActions.closeConfirmationDialog(true));
   };
 
   return (
     <Dialog
       opened={ opened }
-      config={ config }
+      config={ dialogConfig }
     >
       <DialogTitle>{ data ? data.title : '' }</DialogTitle>
 

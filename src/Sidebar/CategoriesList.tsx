@@ -1,26 +1,24 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Category } from '../domain/interfaces/category.interface';
-import { RootState } from '../store/interfaces/root-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as categoryActions from '../store/actionCreators/category.action-creators';
-import * as uiActions from '../store/actionCreators/ui.action-creators';
-import { connect } from 'react-redux';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { v4 as uuidv4 } from 'uuid';
 import { CategoriesListWrapper } from './styles/CategoryList.styles';
 import { CategoryListItem } from './CategoryListItem';
 import { Loader } from '../Loader/Loader';
 import { LoaderSize } from '../domain/enums/loader-size.enum';
+import CategoryActions from '../store/actionCreators/category.action-creators';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectCategories,
+  selectCategoriesLoading,
+  selectEditedCategory,
+  selectSelectedCategory,
+  selectTemporaryCategory
+} from '../store/selectors/category.selectors';
+import UiActions from '../store/actionCreators/ui.action-creators';
 
 interface Props {
   add: void[];
-  categories: Category[];
-  loading: boolean;
-  selected: Category;
-  edited: Category | null;
-  temporary: Category | null;
-  categoryActions: any;
-  uiActions: any;
 }
 
 const emptyCategory: Category = {
@@ -28,14 +26,18 @@ const emptyCategory: Category = {
   name: '',
 };
 
-export const CategoriesListComponent = (
-  { add, categories, loading, selected, edited, temporary, categoryActions, uiActions }: Props
-): ReactElement => {
+export const CategoriesList = ({ add }: Props): ReactElement => {
+  const loading: boolean = useSelector(selectCategoriesLoading);
+  const categories: Category[] = useSelector(selectCategories);
+  const temporary: Category | null = useSelector(selectTemporaryCategory);
+  const selected: Category = useSelector(selectSelectedCategory);
+  const edited: Category | null = useSelector(selectEditedCategory);
   const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    categoryActions.get();
+    dispatch(CategoryActions.get());
   }, []);
 
   useEffect(() => {
@@ -46,8 +48,8 @@ export const CategoriesListComponent = (
     if (!initialRender.current) {
       const newCategory: Category = { ...emptyCategory, id: uuidv4() };
       if (!temporary) {
-        categoryActions.addTemporary(newCategory);
-        uiActions.openSidebar();
+        dispatch(CategoryActions.createTemporary(newCategory));
+        dispatch(UiActions.openSidebar());
       }
     } else {
       initialRender.current = false;
@@ -75,18 +77,18 @@ export const CategoriesListComponent = (
 
   const handleCategorySelect = (category: Category): void => {
     if (selected.id !== category.id) {
-      categoryActions.select(category);
+      dispatch(CategoryActions.select(category));
     }
   };
 
   const handleCategorySave = (name: string): void => {
-    categoryActions.createFromTemporary({ ...edited, name });
-    categoryActions.select(edited!.id);
-    categoryActions.finishEditingCategory();
+    dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
+    dispatch(CategoryActions.select(edited));
+    dispatch(CategoryActions.finishEditingCategory());
   };
 
   const handleCancel = (): void => {
-    categoryActions.deleteTemporary();
+    dispatch(CategoryActions.deleteTemporary());
   };
 
   return (
@@ -96,18 +98,3 @@ export const CategoriesListComponent = (
     </CategoriesListWrapper>
   );
 };
-
-const mapStateToProps = ({ category }: RootState) => ({
-  categories: category.categories,
-  loading: category.categoriesLoading,
-  selected: category.selectedCategory,
-  edited: category.editedCategory,
-  temporary: category.temporaryCategory
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators(categoryActions, dispatch),
-  uiActions: bindActionCreators(uiActions, dispatch),
-});
-
-export const CategoriesList = connect(mapStateToProps, mapDispatchToProps)(CategoriesListComponent);

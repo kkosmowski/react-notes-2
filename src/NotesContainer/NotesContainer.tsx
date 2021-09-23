@@ -12,10 +12,9 @@ import { LoaderSize } from '../domain/enums/loader-size.enum';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { NoNotesText, NotesWrapper } from './NotesContainer.styles';
-import note from '../store/actionCreators/note.action-creators';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectNotes, selectNoteSelectionMode, selectNotesLoading } from '../store/selectors/note.selectors';
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
 
@@ -31,9 +30,10 @@ export const NotesContainer = (): ReactElement => {
   const [selectedNotes, setSelectedNotes] = useState<Record<EntityUid, boolean>>({});
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText>{ t('NO_NOTES') }</NoNotesText>;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    note.get();
+    dispatch(NoteActions.get());
   }, []);
 
   useEffect(() => {
@@ -82,8 +82,8 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {
-    NoteActions.setOpenedNote(noteToOpen);
-    UiActions.openNoteDialog();
+    dispatch(NoteActions.setOpenedNote(noteToOpen));
+    dispatch(UiActions.openNoteDialog());
   };
 
   return (

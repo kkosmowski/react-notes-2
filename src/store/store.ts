@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 const store: EnhancedStore = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware => getDefaultMiddleware().concat(thunk)),
-  devTools: true
 });
 
 export default store;

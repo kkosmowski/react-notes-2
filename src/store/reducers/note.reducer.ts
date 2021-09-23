@@ -59,7 +59,7 @@ const noteReducer = createReducer(initialState, (builder) => {
       state.noteUpdateInProgress = false;
       if (action.payload) {
         const updated: NoteInterface = action.payload;
-        state.notes = state.notes.map((note) => note.id === updated.id ? updated : note)
+        state.notes = state.notes.map((note) => note.id === updated.id ? updated : note);
       }
     })
     .addCase(noteActions.updateNoteFail, (state) => {
@@ -72,12 +72,13 @@ const noteReducer = createReducer(initialState, (builder) => {
     .addCase(noteActions.deleteNoteSuccess, (state, action) => {
       state.noteDeletionInProgress = false;
       if (action.payload) {
-        state.notes = state.notes.filter((note) => note.id !== action.payload)
+        state.notes = state.notes.filter((note) => note.id !== action.payload);
       }
     })
     .addCase(noteActions.deleteNoteFail, (state) => {
       state.noteDeletionInProgress = false;
     })
+    .addDefaultCase(() => {});
 });
 
 export default noteReducer;

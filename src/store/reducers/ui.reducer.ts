@@ -37,6 +37,7 @@ const uiReducer = createReducer(initialState, (builder) => {
     .addCase(uiActions.closeSidebar, (state) => {
       state.sidebarOpened = false;
     })
+    .addDefaultCase((state) => {});
 });
 
 export default uiReducer;

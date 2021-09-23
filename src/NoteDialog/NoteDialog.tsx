@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { NoteDialogForm } from './NoteDialogForm';
@@ -38,6 +38,7 @@ export const NoteDialog = (): ReactElement => {
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (confirmationResult === true) {
@@ -67,7 +68,7 @@ export const NoteDialog = (): ReactElement => {
         cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
         confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE')
       };
-      UiActions.openConfirmationDialog(data);
+      dispatch(UiActions.openConfirmationDialog(data));
     }
   };
 
@@ -92,8 +93,8 @@ export const NoteDialog = (): ReactElement => {
 
   const closeDialog = (): void => {
     setEditMode(NoteEditMode.None);
-    UiActions.closeNoteDialog();
-    NoteActions.setOpenedNote(null);
+    dispatch(UiActions.closeNoteDialog());
+    dispatch(NoteActions.setOpenedNote(null));
   };
 
   const handleFormChange = (form: NoteDialogFormValue): void => {
@@ -105,15 +106,15 @@ export const NoteDialog = (): ReactElement => {
       ...form,
       id: uuidv4(),
     };
-    NoteActions.create(note);
+    dispatch(NoteActions.create(note));
   };
 
   const updateNote = (): void => {
     if (isFormTouched()) {
-      NoteActions.updateNote({
+      dispatch(NoteActions.updateNote({
         ...openedNote!,
         ...form
-      });
+      }));
     }
   };
 
@@ -133,7 +134,7 @@ export const NoteDialog = (): ReactElement => {
 
   const handleDelete = (): void => {
     // @todo add confirmation
-    NoteActions.deleteNote(openedNote!.id);
+    dispatch(NoteActions.deleteNote(openedNote!.id));
     closeDialog();
   };
 
