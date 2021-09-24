@@ -1,7 +1,5 @@
-import { ActionCreator } from '@reduxjs/toolkit';
-
 export interface Action {
-  type: ActionCreator<any>;
+  type: string;
   payload?: any;
   error?: any;
 }

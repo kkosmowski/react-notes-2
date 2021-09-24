@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { HttpService } from '../../services/http.service';
 import { Category } from '../../domain/interfaces/category.interface';
 import categoryActions from '../actions/category.actions';
+import { Action } from '../../domain/interfaces/action.interface';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -35,15 +36,15 @@ const CategoryActions = {
     };
   },
 
-  select(category: Category | null): any {
+  select(category: Category | null): Action {
     return categoryActions.selectCategory(category);
   },
 
-  editCategory(category: Category): any {
+  editCategory(category: Category): Action {
     return categoryActions.editCategory(category);
   },
 
-  finishEditingCategory(): any {
+  finishEditingCategory(): Action {
     return categoryActions.editCategorySuccess();
   },
 
@@ -54,7 +55,7 @@ const CategoryActions = {
     };
   },
 
-  deleteTemporary(): any {
+  deleteTemporary(): Action {
     return categoryActions.deleteTemporaryCategory();
   },
 };

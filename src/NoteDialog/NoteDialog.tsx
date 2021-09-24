@@ -33,7 +33,7 @@ export const NoteDialog = (): ReactElement => {
   const opened = useSelector(selectNoteDialogOpened);
   const categories = useSelector(selectCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
-  const openedNote: NoteInterface | null = useSelector(selectOpenedNote);
+  const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);

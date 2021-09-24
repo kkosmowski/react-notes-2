@@ -1,25 +1,26 @@
+import { Action } from '../../domain/interfaces/action.interface';
 import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
 import uiActions from '../actions/ui.actions';
 
 const UiActions = {
-  openNoteDialog(): any {
+  openNoteDialog(): Action {
     return uiActions.openNoteDialog();
   },
-  closeNoteDialog(): any {
+  closeNoteDialog(): Action {
     return uiActions.closeNoteDialog();
   },
 
-  openConfirmationDialog(data: ConfirmationDialogData): any {
+  openConfirmationDialog(data: ConfirmationDialogData): Action {
     return uiActions.openConfirmationDialog(data);
   },
-  closeConfirmationDialog(result: boolean): any {
+  closeConfirmationDialog(result: boolean): Action {
     return uiActions.closeConfirmationDialog(result);
   },
 
-  openSidebar(): any {
+  openSidebar(): Action {
     return uiActions.openSidebar();
   },
-  closeSidebar(): any {
+  closeSidebar(): Action {
     return uiActions.closeSidebar();
   },
 };

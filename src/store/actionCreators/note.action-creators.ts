@@ -5,6 +5,7 @@ import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import noteActions from '../actions/note.actions';
+import { Action } from '../../domain/interfaces/action.interface';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -37,11 +38,11 @@ const NoteActions = {
     };
   },
 
-  changeSelectionMode(mode: NoteSelectionMode): any {
+  changeSelectionMode(mode: NoteSelectionMode): Action {
     return noteActions.changeSelectionMode(mode);
   },
 
-  setOpenedNote(note: NoteInterface | null): any {
+  setOpenedNote(note: NoteInterface | null): Action {
     return noteActions.setOpenedNote(note);
   },
 

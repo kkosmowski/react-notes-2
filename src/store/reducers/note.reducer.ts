@@ -77,8 +77,7 @@ const noteReducer = createReducer(initialState, (builder) => {
     })
     .addCase(noteActions.deleteNoteFail, (state) => {
       state.noteDeletionInProgress = false;
-    })
-    .addDefaultCase(() => {});
+    });
 });
 
 export default noteReducer;

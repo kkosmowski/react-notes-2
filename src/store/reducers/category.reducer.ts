@@ -59,8 +59,6 @@ const categoryReducer = createReducer(initialState, (builder) => {
     })
     .addCase(categoryActions.editCategorySuccess, (state, action) => {
       state.editedCategory = null;
-    })
-    .addDefaultCase(() => {
     });
 });
 
