@@ -1,10 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
-import { MainState } from '../store/interfaces/main-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as noteActions from '../store/actions/note.actions';
-import * as uiActions from '../store/actions/ui.actions';
-import { connect } from 'react-redux';
 import { Note } from '../Note/Note';
 import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
 import { debounce } from '@material-ui/core';
@@ -17,29 +12,28 @@ import { LoaderSize } from '../domain/enums/loader-size.enum';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { NoNotesText, NotesWrapper } from './NotesContainer.styles';
+import NoteActions from '../store/actionCreators/note.action-creators';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectNotes, selectNoteSelectionMode, selectNotesLoading } from '../store/selectors/note.selectors';
+import { selectSelectedCategory } from '../store/selectors/category.selectors';
 
-interface Props {
-  notes: NoteInterface[];
-  notesLoading: boolean;
-  noteSelectionMode: NoteSelectionMode;
-  selectedCategory: Category;
-  noteActions: any;
-  uiActions: any;
-}
-
-export const NotesContainerComponent = (
-  { notes, notesLoading, noteSelectionMode, selectedCategory, noteActions, uiActions }: Props
-): ReactElement => {
+export const NotesContainer = (): ReactElement => {
   const { t } = useTranslation('MAIN');
+  const notes: NoteInterface[] = useSelector(selectNotes);
+  const notesLoading: boolean = useSelector(selectNotesLoading);
+  const selectedCategory: Category | null = useSelector(selectSelectedCategory);
+  const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[] | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
   const [selectedNotes, setSelectedNotes] = useState<Record<EntityUid, boolean>>({});
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText>{ t('NO_NOTES') }</NoNotesText>;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    noteActions.get();
+    dispatch(NoteActions.get());
   }, []);
 
   useEffect(() => {
@@ -87,9 +81,9 @@ export const NotesContainerComponent = (
     });
   };
 
-  const handleNoteOpen = (note: NoteInterface): void => {
-    noteActions.setOpenedNote(note);
-    uiActions.openNoteDialog();
+  const handleNoteOpen = (noteToOpen: NoteInterface): void => {
+    dispatch(NoteActions.setOpenedNote(noteToOpen));
+    dispatch(UiActions.openNoteDialog());
   };
 
   return (
@@ -105,17 +99,3 @@ export const NotesContainerComponent = (
     </NotesWrapper>
   );
 };
-
-const mapStateToProps = ({ note, category }: MainState) => ({
-  notes: note.notes,
-  notesLoading: note.notesLoading,
-  noteSelectionMode: note.noteSelectionMode,
-  selectedCategory: category.selectedCategory,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  noteActions: bindActionCreators(noteActions, dispatch),
-  uiActions: bindActionCreators(uiActions, dispatch),
-});
-
-export const NotesContainer = connect(mapStateToProps, mapDispatchToProps)(NotesContainerComponent);

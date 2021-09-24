@@ -1,12 +1,12 @@
-import ui from './ui.reducer';
-import { combineReducers, ReducersMapObject } from 'redux';
-import { note } from './note.reducer';
-import { category } from './category.reducer';
+import { combineReducers } from '@reduxjs/toolkit';
+import uiReducer from './ui.reducer';
+import noteReducer from './note.reducer';
+import categoryReducer from './category.reducer';
 
-const reducers: ReducersMapObject = {
-  ui,
-  note,
-  category
-};
+const rootReducer = combineReducers({
+  ui: uiReducer,
+  note: noteReducer,
+  category: categoryReducer,
+});
 
-export default combineReducers(reducers);
+export default rootReducer;

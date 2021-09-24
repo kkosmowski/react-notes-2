@@ -1,7 +1,7 @@
-import { Action } from '../../domain/interfaces/action.interface';
-import { CategoryActions } from '../actions/actions.enum';
 import { CategoryState } from '../interfaces/category-state.interface';
 import { rootCategory } from '../../domain/consts/root-category.const';
+import { createReducer } from '@reduxjs/toolkit';
+import categoryActions from '../actions/category.actions';
 
 const initialState: CategoryState = {
   categories: [],
@@ -12,87 +12,54 @@ const initialState: CategoryState = {
   temporaryCategory: null,
 };
 
-export function category(state: CategoryState = initialState, action: Action): CategoryState {
-  switch (action.type) {
-    case CategoryActions.GET_CATEGORIES: {
-      return {
-        ...state,
-        categoriesLoading: true,
-      };
-    }
+const categoryReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(categoryActions.getCategories, (state) => {
+      state.categoriesLoading = true;
+    })
+    .addCase(categoryActions.getCategoriesSuccess, (state, action) => {
+      state.categoriesLoading = false;
+      if (action.payload) {
+        state.categories = action.payload;
+      }
+    })
+    .addCase(categoryActions.getCategoriesFail, (state) => {
+      state.categoriesLoading = false;
+    })
 
-    case CategoryActions.GET_CATEGORIES_SUCCESS: {
-      return {
-        ...state,
-        categories: action.payload,
-        categoriesLoading: false,
-      };
-    }
+    .addCase(categoryActions.createTemporaryCategory, (state, action) => {
+      state.temporaryCategory = action.payload || null;
+    })
+    .addCase(categoryActions.deleteTemporaryCategory, (state, action) => {
+      state.temporaryCategory = null;
+    })
 
-    case CategoryActions.GET_CATEGORIES_FAIL: {
-      return {
-        ...state,
-        categoriesLoading: false,
-      };
-    }
+    .addCase(categoryActions.createCategory, (state) => {
+      state.categoryCreationInProgress = true;
+    })
+    .addCase(categoryActions.createCategorySuccess, (state, action) => {
+      state.categoryCreationInProgress = false;
+      state.temporaryCategory = null;
+      if (action.payload) {
+        state.categories = [...state.categories, action.payload];
+      }
+    })
+    .addCase(categoryActions.createCategoryFail, (state) => {
+      state.categoryCreationInProgress = false;
+    })
 
-    case CategoryActions.ADD_TEMPORARY_CATEGORY: {
-      return {
-        ...state,
-        temporaryCategory: action.payload,
-      };
-    }
+    .addCase(categoryActions.selectCategory, (state, action) => {
+      if (action.payload) {
+        state.selectedCategory = action.payload;
+      }
+    })
 
-    case CategoryActions.CREATE_CATEGORY: {
-      return {
-        ...state,
-        categoryCreationInProgress: true,
-      };
-    }
+    .addCase(categoryActions.editCategory, (state, action) => {
+      state.editedCategory = action.payload || null;
+    })
+    .addCase(categoryActions.editCategorySuccess, (state, action) => {
+      state.editedCategory = null;
+    });
+});
 
-    case CategoryActions.CREATE_CATEGORY_SUCCESS: {
-      return {
-        ...state,
-        categories: [...state.categories, action.payload],
-        temporaryCategory: null,
-        categoryCreationInProgress: false,
-      };
-    }
-
-    case CategoryActions.CREATE_CATEGORY_FAIL: {
-      return {
-        ...state,
-        categoryCreationInProgress: false,
-      };
-    }
-
-    case CategoryActions.DELETE_TEMPORARY_CATEGORY: {
-      return {
-        ...state,
-        temporaryCategory: null,
-      };
-    }
-
-    case CategoryActions.SELECT_CATEGORY: {
-      return {
-        ...state,
-        selectedCategory: action.payload,
-      };
-    }
-
-    case CategoryActions.EDIT_CATEGORY: {
-      return {
-        ...state,
-        editedCategory: action.payload,
-      };
-    }
-
-    case CategoryActions.EDIT_CATEGORY_SUCCESS: {
-      return {
-        ...state,
-        editedCategory: null
-      };
-    }
-  }
-  return state;
-}
+export default categoryReducer;

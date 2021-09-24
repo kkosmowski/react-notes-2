@@ -1,7 +1,5 @@
-import { ActionTypes } from '../../store/actions/actions.enum';
-
 export interface Action {
-  type: ActionTypes;
+  type: string;
   payload?: any;
   error?: any;
 }

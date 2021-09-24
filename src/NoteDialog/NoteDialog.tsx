@@ -1,10 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
-import { MainState } from '../store/interfaces/main-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../store/actions/ui.actions';
-import * as noteActions from '../store/actions/note.actions';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { NoteDialogForm } from './NoteDialogForm';
@@ -12,20 +8,15 @@ import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.inter
 import { v4 as uuidv4 } from 'uuid';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
-import { Category } from '../domain/interfaces/category.interface';
 import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styles';
 import { useTranslation } from 'react-i18next';
 import { NoteDialogActions } from './NoteDialogActions';
 import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';
-
-interface Props {
-  opened: boolean;
-  openedNote: NoteInterface | null;
-  categories: Category[];
-  confirmationResult: boolean | null;
-  uiActions: any;
-  noteActions: any;
-}
+import { selectConfirmationResult, selectNoteDialogOpened } from '../store/selectors/ui.selectors';
+import { selectOpenedNote } from '../store/selectors/note.selectors';
+import { selectCategories } from '../store/selectors/category.selectors';
+import NoteActions from '../store/actionCreators/note.action-creators';
+import UiActions from '../store/actionCreators/ui.action-creators';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -33,18 +24,21 @@ export const emptyForm: NoteDialogFormValue = {
   categories: [],
 };
 
-export const NoteDialogComponent = (
-  { opened, openedNote, categories, confirmationResult, uiActions, noteActions }: Props
-): ReactElement => {
+export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['MAIN', 'NOTE_DIALOG', 'CONFIRMATION']);
   const config: DialogConfig = {
     width: '400px',
     flex: true
   };
+  const opened = useSelector(selectNoteDialogOpened);
+  const categories = useSelector(selectCategories);
+  const confirmationResult = useSelector(selectConfirmationResult);
+  const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (confirmationResult === true) {
@@ -74,7 +68,7 @@ export const NoteDialogComponent = (
         cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
         confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE')
       };
-      uiActions.openConfirmationDialog(data);
+      dispatch(UiActions.openConfirmationDialog(data));
     }
   };
 
@@ -99,8 +93,8 @@ export const NoteDialogComponent = (
 
   const closeDialog = (): void => {
     setEditMode(NoteEditMode.None);
-    uiActions.closeNoteDialog();
-    noteActions.setOpenedNote(null);
+    dispatch(UiActions.closeNoteDialog());
+    dispatch(NoteActions.setOpenedNote(null));
   };
 
   const handleFormChange = (form: NoteDialogFormValue): void => {
@@ -112,15 +106,15 @@ export const NoteDialogComponent = (
       ...form,
       id: uuidv4(),
     };
-    noteActions.create(note);
+    dispatch(NoteActions.create(note));
   };
 
   const updateNote = (): void => {
     if (isFormTouched()) {
-      noteActions.updateNote({
-        ...openedNote,
+      dispatch(NoteActions.updateNote({
+        ...openedNote!,
         ...form
-      });
+      }));
     }
   };
 
@@ -140,7 +134,7 @@ export const NoteDialogComponent = (
 
   const handleDelete = (): void => {
     // @todo add confirmation
-    noteActions.deleteNote(openedNote!.id);
+    dispatch(NoteActions.deleteNote(openedNote!.id));
     closeDialog();
   };
 
@@ -219,17 +213,3 @@ export const NoteDialogComponent = (
     </Dialog>
   );
 };
-
-const mapStateToProps = ({ category, note, ui }: MainState) => ({
-  opened: ui.noteDialogOpened,
-  openedNote: note.openedNote,
-  confirmationResult: ui.confirmationDialogResult,
-  categories: category.categories
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  uiActions: bindActionCreators(uiActions, dispatch),
-  noteActions: bindActionCreators(noteActions, dispatch),
-});
-
-export const NoteDialog = connect(mapStateToProps, mapDispatchToProps)(NoteDialogComponent);

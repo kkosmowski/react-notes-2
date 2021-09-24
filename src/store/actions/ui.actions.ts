@@ -1,40 +1,15 @@
-import { UiActions } from './actions.enum';
-import { ActionFunction } from '../../domain/types/action-function.type';
-import { Dispatch } from 'redux';
+import { createAction } from '@reduxjs/toolkit';
 import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
 
-export function openNoteDialog(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_NOTE_DIALOG });
-  };
-}
+const uiActions = {
+  openNoteDialog: createAction<void>('OPEN_NOTE_DIALOG'),
+  closeNoteDialog: createAction<void>('CLOSE_NOTE_DIALOG'),
 
-export function closeNoteDialog(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_NOTE_DIALOG });
-  };
-}
+  openConfirmationDialog: createAction<ConfirmationDialogData>('OPEN_CONFIRMATION_DIALOG'),
+  closeConfirmationDialog: createAction<boolean>('CLOSE_CONFIRMATION_DIALOG'),
 
-export function openConfirmationDialog(data: ConfirmationDialogData): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_CONFIRMATION_DIALOG, payload: data });
-  };
-}
+  openSidebar: createAction<void>('OPEN_SIDEBAR'),
+  closeSidebar: createAction<void>('CLOSE_SIDEBAR'),
+};
 
-export function closeConfirmationDialog(result: boolean): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_CONFIRMATION_DIALOG, payload: result });
-  };
-}
-
-export function openSidebar(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.OPEN_SIDEBAR });
-  };
-}
-
-export function closeSidebar(): ActionFunction<void> {
-  return function (dispatch: Dispatch): void {
-    dispatch({ type: UiActions.CLOSE_SIDEBAR });
-  };
-}
+export default uiActions;

@@ -2,39 +2,35 @@ import { ReactElement } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
-import { MainState } from '../store/interfaces/main-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../store/actions/ui.actions';
-import { connect } from 'react-redux';
-import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { DialogControls } from '../Dialog/styles/Dialog.styles';
 import styled from 'styled-components';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectConfirmationData, selectConfirmationDialogOpened } from '../store/selectors/ui.selectors';
+import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 
-interface Props {
-  opened: boolean;
-  data: ConfirmationDialogData | null;
-  uiActions: any;
-}
-
-export const ConfirmationDialogComponent = ({ opened, data, uiActions }: Props): ReactElement => {
-  const config: DialogConfig = {
+export const ConfirmationDialog = (): ReactElement => {
+  const opened: boolean = useSelector(selectConfirmationDialogOpened);
+  const data: ConfirmationDialogData | null = useSelector(selectConfirmationData);
+  const dispatch = useDispatch();
+  const dialogConfig: DialogConfig = {
     width: '360px',
     height: 'auto',
     flex: true
   };
 
   const handleCancel = (): void => {
-    uiActions.closeConfirmationDialog(false);
+    dispatch(UiActions.closeConfirmationDialog(false));
   };
 
   const handleConfirm = (): void => {
-    uiActions.closeConfirmationDialog(true);
+    dispatch(UiActions.closeConfirmationDialog(true));
   };
 
   return (
     <Dialog
       opened={ opened }
-      config={ config }
+      config={ dialogConfig }
     >
       <DialogTitle>{ data ? data.title : '' }</DialogTitle>
 
@@ -59,14 +55,3 @@ export const ConfirmationDialogComponent = ({ opened, data, uiActions }: Props):
 const Message = styled.p`
   margin: 16px 0;
 `;
-
-const mapStateToProps = ({ ui }: MainState) => ({
-  opened: ui.confirmationDialogOpened,
-  data: ui.confirmationDialogData
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  uiActions: bindActionCreators(uiActions, dispatch),
-});
-
-export const ConfirmationDialog = connect(mapStateToProps, mapDispatchToProps)(ConfirmationDialogComponent);

@@ -2,26 +2,22 @@ import { ReactElement, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { AddCategoryButton } from './AddCategoryButton';
 import { CategoriesList } from './CategoriesList';
-import { MainState } from '../store/interfaces/main-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as uiActions from '../store/actions/ui.actions';
-import { connect } from 'react-redux';
 import { SidebarWrapper } from './styles/Sidebar.styles';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSidebarOpened } from '../store/selectors/ui.selectors';
 
-interface Props {
-  opened: boolean;
-  uiActions: any;
-}
-
-export const SidebarComponent = ({ opened, uiActions }: Props): ReactElement => {
+export const Sidebar = (): ReactElement => {
+  const opened: boolean = useSelector(selectSidebarOpened);
   const [addCategory, setAddCategory] = useState<void[]>([]); // @todo temporary hack
+  const dispatch = useDispatch();
 
   const handleCategoryAdd = (): void => {
     setAddCategory([...addCategory]);
   };
 
   const handleSidebarClose = (): void => {
-    uiActions.closeSidebar();
+    dispatch(UiActions.closeSidebar());
   };
 
   return (
@@ -34,13 +30,3 @@ export const SidebarComponent = ({ opened, uiActions }: Props): ReactElement => 
     </>
   );
 };
-
-const mapStateToProps = ({ ui }: MainState) => ({
-  opened: ui.sidebarOpened,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  uiActions: bindActionCreators(uiActions, dispatch),
-});
-
-export const Sidebar = connect(mapStateToProps, mapDispatchToProps)(SidebarComponent);

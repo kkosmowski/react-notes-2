@@ -3,18 +3,14 @@ import styled from 'styled-components';
 import { ControlsBar } from './ControlsBar/ControlsBar';
 import { NoteDialog } from '../NoteDialog/NoteDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
-import { Category } from '../domain/interfaces/category.interface';
-import { MainState } from '../store/interfaces/main-state.interface';
-import { bindActionCreators, Dispatch } from 'redux';
-import * as categoryActions from '../store/actions/category.actions';
-import { connect } from 'react-redux';
 import { NotesContainer } from '../NotesContainer/NotesContainer';
+import { useSelector } from 'react-redux';
+import { selectSelectedCategory } from '../store/selectors/category.selectors';
+import { Category } from '../domain/interfaces/category.interface';
 
-interface Props {
-  selectedCategory: Category;
-}
+export const Main = (): ReactElement => {
+  const selectedCategory: Category = useSelector(selectSelectedCategory);
 
-export const MainComponent = ({ selectedCategory }: Props): ReactElement => {
   return (
     <MainWrapper>
       <CategoryTitle>{ selectedCategory.name }</CategoryTitle>
@@ -42,13 +38,3 @@ const CategoryTitle = styled.h1`
   font-weight: inherit;
   margin: 0 var(--wrapper-horizontal-padding) 16px;
 `;
-
-const mapStateToProps = ({ category }: MainState) => ({
-  selectedCategory: category.selectedCategory,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  categoryActions: bindActionCreators(categoryActions, dispatch),
-});
-
-export const Main = connect(mapStateToProps, mapDispatchToProps)(MainComponent);
