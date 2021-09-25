@@ -23,6 +23,13 @@ const UiActions = {
   closeSidebar(): Action {
     return uiActions.closeSidebar();
   },
+
+  showSnackbar(action: Action): Action {
+    return uiActions.showSnackbar(action);
+  },
+  hideSnackbar(): Action {
+    return uiActions.hideSnackbar();
+  },
 };
 
 export default UiActions;

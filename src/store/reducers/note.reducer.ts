@@ -12,6 +12,7 @@ const initialState: NoteState = {
   noteCreationInProgress: false,
   noteUpdateInProgress: false,
   noteDeletionInProgress: false,
+  noteRestorationInProgress: false,
 };
 
 const noteReducer = createReducer(initialState, (builder) => {
@@ -69,14 +70,27 @@ const noteReducer = createReducer(initialState, (builder) => {
     .addCase(noteActions.deleteNote, (state) => {
       state.noteDeletionInProgress = true;
     })
-    .addCase(noteActions.deleteNoteSuccess, (state, action) => {
+    .addCase(noteActions.deleteNoteSuccess, (state, { payload }) => {
       state.noteDeletionInProgress = false;
-      if (action.payload) {
-        state.notes = state.notes.filter((note) => note.id !== action.payload);
-      }
+      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
     })
     .addCase(noteActions.deleteNoteFail, (state) => {
       state.noteDeletionInProgress = false;
+    })
+
+    .addCase(noteActions.restoreNote, (state) => {
+      state.noteRestorationInProgress = true;
+    })
+    .addCase(noteActions.restoreNoteSuccess, (state, { payload }) => {
+      const restored: NoteInterface = {
+        ...payload,
+        deleted: false
+      };
+      state.notes = state.notes.map((note) => note.id === restored.id ? restored : note);
+      state.noteRestorationInProgress = false;
+    })
+    .addCase(noteActions.restoreNoteFail, (state) => {
+      state.noteRestorationInProgress = false;
     });
 });
 

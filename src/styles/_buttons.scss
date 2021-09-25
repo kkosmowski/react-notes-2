@@ -1,3 +1,9 @@
+@use './buttons/button-contained';
+@use './buttons/button-not-contained';
+@use './buttons/button-regular';
+@use './buttons/button-icon';
+@use './buttons/button-lighter';
+
 :root {
   --icon-button-size: 40px;
   --icon-button-size-small: 28px;
@@ -12,87 +18,11 @@
   cursor: pointer;
   border: 0;
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &:hover {
     background-color: var(--white-7);
-  }
-
-  &.--icon {
-    border-radius: 50%;
-
-    &:not(.--small) {
-      width: var(--icon-button-size);
-      height: var(--icon-button-size);
-    }
-
-    &.--small {
-      width: var(--icon-button-size-small);
-      height: var(--icon-button-size-small);
-
-      svg {
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-
-  &.--regular,
-  &.--contained {
-    padding: 0 16px;
-    height: 32px;
-    line-height: 1;
-    border-radius: 2px;
-  }
-
-  &.--contained {
-    font-weight: 700;
-
-    &.--primary {
-      color: var(--dark50);
-      background-color: var(--primary);
-
-      &:hover {
-        background-color: var(--primary100);
-      }
-    }
-
-    &.--warn {
-      color: var(--dark50);
-      background-color: var(--warn);
-
-      &:hover {
-        background-color: var(--warn100);
-      }
-    }
-  }
-
-  &.--regular,
-  &.--lighter {
-    background-color: var(--white-7);
-
-    &:hover {
-      background-color: var(--white-16);
-    }
-  }
-
-  &:not(.--contained).--primary {
-    color: var(--primary);
-
-    &.--lighter,
-    &.--regular {
-      &:hover {
-        background-color: var(--primary900);
-      }
-    }
-  }
-
-  &:not(.--contained).--warn {
-    color: var(--warn);
-
-    &.--lighter,
-    &.--regular {
-      &:hover {
-        background-color: var(--warn900);
-      }
-    }
   }
 }

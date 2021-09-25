@@ -17,6 +17,8 @@ import { selectOpenedNote } from '../store/selectors/note.selectors';
 import { selectCategories } from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
+import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
+
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -41,8 +43,21 @@ export const NoteDialog = (): ReactElement => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (confirmationResult === true) {
-      closeDialog();
+    if (confirmationResult) {
+      const { action, result } = confirmationResult;
+      switch (action) {
+        case ConfirmationAction.LeaveNoteProgress:
+          if (result) {
+            closeDialog();
+          }
+          break;
+        case ConfirmationAction.DeleteNote:
+          if (result) {
+            dispatch(NoteActions.deleteNote(openedNote!.id));
+            closeDialog();
+          }
+          break;
+      }
     }
   }, [confirmationResult]);
 
@@ -66,7 +81,8 @@ export const NoteDialog = (): ReactElement => {
         title: t('CONFIRMATION:TITLE.LEAVE_PROGRESS'),
         message: t('CONFIRMATION:MESSAGE.LEAVE_PROGRESS'),
         cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
-        confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE')
+        confirmButtonText: t('CONFIRMATION:CONTROLS.YES_LEAVE'),
+        action: ConfirmationAction.LeaveNoteProgress
       };
       dispatch(UiActions.openConfirmationDialog(data));
     }
@@ -105,6 +121,7 @@ export const NoteDialog = (): ReactElement => {
     const note: NoteInterface = {
       ...form,
       id: uuidv4(),
+      deleted: false,
     };
     dispatch(NoteActions.create(note));
   };
@@ -133,9 +150,14 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const handleDelete = (): void => {
-    // @todo add confirmation
-    dispatch(NoteActions.deleteNote(openedNote!.id));
-    closeDialog();
+    const data: ConfirmationDialogData = {
+      title: t('CONFIRMATION:TITLE.DELETE_NOTE'),
+      message: t('CONFIRMATION:MESSAGE.DELETE_NOTE'),
+      cancelButtonText: t('CONFIRMATION:CONTROLS.NO_CANCEL'),
+      confirmButtonText: t('CONFIRMATION:CONTROLS.YES_DELETE'),
+      action: ConfirmationAction.DeleteNote
+    };
+    dispatch(UiActions.openConfirmationDialog(data));
   };
 
   const handleEditCancel = (): void => {

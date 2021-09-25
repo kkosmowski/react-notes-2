@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Category } from '../domain/interfaces/category.interface';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { v4 as uuidv4 } from 'uuid';
-import { CategoriesListWrapper } from './styles/CategoryList.styles';
+import { CategoriesListWrapper } from './styles/CategoryList.styled';
 import { CategoryListItem } from './CategoryListItem';
 import { Loader } from '../Loader/Loader';
 import { LoaderSize } from '../domain/enums/loader-size.enum';

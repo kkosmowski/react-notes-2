@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Category } from '../../domain/interfaces/category.interface';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const categoryActions = {
   getCategories: createAction<void>('GET_CATEGORIES'),
@@ -17,6 +18,14 @@ const categoryActions = {
 
   editCategory: createAction<Category>('EDIT_CATEGORY'),
   editCategorySuccess: createAction<void>('EDIT_CATEGORY_SUCCESS'),
+
+  removeCategory: createAction<EntityUid>('REMOVE_CATEGORY'),
+  removeCategorySuccess: createAction<void>('REMOVE_CATEGORY_SUCCESS'),
+  removeCategoryFail: createAction<void>('REMOVE_CATEGORY_FAIL'),
+
+  restoreCategory: createAction<EntityUid>('RESTORE_CATEGORY'),
+  restoreCategorySuccess: createAction<void>('RESTORE_CATEGORY_SUCCESS'),
+  restoreCategoryFail: createAction<void>('RESTORE_CATEGORY_FAIL'),
 };
 
 export default categoryActions;

@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
-import { ListItem } from './styles/CategoryListItem.styles';
+import { ListItem } from './styles/CategoryListItem.styled';
 import { useTranslation } from 'react-i18next';
 
 interface Props {

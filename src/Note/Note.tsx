@@ -3,7 +3,7 @@ import { NoteInterface } from '../domain/interfaces/note.interface';
 import { MAX_CONTENT_LENGTH, MAX_TITLE_LENGTH } from '../domain/consts/note.consts';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.interface';
-import { NoteContent, NoteElement, NoteTitle } from './Note.styles';
+import { NoteContent, NoteElement, NoteTitle } from './Note.styled';
 
 interface Props extends NoteSelectionProps {
   data: NoteInterface;

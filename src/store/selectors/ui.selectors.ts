@@ -23,3 +23,11 @@ export const selectConfirmationDialogOpened = createSelector(
 export const selectSidebarOpened = createSelector(
   uiSelector, (ui: UiState) => ui.sidebarOpened
 );
+
+export const selectSnackbarVisible = createSelector(
+  uiSelector, (ui: UiState) => ui.snackbarVisible
+);
+
+export const selectSnackbarData = createSelector(
+  uiSelector, (ui: UiState) => ui.snackbarData
+);

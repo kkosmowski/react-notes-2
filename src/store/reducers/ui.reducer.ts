@@ -9,6 +9,8 @@ const initialState: UiState = {
   confirmationDialogResult: null,
   editedCategoryId: null,
   sidebarOpened: false,
+  snackbarVisible: false,
+  snackbarData: null,
 };
 
 const uiReducer = createReducer(initialState, (builder) => {
@@ -27,8 +29,11 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(uiActions.closeConfirmationDialog, (state, action) => {
       state.confirmationDialogOpened = false;
+      state.confirmationDialogResult = {
+        result: action.payload,
+        action: state.confirmationDialogData!.action,
+      };
       state.confirmationDialogData = null;
-      state.confirmationDialogResult = action.payload || null;
     })
 
     .addCase(uiActions.openSidebar, (state) => {
@@ -36,6 +41,15 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(uiActions.closeSidebar, (state) => {
       state.sidebarOpened = false;
+    })
+
+    .addCase(uiActions.showSnackbar, (state, { payload }) => {
+      state.snackbarVisible = true;
+      state.snackbarData = payload;
+    })
+    .addCase(uiActions.hideSnackbar, (state) => {
+      state.snackbarVisible = false;
+      state.snackbarData = null;
     });
 });
 

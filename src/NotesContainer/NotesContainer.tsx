@@ -11,7 +11,7 @@ import { LoaderCentered } from '../domain/enums/loader-centered.enum';
 import { LoaderSize } from '../domain/enums/loader-size.enum';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
-import { NoNotesText, NotesWrapper } from './NotesContainer.styles';
+import { NoNotesText, NotesWrapper } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,16 +51,18 @@ export const NotesContainer = (): ReactElement => {
   }, [notes, selectedCategory]);
 
   useEffect(() => {
-    const _notes: ReactElement[] = currentCategoryNotes.map((note) => (
-      <Note
-        onSelect={ handleNoteSelect }
-        onOpen={ handleNoteOpen }
-        data={ note }
-        isSelected={ selectedNotes[note.id] }
-        selectionMode={ noteSelectionMode }
-        key={ note.id }
-      />
-    ));
+    const _notes: ReactElement[] = currentCategoryNotes
+      .filter((note) => !note.deleted)
+      .map((note) => (
+        <Note
+          onSelect={ handleNoteSelect }
+          onOpen={ handleNoteOpen }
+          data={ note }
+          isSelected={ selectedNotes[note.id] }
+          selectionMode={ noteSelectionMode }
+          key={ note.id }
+        />
+      ));
     setNotesToRender(_notes);
   }, [currentCategoryNotes, selectedNotes]);
 

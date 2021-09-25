@@ -33,6 +33,14 @@ export class HttpService {
     }).then(this.json);
   }
 
+  static patch<T>(url: string, body: T): Promise<any> {
+    return fetch(this.apiUrl + url, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      headers: this.headers
+    }).then(this.json);
+  }
+
   static delete(url: string): Promise<any> {
     return fetch(this.apiUrl + url, {
       method: 'DELETE',

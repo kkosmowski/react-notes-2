@@ -26,13 +26,20 @@ export const en = {
   CONFIRMATION: {
     TITLE: {
       LEAVE_PROGRESS: 'Leave?',
+      DELETE_NOTE: 'Delete note?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Are you sure you want to leave your progress?',
+      DELETE_NOTE: 'Are you sure you want to delete this note?',
     },
     CONTROLS: {
       NO_CANCEL: 'No, cancel',
       YES_LEAVE: 'Yes, leave',
+      YES_DELETE: 'Yes, delete',
     },
   },
+  SNACKBAR: {
+    UNDO: 'Undo',
+    NOTE_DELETED: 'Note deleted successfully',
+  }
 };

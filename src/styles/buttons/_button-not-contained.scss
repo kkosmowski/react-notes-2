@@ -1,0 +1,23 @@
+.button:not(.--contained) {
+  &.--primary {
+    color: var(--primary);
+
+    &.--lighter,
+    &.--regular {
+      &:hover {
+        background-color: var(--primary900);
+      }
+    }
+  }
+
+  &.--warn {
+    color: var(--warn);
+
+    &.--lighter,
+    &.--regular {
+      &:hover {
+        background-color: var(--warn900);
+      }
+    }
+  }
+}

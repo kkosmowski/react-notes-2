@@ -7,6 +7,7 @@ import { NotesContainer } from '../NotesContainer/NotesContainer';
 import { useSelector } from 'react-redux';
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
 import { Category } from '../domain/interfaces/category.interface';
+import { Snackbar } from '../Snackbar/Snackbar';
 
 export const Main = (): ReactElement => {
   const selectedCategory: Category = useSelector(selectSelectedCategory);
@@ -19,6 +20,7 @@ export const Main = (): ReactElement => {
 
       <NoteDialog />
       <ConfirmationDialog />
+      <Snackbar />
     </MainWrapper>
   );
 };
