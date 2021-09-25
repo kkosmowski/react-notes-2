@@ -1,0 +1,7 @@
+.button.--lighter {
+  background-color: var(--white-7);
+
+  &:hover {
+    background-color: var(--white-16);
+  }
+}

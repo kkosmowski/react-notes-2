@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
+import { Action } from '../../domain/interfaces/action.interface';
 
 const uiActions = {
   openNoteDialog: createAction<void>('OPEN_NOTE_DIALOG'),
@@ -10,6 +11,9 @@ const uiActions = {
 
   openSidebar: createAction<void>('OPEN_SIDEBAR'),
   closeSidebar: createAction<void>('CLOSE_SIDEBAR'),
+
+  showSnackbar: createAction<Action>('SHOW_SNACKBAR'),
+  hideSnackbar: createAction<void>('HIDE_SNACKBAR'),
 };
 
 export default uiActions;

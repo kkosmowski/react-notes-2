@@ -1,18 +1,77 @@
-import { ReactElement } from 'react';
-import styled from 'styled-components';
+import { ReactElement, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSnackbarVisible } from '../store/selectors/ui.selectors';
+import { SnackbarTimeIndicator } from './SnackbarTimeIndicator';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { SnackbarActions, SnackbarContent, SnackbarMessage, SnackbarWrapper } from './Snackbar.styled';
+import { Close } from '@material-ui/icons';
+import { Action } from '../domain/interfaces/action.interface';
+import historyActions from '../store/actions/history.actions';
+import { HistoryUtil } from '../domain/utils/history.util';
+import { selectLastAction } from '../store/selectors/history.selectors';
+import { snackbarDuration } from '../domain/consts/snackbar.const';
 
-export const Snackbar = (): ReactElement => {
-  return (
-    <StyledDiv>
-      Hello
-    </StyledDiv>
-  );
+export const Snackbar = (): ReactElement | null => {
+  const visible: boolean = useSelector(selectSnackbarVisible);
+  const lastAction: Action | null = useSelector(selectLastAction);
+  const dispatch = useDispatch();
+  const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
+  const timeout = useRef<any>(); // @todo avoid any
+
+  useEffect(() => {
+    setUndoButtonDisabled(!lastAction);
+  }, [lastAction]);
+
+  useEffect(() => {
+    if (visible) {
+      setSnackbarTimeout();
+    }
+    return () => clearTimeout(timeout.current);
+  }, [visible]);
+
+  const setSnackbarTimeout = (): void => {
+    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration);
+  };
+
+  const handleUndoButtonClick = (): void => {
+    if (lastAction) {
+      dispatch(historyActions.pop());
+      dispatch(HistoryUtil.getRevertedAction(lastAction));
+      dispatch(UiActions.hideSnackbar());
+    } else {
+    }
+  };
+
+  const hideSnackbar = (): void => {
+    dispatch(UiActions.hideSnackbar());
+  };
+
+  return visible
+    ? (
+      <SnackbarWrapper>
+        <SnackbarTimeIndicator duration={ snackbarDuration } />
+        <SnackbarContent>
+          <SnackbarMessage>Hello</SnackbarMessage>
+          <SnackbarActions>
+            <button
+              onClick={ handleUndoButtonClick }
+              className="button --contained --primary"
+              type="button"
+              disabled={ undoButtonDisabled }
+            >
+              Undo
+            </button>
+
+            <button
+              onClick={ hideSnackbar }
+              className="button --icon --small"
+              type="button"
+            >
+              <Close />
+            </button>
+          </SnackbarActions>
+        </SnackbarContent>
+      </SnackbarWrapper>
+    )
+    : null;
 };
-
-const StyledDiv = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--primary);
-`;

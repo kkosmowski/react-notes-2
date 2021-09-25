@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { AddCategoryButton } from './AddCategoryButton';
 import { CategoriesList } from './CategoriesList';
-import { SidebarWrapper } from './styles/Sidebar.styles';
+import { SidebarWrapper } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSidebarOpened } from '../store/selectors/ui.selectors';

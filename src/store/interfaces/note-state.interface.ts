@@ -9,4 +9,5 @@ export interface NoteState {
   noteCreationInProgress: boolean;
   noteUpdateInProgress: boolean;
   noteDeletionInProgress: boolean;
+  noteRestorationInProgress: boolean;
 }

@@ -1,0 +1,18 @@
+.button.--icon {
+  border-radius: 50%;
+
+  &:not(.--small) {
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
+  }
+
+  &.--small {
+    width: var(--icon-button-size-small);
+    height: var(--icon-button-size-small);
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}

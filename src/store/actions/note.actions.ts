@@ -1,7 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
-import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -21,8 +20,12 @@ const noteActions = {
   updateNoteFail: createAction<void>('UPDATE_NOTE_FAIL'),
 
   deleteNote: createAction<void>('DELETE_NOTE'),
-  deleteNoteSuccess: createAction<EntityUid>('DELETE_NOTE_SUCCESS'),
+  deleteNoteSuccess: createAction<NoteInterface>('DELETE_NOTE_SUCCESS'),
   deleteNoteFail: createAction<void>('DELETE_NOTE_FAIL'),
+
+  restoreNote: createAction<void>('RESTORE_NOTE'),
+  restoreNoteSuccess: createAction<NoteInterface>('RESTORE_NOTE_SUCCESS'),
+  restoreNoteFail: createAction<void>('RESTORE_NOTE_FAIL'),
 };
 
 export default noteActions;

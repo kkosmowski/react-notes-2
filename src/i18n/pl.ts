@@ -10,6 +10,7 @@ export const pl = {
     EDIT: 'Edytuj',
     CLOSE: 'Zamnkij',
     RESET: 'Resetuj',
+    UNDO: 'Cofnij',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
   },
   SIDEBAR: {
@@ -17,6 +18,8 @@ export const pl = {
     CATEGORY_NAME_PLACEHOLDER: 'Nazwa kategorii...',
   },
   NOTE_DIALOG: {
+    EDIT_NOTE: 'Edytuj notatkę',
+    VIEW_NOTE: 'Notatka',
     TITLE: 'Tytuł',
     CONTENT: 'Treść',
     CATEGORIES: 'Kategorie',

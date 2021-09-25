@@ -4,6 +4,8 @@ import { HttpService } from '../../services/http.service';
 import { Category } from '../../domain/interfaces/category.interface';
 import categoryActions from '../actions/category.actions';
 import { Action } from '../../domain/interfaces/action.interface';
+import HistoryActions from './history.action-creators';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -28,6 +30,7 @@ const CategoryActions = {
         .post<Category>('/categories', category)
         .then(() => {
           dispatch(categoryActions.createCategorySuccess(category));
+          HistoryActions.push(categoryActions.createCategorySuccess(category));
         })
         .catch(error => {
           console.error(error);
@@ -41,7 +44,10 @@ const CategoryActions = {
   },
 
   editCategory(category: Category): Action {
+    // @todo implement
     return categoryActions.editCategory(category);
+    // @todo implement
+    // HistoryActions.push(categoryActions.editCategorySuccess(category))(dispatch);
   },
 
   finishEditingCategory(): Action {
@@ -57,6 +63,20 @@ const CategoryActions = {
 
   deleteTemporary(): Action {
     return categoryActions.deleteTemporaryCategory();
+  },
+
+  removeCategory(categoryId: EntityUid): Action {
+    // @todo implement
+    return categoryActions.removeCategory(categoryId);
+    // @todo implement
+    // HistoryActions.push(categoryActions.removeCategorySuccess(categoryId))(dispatch);
+  },
+
+  restoreCategory(categoryId: EntityUid): Action {
+    // @todo implement
+    return categoryActions.restoreCategory(categoryId);
+    // @todo implement
+    // HistoryActions.push(categoryActions.restoreCategorySuccess(categoryId))(dispatch);
   },
 };
 

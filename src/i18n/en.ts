@@ -10,6 +10,7 @@ export const en = {
     EDIT: 'Edit',
     CLOSE: 'Close',
     RESET: 'Reset',
+    UNDO: 'Undo',
     NO_NOTES: 'No notes to display.',
   },
   SIDEBAR: {

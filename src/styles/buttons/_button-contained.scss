@@ -1,0 +1,46 @@
+.button.--contained {
+  padding: 0 16px;
+  height: 32px;
+  line-height: 1;
+  border-radius: 2px;
+  font-weight: 700;
+  background-color: var(--white-7);
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: var(--white-16);
+    }
+  }
+
+  &.--primary {
+    color: var(--dark50);
+
+    &:not(:disabled) {
+      background-color: var(--primary);
+
+      &:hover {
+        background-color: var(--primary100);
+      }
+    }
+
+    &:disabled {
+      background-color: var(--primary500);
+    }
+  }
+
+  &.--warn {
+    color: var(--dark50);
+
+    &:not(:disabled) {
+      background-color: var(--warn);
+
+      &:hover {
+        background-color: var(--warn100);
+      }
+    }
+
+    &:disabled {
+      background-color: var(--warn500);
+    }
+  }
+}

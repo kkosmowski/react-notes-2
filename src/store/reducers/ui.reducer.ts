@@ -41,6 +41,15 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(uiActions.closeSidebar, (state) => {
       state.sidebarOpened = false;
+    })
+
+    .addCase(uiActions.showSnackbar, (state, { payload }) => {
+      state.snackbarVisible = true;
+      state.snackbarData = payload;
+    })
+    .addCase(uiActions.hideSnackbar, (state) => {
+      state.snackbarVisible = false;
+      state.snackbarData = null;
     });
 });
 

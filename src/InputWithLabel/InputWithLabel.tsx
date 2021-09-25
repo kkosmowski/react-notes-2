@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactElement } from 'react';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
-import { Input, InputWrapper, Label, TextArea, Wrapper } from './InputWithLabel.styles';
+import { Input, InputWrapper, Label, TextArea, Wrapper } from './InputWithLabel.styled';
 
 interface Props {
   id: string;
