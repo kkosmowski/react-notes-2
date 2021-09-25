@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
-import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -11,7 +11,10 @@ const noteActions = {
   createNoteSuccess: createAction<NoteInterface>('CREATE_NOTE_SUCCESS'),
   createNoteFail: createAction<void>('CREATE_NOTES_FAIL'),
 
-  changeSelectionMode: createAction<NoteSelectionMode>('CHANGE_SELECTION_MODE'),
+  toggleSelectionMode: createAction('TOGGLE_SELECTION_MODE'),
+  selectNote: createAction<EntityUid>('SELECT_NOTE'),
+  deselectNote: createAction<EntityUid>('DESELECT_NOTE'),
+  clearSelection: createAction<void>('CLEAR_SELECTION'),
 
   setOpenedNote: createAction<NoteInterface | null>('SET_OPENED_NOTE'),
 

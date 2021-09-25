@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { getSnackbarMessageBasedOnAction } from './get-snackbar-message-based-on-action.util';
 
 export const Snackbar = (): ReactElement | null => {
-  const { t } = useTranslation('MAIN');
+  const { t } = useTranslation('COMMON');
   const visible: boolean = useSelector(selectSnackbarVisible);
   const lastAction: Action | null = useSelector(selectLastAction);
   const dispatch = useDispatch();

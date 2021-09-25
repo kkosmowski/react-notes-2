@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { MAX_CONTENT_LENGTH, MAX_TITLE_LENGTH } from '../domain/consts/note.consts';
 import { EntityUid } from '../domain/types/entity-uid.type';
@@ -24,7 +24,8 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Prop
     string.length > maxLength ? string.slice(0, maxLength) + '...' : string
   );
 
-  const handleSelect = (): void => {
+  const handleSelect = (e: MouseEvent): void => {
+    e.stopPropagation();
     onSelect(data.id);
   };
 

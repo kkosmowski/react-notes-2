@@ -15,19 +15,24 @@ import { NoNotesText, NotesWrapper } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectNotes, selectNoteSelectionMode, selectNotesLoading } from '../store/selectors/note.selectors';
+import {
+  selectNotes,
+  selectNoteSelectionMode,
+  selectNotesLoading,
+  selectSelectedNotes
+} from '../store/selectors/note.selectors';
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
 
 export const NotesContainer = (): ReactElement => {
-  const { t } = useTranslation('MAIN');
+  const { t } = useTranslation('COMMON');
   const notes: NoteInterface[] = useSelector(selectNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
   const selectedCategory: Category | null = useSelector(selectSelectedCategory);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
+  const selectedNotes = useSelector(selectSelectedNotes);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[] | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
-  const [selectedNotes, setSelectedNotes] = useState<Record<EntityUid, boolean>>({});
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText>{ t('NO_NOTES') }</NoNotesText>;
   const dispatch = useDispatch();
@@ -64,7 +69,7 @@ export const NotesContainer = (): ReactElement => {
         />
       ));
     setNotesToRender(_notes);
-  }, [currentCategoryNotes, selectedNotes]);
+  }, [currentCategoryNotes, selectedNotes, noteSelectionMode]);
 
   const initResizeListener = (): void => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));
@@ -77,10 +82,7 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleNoteSelect = (noteId: EntityUid): void => {
-    setSelectedNotes({
-      ...(noteSelectionMode === NoteSelectionMode.Multi ? selectedNotes : {}),
-      [noteId]: !selectedNotes[noteId]
-    });
+    dispatch(NoteActions.selectNote(noteId));
   };
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {

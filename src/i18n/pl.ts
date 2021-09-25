@@ -1,5 +1,5 @@
 export const pl = {
-  MAIN: {
+  COMMON: {
     ADD_NOTE: 'Dodaj notatkę',
     ROOT_CATEGORY: 'Wszystkie',
     CANCEL: 'Anuluj',
@@ -11,6 +11,12 @@ export const pl = {
     CLOSE: 'Zamnkij',
     RESET: 'Resetuj',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
+  },
+  CONTROL_BAR: {
+    MULTISELECT: 'Zaznacz wiele',
+    SINGLE_SELECTION: 'Pojedyncze zaznaczenie',
+    DELETE_NOTE: 'Usuń notatkę',
+    DELETE_NOTES: 'Usuń wiele notatek',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',
