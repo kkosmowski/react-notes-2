@@ -56,6 +56,7 @@ export const NoteDialog = (): ReactElement => {
             dispatch(NoteActions.deleteNote(openedNote!.id));
             closeDialog();
           }
+          break;
       }
     }
   }, [confirmationResult]);

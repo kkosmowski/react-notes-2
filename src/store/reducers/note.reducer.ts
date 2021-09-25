@@ -23,7 +23,7 @@ const noteReducer = createReducer(initialState, (builder) => {
     .addCase(noteActions.getNotesSuccess, (state, action) => {
       state.notesLoading = false;
       if (action.payload) {
-        state.notes = (action.payload as NoteInterface[]).filter((note) => !note.deleted).reverse();
+        state.notes = (action.payload as NoteInterface[]).reverse();
       }
     })
     .addCase(noteActions.getNotesFail, (state) => {

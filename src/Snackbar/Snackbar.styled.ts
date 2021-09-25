@@ -31,7 +31,7 @@ export const SnackbarMessage = styled.p`
 export const SnackbarActions = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 24px;
+  margin-left: 16px;
 
   > .button:not(:last-child) {
     margin-right: 4px;

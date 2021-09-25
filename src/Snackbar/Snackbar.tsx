@@ -49,7 +49,6 @@ export const Snackbar = (): ReactElement | null => {
       dispatch(historyActions.pop());
       dispatch(HistoryUtil.getRevertedAction(lastAction));
       dispatch(UiActions.hideSnackbar());
-    } else {
     }
   };
 
