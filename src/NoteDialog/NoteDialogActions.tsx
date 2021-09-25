@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Clear, Edit, Restore, Save } from '@material-ui/icons';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { useTranslation } from 'react-i18next';
+import { Button } from '../Button/Button';
+import { Color } from '../domain/enums/color.enum';
+import { Variant } from '../domain/enums/variant.enum';
 
 interface Props {
   openedNote: NoteInterface | null;
@@ -15,38 +18,43 @@ interface Props {
 export const NoteDialogActions = (
   { openedNote, isEditMode, onCancel, onReset, onEditModeChange }: Props
 ): ReactElement => {
-  const { t } = useTranslation(['MAIN']);
+  const { t } = useTranslation(['COMMON']);
 
   return (
     <StyledAside>
       { openedNote && isEditMode
         ? <>
-          <button
+          <Button
             onClick={ onCancel }
-            className="button --icon --small --warn"
+            color={ Color.Warn }
+            variant={ Variant.Icon }
+            small
             title={ t('CANCEL') }
           >
             <Clear />
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={ onReset }
-            className="button --icon --small"
+            variant={ Variant.Icon }
+            small
             title={ t('RESET') }
           >
             <Restore />
-          </button>
+          </Button>
         </>
         : null
       }
       { openedNote
-        ? <button
+        ? <Button
           onClick={ onEditModeChange }
-          className="button --icon --small --primary"
+          variant={ Variant.Icon }
+          color={ Color.Primary }
+          small
           title={ t(isEditMode ? 'SAVE' : 'EDIT') }
         >
           { isEditMode ? <Save /> : <Edit /> }
-        </button>
+        </Button>
         : null
       }
     </StyledAside>

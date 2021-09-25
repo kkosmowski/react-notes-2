@@ -1,5 +1,5 @@
 export const en = {
-  MAIN: {
+  COMMON: {
     ADD_NOTE: 'Add a note',
     ROOT_CATEGORY: 'All',
     CANCEL: 'Cancel',
@@ -11,6 +11,12 @@ export const en = {
     CLOSE: 'Close',
     RESET: 'Reset',
     NO_NOTES: 'No notes to display.',
+  },
+  CONTROL_BAR: {
+    MULTISELECT: 'Multiselect',
+    SINGULAR_SELECTION: 'Singular select',
+    DELETE_NOTE: 'Delete note',
+    DELETE_NOTES: 'Delete multiple notes',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',

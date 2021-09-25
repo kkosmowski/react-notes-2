@@ -41,8 +41,8 @@ const NoteActions = {
     };
   },
 
-  changeSelectionMode(mode: NoteSelectionMode): Action {
-    return noteActions.changeSelectionMode(mode);
+  toggleSelectionMode(): Action {
+    return noteActions.toggleSelectionMode();
   },
   selectNote(noteId: EntityUid): Action {
     return noteActions.selectNote(noteId);

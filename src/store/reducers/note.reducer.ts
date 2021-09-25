@@ -44,9 +44,18 @@ const noteReducer = createReducer(initialState, (builder) => {
       state.noteCreationInProgress = false;
     })
 
-    .addCase(noteActions.changeSelectionMode, (state, action) => {
-      if (action.payload) {
-        state.noteSelectionMode = action.payload;
+    .addCase(noteActions.toggleSelectionMode, (state) => {
+      if (state.noteSelectionMode === NoteSelectionMode.Single) {
+        state.noteSelectionMode = NoteSelectionMode.Multi;
+      } else {
+        state.noteSelectionMode = NoteSelectionMode.Single;
+
+        const entries = Object.entries(state.selectedNotes);
+        if (entries.length) {
+          const onlySelectedEntries = entries.filter(([id, selected]) => selected);
+          const [id, selected] = onlySelectedEntries[onlySelectedEntries.length - 1];
+          state.selectedNotes = { [id]: true };
+        }
       }
     })
     .addCase(noteActions.selectNote, (state, { payload }) => {

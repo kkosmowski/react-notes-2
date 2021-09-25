@@ -1,23 +1,35 @@
 .button:not(.--contained) {
-  &.--primary {
-    color: var(--primary);
+  &:not(:disabled) {
+    &.--primary {
+      color: var(--primary);
 
-    &.--lighter,
-    &.--regular {
-      &:hover {
-        background-color: var(--primary900);
+      &.--lighter,
+      &.--regular {
+        &:hover {
+          background-color: var(--primary900);
+        }
+      }
+    }
+
+    &.--warn {
+      color: var(--warn);
+
+      &.--lighter,
+      &.--regular {
+        &:not(:disabled):hover {
+          background-color: var(--warn900);
+        }
       }
     }
   }
 
-  &.--warn {
-    color: var(--warn);
+  &:disabled {
+    &.--primary {
+      color: var(--primary400);
+    }
 
-    &.--lighter,
-    &.--regular {
-      &:hover {
-        background-color: var(--warn900);
-      }
+    &.--warn {
+      color: var(--warn400);
     }
   }
 }

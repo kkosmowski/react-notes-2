@@ -26,8 +26,18 @@ export const Main = (): ReactElement => {
     }
   };
 
+  const handleOnWrapperDoubleClick = (e: MouseEvent): void => {
+    e.stopPropagation();
+    if (selectionMode === NoteSelectionMode.Multi && Object.values(selectedNotes).length) {
+      dispatch(NoteActions.clearSelection());
+    }
+  };
+
   return (
-    <MainWrapper onClick={ handleOnWrapperClick }>
+    <MainWrapper
+      onClick={ handleOnWrapperClick }
+      onDoubleClick={ handleOnWrapperDoubleClick }
+    >
       <CategoryTitle>{ selectedCategory.name }</CategoryTitle>
       <ControlsBar />
       <NotesContainer />

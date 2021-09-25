@@ -24,7 +24,7 @@ import {
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
 
 export const NotesContainer = (): ReactElement => {
-  const { t } = useTranslation('MAIN');
+  const { t } = useTranslation('COMMON');
   const notes: NoteInterface[] = useSelector(selectNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
   const selectedCategory: Category | null = useSelector(selectSelectedCategory);
@@ -69,7 +69,7 @@ export const NotesContainer = (): ReactElement => {
         />
       ));
     setNotesToRender(_notes);
-  }, [currentCategoryNotes, selectedNotes]);
+  }, [currentCategoryNotes, selectedNotes, noteSelectionMode]);
 
   const initResizeListener = (): void => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));

@@ -18,6 +18,9 @@ import { selectCategories } from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
+import { Color } from '../domain/enums/color.enum';
+import { Variant } from '../domain/enums/variant.enum';
+import { Button } from '../Button/Button';
 
 
 export const emptyForm: NoteDialogFormValue = {
@@ -27,7 +30,7 @@ export const emptyForm: NoteDialogFormValue = {
 };
 
 export const NoteDialog = (): ReactElement => {
-  const { t } = useTranslation(['MAIN', 'NOTE_DIALOG', 'CONFIRMATION']);
+  const { t } = useTranslation(['COMMON', 'NOTE_DIALOG', 'CONFIRMATION']);
   const config: DialogConfig = {
     width: '400px',
     flex: true
@@ -181,14 +184,14 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
-    <button onClick={ handleAddAndNext } className="button --contained --primary" type="button">
+    <Button onClick={ handleAddAndNext } color={ Color.Primary } variant={ Variant.Contained }>
       { t('SAVE_AND_NEXT') }
-    </button>
+    </Button>
   );
   const deleteNoteButton: ReactElement<HTMLButtonElement> = (
-    <button onClick={ handleDelete } className="button --contained --warn" type="button">
+    <Button onClick={ handleDelete } color={ Color.Warn } variant={ Variant.Contained }>
       { t('DELETE') }
-    </button>
+    </Button>
   );
 
   return (
@@ -219,17 +222,17 @@ export const NoteDialog = (): ReactElement => {
 
       <DialogControls>
         <div>
-          <button onClick={ handleClose } className="button --regular" type="button">
+          <Button onClick={ handleClose } variant={ Variant.Regular }>
             { t('CANCEL') }
-          </button>
+          </Button>
         </div>
 
         <div>
           { openedNote ? deleteNoteButton : saveAndContinueButton }
 
-          <button onClick={ handleSaveAndClose } className="button --contained --primary" type="button">
+          <Button onClick={ handleSaveAndClose } color={ Color.Primary } variant={ Variant.Contained }>
             { t(isEditMode(editMode) ? 'SAVE_AND_CLOSE' : 'CLOSE') }
-          </button>
+          </Button>
         </div>
       </DialogControls>
     </Dialog>
