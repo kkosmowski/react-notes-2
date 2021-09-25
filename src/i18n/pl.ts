@@ -14,7 +14,7 @@ export const pl = {
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
-    SINGULAR_SELECTION: 'Pojedyncze zaznaczenie',
+    SINGLE_SELECTION: 'Pojedyncze zaznaczenie',
     DELETE_NOTE: 'Usuń notatkę',
     DELETE_NOTES: 'Usuń wiele notatek',
   },

@@ -14,7 +14,7 @@ export const en = {
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
-    SINGULAR_SELECTION: 'Singular select',
+    SINGLE_SELECTION: 'Single selection',
     DELETE_NOTE: 'Delete note',
     DELETE_NOTES: 'Delete multiple notes',
   },

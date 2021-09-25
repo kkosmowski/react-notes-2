@@ -50,7 +50,7 @@ export const ControlsBar = (): ReactElement => {
         { t(
           selectionMode === NoteSelectionMode.Single
             ? 'MULTISELECT'
-            : 'SINGULAR_SELECTION'
+            : 'SINGLE_SELECTION'
         ) }
       </Button>
 
