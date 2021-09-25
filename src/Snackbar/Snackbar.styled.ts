@@ -8,7 +8,8 @@ export const SnackbarWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   min-width: 200px;
-  height: 48px;
+  max-width: 40%;
+  min-height: 48px;
   border-radius: 4px;
   background-color: var(--dark100);
   overflow: hidden;
@@ -23,11 +24,14 @@ export const SnackbarContent = styled.div`
 `;
 
 export const SnackbarMessage = styled.p`
+  padding: 8px 0;
   font-size: 16px;
 `;
 
 export const SnackbarActions = styled.div`
   display: flex;
+  align-items: center;
+  margin-left: 24px;
 
   > .button:not(:last-child) {
     margin-right: 4px;

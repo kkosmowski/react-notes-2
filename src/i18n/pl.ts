@@ -10,7 +10,6 @@ export const pl = {
     EDIT: 'Edytuj',
     CLOSE: 'Zamnkij',
     RESET: 'Resetuj',
-    UNDO: 'Cofnij',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
   },
   SIDEBAR: {
@@ -39,4 +38,8 @@ export const pl = {
       YES_DELETE: 'Tak, usuń',
     },
   },
+  SNACKBAR: {
+    UNDO: 'Cofnij',
+    NOTE_DELETED: 'Notatka usunięta',
+  }
 };

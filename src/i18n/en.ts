@@ -10,7 +10,6 @@ export const en = {
     EDIT: 'Edit',
     CLOSE: 'Close',
     RESET: 'Reset',
-    UNDO: 'Undo',
     NO_NOTES: 'No notes to display.',
   },
   SIDEBAR: {
@@ -39,4 +38,8 @@ export const en = {
       YES_DELETE: 'Yes, delete',
     },
   },
+  SNACKBAR: {
+    UNDO: 'Undo',
+    NOTE_DELETED: 'Note deleted successfully',
+  }
 };

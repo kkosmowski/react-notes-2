@@ -10,16 +10,21 @@ import historyActions from '../store/actions/history.actions';
 import { HistoryUtil } from '../domain/utils/history.util';
 import { selectLastAction } from '../store/selectors/history.selectors';
 import { snackbarDuration } from '../domain/consts/snackbar.const';
+import { useTranslation } from 'react-i18next';
+import { getSnackbarMessageBasedOnAction } from './get-snackbar-message-based-on-action.util';
 
 export const Snackbar = (): ReactElement | null => {
+  const { t } = useTranslation('MAIN');
   const visible: boolean = useSelector(selectSnackbarVisible);
   const lastAction: Action | null = useSelector(selectLastAction);
   const dispatch = useDispatch();
+  const [message, setMessage] = useState<string>('');
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
   const timeout = useRef<any>(); // @todo avoid any
 
   useEffect(() => {
     setUndoButtonDisabled(!lastAction);
+    setSnackbarMessage();
   }, [lastAction]);
 
   useEffect(() => {
@@ -31,6 +36,12 @@ export const Snackbar = (): ReactElement | null => {
 
   const setSnackbarTimeout = (): void => {
     timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration);
+  };
+
+  const setSnackbarMessage = (): void => {
+    if (lastAction) {
+      setMessage(getSnackbarMessageBasedOnAction(lastAction));
+    }
   };
 
   const handleUndoButtonClick = (): void => {
@@ -51,7 +62,7 @@ export const Snackbar = (): ReactElement | null => {
       <SnackbarWrapper>
         <SnackbarTimeIndicator duration={ snackbarDuration } />
         <SnackbarContent>
-          <SnackbarMessage>Hello</SnackbarMessage>
+          <SnackbarMessage>{ t(message) }</SnackbarMessage>
           <SnackbarActions>
             <button
               onClick={ handleUndoButtonClick }
@@ -59,7 +70,7 @@ export const Snackbar = (): ReactElement | null => {
               type="button"
               disabled={ undoButtonDisabled }
             >
-              Undo
+              { t('UNDO') }
             </button>
 
             <button
