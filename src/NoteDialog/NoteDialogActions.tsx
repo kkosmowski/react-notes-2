@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const NoteDialogActions = (
-  { openedNote, isEditMode, onCancel, onReset, onEditModeChange}: Props
+  { openedNote, isEditMode, onCancel, onReset, onEditModeChange }: Props
 ): ReactElement => {
   const { t } = useTranslation(['MAIN']);
 

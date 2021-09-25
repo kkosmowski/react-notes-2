@@ -13,6 +13,7 @@ const initialState: NoteState = {
   noteUpdateInProgress: false,
   noteDeletionInProgress: false,
   noteRestorationInProgress: false,
+  selectedNotes: {}
 };
 
 const noteReducer = createReducer(initialState, (builder) => {
@@ -47,6 +48,19 @@ const noteReducer = createReducer(initialState, (builder) => {
       if (action.payload) {
         state.noteSelectionMode = action.payload;
       }
+    })
+    .addCase(noteActions.selectNote, (state, { payload }) => {
+      if (state.noteSelectionMode === NoteSelectionMode.Multi) {
+        state.selectedNotes[payload] = true;
+      } else {
+        state.selectedNotes = { [payload]: true };
+      }
+    })
+    .addCase(noteActions.deselectNote, (state, { payload }) => {
+      state.selectedNotes[payload] = false;
+    })
+    .addCase(noteActions.clearSelection, (state) => {
+      state.selectedNotes = {};
     })
 
     .addCase(noteActions.setOpenedNote, (state, action) => {

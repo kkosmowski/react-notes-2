@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogContainer, DialogWrapper } from './styles/Dialog.styles';
 import { Backdrop } from '../Backdrop/Backdrop';
@@ -11,9 +11,13 @@ interface Props {
 }
 
 export const Dialog = ({ opened, config, children, onClose }: Props): ReactElement | null => {
+  const handleDialogClick = (e: MouseEvent): void => {
+    e.stopPropagation();
+  };
+
   return opened
     ? (
-      <DialogWrapper>
+      <DialogWrapper onClick={ handleDialogClick }>
         <Backdrop onClick={ onClose } />
         <DialogContainer
           width={ config?.width }

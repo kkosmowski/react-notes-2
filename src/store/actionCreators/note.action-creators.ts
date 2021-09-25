@@ -44,6 +44,15 @@ const NoteActions = {
   changeSelectionMode(mode: NoteSelectionMode): Action {
     return noteActions.changeSelectionMode(mode);
   },
+  selectNote(noteId: EntityUid): Action {
+    return noteActions.selectNote(noteId);
+  },
+  deselectNote(noteId: EntityUid): Action {
+    return noteActions.deselectNote(noteId);
+  },
+  clearSelection(): Action {
+    return noteActions.clearSelection();
+  },
 
   setOpenedNote(note: NoteInterface | null): Action {
     return noteActions.setOpenedNote(note);
@@ -52,7 +61,6 @@ const NoteActions = {
   deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.deleteNote());
-      //@todo implement soft delete (as a separate "Archive" feature)
       return HttpService
         .patch(`/notes/${ noteId }`, {
           deleted: true
