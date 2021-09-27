@@ -119,9 +119,7 @@ export const NoteDialog = (): ReactElement => {
     dispatch(NoteActions.setOpenedNote(null));
   };
 
-  const handleFormChange = (form: NoteDialogFormValue): void => {
-    setForm(form);
-  };
+  const handleFormChange = (form: NoteDialogFormValue): void => setForm(form);
 
   const addNote = (): void => {
     const note: NoteInterface = {
@@ -142,11 +140,7 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const handleSaveAndClose = (): void => {
-    if (openedNote) {
-      updateNote();
-    } else {
-      addNote();
-    }
+    openedNote ? updateNote() : addNote();
     closeDialog();
   };
 
@@ -171,9 +165,7 @@ export const NoteDialog = (): ReactElement => {
     setEditMode(NoteEditMode.None);
   };
 
-  const handleEditReset = (): void => {
-    setClearForm([]);
-  };
+  const handleEditReset = (): void => setClearForm([]);
 
   const handleEditModeChange = (): void => {
     if (isEditMode(editMode)) {
@@ -182,15 +174,14 @@ export const NoteDialog = (): ReactElement => {
     setEditMode(toggleEditMode(editMode));
   };
 
-  const handlePartialEditModeChange = (mode: NoteEditMode): void => {
-    setEditMode(mode);
-  };
+  const handlePartialEditModeChange = (mode: NoteEditMode): void => setEditMode(mode);
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
     <Button onClick={ handleAddAndNext } color={ Color.Primary } variant={ Variant.Contained }>
       { t('SAVE_AND_NEXT') }
     </Button>
   );
+
   const deleteNoteButton: ReactElement<HTMLButtonElement> = (
     <Button onClick={ handleDelete } color={ Color.Warn } variant={ Variant.Contained }>
       { t('DELETE') }

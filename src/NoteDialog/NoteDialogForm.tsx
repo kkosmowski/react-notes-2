@@ -14,6 +14,7 @@ import {
 } from '../domain/interfaces/note-edit-mode.interface';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 import { Checkbox, CheckboxLabel } from '../Checkbox/Checkbox';
+import { EntityUid } from '../domain/types/entity-uid.type';
 
 interface Props {
   initialForm: NoteDialogFormValue;
@@ -29,20 +30,10 @@ export const NoteDialogForm = (
 ): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
-  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
 
   useEffect(() => {
-    if (form.categories.length) {
-      setInitialSelectedCategories();
-    }
+    onFormChange(form);
   }, [form]);
-
-  useEffect(() => {
-    onFormChange({
-      ...form,
-      categories: getSelectedCategoriesIds(selectedCategories)
-    });
-  }, [form, selectedCategories]);
 
   useEffect(() => {
     setForm(initialForm);
@@ -56,20 +47,14 @@ export const NoteDialogForm = (
   };
 
   const handleCategoriesChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedCategories({
-      ...selectedCategories,
-      [e.target.value]: e.target.checked
+    const newCategories: EntityUid[] = form.categories.includes(e.target.value)
+      ? form.categories.filter((id) => id !== e.target.value)
+      : [...form.categories, e.target.value];
+
+    setForm({
+      ...form,
+      categories: newCategories,
     });
-  };
-
-  const setInitialSelectedCategories = (): void => {
-    const _selectedCategories: SelectedCategories = {};
-
-    form.categories.forEach((categoryId) => {
-      _selectedCategories[categoryId] = true;
-    });
-
-    setSelectedCategories(_selectedCategories);
   };
 
   const handleEditModeChange = (id: string): void => {
@@ -124,7 +109,7 @@ export const NoteDialogForm = (
                 id="category"
                 name={ category.id }
                 value={ category.id }
-                checked={ selectedCategories[category.id] || false }
+                checked={ form.categories.includes(category.id) }
                 disabled={ !isEditModeBoth(editMode) }
               />
               { category.name }
