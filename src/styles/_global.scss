@@ -18,6 +18,25 @@ body {
   font: 300 16px Lato, Arial, sans-serif;
 }
 
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px var(--dark0-47);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dark500);
+}
+
 .--primary {
   color: var(--primary);
 }

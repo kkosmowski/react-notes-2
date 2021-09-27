@@ -13,6 +13,7 @@ import {
   NoteEditMode
 } from '../domain/interfaces/note-edit-mode.interface';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
+import { Checkbox, CheckboxLabel } from '../Checkbox/Checkbox';
 
 interface Props {
   initialForm: NoteDialogFormValue;
@@ -113,30 +114,34 @@ export const NoteDialogForm = (
 
       {/* @todo fix categories selection (when selecting category and editing title/content, selection is lost) */ }
       <CategoriesWrapper> {/* @todo style the category checkboxes */ }
-        <label>{ t('CATEGORIES') }</label>
-        { categories.map((category) => (
-          <label key={ category.id }>
-            <input
-              onChange={ handleCategoriesChange }
-              type="checkbox"
-              id="category"
-              name={ category.id }
-              value={ category.id }
-              checked={ selectedCategories[category.id] || false }
-              disabled={ !isEditModeBoth(editMode) }
-            />
-            { category.name }
-          </label>
-        )) }
+        <p>{ t('CATEGORIES') }</p>
+        <Categories>
+          { categories.map((category) => (
+            <CheckboxLabel key={ category.id }>
+              <Checkbox
+                onChange={ handleCategoriesChange }
+                type="checkbox"
+                id="category"
+                name={ category.id }
+                value={ category.id }
+                checked={ selectedCategories[category.id] || false }
+                disabled={ !isEditModeBoth(editMode) }
+              />
+              { category.name }
+            </CheckboxLabel>
+          )) }
+        </Categories>
       </CategoriesWrapper>
     </FormWrapper>
   );
 };
 
 const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   margin: 24px 0;
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
 
   > *:not(:last-child) {
     margin-bottom: 32px;
@@ -146,4 +151,19 @@ const FormWrapper = styled.div`
 const CategoriesWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+
+  > p {
+    margin-bottom: 8px;
+  }
+`;
+
+const Categories = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  > * {
+    margin-bottom: 4px;
+  }
 `;
