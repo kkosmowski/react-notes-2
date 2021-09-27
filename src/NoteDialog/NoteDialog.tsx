@@ -22,7 +22,6 @@ import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
 
-
 export const emptyForm: NoteDialogFormValue = {
   title: '',
   content: '',
@@ -46,6 +45,22 @@ export const NoteDialog = (): ReactElement => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setEditMode(openedNote ? NoteEditMode.None : NoteEditMode.Both);
+  }, [openedNote]);
+
+  useEffect(() => {
+    if (openedNote) {
+      setDialogTitleKey(
+        isEditMode(editMode)
+          ? 'NOTE_DIALOG:EDIT_NOTE'
+          : 'NOTE_DIALOG:VIEW_NOTE'
+      );
+    } else {
+      setDialogTitleKey('ADD_NOTE');
+    }
+  }, [editMode]);
+
+  useEffect(() => {
     if (confirmationResult) {
       const { action, result } = confirmationResult;
       switch (action) {
@@ -63,18 +78,6 @@ export const NoteDialog = (): ReactElement => {
       }
     }
   }, [confirmationResult]);
-
-  useEffect(() => {
-    if (openedNote) {
-      if (isEditMode(editMode)) {
-        setDialogTitleKey('NOTE_DIALOG:EDIT_NOTE');
-      } else {
-        setDialogTitleKey('NOTE_DIALOG:VIEW_NOTE');
-      }
-    } else {
-      setDialogTitleKey('ADD_NOTE');
-    }
-  }, [openedNote, editMode]);
 
   const handleClose = (): void => {
     if (!isFormTouched()) {
