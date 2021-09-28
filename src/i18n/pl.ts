@@ -28,6 +28,7 @@ export const pl = {
     TITLE: 'Tytuł',
     CONTENT: 'Treść',
     CATEGORIES: 'Kategorie',
+    INVALID_OR_EMPTY_FORM: 'Formularz jest niewypełniony lub zawiera błędy.',
   },
   CONFIRMATION: {
     TITLE: {

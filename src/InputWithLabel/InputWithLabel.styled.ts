@@ -38,6 +38,10 @@ const InputStyles = `
   &:not([disabled]):focus {
     border-color: var(--white-16);
   }
+  
+  &:invalid.--touched {
+    border-color: var(--warn300);
+  }
 `;
 
 export const Input = styled.input`${ InputStyles }`;

@@ -3,7 +3,7 @@ import { Dialog } from '../Dialog/Dialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogTitle } from '../Dialog/DialogTitle';
-import { NoteDialogForm } from './NoteDialogForm';
+import { NoteDialogForm, NoteDialogFormPayload } from './NoteDialogForm';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { v4 as uuidv4 } from 'uuid';
 import { NoteInterface } from '../domain/interfaces/note.interface';
@@ -21,6 +21,8 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
+import { NoteDialogUtil } from './note-dialog.util';
+import { createInitialStateFactory } from '@reduxjs/toolkit/dist/entities/entity_state';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -38,9 +40,10 @@ export const NoteDialog = (): ReactElement => {
   const categories = useSelector(selectCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
-  const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
+  const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.Both);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
+  const [valid, setValid] = useState<boolean>(false);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
   const dispatch = useDispatch();
 
@@ -114,12 +117,15 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const closeDialog = (): void => {
-    setEditMode(NoteEditMode.None);
+    setEditMode(NoteEditMode.Both);
     dispatch(UiActions.closeNoteDialog());
     dispatch(NoteActions.setOpenedNote(null));
   };
 
-  const handleFormChange = (form: NoteDialogFormValue): void => setForm(form);
+  const handleFormChange = (payload: NoteDialogFormPayload): void => {
+    setForm(payload.form);
+    setValid(payload.valid);
+  };
 
   const addNote = (): void => {
     const note: NoteInterface = {
@@ -131,7 +137,7 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const updateNote = (): void => {
-    if (isFormTouched()) {
+    if (isFormTouched() && valid) {
       dispatch(NoteActions.updateNote({
         ...openedNote!,
         ...form
@@ -140,13 +146,17 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const handleSaveAndClose = (): void => {
-    openedNote ? updateNote() : addNote();
-    closeDialog();
+    if (valid) {
+      openedNote ? updateNote() : addNote();
+      closeDialog();
+    }
   };
 
   const handleAddAndNext = (): void => {
-    addNote();
-    setClearForm([...clearForm]);
+    if (valid) {
+      addNote();
+      setClearForm([...clearForm]);
+    }
   };
 
   const handleDelete = (): void => {
@@ -169,15 +179,25 @@ export const NoteDialog = (): ReactElement => {
 
   const handleEditModeChange = (): void => {
     if (isEditMode(editMode)) {
-      updateNote();
+      if (valid) {
+        updateNote();
+        setEditMode(toggleEditMode(editMode));
+      }
+    } else {
+      setEditMode(toggleEditMode(editMode));
     }
-    setEditMode(toggleEditMode(editMode));
   };
 
   const handlePartialEditModeChange = (mode: NoteEditMode): void => setEditMode(mode);
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
-    <Button onClick={ handleAddAndNext } color={ Color.Primary } variant={ Variant.Contained }>
+    <Button
+      onClick={ handleAddAndNext }
+      color={ Color.Primary }
+      variant={ Variant.Contained }
+      title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
+      disabled={ !valid }
+    >
       { t('SAVE_AND_NEXT') }
     </Button>
   );
@@ -224,7 +244,13 @@ export const NoteDialog = (): ReactElement => {
         <div>
           { openedNote ? deleteNoteButton : saveAndContinueButton }
 
-          <Button onClick={ handleSaveAndClose } color={ Color.Primary } variant={ Variant.Contained }>
+          <Button
+            onClick={ handleSaveAndClose }
+            color={ Color.Primary }
+            variant={ Variant.Contained }
+            title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
+            disabled={ !valid }
+          >
             { t(isEditMode(editMode) ? 'SAVE_AND_CLOSE' : 'CLOSE') }
           </Button>
         </div>

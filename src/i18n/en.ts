@@ -28,6 +28,7 @@ export const en = {
     TITLE: 'Title',
     CONTENT: 'Content',
     CATEGORIES: 'Categories',
+    INVALID_OR_EMPTY_FORM: 'The form is invalid or not filled.',
   },
   CONFIRMATION: {
     TITLE: {

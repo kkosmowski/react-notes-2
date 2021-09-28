@@ -1,11 +1,8 @@
-import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { InputWithLabel } from '../InputWithLabel/InputWithLabel';
-import styled from 'styled-components';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { useTranslation } from 'react-i18next';
-import { SelectedCategories } from '../domain/types/selected-categories.type';
-import { getSelectedCategoriesIds } from '../utils/get-selected-categories-ids.util';
 import {
   isContentEdited,
   isEditModeBoth,
@@ -15,13 +12,20 @@ import {
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 import { Checkbox, CheckboxLabel } from '../Checkbox/Checkbox';
 import { EntityUid } from '../domain/types/entity-uid.type';
+import { Categories, CategoriesWrapper, FormWrapper } from './NoteDialogForm.styled';
+import { NoteDialogUtil } from './note-dialog.util';
+
+export interface NoteDialogFormPayload {
+  form: NoteDialogFormValue;
+  valid: boolean;
+}
 
 interface Props {
   initialForm: NoteDialogFormValue;
   categories: Category[];
   editMode: NoteEditMode;
   clear: void[];
-  onFormChange: (form: NoteDialogFormValue) => void;
+  onFormChange: (payload: NoteDialogFormPayload) => void;
   onPartialEditModeChange: (mode: NoteEditMode) => void;
 }
 
@@ -29,14 +33,30 @@ export const NoteDialogForm = (
   { initialForm, clear, categories, editMode, onFormChange, onPartialEditModeChange }: Props
 ): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
-  const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
+  const initialRun = useRef<boolean>(true);
+  const [form, setForm] = useState<NoteDialogFormValue>({
+    title: initialForm.title,
+    content: initialForm.content,
+    categories: initialForm.categories,
+  });
 
   useEffect(() => {
-    onFormChange(form);
+    onFormChange({
+      form,
+      valid: NoteDialogUtil.isFormValid(form)
+    });
   }, [form]);
 
   useEffect(() => {
-    setForm(initialForm);
+    if (!initialRun.current) {
+      setForm({
+        title: initialForm.title,
+        content: initialForm.content,
+        categories: initialForm.categories,
+      });
+    } else {
+      initialRun.current = false;
+    }
   }, [clear]);
 
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
@@ -84,6 +104,7 @@ export const NoteDialogForm = (
         onDoubleClick={ handleEditModeChange }
         value={ form.title }
         label={ t('TITLE') }
+        required={ true }
         disabled={ !isTitleEdited(editMode) }
       />
 
@@ -94,11 +115,11 @@ export const NoteDialogForm = (
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
+        required={ true }
         disabled={ !isContentEdited(editMode) }
       />
 
-      {/* @todo fix categories selection (when selecting category and editing title/content, selection is lost) */ }
-      <CategoriesWrapper> {/* @todo style the category checkboxes */ }
+      <CategoriesWrapper>
         <p>{ t('CATEGORIES') }</p>
         <Categories>
           { categories.map((category) => (
@@ -120,35 +141,3 @@ export const NoteDialogForm = (
     </FormWrapper>
   );
 };
-
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 24px 0;
-  flex: 1;
-  overflow: hidden;
-
-  > *:not(:last-child) {
-    margin-bottom: 32px;
-  }
-`;
-
-const CategoriesWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-
-  > p {
-    margin-bottom: 8px;
-  }
-`;
-
-const Categories = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-
-  > * {
-    margin-bottom: 4px;
-  }
-`;
