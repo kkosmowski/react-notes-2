@@ -5,7 +5,7 @@ import { i18nConfig } from '../../i18n';
 
 i18next.init(i18nConfig);
 
-export let rootCategory: Category = {
+export const rootCategory: Category = {
   id: NIL,
   name: i18next.t('COMMON:ROOT_CATEGORY')
 };

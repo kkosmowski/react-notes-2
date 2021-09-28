@@ -21,8 +21,6 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
-import { NoteDialogUtil } from './note-dialog.util';
-import { createInitialStateFactory } from '@reduxjs/toolkit/dist/entities/entity_state';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',

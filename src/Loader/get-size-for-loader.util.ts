@@ -5,4 +5,4 @@ export const getSizeForLoader = (size: LoaderSize ): number => {
     case LoaderSize.Small: return 32;
     case LoaderSize.Medium: return 60;
   }
-}
+};

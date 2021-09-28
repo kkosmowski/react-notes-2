@@ -2,7 +2,6 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { HttpService } from '../../services/http.service';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
-import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import noteActions from '../actions/note.actions';
 import { Action } from '../../domain/interfaces/action.interface';

@@ -30,7 +30,7 @@ const categoryReducer = createReducer(initialState, (builder) => {
     .addCase(categoryActions.createTemporaryCategory, (state, action) => {
       state.temporaryCategory = action.payload || null;
     })
-    .addCase(categoryActions.deleteTemporaryCategory, (state, action) => {
+    .addCase(categoryActions.deleteTemporaryCategory, (state) => {
       state.temporaryCategory = null;
     })
 
@@ -57,7 +57,7 @@ const categoryReducer = createReducer(initialState, (builder) => {
     .addCase(categoryActions.editCategory, (state, action) => {
       state.editedCategory = action.payload || null;
     })
-    .addCase(categoryActions.editCategorySuccess, (state, action) => {
+    .addCase(categoryActions.editCategorySuccess, (state) => {
       state.editedCategory = null;
     });
 });

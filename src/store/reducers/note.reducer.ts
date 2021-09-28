@@ -52,8 +52,8 @@ const noteReducer = createReducer(initialState, (builder) => {
 
         const entries = Object.entries(state.selectedNotes);
         if (entries.length) {
-          const onlySelectedEntries = entries.filter(([id, selected]) => selected);
-          const [id, selected] = onlySelectedEntries[onlySelectedEntries.length - 1];
+          const onlySelectedEntries = entries.filter(([, selected]) => selected);
+          const [id] = onlySelectedEntries[onlySelectedEntries.length - 1];
           state.selectedNotes = { [id]: true };
         }
       }

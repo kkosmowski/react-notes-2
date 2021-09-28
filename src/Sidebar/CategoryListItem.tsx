@@ -17,7 +17,7 @@ export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onC
   const { t } = useTranslation('SIDEBAR');
   const [name, setName] = useState<string>(data.name);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
-  const saveButtonId: string = 'save-category';
+  const saveButtonId = 'save-category';
 
   useEffect(() => {
     if (edited) {

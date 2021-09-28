@@ -25,4 +25,4 @@ export const getClassName = ({ color, variant, lighter, small }: Props): string 
   }
 
   return className;
-}
+};
