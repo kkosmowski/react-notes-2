@@ -23,6 +23,13 @@ const NoteActions = {
     };
   },
 
+  // for testing purpose only
+  _getSuccess(payload: NoteInterface[]): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.getNotesSuccess(payload));
+    }
+  },
+
   create(note: NoteInterface): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.createNote());
@@ -40,8 +47,10 @@ const NoteActions = {
     };
   },
 
-  toggleSelectionMode(): Action {
-    return noteActions.toggleSelectionMode();
+  toggleSelectionMode(): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.toggleSelectionMode());
+    };
   },
   selectNote(noteId: EntityUid): Action {
     return noteActions.selectNote(noteId);

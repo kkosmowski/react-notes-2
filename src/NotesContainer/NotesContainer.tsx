@@ -22,7 +22,7 @@ import {
   selectSelectedNotes
 } from '../store/selectors/note.selectors';
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
-import { noNotesTextTestId, noteTestId } from '../domain/consts/test-ids.consts';
+import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
 
 export const NotesContainer = (): ReactElement => {
   const { t } = useTranslation('COMMON');
@@ -67,7 +67,6 @@ export const NotesContainer = (): ReactElement => {
           isSelected={ selectedNotes[note.id] }
           selectionMode={ noteSelectionMode }
           key={ note.id }
-          data-testid={ noteTestId }
         />
       ));
     setNotesToRender(_notes);

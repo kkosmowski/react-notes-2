@@ -1,10 +1,14 @@
 import { Action } from '../../domain/interfaces/action.interface';
 import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
 import uiActions from '../actions/ui.actions';
+import { ActionFunction } from '../../domain/types/action-function.type';
+import { Dispatch } from 'redux';
 
 const UiActions = {
-  openNoteDialog(): Action {
-    return uiActions.openNoteDialog();
+  openNoteDialog(): ActionFunction<Promise<any>> {
+    return async function (dispatch: Dispatch): Promise<any> {
+      return dispatch(uiActions.openNoteDialog());
+    };
   },
   closeNoteDialog(): Action {
     return uiActions.closeNoteDialog();
