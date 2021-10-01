@@ -3,10 +3,11 @@ import { MockStoreEnhanced } from 'redux-mock-store';
 import { RootState } from '../../store/interfaces/root-state.interface';
 import { initialRootState } from '../../utils/initial-root-state';
 import { ControlsBar } from './ControlsBar';
-import { act, fireEvent, render, screen, wait } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
   addNoteButtonTestId,
-  noteDialogTestId, noteSelectableTestId,
+  noteDialogTestId,
+  noteSelectableTestId,
   toggleSelectionModeButtonTestId
 } from '../../domain/consts/test-ids.consts';
 import { Provider } from 'react-redux';
@@ -61,9 +62,8 @@ describe('ControlsBar', function () {
       return store // real store
         .dispatch(UiActions.openNoteDialog() as unknown as AnyAction)
         .then(() => {
-          const { queryByTestId } = render(<ProvidedApp />);
-
-          expect(queryByTestId(noteDialogTestId)).toBeTruthy();
+          render(<ProvidedApp />);
+          expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
         })
         .catch();
     });
@@ -102,13 +102,19 @@ describe('ControlsBar', function () {
       return store // real store
         .dispatch(NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction)
         .then(() => {
-          store
+          return store
             .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
-            .then(() => {
-              const { queryByTestId } = render(<ProvidedApp />);
-              expect(queryByTestId(noteSelectableTestId)).toBeTruthy();
-            });
-        });
+            .then(async () => {
+              render(<ProvidedApp />);
+
+              await waitFor(() => {
+                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
+                console.log(screen.queryByTestId(noteSelectableTestId));
+              });
+            })
+            .catch();
+        })
+        .catch();
     });
   });
 });

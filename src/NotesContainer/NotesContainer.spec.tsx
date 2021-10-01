@@ -2,7 +2,7 @@ import { NoteInterface } from '../domain/interfaces/note.interface';
 import { MockStoreEnhanced } from 'redux-mock-store';
 import { mockStore } from '../utils/mock.store';
 import { initialNoteState } from '../store/reducers/note.reducer';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { NotesContainer } from './NotesContainer';
 import { noNotesTextTestId, noteTestId } from '../domain/consts/test-ids.consts';
@@ -17,13 +17,13 @@ describe('NotesContainer', () => {
   it('should show appropriate text when there are no notes', (done) => {
     mockedStore = mockStore(initialRootState);
 
-    const { queryByTestId } = render(
+    render(
       <Provider store={ mockedStore }>
         <NotesContainer />
       </Provider>
     );
 
-    expect(queryByTestId(noNotesTextTestId)).toBeInTheDocument();
+    expect(screen.queryByTestId(noNotesTextTestId)).toBeInTheDocument();
     done();
   });
 
@@ -37,14 +37,14 @@ describe('NotesContainer', () => {
       }
     });
 
-    const { queryAllByTestId } = render(
+    render(
       <Provider store={ mockedStore }>
         <NotesContainer />
       </Provider>
     );
 
-    expect(queryAllByTestId(noteTestId).every((item) => !!item.dataset.testid)).toBeTruthy();
-    expect(queryAllByTestId(noteTestId).length).toEqual(notes.length);
+    expect(screen.queryAllByTestId(noteTestId).every((item) => !!item.dataset.testid)).toBeTruthy();
+    expect(screen.queryAllByTestId(noteTestId).length).toEqual(notes.length);
     done();
   });
 });

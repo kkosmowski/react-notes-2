@@ -27,7 +27,7 @@ const NoteActions = {
   _getSuccess(payload: NoteInterface[]): ActionFunction<Promise<void>> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.getNotesSuccess(payload));
-    }
+    };
   },
 
   create(note: NoteInterface): ActionFunction<Promise<void>> {
@@ -52,8 +52,10 @@ const NoteActions = {
       dispatch(noteActions.toggleSelectionMode());
     };
   },
-  selectNote(noteId: EntityUid): Action {
-    return noteActions.selectNote(noteId);
+  selectNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.selectNote(noteId));
+    };
   },
   deselectNote(noteId: EntityUid): Action {
     return noteActions.deselectNote(noteId);
@@ -116,7 +118,7 @@ const NoteActions = {
           dispatch(noteActions.restoreNoteFail());
         });
     };
-  }
+  },
 };
 
 export default NoteActions;
