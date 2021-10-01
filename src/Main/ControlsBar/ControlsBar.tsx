@@ -9,6 +9,7 @@ import { Variant } from '../../domain/enums/variant.enum';
 import { selectNoteSelectionMode, selectSelectedNotes } from '../../store/selectors/note.selectors';
 import NoteActions from '../../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
+import { addNoteTestId } from '../../domain/consts/test-ids.consts';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -38,6 +39,7 @@ export const ControlsBar = (): ReactElement => {
         onClick={ handleNoteAdd }
         color={ Color.Primary }
         variant={ Variant.Regular }
+        testid={ addNoteTestId }
       >
         { t('COMMON:ADD_NOTE') }
       </Button>

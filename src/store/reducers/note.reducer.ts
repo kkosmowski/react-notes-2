@@ -4,7 +4,7 @@ import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { createReducer } from '@reduxjs/toolkit';
 import noteActions from '../actions/note.actions';
 
-const initialState: NoteState = {
+export const initialNoteState: NoteState = {
   notes: [],
   notesLoading: false,
   noteSelectionMode: NoteSelectionMode.Single,
@@ -16,7 +16,7 @@ const initialState: NoteState = {
   selectedNotes: {}
 };
 
-const noteReducer = createReducer(initialState, (builder) => {
+const noteReducer = createReducer(initialNoteState, (builder) => {
   builder
     .addCase(noteActions.getNotes, (state) => {
       state.notesLoading = true;

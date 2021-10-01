@@ -21,6 +21,7 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
+import { noteDialogTestId } from '../domain/consts/test-ids.consts';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -211,6 +212,7 @@ export const NoteDialog = (): ReactElement => {
       onClose={ handleClose }
       opened={ opened }
       config={ config }
+      testid={ noteDialogTestId }
     >
       <DialogHeader>
         <DialogTitle>{ t(dialogTitleKey) }</DialogTitle>

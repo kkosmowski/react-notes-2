@@ -12,6 +12,7 @@ interface Props {
   small?: boolean;
   disabled?: boolean;
   title?: string;
+  testid?: string;
   type?: 'button' | 'submit' | 'reset'
 }
 
@@ -23,9 +24,9 @@ export const Button = (
     variant,
     lighter,
     small,
-    disabled,
-    title,
-    type = 'button'
+    testid,
+    type = 'button',
+    ...props
   }: Props
 ): ReactElement => {
   const [className, setClassName] = useState('button');
@@ -39,8 +40,8 @@ export const Button = (
       onClick={ onClick }
       className={ className }
       type={ type }
-      title={ title }
-      disabled={ disabled }
+      data-testid={ testid }
+      { ...props }
     >
       { children }
     </button>
