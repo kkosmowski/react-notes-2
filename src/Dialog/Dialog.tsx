@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useEffect } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogContainer, DialogWrapper } from './styles/Dialog.styles';
 import { Backdrop } from '../Backdrop/Backdrop';

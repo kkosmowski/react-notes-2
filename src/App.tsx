@@ -1,6 +1,6 @@
 import { Main } from './Main/Main';
 import { Sidebar } from './Sidebar/Sidebar';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import store from './store/store';
 import { Provider } from 'react-redux';
 
