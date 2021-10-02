@@ -22,6 +22,7 @@ import {
   selectSelectedNotes
 } from '../store/selectors/note.selectors';
 import { selectSelectedCategory } from '../store/selectors/category.selectors';
+import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
 
 export const NotesContainer = (): ReactElement => {
   const { t } = useTranslation('COMMON');
@@ -34,7 +35,7 @@ export const NotesContainer = (): ReactElement => {
   const [notesToRender, setNotesToRender] = useState<ReactElement[] | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
   const containerRef = useRef<HTMLElement | null>(null);
-  const noNotesText: ReactElement = <NoNotesText>{ t('NO_NOTES') }</NoNotesText>;
+  const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { UiState } from '../interfaces/ui-state.interface';
 import { createReducer } from '@reduxjs/toolkit';
 import uiActions from '../actions/ui.actions';
 
-const initialState: UiState = {
+export const initialUiState: UiState = {
   noteDialogOpened: false,
   confirmationDialogOpened: false,
   confirmationDialogData: null,
@@ -13,7 +13,7 @@ const initialState: UiState = {
   snackbarData: null,
 };
 
-const uiReducer = createReducer(initialState, (builder) => {
+const uiReducer = createReducer(initialUiState, (builder) => {
   builder
     .addCase(uiActions.openNoteDialog, (state) => {
       state.noteDialogOpened = true;

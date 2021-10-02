@@ -4,6 +4,12 @@ import { MAX_CONTENT_LENGTH, MAX_TITLE_LENGTH } from '../domain/consts/note.cons
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.interface';
 import { NoteContent, NoteElement, NoteTitle } from './Note.styled';
+import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
+import {
+  noteSelectableTestId,
+  noteSelectedTestId,
+  noteTestId
+} from '../domain/consts/test-ids.consts';
 
 interface Props extends NoteSelectionProps {
   data: NoteInterface;
@@ -33,12 +39,21 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Prop
     onOpen(data);
   };
 
+  const getTestId = (): string => {
+    return isSelected
+      ? noteSelectedTestId
+      : selectionMode === NoteSelectionMode.Multi
+        ? noteSelectableTestId
+        : noteTestId;
+  };
+
   return (
     <NoteElement
       onClick={ handleSelect }
       onDoubleClick={ handleOpen }
       isSelected={ isSelected }
       selectionMode={ selectionMode }
+      data-testid={ getTestId() }
     >
       <NoteTitle>{ title }</NoteTitle>
       <NoteContent>{ content }</NoteContent>

@@ -8,7 +8,7 @@
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
         "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
       ],
-      "deleted": false
+      "deleted": true
     },
     {
       "title": "test note 2",
@@ -24,7 +24,7 @@
       "categories": [
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
       ],
-      "deleted": false
+      "deleted": true
     },
     {
       "title": "test note 4",

@@ -3,7 +3,7 @@ import { rootCategory } from '../../domain/consts/root-category.const';
 import { createReducer } from '@reduxjs/toolkit';
 import categoryActions from '../actions/category.actions';
 
-const initialState: CategoryState = {
+export const initialCategoryState: CategoryState = {
   categories: [],
   categoryCreationInProgress: false,
   categoriesLoading: false,
@@ -12,7 +12,7 @@ const initialState: CategoryState = {
   temporaryCategory: null,
 };
 
-const categoryReducer = createReducer(initialState, (builder) => {
+const categoryReducer = createReducer(initialCategoryState, (builder) => {
   builder
     .addCase(categoryActions.getCategories, (state) => {
       state.categoriesLoading = true;
