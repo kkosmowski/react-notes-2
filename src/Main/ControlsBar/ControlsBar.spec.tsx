@@ -109,7 +109,6 @@ describe('ControlsBar', function () {
 
               await waitFor(() => {
                 expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
-                console.log(screen.queryByTestId(noteSelectableTestId));
               });
             })
             .catch();
