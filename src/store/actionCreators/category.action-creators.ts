@@ -23,6 +23,13 @@ const CategoryActions = {
     };
   },
 
+  // for testing purpose only
+  _getSuccess(payload: Category[]): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(categoryActions.getCategoriesSuccess(payload));
+    };
+  },
+
   createFromTemporary(category: Category): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.createCategory());
@@ -39,8 +46,10 @@ const CategoryActions = {
     };
   },
 
-  select(category: Category | null): Action {
-    return categoryActions.selectCategory(category);
+  select(category: Category | null): ActionFunction<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(categoryActions.selectCategory(category));
+    };
   },
 
   editCategory(category: Category): Action {
