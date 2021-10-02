@@ -59,6 +59,21 @@ const CategoryActions = {
     // HistoryActions.push(categoryActions.editCategorySuccess(category))(dispatch);
   },
 
+  updateCategory(category: Category): ActionFunction<Promise<void>> {
+    return function(dispatch: Dispatch): Promise<void> {
+      dispatch(categoryActions.updateCategory());
+      return HttpService
+        .put(`/categories/${ category.id }`, category)
+        .then(() => {
+          dispatch(categoryActions.updateCategorySuccess(category));
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(categoryActions.updateCategoryFail());
+        });
+    };
+  },
+
   finishEditingCategory(): Action {
     return categoryActions.editCategorySuccess();
   },

@@ -1,11 +1,16 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
-import { Folder, FolderOpen, Save } from '@material-ui/icons';
+import { MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
+import { Edit, Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
 import { ListItem } from './styles/CategoryListItem.styled';
 import { useTranslation } from 'react-i18next';
+import { Button } from '../Button/Button';
+import { Color } from '../domain/enums/color.enum';
+import { Variant } from '../domain/enums/variant.enum';
+import { NIL } from 'uuid';
 
 interface Props {
   onSelect: (category: Category) => void;
+  onUpdate: (category: Category) => void;
   onSave: (name: string) => void;
   onCancel: () => void;
   data: Category;
@@ -13,17 +18,27 @@ interface Props {
   edited: boolean;
 }
 
-export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onCancel }: Props): ReactElement => {
+export const CategoryListItem = (
+  { data, selected, edited, onSelect, onSave, onUpdate, onCancel }: Props
+): ReactElement => {
   const { t } = useTranslation('SIDEBAR');
   const [name, setName] = useState<string>(data.name);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const saveButtonId = 'save-category';
+  const canBeEdited = useRef<boolean>(data.id !== NIL);
 
   useEffect(() => {
     if (edited) {
       nameInputRef.current?.focus();
     }
   }, [edited]);
+
+  useEffect(() => {
+    if (editMode) {
+      nameInputRef.current!.focus();
+    }
+  }, [editMode]);
 
   const getListItemClasses = (): string => {
     let className = '';
@@ -50,6 +65,17 @@ export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onC
     });
   };
 
+  const handleSave = (e: MouseEvent): void => {
+    e.stopPropagation();
+    editMode ? onUpdate({ id: data.id, name }) : onSave(name);
+    setEditMode(false);
+  };
+
+  const handleEditModeToggle = (e: MouseEvent): void => {
+    e.stopPropagation();
+    setEditMode(!editMode);
+  };
+
   const EditModeView: ReactElement = (
     <>
       <input
@@ -61,23 +87,39 @@ export const CategoryListItem = ({ data, selected, edited, onSelect, onSave, onC
         placeholder={ t('CATEGORY_NAME_PLACEHOLDER') }
         type="text"
       />
-      <button
+      <Button
         id={ saveButtonId }
-        onClick={ () => onSave(name) }
-        className="button --icon --primary"
-        type="button"
+        onClick={ handleSave }
+        color={ Color.Primary }
+        variant={ Variant.Icon }
       >
         <Save />
-      </button>
+      </Button>
     </>
   );
 
-  const RegularView: ReactElement = <span>{ data.name }</span>;
+  const RegularView: ReactElement = (
+    <>
+      <span>{ data.name }</span>
+      { canBeEdited.current
+        ? (
+          <Button
+            onClick={ handleEditModeToggle }
+            color={ Color.Primary }
+            variant={ Variant.Icon }
+          >
+            <Edit />
+          </Button>
+        )
+        : null
+      }
+    </>
+  );
 
   return (
     <ListItem onClick={ handleSelect } className={ getListItemClasses() }>
       { selected ? <FolderOpen className="icon --selected" /> : <Folder className="icon" /> }
-      { edited ? EditModeView : RegularView }
+      { edited || editMode ? EditModeView : RegularView }
     </ListItem>
   );
 };

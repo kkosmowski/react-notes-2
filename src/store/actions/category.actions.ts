@@ -26,6 +26,10 @@ const categoryActions = {
   restoreCategory: createAction<EntityUid>('RESTORE_CATEGORY'),
   restoreCategorySuccess: createAction<void>('RESTORE_CATEGORY_SUCCESS'),
   restoreCategoryFail: createAction<void>('RESTORE_CATEGORY_FAIL'),
+
+  updateCategory: createAction<void>('UPDATE_CATEGORY'),
+  updateCategorySuccess: createAction<Category>('UPDATE_CATEGORY_SUCCESS'),
+  updateCategoryFail: createAction<void>('UPDATE_CATEGORY_FAIL'),
 };
 
 export default categoryActions;

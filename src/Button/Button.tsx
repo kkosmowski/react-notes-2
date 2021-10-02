@@ -13,6 +13,7 @@ interface Props {
   disabled?: boolean;
   title?: string;
   testid?: string;
+  id?: string;
   type?: 'button' | 'submit' | 'reset'
 }
 

@@ -65,6 +65,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
       <CategoryListItem
         onSelect={ handleCategorySelect }
         onSave={ handleCategorySave }
+        onUpdate={ handleCategoryUpdate }
         onCancel={ handleCancel }
         data={ category }
         selected={ selected.id === category.id }
@@ -85,6 +86,10 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
     dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
     dispatch(CategoryActions.select(edited));
     dispatch(CategoryActions.finishEditingCategory());
+  };
+
+  const handleCategoryUpdate = (changedCategory: Category): void => {
+    dispatch(CategoryActions.updateCategory(changedCategory));
   };
 
   const handleCancel = (): void => {

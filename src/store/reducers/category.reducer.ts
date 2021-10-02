@@ -10,6 +10,7 @@ export const initialCategoryState: CategoryState = {
   selectedCategory: rootCategory,
   editedCategory: null,
   temporaryCategory: null,
+  categoryUpdating: false,
 };
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
@@ -59,6 +60,23 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
     .addCase(categoryActions.editCategorySuccess, (state) => {
       state.editedCategory = null;
+    })
+
+    .addCase(categoryActions.updateCategory, (state) => {
+      state.categoryUpdating = true;
+    })
+    .addCase(categoryActions.updateCategorySuccess, (state, { payload }) => {
+      state.categoryUpdating = false;
+      state.categories = state.categories.map((category) => category.id === payload.id
+        ? payload
+        : category
+      );
+      if (state.selectedCategory.id === payload.id) {
+        state.selectedCategory = payload;
+      }
+    })
+    .addCase(categoryActions.updateCategoryFail, (state) => {
+      state.categoryUpdating = false;
     });
 });
 
