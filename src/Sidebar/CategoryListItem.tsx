@@ -22,6 +22,7 @@ export const CategoryListItem = (
   { data, selected, edited, onSelect, onSave, onUpdate, onCancel }: Props
 ): ReactElement => {
   const { t } = useTranslation('SIDEBAR');
+  const [originalName, setOriginalName] = useState<string>(data.name);
   const [name, setName] = useState<string>(data.name);
   const [editMode, setEditMode] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
@@ -67,7 +68,14 @@ export const CategoryListItem = (
 
   const handleSave = (e: MouseEvent): void => {
     e.stopPropagation();
-    editMode ? onUpdate({ id: data.id, name }) : onSave(name);
+    if (editMode) {
+      if (name !== originalName) {
+        onUpdate({ id: data.id, name });
+        setOriginalName(name);
+      }
+    } else {
+      onSave(name);
+    }
     setEditMode(false);
   };
 
