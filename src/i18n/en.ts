@@ -34,10 +34,12 @@ export const en = {
     TITLE: {
       LEAVE_PROGRESS: 'Leave?',
       DELETE_NOTE: 'Delete note?',
+      DELETE_CATEGORY: 'Delete category?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Are you sure you want to leave your progress?',
       DELETE_NOTE: 'Are you sure you want to delete this note?',
+      DELETE_CATEGORY: 'This category is not empty. Are you sure you want to delete it?\nIt will not delete any notes.',
     },
     CONTROLS: {
       NO_CANCEL: 'No, cancel',
@@ -47,6 +49,13 @@ export const en = {
   },
   SNACKBAR: {
     UNDO: 'Undo',
-    NOTE_DELETED: 'Note deleted successfully',
+    NOTE_CREATED: 'Note successfully created',
+    NOTE_UPDATED: 'Note successfully updated',
+    NOTE_DELETED: 'Note successfully deleted',
+    NOTE_RESTORED: 'Note successfully restored',
+    CATEGORY_CREATED: 'Category successfully created',
+    CATEGORY_UPDATED: 'Category successfully updated',
+    CATEGORY_DELETED: 'Category successfully deleted',
+    CATEGORY_RESTORED: 'Category successfully restored',
   }
 };

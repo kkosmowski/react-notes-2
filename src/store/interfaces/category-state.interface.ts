@@ -7,5 +7,7 @@ export interface CategoryState {
   selectedCategory: Category;
   editedCategory: Category | null;
   temporaryCategory: Category | null;
-  categoryUpdating: boolean;
+  categoryUpdateInProgress: boolean;
+  categoryDeletionInProgress: boolean;
+  categoryRestorationInProgress: boolean;
 }

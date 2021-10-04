@@ -8,7 +8,7 @@ import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.inter
 import { v4 as uuidv4 } from 'uuid';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
-import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styles';
+import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styled';
 import { useTranslation } from 'react-i18next';
 import { NoteDialogActions } from './NoteDialogActions';
 import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';

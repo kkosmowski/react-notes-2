@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SnackbarWrapper = styled.div`
   position: absolute;
+  z-index: 300;
   display: flex;
   flex-direction: column;
   bottom: 16px;

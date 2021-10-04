@@ -89,18 +89,36 @@ const CategoryActions = {
     return categoryActions.deleteTemporaryCategory();
   },
 
-  removeCategory(categoryId: EntityUid): Action {
-    // @todo implement
-    return categoryActions.removeCategory(categoryId);
-    // @todo implement
-    // HistoryActions.push(categoryActions.removeCategorySuccess(categoryId))(dispatch);
+  deleteCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch(categoryActions.deleteCategory());
+      return HttpService
+        .patch(`/categories/${ categoryId }`, { deleted: true })
+        .then(() => {
+          dispatch(categoryActions.deleteCategorySuccess(categoryId));
+          HistoryActions.push(categoryActions.deleteCategorySuccess(categoryId))(dispatch);
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(categoryActions.deleteCategoryFail());
+        });
+    };
   },
 
-  restoreCategory(categoryId: EntityUid): Action {
-    // @todo implement
-    return categoryActions.restoreCategory(categoryId);
-    // @todo implement
-    // HistoryActions.push(categoryActions.restoreCategorySuccess(categoryId))(dispatch);
+  restoreCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch(categoryActions.restoreCategory());
+      return HttpService
+        .patch(`/categories/${ categoryId }`, { deleted: false })
+        .then(() => {
+          dispatch(categoryActions.restoreCategorySuccess(categoryId));
+          HistoryActions.push(categoryActions.restoreCategorySuccess(categoryId))(dispatch);
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(categoryActions.restoreCategoryFail());
+        });
+    };
   },
 };
 

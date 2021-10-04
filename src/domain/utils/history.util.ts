@@ -9,10 +9,10 @@ export class HistoryUtil {
     let revertedAction: (payload: any) => Action | ActionFunction<any>;
     switch (type) {
       case 'CREATE_CATEGORY_SUCCESS':
-        revertedAction = CategoryActions.removeCategory;
+        revertedAction = CategoryActions.deleteCategory;
         break;
 
-      case 'REMOVE_CATEGORY_SUCCESS':
+      case 'DELETE_CATEGORY_SUCCESS':
         revertedAction = CategoryActions.restoreCategory;
         break;
 

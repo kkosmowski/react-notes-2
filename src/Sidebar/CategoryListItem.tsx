@@ -1,5 +1,5 @@
 import { MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
-import { Edit, Folder, FolderOpen, Save } from '@material-ui/icons';
+import { Delete, Edit, Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
 import { ListItem } from './styles/CategoryListItem.styled';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,7 @@ interface Props {
   onSelect: (category: Category) => void;
   onUpdate: (category: Category) => void;
   onSave: (name: string) => void;
+  onDelete: (category: Category) => void;
   onCancel: () => void;
   data: Category;
   selected: boolean;
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export const CategoryListItem = (
-  { data, selected, edited, onSelect, onSave, onUpdate, onCancel }: Props
+  { data, selected, edited, onSelect, onSave, onUpdate, onCancel, onDelete }: Props
 ): ReactElement => {
   const { t } = useTranslation('SIDEBAR');
   const [originalName, setOriginalName] = useState<string>(data.name);
@@ -71,7 +72,7 @@ export const CategoryListItem = (
     e.stopPropagation();
     if (editMode) {
       if (name !== originalName) {
-        onUpdate({ id: data.id, name });
+        onUpdate({ ...data, name });
         setOriginalName(name);
       }
     } else {
@@ -108,18 +109,34 @@ export const CategoryListItem = (
     </>
   );
 
+  const handleDelete = (e: MouseEvent): void => {
+    e.stopPropagation();
+    onDelete(data);
+  };
+
   const RegularView: ReactElement = (
     <>
       <span>{ data.name }</span>
       { canBeEdited.current
         ? (
-          <Button
-            onClick={ handleEditModeToggle }
-            color={ Color.Primary }
-            variant={ Variant.Icon }
-          >
-            <Edit />
-          </Button>
+          <>
+            <Button
+              onClick={ handleEditModeToggle }
+              color={ Color.Primary }
+              variant={ Variant.GhostIcon }
+            >
+              <Edit />
+            </Button>
+
+            <Button
+              onClick={ handleDelete }
+              id={ saveButtonId }
+              color={ Color.Warn }
+              variant={ Variant.GhostIcon }
+            >
+              <Delete />
+            </Button>
+          </>
         )
         : null
       }

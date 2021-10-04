@@ -34,10 +34,12 @@ export const pl = {
     TITLE: {
       LEAVE_PROGRESS: 'Porzucić zmiany?',
       DELETE_NOTE: 'Usunąć notatkę?',
+      DELETE_CATEGORY: 'Usunąć kategori?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Czy na pewno chcesz porzucić swoje zmiany?',
       DELETE_NOTE: 'Czy na pewno chcesz usunąć tę notatkę?',
+      DELETE_CATEGORY: 'Kategoria nie jest pusta. Czy na pewno chcesz ją usunąć?\nNie usunie to żadnej notatki.',
     },
     CONTROLS: {
       NO_CANCEL: 'Nie, anuluj',
