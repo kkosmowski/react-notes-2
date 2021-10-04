@@ -9,6 +9,7 @@ import HistoryActions from './history.action-creators';
 import store from '../store';
 import { RootState } from '../interfaces/root-state.interface';
 import { RemoveFromCategoryPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
+import { RemoveMultipleNotesFromCategoryPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -81,6 +82,7 @@ const NoteActions = {
         .then((note: NoteInterface) => {
           dispatch(noteActions.deleteNoteSuccess(note));
           HistoryActions.push(noteActions.deleteNoteSuccess(note))(dispatch);
+          dispatch(NoteActions.clearSelection());
         })
         .catch(error => {
           console.error(error);
@@ -134,6 +136,7 @@ const NoteActions = {
         .then((updatedNote: NoteInterface) => {
           dispatch(noteActions.removeNoteFromCategorySuccess({ updatedNote, categoryId }));
           HistoryActions.push(noteActions.removeNoteFromCategorySuccess({ updatedNote, categoryId }))(dispatch);
+          dispatch(NoteActions.clearSelection());
         })
         .catch((error) => {
           console.error(error);
@@ -160,27 +163,74 @@ const NoteActions = {
     };
   },
 
-  // removeMultipleNotesFromCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
-  //   return function (dispatch: Dispatch): Promise<void> {
-  //     dispatch(noteActions.removeMultipleNotesFromCategory());
-  //
-  //     const updatedNotes: NoteInterface[] = (store.getState() as RootState).note.notes
-  //       .map((note) => ({
-  //         ...note,
-  //         categories: note.categories.filter((catId) => catId !== categoryId),
-  //       }));
-  //
-  //     return HttpService
-  //       .patch('/notes', updatedNotes)
-  //       .then(() => {
-  //         dispatch(noteActions.removeMultipleNotesFromCategorySuccess(updatedNotes));
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //         dispatch(noteActions.removeMultipleNotesFromCategoryFail());
-  //       });
-  //   };
-  // }
+  removeMultipleNotesFromCategory({ noteIds, categoryId }: RemoveMultipleNotesFromCategoryPayload): ActionFunction<void> {
+    return function (dispatch: Dispatch): void {
+      dispatch(noteActions.removeMultipleNotesFromCategory());
+
+      const notes: NoteInterface[] = (store.getState() as RootState).note.notes;
+      const updatedNotes = notes
+        .filter((note) => noteIds.includes(note.id))
+        .map((note) => ({
+          ...note,
+          categories: note.categories.filter((catId) => catId !== categoryId),
+        }));
+
+      new Promise((resolve) => {
+        updatedNotes.forEach((note: NoteInterface) => {
+          HttpService
+            .put(`/notes/${ note.id }`, note)
+            .catch((error) => {
+              console.error(error);
+              dispatch(noteActions.removeMultipleNotesFromCategoryFail());
+            });
+        });
+        resolve(true);
+      })
+        .then(() => {
+          dispatch(noteActions.removeMultipleNotesFromCategorySuccess({ updatedNotes, categoryId }));
+          HistoryActions.push(noteActions.removeMultipleNotesFromCategorySuccess({ updatedNotes, categoryId }))(dispatch);
+          dispatch(NoteActions.clearSelection());
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.removeMultipleNotesFromCategoryFail());
+        });
+    };
+  },
+  restoreMultipleNotesToCategory({ noteIds, categoryId }: RemoveMultipleNotesFromCategoryPayload): ActionFunction<void> {
+    return function (dispatch: Dispatch): void {
+      dispatch(noteActions.restoreMultipleNotesToCategory());
+
+      const notes: NoteInterface[] = (store.getState() as RootState).note.notes;
+      const updatedNotes = notes
+        .filter((note) => noteIds.includes(note.id))
+        .map((note) => ({
+          ...note,
+          categories: [...note.categories, categoryId],
+        }));
+      //@todo avoid such repetitions
+      new Promise((resolve) => {
+        updatedNotes.forEach((note: NoteInterface) => {
+          HttpService
+            .put(`/notes/${ note.id }`, note)
+            .catch((error) => {
+              console.error(error);
+              dispatch(noteActions.restoreMultipleNotesToCategoryFail());
+            });
+        });
+        resolve(true);
+      })
+        .then(() => {
+          dispatch(noteActions.restoreMultipleNotesToCategorySuccess({ updatedNotes, categoryId }));
+          HistoryActions.push(noteActions.restoreMultipleNotesToCategorySuccess({ updatedNotes, categoryId }))(dispatch);
+
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.restoreMultipleNotesToCategoryFail());
+        });
+    };
+  },
 };
 
 export default NoteActions;

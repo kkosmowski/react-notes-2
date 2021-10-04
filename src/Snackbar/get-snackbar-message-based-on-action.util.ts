@@ -44,6 +44,14 @@ export const getSnackbarMessageBasedOnAction = (action: Action): string => {
       message += 'NOTE_RESTORED_TO_CATEGORY';
       break;
 
+    case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':
+      message += 'NOTES_REMOVED_FROM_CATEGORY';
+      break;
+
+    case 'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS':
+      message += 'NOTES_RESTORED_TO_CATEGORY';
+      break;
+
     default:
       message = '';
       throw new Error('Unknown action type.');

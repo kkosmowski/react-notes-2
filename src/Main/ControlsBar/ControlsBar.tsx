@@ -45,11 +45,17 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const handleRemoveFromCategory = () => {
-    if (selectedNotesCount) {
+    if (selectedNotesCount.current === 1) {
       dispatch(NoteActions.removeFromCategory({
         noteId: Object.keys(selectedNotes)[0],
         categoryId: currentCategory.id
       }));
+    } else if (selectedNotesCount.current > 1) {
+      dispatch(NoteActions.removeMultipleNotesFromCategory({
+        noteIds: Object.keys(selectedNotes),
+        categoryId: currentCategory.id
+      }));
+
     }
   };
 

@@ -5,16 +5,20 @@
       "title": "test note 1",
       "content": "Cras vitae nisl a sem efficitur faucibus.",
       "categories": [
-        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
+        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
       ],
-      "deleted": true
+      "deleted": false
     },
     {
       "title": "test note 2",
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "id": "5f099e76-5e3c-4ee5-8181-208bb904b2e0",
-      "categories": [],
+      "categories": [
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
       "deleted": false
     },
     {
@@ -22,16 +26,17 @@
       "content": "Nullam pretium libero nec diam ullamcorper cursus.",
       "id": "425647b7-ce5f-4ddb-8356-0e9bd5ffa974",
       "categories": [
-        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
-      "deleted": true
+      "deleted": false
     },
     {
       "title": "test note 4",
       "content": "Phasellus ut blandit nibh, et molestie sapien. Nullam eget malesuada turpis, et blandit nulla. Praesent faucibus lectus eget semper mattis.",
       "id": "4cc0e8fa-082f-49bd-8f76-2d927643d7bc",
       "categories": [
-        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf"
       ],
       "deleted": false
     },
@@ -40,8 +45,8 @@
       "content": "Hello semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
       "id": "f7f711c7-d233-4307-997f-0ff7d522d64e",
       "categories": [
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
-        "56875b71-69ec-4ba3-840e-5fd46e1443bf"
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
       "deleted": false
     },
@@ -49,7 +54,11 @@
       "title": "super duper long note title asdasd",
       "content": "Lorem ipsum",
       "id": "06069df6-359f-4cc2-b778-f7fee5fb8cb6",
-      "categories": [],
+      "categories": [
+        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+      ],
       "deleted": false
     }
   ],

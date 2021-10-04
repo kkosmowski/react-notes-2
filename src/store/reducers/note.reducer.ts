@@ -3,6 +3,7 @@ import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { createReducer } from '@reduxjs/toolkit';
 import noteActions from '../actions/note.actions';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 export const initialNoteState: NoteState = {
   notes: [],
@@ -134,17 +135,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteRemovalFromCategoryInProgress = false;
     })
 
-    .addCase(noteActions.removeMultipleNotesFromCategory, (state) => {
-      state.notesRemovalFromCategoryInProgress = true;
-    })
-    .addCase(noteActions.removeMultipleNotesFromCategorySuccess, (state, { payload }) => {
-      state.notes = payload;
-      state.notesRemovalFromCategoryInProgress = false;
-    })
-    .addCase(noteActions.removeMultipleNotesFromCategoryFail, (state) => {
-      state.notesRemovalFromCategoryInProgress = false;
-    })
-
     .addCase(noteActions.restoreNoteToCategory, (state) => {
       state.noteRestorationToCategoryInProgress = true;
     })
@@ -157,6 +147,37 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.restoreNoteToCategoryFail, (state) => {
       state.noteRestorationToCategoryInProgress = false;
+    })
+
+    .addCase(noteActions.removeMultipleNotesFromCategory, (state) => {
+      state.notesRemovalFromCategoryInProgress = true;
+    })
+    //@todo: avoid such repetitions
+    .addCase(noteActions.removeMultipleNotesFromCategorySuccess, (state, { payload }) => {
+      const updatedIds: EntityUid[] = payload.updatedNotes.map((note) => note.id);
+      state.notes = state.notes.map((note) => updatedIds.includes(note.id)
+        ? payload.updatedNotes.find((updated) => updated.id === note.id)!
+        : note
+      );
+      state.notesRemovalFromCategoryInProgress = false;
+    })
+    .addCase(noteActions.removeMultipleNotesFromCategoryFail, (state) => {
+      state.notesRemovalFromCategoryInProgress = false;
+    })
+
+    .addCase(noteActions.restoreMultipleNotesToCategory, (state) => {
+      state.notesRemovalFromCategoryInProgress = true;
+    })
+    .addCase(noteActions.restoreMultipleNotesToCategorySuccess, (state, { payload }) => {
+      const updatedIds: EntityUid[] = payload.updatedNotes.map((note) => note.id);
+      state.notes = state.notes.map((note) => updatedIds.includes(note.id)
+        ? payload.updatedNotes.find((updated) => updated.id === note.id)!
+        : note
+      );
+      state.notesRemovalFromCategoryInProgress = false;
+    })
+    .addCase(noteActions.restoreMultipleNotesToCategoryFail, (state) => {
+      state.notesRemovalFromCategoryInProgress = false;
     });
 });
 

@@ -52,15 +52,15 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   }, []);
 
   useEffect(() => {
-    const record: Record<EntityUid, boolean> = {};
-
-    notes.forEach((note) => {
-      note.categories.forEach((categoryId) => {
-        record[categoryId] = true;
+    if (notes.length) {
+      const record: Record<EntityUid, boolean> = {};
+      notes.forEach((note) => {
+        note.categories.forEach((categoryId) => {
+          record[categoryId] = true;
+        });
       });
-    });
-
-    containsNotes.current = record;
+      containsNotes.current = record;
+    }
   }, [notes]);
 
   useEffect(() => {
