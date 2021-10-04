@@ -7,6 +7,9 @@ const noteSelector = (state: RootState) => state.note;
 export const selectNotes = createSelector(
   noteSelector, (note: NoteState) => note.notes
 );
+export const selectUndeletedNotes = createSelector(
+  noteSelector, (note: NoteState) => note.notes.filter((note) => !note.deleted)
+);
 
 export const selectNotesLoading = createSelector(
   noteSelector, (note: NoteState) => note.notesLoading

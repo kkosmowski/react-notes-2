@@ -9,11 +9,11 @@ import { LoaderSize } from '../domain/enums/loader-size.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectCategories,
   selectCategoriesLoading,
   selectEditedCategory,
   selectSelectedCategory,
-  selectTemporaryCategory
+  selectTemporaryCategory,
+  selectUndeletedCategories
 } from '../store/selectors/category.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
@@ -35,7 +35,7 @@ const emptyCategory: Category = {
 
 export const CategoriesList = ({ add }: Props): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
-  const categories: Category[] = useSelector(selectCategories);
+  const categories: Category[] = useSelector(selectUndeletedCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
   const selected: Category = useSelector(selectSelectedCategory);
   const edited: Category | null = useSelector(selectEditedCategory);
@@ -55,7 +55,6 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
     const record: Record<EntityUid, boolean> = {};
 
     notes.forEach((note) => {
-      console.log(note, note.categories);
       note.categories.forEach((categoryId) => {
         record[categoryId] = true;
       });
@@ -99,7 +98,6 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
       _categories.push(temporary);
     }
     const elements: ReactElement[] = _categories
-      .filter((category: Category) => !category.deleted)
       .map((category: Category) => (
         <CategoryListItem
           onSelect={ handleCategorySelect }

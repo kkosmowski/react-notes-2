@@ -40,7 +40,8 @@
       "content": "Hello semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
       "id": "f7f711c7-d233-4307-997f-0ff7d522d64e",
       "categories": [
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf"
       ],
       "deleted": false
     },
@@ -66,6 +67,11 @@
     {
       "id": "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
       "name": "Cześć wszystkim, witam serdecznie",
+      "deleted": false
+    },
+    {
+      "id": "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+      "name": "asdasdad",
       "deleted": false
     }
   ]

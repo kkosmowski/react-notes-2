@@ -54,7 +54,8 @@ export const CategoryListItem = (
     return className;
   };
 
-  const handleSelect = (): void => {
+  const handleSelect = (e: MouseEvent): void => {
+    e.stopPropagation();
     if (!edited) {
       onSelect(data);
     }
@@ -116,7 +117,7 @@ export const CategoryListItem = (
 
   const RegularView: ReactElement = (
     <>
-      <span>{ data.name }</span>
+      <span title={ data.name }>{ data.name }</span>
       { canBeEdited.current
         ? (
           <>

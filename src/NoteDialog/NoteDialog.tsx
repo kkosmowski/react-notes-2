@@ -14,7 +14,7 @@ import { NoteDialogActions } from './NoteDialogActions';
 import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';
 import { selectConfirmationResult, selectNoteDialogOpened } from '../store/selectors/ui.selectors';
 import { selectOpenedNote } from '../store/selectors/note.selectors';
-import { selectCategories } from '../store/selectors/category.selectors';
+import { selectUndeletedCategories } from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
@@ -36,7 +36,7 @@ export const NoteDialog = (): ReactElement => {
     flex: true
   };
   const opened = useSelector(selectNoteDialogOpened);
-  const categories = useSelector(selectCategories);
+  const categories = useSelector(selectUndeletedCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.Both);
