@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { textEllipsis } from '../../styles/styled-components-utils/text-ellipsis.mixin';
 
 export const ListItem = styled.li`
   display: flex;
@@ -11,6 +12,7 @@ export const ListItem = styled.li`
   
   > span {
     flex: 1;
+    ${ textEllipsis };
   }
 
   &:first-child {

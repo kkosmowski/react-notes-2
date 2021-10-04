@@ -7,6 +7,7 @@ import { Button } from '../Button/Button';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { NIL } from 'uuid';
+import { stopPropagation } from '../utils/stop-propagation.util';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -61,7 +62,7 @@ export const CategoryListItem = (
   const handleBlur = (): void => {
     setTimeout(() => {
       if (document.activeElement?.id !== saveButtonId) {
-        onCancel();
+        edited ? onCancel() : setEditMode(false);
       }
     });
   };
@@ -87,6 +88,7 @@ export const CategoryListItem = (
   const EditModeView: ReactElement = (
     <>
       <input
+        onClick={ stopPropagation }
         onChange={ (event) => setName(event.target.value) }
         onBlur={ handleBlur }
         value={ name }
