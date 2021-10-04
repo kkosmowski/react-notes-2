@@ -5,7 +5,7 @@ import { NoteDialog } from '../NoteDialog/NoteDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { NotesContainer } from '../NotesContainer/NotesContainer';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSelectedCategory } from '../store/selectors/category.selectors';
+import { selectCurrentCategory } from '../store/selectors/category.selectors';
 import { Category } from '../domain/interfaces/category.interface';
 import { Snackbar } from '../Snackbar/Snackbar';
 import NoteActions from '../store/actionCreators/note.action-creators';
@@ -14,7 +14,7 @@ import { selectNoteSelectionMode, selectSelectedNotes } from '../store/selectors
 import { EntityUid } from '../domain/types/entity-uid.type';
 
 export const Main = (): ReactElement => {
-  const selectedCategory: Category = useSelector(selectSelectedCategory);
+  const selectedCategory: Category = useSelector(selectCurrentCategory);
   const selectedNotes: Record<EntityUid, boolean> = useSelector(selectSelectedNotes);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const dispatch = useDispatch();

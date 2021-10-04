@@ -17,6 +17,7 @@ export const en = {
     SINGLE_SELECTION: 'Single selection',
     DELETE_NOTE: 'Delete note',
     DELETE_NOTES: 'Delete multiple notes',
+    REMOVE_FROM_CATEGORY: 'Remove from category',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',
@@ -49,13 +50,15 @@ export const en = {
   },
   SNACKBAR: {
     UNDO: 'Undo',
-    NOTE_CREATED: 'Note successfully created',
-    NOTE_UPDATED: 'Note successfully updated',
-    NOTE_DELETED: 'Note successfully deleted',
-    NOTE_RESTORED: 'Note successfully restored',
-    CATEGORY_CREATED: 'Category successfully created',
-    CATEGORY_UPDATED: 'Category successfully updated',
-    CATEGORY_DELETED: 'Category successfully deleted',
-    CATEGORY_RESTORED: 'Category successfully restored',
+    NOTE_CREATED: 'Note created',
+    NOTE_UPDATED: 'Note updated',
+    NOTE_DELETED: 'Note deleted',
+    NOTE_RESTORED: 'Note restored',
+    CATEGORY_CREATED: 'Category created',
+    CATEGORY_UPDATED: 'Category updated',
+    CATEGORY_DELETED: 'Category deleted',
+    CATEGORY_RESTORED: 'Category restored',
+    NOTE_REMOVED_FROM_CATEGORY: 'Note removed from category',
+    NOTE_RESTORED_TO_CATEGORY: 'Note restored to category',
   }
 };

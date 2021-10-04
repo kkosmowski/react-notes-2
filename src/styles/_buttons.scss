@@ -15,12 +15,13 @@
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  color: var(--white);
+  color: var(--white-77);
   cursor: pointer;
   border: 0;
 
   &:disabled {
     cursor: not-allowed;
+    color: var(--white-43);
   }
 
   &:hover {

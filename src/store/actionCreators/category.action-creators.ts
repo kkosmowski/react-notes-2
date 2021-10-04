@@ -46,9 +46,9 @@ const CategoryActions = {
     };
   },
 
-  select(category: Category | null): ActionFunction<void> {
+  change(category: Category | null): ActionFunction<void> {
     return async function (dispatch: Dispatch): Promise<void> {
-      dispatch(categoryActions.selectCategory(category));
+      dispatch(categoryActions.changeCategory(category));
     };
   },
 

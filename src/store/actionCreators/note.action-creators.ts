@@ -6,6 +6,9 @@ import { EntityUid } from '../../domain/types/entity-uid.type';
 import noteActions from '../actions/note.actions';
 import { Action } from '../../domain/interfaces/action.interface';
 import HistoryActions from './history.action-creators';
+import store from '../store';
+import { RootState } from '../interfaces/root-state.interface';
+import { RemoveFromCategoryPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -119,6 +122,65 @@ const NoteActions = {
         });
     };
   },
+
+  removeFromCategory({ noteId, categoryId }: RemoveFromCategoryPayload): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.removeNoteFromCategory());
+      const note: NoteInterface = (store.getState() as RootState).note.notes.find((note) => note.id === noteId)!;
+      const noteCategories: EntityUid[] = note.categories.filter((catId) => catId !== categoryId);
+
+      return HttpService
+        .patch(`/notes/${ noteId }`, { categories: noteCategories })
+        .then((updatedNote: NoteInterface) => {
+          dispatch(noteActions.removeNoteFromCategorySuccess({ updatedNote, categoryId }));
+          HistoryActions.push(noteActions.removeNoteFromCategorySuccess({ updatedNote, categoryId }))(dispatch);
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.removeNoteFromCategoryFail());
+        });
+    };
+  },
+  restoreToCategory({ noteId , categoryId }: RemoveFromCategoryPayload): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.restoreNoteToCategory());
+      const note: NoteInterface = (store.getState() as RootState).note.notes.find((note) => note.id === noteId)!;
+      const noteCategories: EntityUid[] = [...note.categories, categoryId];
+
+      return HttpService
+        .patch(`/notes/${ noteId }`, { categories: noteCategories })
+        .then((updatedNote: NoteInterface) => {
+          dispatch(noteActions.restoreNoteToCategorySuccess({ updatedNote, categoryId }));
+          HistoryActions.push(noteActions.restoreNoteToCategorySuccess({ updatedNote, categoryId }))(dispatch);
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.restoreNoteToCategoryFail());
+        });
+    };
+  },
+
+  // removeMultipleNotesFromCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
+  //   return function (dispatch: Dispatch): Promise<void> {
+  //     dispatch(noteActions.removeMultipleNotesFromCategory());
+  //
+  //     const updatedNotes: NoteInterface[] = (store.getState() as RootState).note.notes
+  //       .map((note) => ({
+  //         ...note,
+  //         categories: note.categories.filter((catId) => catId !== categoryId),
+  //       }));
+  //
+  //     return HttpService
+  //       .patch('/notes', updatedNotes)
+  //       .then(() => {
+  //         dispatch(noteActions.removeMultipleNotesFromCategorySuccess(updatedNotes));
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         dispatch(noteActions.removeMultipleNotesFromCategoryFail());
+  //       });
+  //   };
+  // }
 };
 
 export default NoteActions;

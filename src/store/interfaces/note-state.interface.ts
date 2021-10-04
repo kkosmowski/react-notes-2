@@ -12,4 +12,8 @@ export interface NoteState {
   noteDeletionInProgress: boolean;
   noteRestorationInProgress: boolean;
   selectedNotes: Record<EntityUid, boolean>;
+  noteRemovalFromCategoryInProgress: boolean;
+  noteRestorationToCategoryInProgress: boolean;
+  notesRemovalFromCategoryInProgress: boolean;
+  notesRestorationToCategoryInProgress: boolean;
 }

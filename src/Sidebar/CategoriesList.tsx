@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCategoriesLoading,
   selectEditedCategory,
-  selectSelectedCategory,
+  selectCurrentCategory,
   selectTemporaryCategory,
   selectUndeletedCategories
 } from '../store/selectors/category.selectors';
@@ -37,7 +37,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
   const categories: Category[] = useSelector(selectUndeletedCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
-  const selected: Category = useSelector(selectSelectedCategory);
+  const selected: Category = useSelector(selectCurrentCategory);
   const edited: Category | null = useSelector(selectEditedCategory);
   const notes = useSelector(selectNotes);
   const confirmationResult = useSelector(selectConfirmationResult);
@@ -116,13 +116,13 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   const handleCategorySelect = (category: Category): void => {
     if (selected.id !== category.id) {
-      dispatch(CategoryActions.select(category));
+      dispatch(CategoryActions.change(category));
     }
   };
 
   const handleCategorySave = (name: string): void => {
     dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
-    dispatch(CategoryActions.select(edited));
+    dispatch(CategoryActions.change(edited));
     dispatch(CategoryActions.finishEditingCategory());
   };
 

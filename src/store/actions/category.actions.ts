@@ -14,7 +14,7 @@ const categoryActions = {
   createCategorySuccess: createAction<Category>('CREATE_CATEGORY_SUCCESS'),
   createCategoryFail: createAction<void>('CREATE_CATEGORY_FAIL'),
 
-  selectCategory: createAction<Category | null>('SELECT_CATEGORY'),
+  changeCategory: createAction<Category | null>('CHANGE_CATEGORY'),
 
   editCategory: createAction<Category>('EDIT_CATEGORY'),
   editCategorySuccess: createAction<void>('EDIT_CATEGORY_SUCCESS'),

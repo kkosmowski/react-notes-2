@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../Button/Button';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
-import { NIL } from 'uuid';
 import { stopPropagation } from '../utils/stop-propagation.util';
+import { isRootCategory } from '../utils/is-root-category.util';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -29,7 +29,7 @@ export const CategoryListItem = (
   const [editMode, setEditMode] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const saveButtonId = 'save-category';
-  const canBeEdited = useRef<boolean>(data.id !== NIL);
+  const canBeEdited = useRef<boolean>(!isRootCategory(data.id));
 
   useEffect(() => {
     if (edited) {

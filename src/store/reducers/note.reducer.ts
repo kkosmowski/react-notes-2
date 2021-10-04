@@ -13,7 +13,11 @@ export const initialNoteState: NoteState = {
   noteUpdateInProgress: false,
   noteDeletionInProgress: false,
   noteRestorationInProgress: false,
-  selectedNotes: {}
+  selectedNotes: {},
+  noteRemovalFromCategoryInProgress: false,
+  noteRestorationToCategoryInProgress: false,
+  notesRemovalFromCategoryInProgress: false,
+  notesRestorationToCategoryInProgress: false,
 };
 
 const noteReducer = createReducer(initialNoteState, (builder) => {
@@ -114,6 +118,45 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.restoreNoteFail, (state) => {
       state.noteRestorationInProgress = false;
+    })
+
+    .addCase(noteActions.removeNoteFromCategory, (state) => {
+      state.noteRemovalFromCategoryInProgress = true;
+    })
+    .addCase(noteActions.removeNoteFromCategorySuccess, (state, { payload }) => {
+      state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
+        ? payload.updatedNote
+        : note
+      );
+      state.noteRemovalFromCategoryInProgress = false;
+    })
+    .addCase(noteActions.removeNoteFromCategoryFail, (state) => {
+      state.noteRemovalFromCategoryInProgress = false;
+    })
+
+    .addCase(noteActions.removeMultipleNotesFromCategory, (state) => {
+      state.notesRemovalFromCategoryInProgress = true;
+    })
+    .addCase(noteActions.removeMultipleNotesFromCategorySuccess, (state, { payload }) => {
+      state.notes = payload;
+      state.notesRemovalFromCategoryInProgress = false;
+    })
+    .addCase(noteActions.removeMultipleNotesFromCategoryFail, (state) => {
+      state.notesRemovalFromCategoryInProgress = false;
+    })
+
+    .addCase(noteActions.restoreNoteToCategory, (state) => {
+      state.noteRestorationToCategoryInProgress = true;
+    })
+    .addCase(noteActions.restoreNoteToCategorySuccess, (state, { payload }) => {
+      state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
+        ? payload.updatedNote
+        : note
+      );
+      state.noteRestorationToCategoryInProgress = false;
+    })
+    .addCase(noteActions.restoreNoteToCategoryFail, (state) => {
+      state.noteRestorationToCategoryInProgress = false;
     });
 });
 
