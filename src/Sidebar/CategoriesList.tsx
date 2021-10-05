@@ -85,7 +85,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
       switch (action) {
         case ConfirmationAction.DeleteCategory:
           if (result && id) {
-            deleteCategory(id);
+            deleteCategory(categories.find((cat) => cat.id === id)!);
           }
           break;
       }
@@ -146,12 +146,12 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
       };
       dispatch(UiActions.openConfirmationDialog(confirmationDialogData));
     } else {
-      deleteCategory(category.id);
+      deleteCategory(category);
     }
   };
 
-  const deleteCategory = (categoryId: EntityUid): void => {
-    dispatch(CategoryActions.deleteCategory(categoryId));
+  const deleteCategory = (category: Category): void => {
+    dispatch(CategoryActions.deleteCategory(category));
   };
 
   return (

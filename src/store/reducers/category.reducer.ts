@@ -85,7 +85,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       state.categoryDeletionInProgress = true;
     })
     .addCase(categoryActions.deleteCategorySuccess, (state, { payload }) => {
-      state.categories = state.categories.map((category) => category.id === payload
+      state.categories = state.categories.map((category) => category.id === payload.id
         ? { ...category, deleted: true }
         : category
       );
@@ -99,7 +99,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       state.categoryRestorationInProgress = true;
     })
     .addCase(categoryActions.restoreCategorySuccess, (state, { payload }) => {
-      state.categories = state.categories.map((category) => category.id === payload
+      state.categories = state.categories.map((category) => category.id === payload.id
         ? { ...category, deleted: false }
         : category
       );

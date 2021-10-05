@@ -11,14 +11,17 @@ import { HistoryUtil } from '../domain/utils/history.util';
 import { selectLastAction } from '../store/selectors/history.selectors';
 import { snackbarDuration } from '../domain/consts/snackbar.const';
 import { useTranslation } from 'react-i18next';
-import { getSnackbarMessageBasedOnAction } from './get-snackbar-message-based-on-action.util';
+import {
+  getSnackbarMessageBasedOnAction,
+  TranslationData
+} from './get-snackbar-message-based-on-action.util';
 
 export const Snackbar = (): ReactElement | null => {
   const { t } = useTranslation('COMMON');
   const visible: boolean = useSelector(selectSnackbarVisible);
   const lastAction: Action | null = useSelector(selectLastAction);
   const dispatch = useDispatch();
-  const [message, setMessage] = useState<string>('');
+  const [translation, setTranslation] = useState<TranslationData>({ message: '' });
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
   const timeout = useRef<any>(); // @todo avoid any
 
@@ -40,7 +43,7 @@ export const Snackbar = (): ReactElement | null => {
 
   const setSnackbarMessage = (): void => {
     if (lastAction) {
-      setMessage(getSnackbarMessageBasedOnAction(lastAction));
+      setTranslation(getSnackbarMessageBasedOnAction(lastAction));
     }
   };
 
@@ -61,7 +64,7 @@ export const Snackbar = (): ReactElement | null => {
       <SnackbarWrapper>
         <SnackbarTimeIndicator duration={ snackbarDuration } />
         <SnackbarContent>
-          <SnackbarMessage>{ t(message) }</SnackbarMessage>
+          <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>
           <SnackbarActions>
             <button
               onClick={ handleUndoButtonClick }
