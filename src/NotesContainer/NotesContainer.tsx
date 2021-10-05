@@ -82,7 +82,9 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleNoteSelect = (noteId: EntityUid): void => {
-    dispatch(NoteActions.selectNote(noteId));
+    if (!selectedNotes[noteId]) {
+      dispatch(NoteActions.selectNote(noteId));
+    }
   };
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {
