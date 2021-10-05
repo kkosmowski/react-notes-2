@@ -60,5 +60,7 @@ export const en = {
     CATEGORY_RESTORED: 'Category restored',
     NOTE_REMOVED_FROM_CATEGORY: 'Note removed from category',
     NOTE_RESTORED_TO_CATEGORY: 'Note restored to category',
+    NOTES_REMOVED_FROM_CATEGORY: 'Multiple notes removed from category',
+    NOTES_RESTORED_TO_CATEGORY: 'Multiple notes restored to category',
   }
 };
