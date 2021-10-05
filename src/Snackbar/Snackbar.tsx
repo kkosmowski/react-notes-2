@@ -13,7 +13,6 @@ import { Close } from '@material-ui/icons';
 import historyActions from '../store/actions/history.actions';
 import { HistoryUtil } from '../domain/utils/history.util';
 import { selectLastAction } from '../store/selectors/history.selectors';
-import { snackbarDuration } from '../domain/consts/snackbar.const';
 import { useTranslation } from 'react-i18next';
 import {
   getSnackbarMessageBasedOnAction,
@@ -24,9 +23,13 @@ import { Button } from '../Button/Button';
 import { Variant } from '../domain/enums/variant.enum';
 import { Color } from '../domain/enums/color.enum';
 
-export const Snackbar = (): ReactElement | null => {
+interface Props {
+  duration: number;
+}
+
+export const Snackbar = ({ duration }: Props): ReactElement | null => {
   const { t } = useTranslation('SNACKBAR');
-  const visible: boolean = useSelector(selectSnackbarVisible);
+  const [visible, setVisible] = useState<boolean>(true);
   const lastAction: ActionDetails | null = useSelector(selectLastAction);
   const dispatch = useDispatch();
   const [translation, setTranslation] = useState<TranslationData>({ message: '' });
@@ -43,10 +46,10 @@ export const Snackbar = (): ReactElement | null => {
       setSnackbarTimeout();
     }
     return () => clearTimeout(timeout.current);
-  }, [visible]);
+  }, [duration]);
 
   const setSnackbarTimeout = (): void => {
-    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration);
+    timeout.current = setTimeout(() => hideSnackbar(), duration);
   };
 
   const setSnackbarMessage = (): void => {
@@ -64,13 +67,13 @@ export const Snackbar = (): ReactElement | null => {
   };
 
   const hideSnackbar = (): void => {
-    dispatch(UiActions.hideSnackbar());
+    setVisible(false);
   };
 
   return visible
     ? (
       <SnackbarWrapper>
-        <SnackbarTimeIndicator duration={ snackbarDuration } />
+        <SnackbarTimeIndicator duration={ duration } />
         <SnackbarContent>
           <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>
           <SnackbarActions>
