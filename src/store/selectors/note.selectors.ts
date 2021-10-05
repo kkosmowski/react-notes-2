@@ -26,3 +26,6 @@ export const selectNoteSelectionMode = createSelector(
 export const selectSelectedNotes = createSelector(
   noteSelector, (note: NoteState) => note.selectedNotes
 );
+export const selectSelectedNotesCount = createSelector(
+  noteSelector, (note: NoteState) => Object.values(note.selectedNotes).filter((selected) => selected).length
+);

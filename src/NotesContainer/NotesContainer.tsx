@@ -16,10 +16,10 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectUndeletedNotes,
   selectNoteSelectionMode,
   selectNotesLoading,
-  selectSelectedNotes
+  selectSelectedNotes,
+  selectUndeletedNotes
 } from '../store/selectors/note.selectors';
 import { selectCurrentCategory } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
@@ -82,7 +82,11 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleNoteSelect = (noteId: EntityUid): void => {
-    dispatch(NoteActions.selectNote(noteId));
+    if (!selectedNotes[noteId]) {
+      dispatch(NoteActions.selectNote(noteId));
+    } else if (noteSelectionMode === NoteSelectionMode.Multi) {
+      dispatch(NoteActions.deselectNote(noteId));
+    }
   };
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {

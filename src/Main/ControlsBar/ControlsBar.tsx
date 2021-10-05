@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useEffect, useRef } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import styled from 'styled-components';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../../Button/Button';
 import { Color } from '../../domain/enums/color.enum';
 import { Variant } from '../../domain/enums/variant.enum';
-import { selectNoteSelectionMode, selectSelectedNotes } from '../../store/selectors/note.selectors';
+import {
+  selectNoteSelectionMode,
+  selectSelectedNotes,
+  selectSelectedNotesCount
+} from '../../store/selectors/note.selectors';
 import NoteActions from '../../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import {
@@ -19,14 +23,10 @@ import { isRootCategory } from '../../utils/is-root-category.util';
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
   const selectedNotes = useSelector(selectSelectedNotes);
+  const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode = useSelector(selectNoteSelectionMode);
   const currentCategory = useSelector(selectCurrentCategory);
-  const selectedNotesCount = useRef<number>(0);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    selectedNotesCount.current = Object.values(selectedNotes).length;
-  }, [selectedNotes]);
 
   const handleBarClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -45,12 +45,12 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const handleRemoveFromCategory = () => {
-    if (selectedNotesCount.current === 1) {
+    if (selectedNotesCount === 1) {
       dispatch(NoteActions.removeFromCategory({
         noteId: Object.keys(selectedNotes)[0],
         categoryId: currentCategory.id
       }));
-    } else if (selectedNotesCount.current > 1) {
+    } else if (selectedNotesCount > 1) {
       dispatch(NoteActions.removeMultipleNotesFromCategory({
         noteIds: Object.keys(selectedNotes),
         categoryId: currentCategory.id
@@ -86,9 +86,9 @@ export const ControlsBar = (): ReactElement => {
         onClick={ handleNoteDelete }
         color={ Color.Warn }
         variant={ Variant.Regular }
-        disabled={ !Object.values(selectedNotes).length }
+        disabled={ !selectedNotesCount }
       >
-        { t(Object.values(selectedNotes).length > 1
+        { t(selectedNotesCount > 1
           ? 'DELETE_NOTES'
           : 'DELETE_NOTE'
         ) }
@@ -99,7 +99,7 @@ export const ControlsBar = (): ReactElement => {
         : <Button
           onClick={ handleRemoveFromCategory }
           variant={ Variant.Regular }
-          disabled={ !Object.values(selectedNotes).length }
+          disabled={ !selectedNotesCount }
         >
           { t('REMOVE_FROM_CATEGORY') }
         </Button>
