@@ -1,5 +1,5 @@
-import { Action } from '../../domain/interfaces/action.interface';
+import { ActionDetails } from '../../domain/interfaces/action-details.interface';
 
 export interface HistoryState {
-  records: Action[];
+  records: ActionDetails[];
 }

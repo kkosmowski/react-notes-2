@@ -5,11 +5,12 @@ import { ActionFunction } from '../types/action-function.type';
 import { RemoveFromCategoryPayload } from '../interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategoryPayload } from '../interfaces/remove-multiple-notes-from-category-payload.interface';
 import { NoteInterface } from '../interfaces/note.interface';
+import { ActionDetails } from '../interfaces/action-details.interface';
 
 export class HistoryUtil {
-  static getRevertedAction(action: Action): Action | ActionFunction<any> {
-    const type = action.type;
-    let payload = action.payload;
+  static getRevertedAction(details: ActionDetails): Action | ActionFunction<any> {
+    const type = details.action.type;
+    let payload = details.action.payload;
     let revertedAction: (payload: any) => Action | ActionFunction<any>;
     switch (type) {
       case 'CREATE_CATEGORY_SUCCESS':
@@ -57,5 +58,15 @@ export class HistoryUtil {
     }
 
     return revertedAction(payload);
+  }
+
+  static isReversible(type: string): boolean {
+    const irreversibleActionTypes: string[] = [
+      'RESTORE_CATEGORY_SUCCESS',
+      'RESTORE_NOTE_SUCCESS',
+      'RESTORE_NOTE_TO_CATEGORY_SUCCESS',
+      'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'
+    ];
+    return !irreversibleActionTypes.includes(type);
   }
 }

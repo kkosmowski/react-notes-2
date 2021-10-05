@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSnackbarVisible } from '../store/selectors/ui.selectors';
 import { SnackbarTimeIndicator } from './SnackbarTimeIndicator';
 import UiActions from '../store/actionCreators/ui.action-creators';
-import { SnackbarActions, SnackbarContent, SnackbarMessage, SnackbarWrapper } from './Snackbar.styled';
+import {
+  SnackbarActions,
+  SnackbarContent,
+  SnackbarMessage,
+  SnackbarWrapper
+} from './Snackbar.styled';
 import { Close } from '@material-ui/icons';
-import { Action } from '../domain/interfaces/action.interface';
 import historyActions from '../store/actions/history.actions';
 import { HistoryUtil } from '../domain/utils/history.util';
 import { selectLastAction } from '../store/selectors/history.selectors';
@@ -15,18 +19,22 @@ import {
   getSnackbarMessageBasedOnAction,
   TranslationData
 } from './get-snackbar-message-based-on-action.util';
+import { ActionDetails } from '../domain/interfaces/action-details.interface';
+import { Button } from '../Button/Button';
+import { Variant } from '../domain/enums/variant.enum';
+import { Color } from '../domain/enums/color.enum';
 
 export const Snackbar = (): ReactElement | null => {
-  const { t } = useTranslation('COMMON');
+  const { t } = useTranslation('SNACKBAR');
   const visible: boolean = useSelector(selectSnackbarVisible);
-  const lastAction: Action | null = useSelector(selectLastAction);
+  const lastAction: ActionDetails | null = useSelector(selectLastAction);
   const dispatch = useDispatch();
   const [translation, setTranslation] = useState<TranslationData>({ message: '' });
-  const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
+  const [undoButtonVisible, setUndoButtonVisible] = useState<boolean>(false);
   const timeout = useRef<any>(); // @todo avoid any
 
   useEffect(() => {
-    setUndoButtonDisabled(!lastAction);
+    setUndoButtonVisible(!lastAction || lastAction.reversible);
     setSnackbarMessage();
   }, [lastAction]);
 
@@ -48,10 +56,10 @@ export const Snackbar = (): ReactElement | null => {
   };
 
   const handleUndoButtonClick = (): void => {
-    if (lastAction) {
+    if (lastAction && lastAction.reversible) {
       dispatch(historyActions.pop());
       dispatch(HistoryUtil.getRevertedAction(lastAction));
-      dispatch(UiActions.hideSnackbar());
+      hideSnackbar();
     }
   };
 
@@ -66,22 +74,24 @@ export const Snackbar = (): ReactElement | null => {
         <SnackbarContent>
           <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>
           <SnackbarActions>
-            <button
-              onClick={ handleUndoButtonClick }
-              className="button --contained --primary"
-              type="button"
-              disabled={ undoButtonDisabled }
-            >
-              { t('UNDO') }
-            </button>
+            { undoButtonVisible
+              ? <Button
+                onClick={ handleUndoButtonClick }
+                variant={ Variant.Contained }
+                color={ Color.Primary}
+              >
+                { t('UNDO') }
+              </Button>
+              : null
+            }
 
-            <button
+            <Button
               onClick={ hideSnackbar }
-              className="button --icon --small"
-              type="button"
+              variant={ Variant.Icon }
+              small
             >
               <Close />
-            </button>
+            </Button>
           </SnackbarActions>
         </SnackbarContent>
       </SnackbarWrapper>
