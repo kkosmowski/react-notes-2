@@ -3,7 +3,7 @@ import { DialogConfig } from '../../domain/interfaces/dialog-config.interface';
 
 export const DialogWrapper = styled.div`
   position: absolute;
-  z-index: 200;
+  z-index: 300;
   left: 0;
   top: 0;
   display: flex;

@@ -1,6 +1,8 @@
 import { UiState } from '../interfaces/ui-state.interface';
 import { createReducer } from '@reduxjs/toolkit';
 import uiActions from '../actions/ui.actions';
+import { v4 } from 'uuid';
+import { HistoryUtil } from '../../domain/utils/history.util';
 
 export const initialUiState: UiState = {
   noteDialogOpened: false,
@@ -10,7 +12,7 @@ export const initialUiState: UiState = {
   editedCategoryId: null,
   sidebarOpened: false,
   snackbarVisible: false,
-  snackbarData: null,
+  snackbarQueue: [],
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -45,14 +47,18 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     })
 
     .addCase(uiActions.showSnackbar, (state, { payload }) => {
-      state.snackbarVisible = true;
-      state.snackbarData = payload;
+      state.snackbarQueue.push({
+        id: v4(),
+        details: {
+          action: payload,
+          reversible: HistoryUtil.isReversible(payload.type),
+        },
+      });
     })
     .addCase(uiActions.hideSnackbar, (state) => {
-      state.confirmationDialogResult = null;
-      state.snackbarVisible = false;
-      state.snackbarData = null;
-    });
+      state.snackbarQueue.shift();
+    })
+  ;
 });
 
 export default uiReducer;
