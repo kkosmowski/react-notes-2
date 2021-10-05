@@ -6,6 +6,7 @@ import categoryActions from '../actions/category.actions';
 import { Action } from '../../domain/interfaces/action.interface';
 import HistoryActions from './history.action-creators';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import NoteActions from './note.action-creators';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -46,9 +47,10 @@ const CategoryActions = {
     };
   },
 
-  select(category: Category | null): ActionFunction<void> {
+  change(category: Category | null): ActionFunction<void> {
     return async function (dispatch: Dispatch): Promise<void> {
-      dispatch(categoryActions.selectCategory(category));
+      dispatch(categoryActions.changeCategory(category));
+      dispatch(NoteActions.clearSelection());
     };
   },
 
@@ -60,7 +62,7 @@ const CategoryActions = {
   },
 
   updateCategory(category: Category): ActionFunction<Promise<void>> {
-    return function(dispatch: Dispatch): Promise<void> {
+    return function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.updateCategory());
       return HttpService
         .put(`/categories/${ category.id }`, category)
@@ -89,19 +91,32 @@ const CategoryActions = {
     return categoryActions.deleteTemporaryCategory();
   },
 
-  removeCategory(categoryId: EntityUid): Action {
-    // @todo implement
-    return categoryActions.removeCategory(categoryId);
-    // @todo implement
-    // HistoryActions.push(categoryActions.removeCategorySuccess(categoryId))(dispatch);
+  deleteCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
+    return deleteAndRestore('deleteCategory', categoryId);
   },
 
-  restoreCategory(categoryId: EntityUid): Action {
-    // @todo implement
-    return categoryActions.restoreCategory(categoryId);
-    // @todo implement
-    // HistoryActions.push(categoryActions.restoreCategorySuccess(categoryId))(dispatch);
+  restoreCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
+    return deleteAndRestore('restoreCategory', categoryId);
   },
+};
+
+// no idea if this is incredibly genius or extremely wrong, gonna keep it, though
+const deleteAndRestore = (actionName: 'deleteCategory' | 'restoreCategory', categoryId: EntityUid): ActionFunction<Promise<void>> => {
+  const success = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
+  const fail = actionName + 'Fail' as 'deleteCategoryFail' | 'restoreCategoryFail';
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch((categoryActions[actionName])());
+    return HttpService
+      .patch(`/categories/${ categoryId }`, { deleted: false })
+      .then(() => {
+        dispatch(categoryActions[success](categoryId));
+        HistoryActions.push(categoryActions[success](categoryId))(dispatch);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(categoryActions[fail]());
+      });
+  };
 };
 
 export default CategoryActions;

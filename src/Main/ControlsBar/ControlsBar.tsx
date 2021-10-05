@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement } from 'react';
+import { MouseEvent, ReactElement, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,12 +13,20 @@ import {
   addNoteButtonTestId,
   toggleSelectionModeButtonTestId
 } from '../../domain/consts/test-ids.consts';
+import { selectCurrentCategory } from '../../store/selectors/category.selectors';
+import { isRootCategory } from '../../utils/is-root-category.util';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
   const selectedNotes = useSelector(selectSelectedNotes);
   const selectionMode = useSelector(selectNoteSelectionMode);
+  const currentCategory = useSelector(selectCurrentCategory);
+  const selectedNotesCount = useRef<number>(0);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    selectedNotesCount.current = Object.values(selectedNotes).length;
+  }, [selectedNotes]);
 
   const handleBarClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -36,6 +44,21 @@ export const ControlsBar = (): ReactElement => {
     // @todo implement
   };
 
+  const handleRemoveFromCategory = () => {
+    if (selectedNotesCount.current === 1) {
+      dispatch(NoteActions.removeFromCategory({
+        noteId: Object.keys(selectedNotes)[0],
+        categoryId: currentCategory.id
+      }));
+    } else if (selectedNotesCount.current > 1) {
+      dispatch(NoteActions.removeMultipleNotesFromCategory({
+        noteIds: Object.keys(selectedNotes),
+        categoryId: currentCategory.id
+      }));
+
+    }
+  };
+
   return (
     <Bar onClick={ handleBarClick }>
       <Button
@@ -49,7 +72,6 @@ export const ControlsBar = (): ReactElement => {
 
       <Button
         onClick={ handleSelectionModeChange }
-        color={ Color.Primary }
         variant={ Variant.Regular }
         testid={ toggleSelectionModeButtonTestId }
       >
@@ -71,6 +93,17 @@ export const ControlsBar = (): ReactElement => {
           : 'DELETE_NOTE'
         ) }
       </Button>
+
+      { isRootCategory(currentCategory.id)
+        ? null
+        : <Button
+          onClick={ handleRemoveFromCategory }
+          variant={ Variant.Regular }
+          disabled={ !Object.values(selectedNotes).length }
+        >
+          { t('REMOVE_FROM_CATEGORY') }
+        </Button>
+      }
     </Bar>
   );
 };

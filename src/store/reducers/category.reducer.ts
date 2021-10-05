@@ -7,10 +7,12 @@ export const initialCategoryState: CategoryState = {
   categories: [],
   categoryCreationInProgress: false,
   categoriesLoading: false,
-  selectedCategory: rootCategory,
+  currentCategory: rootCategory,
   editedCategory: null,
   temporaryCategory: null,
-  categoryUpdating: false,
+  categoryUpdateInProgress: false,
+  categoryDeletionInProgress: false,
+  categoryRestorationInProgress: false,
 };
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
@@ -19,10 +21,10 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       state.categoriesLoading = true;
     })
     .addCase(categoryActions.getCategoriesSuccess, (state, action) => {
-      state.categoriesLoading = false;
       if (action.payload) {
         state.categories = action.payload;
       }
+      state.categoriesLoading = false;
     })
     .addCase(categoryActions.getCategoriesFail, (state) => {
       state.categoriesLoading = false;
@@ -39,19 +41,19 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       state.categoryCreationInProgress = true;
     })
     .addCase(categoryActions.createCategorySuccess, (state, action) => {
-      state.categoryCreationInProgress = false;
       state.temporaryCategory = null;
       if (action.payload) {
         state.categories = [...state.categories, action.payload];
       }
+      state.categoryCreationInProgress = false;
     })
     .addCase(categoryActions.createCategoryFail, (state) => {
       state.categoryCreationInProgress = false;
     })
 
-    .addCase(categoryActions.selectCategory, (state, action) => {
+    .addCase(categoryActions.changeCategory, (state, action) => {
       if (action.payload) {
-        state.selectedCategory = action.payload;
+        state.currentCategory = action.payload;
       }
     })
 
@@ -63,20 +65,48 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
 
     .addCase(categoryActions.updateCategory, (state) => {
-      state.categoryUpdating = true;
+      state.categoryUpdateInProgress = true;
     })
     .addCase(categoryActions.updateCategorySuccess, (state, { payload }) => {
-      state.categoryUpdating = false;
       state.categories = state.categories.map((category) => category.id === payload.id
         ? payload
         : category
       );
-      if (state.selectedCategory.id === payload.id) {
-        state.selectedCategory = payload;
+      if (state.currentCategory.id === payload.id) {
+        state.currentCategory = payload;
       }
+      state.categoryUpdateInProgress = false;
     })
     .addCase(categoryActions.updateCategoryFail, (state) => {
-      state.categoryUpdating = false;
+      state.categoryUpdateInProgress = false;
+    })
+
+    .addCase(categoryActions.deleteCategory, (state) => {
+      state.categoryDeletionInProgress = true;
+    })
+    .addCase(categoryActions.deleteCategorySuccess, (state, { payload }) => {
+      state.categories = state.categories.map((category) => category.id === payload
+        ? { ...category, deleted: true }
+        : category
+      );
+      state.categoryDeletionInProgress = false;
+    })
+    .addCase(categoryActions.deleteCategoryFail, (state) => {
+      state.categoryDeletionInProgress = false;
+    })
+
+    .addCase(categoryActions.restoreCategory, (state) => {
+      state.categoryRestorationInProgress = true;
+    })
+    .addCase(categoryActions.restoreCategorySuccess, (state, { payload }) => {
+      state.categories = state.categories.map((category) => category.id === payload
+        ? { ...category, deleted: false }
+        : category
+      );
+      state.categoryRestorationInProgress = false;
+    })
+    .addCase(categoryActions.restoreCategoryFail, (state) => {
+      state.categoryRestorationInProgress = false;
     });
 });
 

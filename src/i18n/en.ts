@@ -17,6 +17,7 @@ export const en = {
     SINGLE_SELECTION: 'Single selection',
     DELETE_NOTE: 'Delete note',
     DELETE_NOTES: 'Delete multiple notes',
+    REMOVE_FROM_CATEGORY: 'Remove from category',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',
@@ -34,10 +35,12 @@ export const en = {
     TITLE: {
       LEAVE_PROGRESS: 'Leave?',
       DELETE_NOTE: 'Delete note?',
+      DELETE_CATEGORY: 'Delete category?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Are you sure you want to leave your progress?',
       DELETE_NOTE: 'Are you sure you want to delete this note?',
+      DELETE_CATEGORY: 'This category is not empty. Are you sure you want to delete it?\nIt will not delete any notes.',
     },
     CONTROLS: {
       NO_CANCEL: 'No, cancel',
@@ -47,6 +50,17 @@ export const en = {
   },
   SNACKBAR: {
     UNDO: 'Undo',
-    NOTE_DELETED: 'Note deleted successfully',
+    NOTE_CREATED: 'Note created',
+    NOTE_UPDATED: 'Note updated',
+    NOTE_DELETED: 'Note deleted',
+    NOTE_RESTORED: 'Note restored',
+    CATEGORY_CREATED: 'Category created',
+    CATEGORY_UPDATED: 'Category updated',
+    CATEGORY_DELETED: 'Category deleted',
+    CATEGORY_RESTORED: 'Category restored',
+    NOTE_REMOVED_FROM_CATEGORY: 'Note removed from category',
+    NOTE_RESTORED_TO_CATEGORY: 'Note restored to category',
+    NOTES_REMOVED_FROM_CATEGORY: 'Multiple notes removed from category',
+    NOTES_RESTORED_TO_CATEGORY: 'Multiple notes restored to category',
   }
 };

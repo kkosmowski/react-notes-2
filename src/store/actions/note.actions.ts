@@ -1,6 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
+import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -29,6 +31,22 @@ const noteActions = {
   restoreNote: createAction<void>('RESTORE_NOTE'),
   restoreNoteSuccess: createAction<NoteInterface>('RESTORE_NOTE_SUCCESS'),
   restoreNoteFail: createAction<void>('RESTORE_NOTE_FAIL'),
+
+  removeNoteFromCategory: createAction<void>('REMOVE_NOTE_FROM_CATEGORY'),
+  removeNoteFromCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('REMOVE_NOTE_FROM_CATEGORY_SUCCESS'),
+  removeNoteFromCategoryFail: createAction<void>('REMOVE_NOTE_FROM_CATEGORY_FAIL'),
+
+  restoreNoteToCategory: createAction<void>('RESTORE_NOTE_TO_CATEGORY'),
+  restoreNoteToCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('RESTORE_NOTE_TO_CATEGORY_SUCCESS'),
+  restoreNoteToCategoryFail: createAction<void>('RESTORE_NOTE_TO_CATEGORY_FAIL'),
+
+  removeMultipleNotesFromCategory: createAction<void>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY'),
+  removeMultipleNotesFromCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS'),
+  removeMultipleNotesFromCategoryFail: createAction<void>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_FAIL'),
+
+  restoreMultipleNotesToCategory: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY'),
+  restoreMultipleNotesToCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'),
+  restoreMultipleNotesToCategoryFail: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_FAIL'),
 };
 
 export default noteActions;

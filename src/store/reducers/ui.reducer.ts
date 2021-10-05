@@ -32,6 +32,7 @@ const uiReducer = createReducer(initialUiState, (builder) => {
       state.confirmationDialogResult = {
         result: action.payload,
         action: state.confirmationDialogData!.action,
+        id: state.confirmationDialogData?.id,
       };
       state.confirmationDialogData = null;
     })
@@ -48,6 +49,7 @@ const uiReducer = createReducer(initialUiState, (builder) => {
       state.snackbarData = payload;
     })
     .addCase(uiActions.hideSnackbar, (state) => {
+      state.confirmationDialogResult = null;
       state.snackbarVisible = false;
       state.snackbarData = null;
     });

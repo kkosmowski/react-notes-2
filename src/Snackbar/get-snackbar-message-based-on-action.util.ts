@@ -8,12 +8,16 @@ export const getSnackbarMessageBasedOnAction = (action: Action): string => {
       message += 'CATEGORY_CREATED';
       break;
 
-    case 'REMOVE_CATEGORY_SUCCESS':
-      message += 'CATEGORY_REMOVED';
+    case 'DELETE_CATEGORY_SUCCESS':
+      message += 'CATEGORY_DELETED';
       break;
 
     case 'EDIT_CATEGORY_SUCCESS':
       message += 'CATEGORY_EDITED';
+      break;
+
+    case 'RESTORE_CATEGORY_SUCCESS':
+      message += 'CATEGORY_RESTORED';
       break;
 
     case 'CREATE_NOTE_SUCCESS':
@@ -26,6 +30,26 @@ export const getSnackbarMessageBasedOnAction = (action: Action): string => {
 
     case 'UPDATE_NOTE_SUCCESS':
       message += 'NOTE_UPDATED';
+      break;
+
+    case 'RESTORE_NOTE_SUCCESS':
+      message += 'NOTE_RESTORED';
+      break;
+
+    case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
+      message += 'NOTE_REMOVED_FROM_CATEGORY';
+      break;
+
+    case 'RESTORE_NOTE_TO_CATEGORY_SUCCESS':
+      message += 'NOTE_RESTORED_TO_CATEGORY';
+      break;
+
+    case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':
+      message += 'NOTES_REMOVED_FROM_CATEGORY';
+      break;
+
+    case 'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS':
+      message += 'NOTES_RESTORED_TO_CATEGORY';
       break;
 
     default:

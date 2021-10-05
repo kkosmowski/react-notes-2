@@ -1,6 +1,6 @@
 import { MouseEvent, ReactElement } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
-import { DialogContainer, DialogWrapper } from './styles/Dialog.styles';
+import { DialogContainer, DialogWrapper } from './styles/Dialog.styled';
 import { Backdrop } from '../Backdrop/Backdrop';
 
 interface Props {

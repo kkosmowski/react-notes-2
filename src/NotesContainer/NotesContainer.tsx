@@ -16,19 +16,19 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  selectNotes,
+  selectUndeletedNotes,
   selectNoteSelectionMode,
   selectNotesLoading,
   selectSelectedNotes
 } from '../store/selectors/note.selectors';
-import { selectSelectedCategory } from '../store/selectors/category.selectors';
+import { selectCurrentCategory } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
 
 export const NotesContainer = (): ReactElement => {
   const { t } = useTranslation('COMMON');
-  const notes: NoteInterface[] = useSelector(selectNotes);
+  const notes: NoteInterface[] = useSelector(selectUndeletedNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
-  const selectedCategory: Category | null = useSelector(selectSelectedCategory);
+  const selectedCategory: Category | null = useSelector(selectCurrentCategory);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
@@ -58,7 +58,6 @@ export const NotesContainer = (): ReactElement => {
 
   useEffect(() => {
     const _notes: ReactElement[] = currentCategoryNotes
-      .filter((note) => !note.deleted)
       .map((note) => (
         <Note
           onSelect={ handleNoteSelect }

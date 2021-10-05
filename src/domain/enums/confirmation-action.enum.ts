@@ -1,4 +1,5 @@
 export enum ConfirmationAction {
   LeaveNoteProgress = 'LeaveNoteProgress',
-  DeleteNote = 'DeleteNote'
+  DeleteNote = 'DeleteNote',
+  DeleteCategory = 'DeleteCategory',
 }

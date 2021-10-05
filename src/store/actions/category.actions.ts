@@ -14,17 +14,17 @@ const categoryActions = {
   createCategorySuccess: createAction<Category>('CREATE_CATEGORY_SUCCESS'),
   createCategoryFail: createAction<void>('CREATE_CATEGORY_FAIL'),
 
-  selectCategory: createAction<Category | null>('SELECT_CATEGORY'),
+  changeCategory: createAction<Category | null>('CHANGE_CATEGORY'),
 
   editCategory: createAction<Category>('EDIT_CATEGORY'),
   editCategorySuccess: createAction<void>('EDIT_CATEGORY_SUCCESS'),
 
-  removeCategory: createAction<EntityUid>('REMOVE_CATEGORY'),
-  removeCategorySuccess: createAction<void>('REMOVE_CATEGORY_SUCCESS'),
-  removeCategoryFail: createAction<void>('REMOVE_CATEGORY_FAIL'),
+  deleteCategory: createAction<void>('DELETE_CATEGORY'),
+  deleteCategorySuccess: createAction<EntityUid>('DELETE_CATEGORY_SUCCESS'),
+  deleteCategoryFail: createAction<void>('DELETE_CATEGORY_FAIL'),
 
-  restoreCategory: createAction<EntityUid>('RESTORE_CATEGORY'),
-  restoreCategorySuccess: createAction<void>('RESTORE_CATEGORY_SUCCESS'),
+  restoreCategory: createAction<void>('RESTORE_CATEGORY'),
+  restoreCategorySuccess: createAction<EntityUid>('RESTORE_CATEGORY_SUCCESS'),
   restoreCategoryFail: createAction<void>('RESTORE_CATEGORY_FAIL'),
 
   updateCategory: createAction<void>('UPDATE_CATEGORY'),

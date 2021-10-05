@@ -17,6 +17,7 @@ export const pl = {
     SINGLE_SELECTION: 'Pojedyncze zaznaczenie',
     DELETE_NOTE: 'Usuń notatkę',
     DELETE_NOTES: 'Usuń wiele notatek',
+    REMOVE_FROM_CATEGORY: 'Usuń z kategorii',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',
@@ -34,10 +35,12 @@ export const pl = {
     TITLE: {
       LEAVE_PROGRESS: 'Porzucić zmiany?',
       DELETE_NOTE: 'Usunąć notatkę?',
+      DELETE_CATEGORY: 'Usunąć kategori?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Czy na pewno chcesz porzucić swoje zmiany?',
       DELETE_NOTE: 'Czy na pewno chcesz usunąć tę notatkę?',
+      DELETE_CATEGORY: 'Kategoria nie jest pusta. Czy na pewno chcesz ją usunąć?\nNie usunie to żadnej notatki.',
     },
     CONTROLS: {
       NO_CANCEL: 'Nie, anuluj',
@@ -47,6 +50,17 @@ export const pl = {
   },
   SNACKBAR: {
     UNDO: 'Cofnij',
+    NOTE_CREATED: 'Notatka utworzona',
+    NOTE_UPDATED: 'Notatka zaktualizowana',
     NOTE_DELETED: 'Notatka usunięta',
+    NOTE_RESTORED: 'Notatka przywrócona',
+    CATEGORY_CREATED: 'Kategoria utworzona',
+    CATEGORY_UPDATED: 'Kategoria zaktualizowana',
+    CATEGORY_DELETED: 'Kategoria usunięta',
+    CATEGORY_RESTORED: 'Kategoria przywrócona',
+    NOTE_REMOVED_FROM_CATEGORY: 'Notatka usunięta z kategorii',
+    NOTE_RESTORED_TO_CATEGORY: 'Notatka przywrócona do kategorii',
+    NOTES_REMOVED_FROM_CATEGORY: 'Wiele notatek usuniętych z kategorii',
+    NOTES_RESTORED_TO_CATEGORY: 'Wiele notatek przywróconych do kategorii',
   }
 };

@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
-import { DialogControls } from '../Dialog/styles/Dialog.styles';
+import { DialogControls } from '../Dialog/styles/Dialog.styled';
 import styled from 'styled-components';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,4 +54,6 @@ export const ConfirmationDialog = (): ReactElement => {
 
 const Message = styled.p`
   margin: 16px 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
 `;

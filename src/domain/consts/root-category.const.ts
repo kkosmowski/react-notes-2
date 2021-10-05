@@ -7,5 +7,6 @@ i18next.init(i18nConfig);
 
 export const rootCategory: Category = {
   id: NIL,
-  name: i18next.t('COMMON:ROOT_CATEGORY')
+  name: i18next.t('COMMON:ROOT_CATEGORY'),
+  deleted: false,
 };

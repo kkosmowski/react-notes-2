@@ -20,9 +20,13 @@ export const Sidebar = (): ReactElement => {
     dispatch(UiActions.closeSidebar());
   };
 
+  const handleSidebarClick = (): void => {
+    dispatch(UiActions.openSidebar());
+  };
+
   return (
     <>
-      <SidebarWrapper className={ opened ? '--opened' : '' }>
+      <SidebarWrapper onClick={ handleSidebarClick } className={ opened ? '--opened' : '' }>
         <AddCategoryButton onClick={ handleCategoryAdd } />
         <CategoriesList add={ addCategory } />
       </SidebarWrapper>

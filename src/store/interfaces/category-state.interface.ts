@@ -4,8 +4,10 @@ export interface CategoryState {
   categories: Category[];
   categoryCreationInProgress: boolean;
   categoriesLoading: boolean;
-  selectedCategory: Category;
+  currentCategory: Category;
   editedCategory: Category | null;
   temporaryCategory: Category | null;
-  categoryUpdating: boolean;
+  categoryUpdateInProgress: boolean;
+  categoryDeletionInProgress: boolean;
+  categoryRestorationInProgress: boolean;
 }

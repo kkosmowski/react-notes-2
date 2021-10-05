@@ -7,6 +7,7 @@
 :root {
   --icon-button-size: 40px;
   --icon-button-size-small: 28px;
+  --ghost-icon-button-size: 28px;
 }
 
 .button {
@@ -14,12 +15,13 @@
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  color: var(--white);
+  color: var(--white-77);
   cursor: pointer;
   border: 0;
 
   &:disabled {
     cursor: not-allowed;
+    color: var(--white-43);
   }
 
   &:hover {

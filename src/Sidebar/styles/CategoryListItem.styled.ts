@@ -1,16 +1,18 @@
 import styled from 'styled-components';
+import { textEllipsis } from '../../styles/styled-components-utils/text-ellipsis.mixin';
 
 export const ListItem = styled.li`
   display: flex;
   align-items: center;
   white-space: nowrap;
-  padding: 3px 0 3px calc((var(--sidebar-width) - var(--icon-size)) / 2);
+  padding: 3px 4px 3px calc((var(--sidebar-width) - var(--icon-size)) / 2);
   height: 47px;
   cursor: pointer;
   border-bottom: 1px solid var(--white-7);
   
   > span {
     flex: 1;
+    ${ textEllipsis };
   }
 
   &:first-child {

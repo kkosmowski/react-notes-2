@@ -1,4 +1,5 @@
 import { ConfirmationAction } from '../enums/confirmation-action.enum';
+import { EntityUid } from '../types/entity-uid.type';
 
 export interface ConfirmationDialogData {
   title: string;
@@ -6,4 +7,5 @@ export interface ConfirmationDialogData {
   cancelButtonText?: string;
   confirmButtonText: string;
   action: ConfirmationAction;
+  id?: EntityUid;
 }

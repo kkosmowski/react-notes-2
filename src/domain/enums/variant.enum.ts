@@ -1,5 +1,6 @@
 export enum Variant {
   Contained = '--contained',
   Regular = '--regular',
-  Icon = '--icon'
+  Icon = '--icon',
+  GhostIcon = '--ghost-icon'
 }

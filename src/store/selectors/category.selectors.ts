@@ -7,12 +7,16 @@ const categorySelector = (state: RootState) => state.category;
 export const selectCategories = createSelector(
   categorySelector, (category: CategoryState) => category.categories
 );
+export const selectUndeletedCategories = createSelector(
+  categorySelector, (category: CategoryState) => category.categories
+    .filter((category) => !category.deleted)
+);
 export const selectCategoriesLoading = createSelector(
   categorySelector, (category: CategoryState) => category.categoriesLoading
 );
 
-export const selectSelectedCategory = createSelector(
-  categorySelector, (category: CategoryState) => category.selectedCategory
+export const selectCurrentCategory = createSelector(
+  categorySelector, (category: CategoryState) => category.currentCategory
 );
 
 export const selectEditedCategory = createSelector(
