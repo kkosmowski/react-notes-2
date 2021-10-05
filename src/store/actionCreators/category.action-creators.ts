@@ -60,7 +60,7 @@ const CategoryActions = {
   },
 
   updateCategory(category: Category): ActionFunction<Promise<void>> {
-    return function(dispatch: Dispatch): Promise<void> {
+    return function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.updateCategory());
       return HttpService
         .put(`/categories/${ category.id }`, category)
@@ -90,36 +90,31 @@ const CategoryActions = {
   },
 
   deleteCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
-      dispatch(categoryActions.deleteCategory());
-      return HttpService
-        .patch(`/categories/${ categoryId }`, { deleted: true })
-        .then(() => {
-          dispatch(categoryActions.deleteCategorySuccess(categoryId));
-          HistoryActions.push(categoryActions.deleteCategorySuccess(categoryId))(dispatch);
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(categoryActions.deleteCategoryFail());
-        });
-    };
+    return deleteAndRestore('deleteCategory', categoryId);
   },
 
   restoreCategory(categoryId: EntityUid): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
-      dispatch(categoryActions.restoreCategory());
-      return HttpService
-        .patch(`/categories/${ categoryId }`, { deleted: false })
-        .then(() => {
-          dispatch(categoryActions.restoreCategorySuccess(categoryId));
-          HistoryActions.push(categoryActions.restoreCategorySuccess(categoryId))(dispatch);
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(categoryActions.restoreCategoryFail());
-        });
-    };
+    return deleteAndRestore('restoreCategory', categoryId);
   },
+};
+
+// no idea if this is incredibly genius or extremely wrong, gonna keep it, though
+const deleteAndRestore = (actionName: 'deleteCategory' | 'restoreCategory', categoryId: EntityUid): ActionFunction<Promise<void>> => {
+  const success = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
+  const fail = actionName + 'Fail' as 'deleteCategoryFail' | 'restoreCategoryFail';
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch((categoryActions[actionName])());
+    return HttpService
+      .patch(`/categories/${ categoryId }`, { deleted: false })
+      .then(() => {
+        dispatch(categoryActions[success](categoryId));
+        HistoryActions.push(categoryActions[success](categoryId))(dispatch);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(categoryActions[fail]());
+      });
+  };
 };
 
 export default CategoryActions;

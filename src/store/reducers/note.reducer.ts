@@ -1,8 +1,10 @@
 import { NoteState } from '../interfaces/note-state.interface';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, Draft } from '@reduxjs/toolkit';
 import noteActions from '../actions/note.actions';
+import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
+import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 
 export const initialNoteState: NoteState = {
@@ -19,6 +21,29 @@ export const initialNoteState: NoteState = {
   noteRestorationToCategoryInProgress: false,
   notesRemovalFromCategoryInProgress: false,
   notesRestorationToCategoryInProgress: false,
+};
+
+const removeOrRestoreReducer = (
+  state: Draft<NoteState>,
+  { payload }: { payload: RemoveFromCategorySuccessPayload }
+) => {
+  state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
+    ? payload.updatedNote
+    : note
+  );
+  state.noteRestorationToCategoryInProgress = false;
+};
+
+const removeOrRestoreMultipleReducer = (
+  state: Draft<NoteState>,
+  { payload }: { payload: RemoveMultipleNotesFromCategorySuccesPayload }
+) => {
+  const updatedIds: EntityUid[] = payload.updatedNotes.map((note) => note.id);
+  state.notes = state.notes.map((note) => updatedIds.includes(note.id)
+    ? payload.updatedNotes.find((updated) => updated.id === note.id)!
+    : note
+  );
+  state.notesRemovalFromCategoryInProgress = false;
 };
 
 const noteReducer = createReducer(initialNoteState, (builder) => {
@@ -124,13 +149,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.removeNoteFromCategory, (state) => {
       state.noteRemovalFromCategoryInProgress = true;
     })
-    .addCase(noteActions.removeNoteFromCategorySuccess, (state, { payload }) => {
-      state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
-        ? payload.updatedNote
-        : note
-      );
-      state.noteRemovalFromCategoryInProgress = false;
-    })
+    .addCase(noteActions.removeNoteFromCategorySuccess, removeOrRestoreReducer)
     .addCase(noteActions.removeNoteFromCategoryFail, (state) => {
       state.noteRemovalFromCategoryInProgress = false;
     })
@@ -138,13 +157,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.restoreNoteToCategory, (state) => {
       state.noteRestorationToCategoryInProgress = true;
     })
-    .addCase(noteActions.restoreNoteToCategorySuccess, (state, { payload }) => {
-      state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
-        ? payload.updatedNote
-        : note
-      );
-      state.noteRestorationToCategoryInProgress = false;
-    })
+    .addCase(noteActions.restoreNoteToCategorySuccess, removeOrRestoreReducer)
     .addCase(noteActions.restoreNoteToCategoryFail, (state) => {
       state.noteRestorationToCategoryInProgress = false;
     })
@@ -152,15 +165,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.removeMultipleNotesFromCategory, (state) => {
       state.notesRemovalFromCategoryInProgress = true;
     })
-    //@todo: avoid such repetitions
-    .addCase(noteActions.removeMultipleNotesFromCategorySuccess, (state, { payload }) => {
-      const updatedIds: EntityUid[] = payload.updatedNotes.map((note) => note.id);
-      state.notes = state.notes.map((note) => updatedIds.includes(note.id)
-        ? payload.updatedNotes.find((updated) => updated.id === note.id)!
-        : note
-      );
-      state.notesRemovalFromCategoryInProgress = false;
-    })
+    .addCase(noteActions.removeMultipleNotesFromCategorySuccess, removeOrRestoreMultipleReducer)
     .addCase(noteActions.removeMultipleNotesFromCategoryFail, (state) => {
       state.notesRemovalFromCategoryInProgress = false;
     })
@@ -168,14 +173,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.restoreMultipleNotesToCategory, (state) => {
       state.notesRemovalFromCategoryInProgress = true;
     })
-    .addCase(noteActions.restoreMultipleNotesToCategorySuccess, (state, { payload }) => {
-      const updatedIds: EntityUid[] = payload.updatedNotes.map((note) => note.id);
-      state.notes = state.notes.map((note) => updatedIds.includes(note.id)
-        ? payload.updatedNotes.find((updated) => updated.id === note.id)!
-        : note
-      );
-      state.notesRemovalFromCategoryInProgress = false;
-    })
+    .addCase(noteActions.restoreMultipleNotesToCategorySuccess, removeOrRestoreMultipleReducer)
     .addCase(noteActions.restoreMultipleNotesToCategoryFail, (state) => {
       state.notesRemovalFromCategoryInProgress = false;
     });
