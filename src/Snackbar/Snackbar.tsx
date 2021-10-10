@@ -21,6 +21,7 @@ import { Variant } from '../domain/enums/variant.enum';
 import { Color } from '../domain/enums/color.enum';
 import { snackbarDuration, snackbarHidingDuration } from '../domain/consts/snackbar.const';
 import UiActions from '../store/actionCreators/ui.action-creators';
+import { snackbarTestId } from '../domain/consts/test-ids.consts';
 
 interface Props {
   details: ActionDetails;
@@ -34,13 +35,12 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
   const [translation, setTranslation] = useState<TranslationData>({ message: '' });
   const [undoButtonVisible, setUndoButtonVisible] = useState<boolean>(false);
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
-  const timeout = useRef<any>(); // @todo avoid any
+  const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     setSnackbarTimeout();
     setUndoButtonVisible(details.reversible);
     setSnackbarMessage();
-    return () => hideSnackbar();
   }, []);
 
   const setSnackbarTimeout = (): void => {
@@ -61,16 +61,19 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
 
   const hideSnackbar = (): void => {
     setHiding(true);
+    clearTimeout(timeout.current!);
     setTimeout(() => {
       setVisible(false);
       dispatch(UiActions.hideSnackbar());
-      // @todo fix hide action that is dispatched twice (when snackbar is hidden) + third time after ~8s (when snackbar is hidden manually)
     }, snackbarHidingDuration);
   };
 
   return visible
     ? (
-      <SnackbarWrapper className={ 'snackbar' + (hiding ? ' --hiding' : '') }>
+      <SnackbarWrapper
+        className={ 'snackbar' + (hiding ? ' --hiding' : '') }
+        data-testid={ snackbarTestId }
+      >
         <SnackbarTimeIndicator duration={ snackbarDuration } />
         <SnackbarContent>
           <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>

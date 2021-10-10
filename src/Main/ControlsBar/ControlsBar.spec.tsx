@@ -23,17 +23,16 @@ describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;
 
   describe('Add Note button', function () {
-    it('is displayed', (done) => {
+    it('is displayed', async () => {
       mockedStore = mockStore(initialRootState);
 
-      const { queryByTestId } = render(
+      render(
         <Provider store={ mockedStore }>
           <ControlsBar />
         </Provider>
       );
 
-      expect(queryByTestId(addNoteButtonTestId)).toBeTruthy();
-      done();
+      await expect(screen.queryByTestId(addNoteButtonTestId)).toBeTruthy();
     });
 
     it('dispatches an action on click', (done) => {
@@ -61,9 +60,12 @@ describe('ControlsBar', function () {
     it('opens NoteDialog on action dispatched', () => {
       return store // real store
         .dispatch(UiActions.openNoteDialog() as unknown as AnyAction)
-        .then(() => {
+        .then(async () => {
           render(<ProvidedApp />);
-          expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
+
+          await waitFor(() => {
+            expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
+          });
         })
         .catch();
     });
@@ -104,12 +106,14 @@ describe('ControlsBar', function () {
         .then(() => {
           return store
             .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
-            .then(async () => {
-              render(<ProvidedApp />);
+            .then(() => {
+              render(
+                <Provider store={ store }>
+                  <App />
+                </Provider>
+              );
 
-              await waitFor(() => {
-                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
-              });
+              expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
             })
             .catch();
         })

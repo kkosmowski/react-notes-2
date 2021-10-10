@@ -5,8 +5,8 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 
 const UiActions = {
-  openNoteDialog(): ActionFunction<Promise<any>> {
-    return async function (dispatch: Dispatch): Promise<any> {
+  openNoteDialog(): ActionFunction<Promise<Action>> {
+    return async function (dispatch: Dispatch): Promise<Action> {
       return dispatch(uiActions.openNoteDialog());
     };
   },

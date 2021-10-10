@@ -11,7 +11,6 @@ export const SnackbarTimeIndicator = ({ duration }: Props): ReactElement => {
   const [className, setClassName] = useState<string>('');
 
   useEffect(() => {
-    console.log('imma firin mah lazor');
     setTimeout(() => setClassName('animate'), snackbarTimeIndicationDelay);
   }, [duration - snackbarTimeIndicationDelay]);
 
