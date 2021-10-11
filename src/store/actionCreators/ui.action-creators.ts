@@ -3,6 +3,8 @@ import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dia
 import uiActions from '../actions/ui.actions';
 import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
+import { v4 } from 'uuid';
+import { HistoryUtil } from '../../domain/utils/history.util';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -29,7 +31,13 @@ const UiActions = {
   },
 
   showSnackbar(action: Action): Action {
-    return uiActions.showSnackbar(action);
+    return uiActions.showSnackbar({
+      id: v4(),
+      details: {
+        action,
+        reversible: HistoryUtil.isReversible(action.type),
+      },
+    });
   },
   hideSnackbar(): Action {
     return uiActions.hideSnackbar();

@@ -106,14 +106,16 @@ describe('ControlsBar', function () {
         .then(() => {
           return store
             .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
-            .then(() => {
+            .then(async () => {
               render(
                 <Provider store={ store }>
                   <App />
                 </Provider>
               );
 
-              expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
+              await waitFor(() => {
+                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
+              });
             })
             .catch();
         })

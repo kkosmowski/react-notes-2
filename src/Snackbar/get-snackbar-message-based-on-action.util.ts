@@ -1,4 +1,3 @@
-import { Action } from '../domain/interfaces/action.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { RemoveFromCategorySuccessPayload } from '../domain/interfaces/remove-from-category-payload.interface';
@@ -79,6 +78,6 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
 
   return {
     message,
-    ...( Object.keys(options).length ? { options } : {})
+    ...(Object.keys(options).length ? { options } : {})
   };
 };
