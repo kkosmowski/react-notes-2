@@ -106,7 +106,7 @@ const deleteAndRestore = (actionName: 'deleteCategory' | 'restoreCategory', cate
   return function (dispatch: Dispatch): Promise<void> {
     dispatch((categoryActions[actionName])());
     return HttpService
-      .patch(`/categories/${ category.id }`, { deleted: false })
+      .patch(`/categories/${ category.id }`, { deleted: actionName === 'deleteCategory' })
       .then(() => {
         dispatch(categoryActions[success](category));
         HistoryActions.push(categoryActions[success](category))(dispatch);
