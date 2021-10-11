@@ -5,7 +5,6 @@ import { Category } from '../../domain/interfaces/category.interface';
 import categoryActions from '../actions/category.actions';
 import { Action } from '../../domain/interfaces/action.interface';
 import HistoryActions from './history.action-creators';
-import { EntityUid } from '../../domain/types/entity-uid.type';
 import NoteActions from './note.action-creators';
 
 const CategoryActions = {
@@ -38,7 +37,7 @@ const CategoryActions = {
         .post<Category>('/categories', category)
         .then(() => {
           dispatch(categoryActions.createCategorySuccess(category));
-          HistoryActions.push(categoryActions.createCategorySuccess(category));
+          HistoryActions.push(categoryActions.createCategorySuccess(category))(dispatch);
         })
         .catch(error => {
           console.error(error);
@@ -91,12 +90,12 @@ const CategoryActions = {
     return categoryActions.deleteTemporaryCategory();
   },
 
-  deleteCategory(caategory: Category): ActionFunction<Promise<void>> {
-    return deleteAndRestore('deleteCategory', caategory);
+  deleteCategory(category: Category): ActionFunction<Promise<void>> {
+    return deleteAndRestore('deleteCategory', category);
   },
 
-  restoreCategory(caategory: Category): ActionFunction<Promise<void>> {
-    return deleteAndRestore('restoreCategory', caategory);
+  restoreCategory(category: Category): ActionFunction<Promise<void>> {
+    return deleteAndRestore('restoreCategory', category);
   },
 };
 

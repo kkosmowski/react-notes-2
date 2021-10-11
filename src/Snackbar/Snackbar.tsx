@@ -21,7 +21,7 @@ import { Variant } from '../domain/enums/variant.enum';
 import { Color } from '../domain/enums/color.enum';
 import { snackbarDuration, snackbarHidingDuration } from '../domain/consts/snackbar.const';
 import UiActions from '../store/actionCreators/ui.action-creators';
-import { snackbarTestId } from '../domain/consts/test-ids.consts';
+import { snackbarCloseButtonTestId, snackbarTestId } from '../domain/consts/test-ids.consts';
 
 interface Props {
   details: ActionDetails;
@@ -93,6 +93,7 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
             <Button
               onClick={ hideSnackbar }
               variant={ Variant.Icon }
+              testid={ snackbarCloseButtonTestId }
               small
             >
               <Close />
