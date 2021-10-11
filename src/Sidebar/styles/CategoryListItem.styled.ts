@@ -9,9 +9,11 @@ export const ListItem = styled.li`
   height: 47px;
   cursor: pointer;
   border-bottom: 1px solid var(--white-7);
-  
+  flex-shrink: 0;
+
   > span {
     flex: 1;
+    line-height: 2;
     ${ textEllipsis };
   }
 

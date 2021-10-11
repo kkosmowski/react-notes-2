@@ -22,6 +22,10 @@ export const SidebarWrapper = styled.aside`
       opacity: 1;
       pointer-events: all;
     }
+
+    > ul {
+      overflow-y: auto;
+    }
   }
 
   + .sidebar-backdrop {
