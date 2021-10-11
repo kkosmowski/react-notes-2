@@ -1,84 +1,103 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSnackbarVisible } from '../store/selectors/ui.selectors';
+import { useDispatch } from 'react-redux';
 import { SnackbarTimeIndicator } from './SnackbarTimeIndicator';
-import UiActions from '../store/actionCreators/ui.action-creators';
-import { SnackbarActions, SnackbarContent, SnackbarMessage, SnackbarWrapper } from './Snackbar.styled';
+import {
+  SnackbarActions,
+  SnackbarContent,
+  SnackbarMessage,
+  SnackbarWrapper
+} from './Snackbar.styled';
 import { Close } from '@material-ui/icons';
-import { Action } from '../domain/interfaces/action.interface';
 import historyActions from '../store/actions/history.actions';
 import { HistoryUtil } from '../domain/utils/history.util';
-import { selectLastAction } from '../store/selectors/history.selectors';
-import { snackbarDuration } from '../domain/consts/snackbar.const';
 import { useTranslation } from 'react-i18next';
-import { getSnackbarMessageBasedOnAction } from './get-snackbar-message-based-on-action.util';
+import {
+  getSnackbarMessageBasedOnAction,
+  TranslationData
+} from './get-snackbar-message-based-on-action.util';
+import { ActionDetails } from '../domain/interfaces/action-details.interface';
+import { Button } from '../Button/Button';
+import { Variant } from '../domain/enums/variant.enum';
+import { Color } from '../domain/enums/color.enum';
+import { snackbarDuration, snackbarHidingDuration } from '../domain/consts/snackbar.const';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { snackbarCloseButtonTestId, snackbarTestId } from '../domain/consts/test-ids.consts';
 
-export const Snackbar = (): ReactElement | null => {
-  const { t } = useTranslation('COMMON');
-  const visible: boolean = useSelector(selectSnackbarVisible);
-  const lastAction: Action | null = useSelector(selectLastAction);
+interface Props {
+  details: ActionDetails;
+}
+
+export const Snackbar = ({ details }: Props): ReactElement | null => {
+  const { t } = useTranslation('SNACKBAR');
+  const [visible, setVisible] = useState<boolean>(true);
+  const [hiding, setHiding] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const [message, setMessage] = useState<string>('');
+  const [translation, setTranslation] = useState<TranslationData>({ message: '' });
+  const [undoButtonVisible, setUndoButtonVisible] = useState<boolean>(false);
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
-  const timeout = useRef<any>(); // @todo avoid any
+  const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
-    setUndoButtonDisabled(!lastAction);
+    setSnackbarTimeout();
+    setUndoButtonVisible(details.reversible);
     setSnackbarMessage();
-  }, [lastAction]);
-
-  useEffect(() => {
-    if (visible) {
-      setSnackbarTimeout();
-    }
-    return () => clearTimeout(timeout.current);
-  }, [visible]);
+  }, []);
 
   const setSnackbarTimeout = (): void => {
-    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration);
+    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration + snackbarHidingDuration);
   };
 
   const setSnackbarMessage = (): void => {
-    if (lastAction) {
-      setMessage(getSnackbarMessageBasedOnAction(lastAction));
-    }
+    setTranslation(getSnackbarMessageBasedOnAction(details));
   };
 
   const handleUndoButtonClick = (): void => {
-    if (lastAction) {
+    if (details.reversible && !undoButtonDisabled) {
       dispatch(historyActions.pop());
-      dispatch(HistoryUtil.getRevertedAction(lastAction));
-      dispatch(UiActions.hideSnackbar());
+      dispatch(HistoryUtil.getRevertedAction(details));
+      setUndoButtonDisabled(true);
     }
   };
 
   const hideSnackbar = (): void => {
-    dispatch(UiActions.hideSnackbar());
+    setHiding(true);
+    clearTimeout(timeout.current!);
+    setTimeout(() => {
+      setVisible(false);
+      dispatch(UiActions.hideSnackbar());
+    }, snackbarHidingDuration);
   };
 
   return visible
     ? (
-      <SnackbarWrapper>
+      <SnackbarWrapper
+        className={ 'snackbar' + (hiding ? ' --hiding' : '') }
+        data-testid={ snackbarTestId }
+      >
         <SnackbarTimeIndicator duration={ snackbarDuration } />
         <SnackbarContent>
-          <SnackbarMessage>{ t(message) }</SnackbarMessage>
+          <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>
           <SnackbarActions>
-            <button
-              onClick={ handleUndoButtonClick }
-              className="button --contained --primary"
-              type="button"
-              disabled={ undoButtonDisabled }
-            >
-              { t('UNDO') }
-            </button>
+            { undoButtonVisible
+              ? <Button
+                onClick={ handleUndoButtonClick }
+                variant={ Variant.Contained }
+                color={ Color.Primary }
+                disabled={ undoButtonDisabled }
+              >
+                { t('UNDO') }
+              </Button>
+              : null
+            }
 
-            <button
+            <Button
               onClick={ hideSnackbar }
-              className="button --icon --small"
-              type="button"
+              variant={ Variant.Icon }
+              testid={ snackbarCloseButtonTestId }
+              small
             >
               <Close />
-            </button>
+            </Button>
           </SnackbarActions>
         </SnackbarContent>
       </SnackbarWrapper>

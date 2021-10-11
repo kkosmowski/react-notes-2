@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Action } from '../../domain/interfaces/action.interface';
+import { ActionDetails } from '../../domain/interfaces/action-details.interface';
 
 const historyActions = {
-  push: createAction<Action>('PUSH_HISTORY'),
+  push: createAction<ActionDetails>('PUSH_HISTORY'),
   pop: createAction<void>('POP_HISTORY'),
 };
 

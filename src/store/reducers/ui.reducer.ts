@@ -10,7 +10,7 @@ export const initialUiState: UiState = {
   editedCategoryId: null,
   sidebarOpened: false,
   snackbarVisible: false,
-  snackbarData: null,
+  snackbarQueue: [],
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -45,14 +45,12 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     })
 
     .addCase(uiActions.showSnackbar, (state, { payload }) => {
-      state.snackbarVisible = true;
-      state.snackbarData = payload;
+      state.snackbarQueue.push(payload);
     })
     .addCase(uiActions.hideSnackbar, (state) => {
-      state.confirmationDialogResult = null;
-      state.snackbarVisible = false;
-      state.snackbarData = null;
-    });
+      state.snackbarQueue.shift();
+    })
+  ;
 });
 
 export default uiReducer;

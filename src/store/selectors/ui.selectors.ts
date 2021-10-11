@@ -28,6 +28,6 @@ export const selectSnackbarVisible = createSelector(
   uiSelector, (ui: UiState) => ui.snackbarVisible
 );
 
-export const selectSnackbarData = createSelector(
-  uiSelector, (ui: UiState) => ui.snackbarData
+export const selectSnackbarQueue = createSelector(
+  uiSelector, (ui: UiState) => ui.snackbarQueue
 );

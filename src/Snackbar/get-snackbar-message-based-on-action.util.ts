@@ -1,61 +1,83 @@
-import { Action } from '../domain/interfaces/action.interface';
+import { Category } from '../domain/interfaces/category.interface';
+import { NoteInterface } from '../domain/interfaces/note.interface';
+import { RemoveFromCategorySuccessPayload } from '../domain/interfaces/remove-from-category-payload.interface';
+import { ActionDetails } from '../domain/interfaces/action-details.interface';
 
-export const getSnackbarMessageBasedOnAction = (action: Action): string => {
-  let message = 'SNACKBAR:';
+export interface TranslationData {
+  message: string;
+  options?: Record<string, string>;
+}
 
-  switch (action.type) {
+export const getSnackbarMessageBasedOnAction = (details: ActionDetails): TranslationData => {
+  let message: string;
+  const options: Record<string, string> = {};
+  const { type, payload } = details.action;
+
+  switch (type) {
     case 'CREATE_CATEGORY_SUCCESS':
-      message += 'CATEGORY_CREATED';
+      message = 'CATEGORY_CREATED';
+      options.name = (payload as Category).name;
       break;
 
     case 'DELETE_CATEGORY_SUCCESS':
-      message += 'CATEGORY_DELETED';
+      message = 'CATEGORY_DELETED';
+      options.name = (payload as Category).name;
       break;
 
     case 'EDIT_CATEGORY_SUCCESS':
-      message += 'CATEGORY_EDITED';
+      message = 'CATEGORY_EDITED';
+      options.name = (payload as Category).name;
       break;
 
     case 'RESTORE_CATEGORY_SUCCESS':
-      message += 'CATEGORY_RESTORED';
+      message = 'CATEGORY_RESTORED';
+      options.name = (payload as Category).name;
       break;
 
     case 'CREATE_NOTE_SUCCESS':
-      message += 'NOTE_CREATED';
+      message = 'NOTE_CREATED';
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'DELETE_NOTE_SUCCESS':
-      message += 'NOTE_DELETED';
+      message = 'NOTE_DELETED';
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'UPDATE_NOTE_SUCCESS':
-      message += 'NOTE_UPDATED';
+      message = 'NOTE_UPDATED';
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'RESTORE_NOTE_SUCCESS':
-      message += 'NOTE_RESTORED';
+      message = 'NOTE_RESTORED';
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
-      message += 'NOTE_REMOVED_FROM_CATEGORY';
+      message = 'NOTE_REMOVED_FROM_CATEGORY';
+      options.name = (payload as RemoveFromCategorySuccessPayload).updatedNote.title;
       break;
 
     case 'RESTORE_NOTE_TO_CATEGORY_SUCCESS':
-      message += 'NOTE_RESTORED_TO_CATEGORY';
+      message = 'NOTE_RESTORED_TO_CATEGORY';
+      options.name = (payload as RemoveFromCategorySuccessPayload).updatedNote.title;
       break;
 
     case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':
-      message += 'NOTES_REMOVED_FROM_CATEGORY';
+      message = 'NOTES_REMOVED_FROM_CATEGORY';
       break;
 
     case 'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS':
-      message += 'NOTES_RESTORED_TO_CATEGORY';
+      message = 'NOTES_RESTORED_TO_CATEGORY';
       break;
 
     default:
-      message = '';
       throw new Error('Unknown action type.');
   }
 
-  return message;
+  return {
+    message,
+    ...(Object.keys(options).length ? { options } : {})
+  };
 };

@@ -41,8 +41,7 @@ const NoteActions = {
         .post<NoteInterface>('/notes', note)
         .then(() => {
           dispatch(noteActions.createNoteSuccess(note));
-          // @todo implement
-          // HistoryActions.push(noteActions.createNoteSuccess(note))(dispatch);
+          HistoryActions.push(noteActions.createNoteSuccess(note))(dispatch);
         })
         .catch(error => {
           console.error(error);

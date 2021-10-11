@@ -12,6 +12,7 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { selectNoteSelectionMode, selectSelectedNotes } from '../store/selectors/note.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
+import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
 
 export const Main = (): ReactElement => {
   const selectedCategory: Category = useSelector(selectCurrentCategory);
@@ -44,7 +45,7 @@ export const Main = (): ReactElement => {
 
       <NoteDialog />
       <ConfirmationDialog />
-      <Snackbar />
+      <SnackbarContainer />
     </MainWrapper>
   );
 };

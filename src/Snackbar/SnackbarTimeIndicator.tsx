@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
+import { snackbarTimeIndicationDelay } from '../domain/consts/snackbar.const';
 
 interface Props {
   duration: number;
@@ -10,12 +11,12 @@ export const SnackbarTimeIndicator = ({ duration }: Props): ReactElement => {
   const [className, setClassName] = useState<string>('');
 
   useEffect(() => {
-    setTimeout(() => setClassName('animate'), 0);
-  }, [duration]);
+    setTimeout(() => setClassName('animate'), snackbarTimeIndicationDelay);
+  }, [duration - snackbarTimeIndicationDelay]);
 
   return (
     <Background>
-      <DurationBar duration={ duration } className={ className } />
+      <DurationBar duration={ duration - snackbarTimeIndicationDelay } className={ className } />
     </Background>
   );
 };

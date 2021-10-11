@@ -1,19 +1,24 @@
 import styled from 'styled-components';
+import { transition } from '../styles/styled-components-utils/transition.mixin';
+import { snackbarHidingDuration } from '../domain/consts/snackbar.const';
 
 export const SnackbarWrapper = styled.div`
-  position: absolute;
-  z-index: 300;
   display: flex;
   flex-direction: column;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 200px;
-  max-width: 40%;
+  width: 100%;
   min-height: 48px;
   border-radius: 4px;
   background-color: var(--dark100);
   overflow: hidden;
+
+  ${ transition('opacity', `${ snackbarHidingDuration }ms`) }
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  &.--hiding {
+    opacity: 0;
+  }
 `;
 
 export const SnackbarContent = styled.div`
