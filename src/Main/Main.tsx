@@ -1,24 +1,59 @@
-import { MouseEvent, ReactElement } from 'react';
-import styled from 'styled-components';
+import { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import { ControlsBar } from './ControlsBar/ControlsBar';
 import { NoteDialog } from '../NoteDialog/NoteDialog';
 import { ConfirmationDialog } from '../ConfirmationDialog/ConfirmationDialog';
 import { NotesContainer } from '../NotesContainer/NotesContainer';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCategory } from '../store/selectors/category.selectors';
+import { selectCategories, selectCurrentCategoryId } from '../store/selectors/category.selectors';
 import { Category } from '../domain/interfaces/category.interface';
-import { Snackbar } from '../Snackbar/Snackbar';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { selectNoteSelectionMode, selectSelectedNotes } from '../store/selectors/note.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
+import { Route, Switch } from 'react-router-dom';
+import { CategoryTitle, MainWrapper } from './Main.styled';
+import { rootCategory } from '../domain/consts/root-category.const';
+
+const AppRoutes = (): ReactElement => (
+  <Switch>
+    <Route path="/category/:categoryId">
+      <Route path="/add-note">
+        <NoteDialog />
+      </Route>
+
+      <Route path="/note/:noteId">
+        <NoteDialog />
+      </Route>
+      <ControlsBar />
+      <NotesContainer />
+    </Route>
+
+    <Route path="/">
+      <Route path="/add-note">
+        <NoteDialog />
+      </Route>
+
+      <Route path="/note/:noteId">
+        <NoteDialog />
+      </Route>
+      <ControlsBar />
+      <NotesContainer />
+    </Route>
+  </Switch>
+);
 
 export const Main = (): ReactElement => {
-  const selectedCategory: Category = useSelector(selectCurrentCategory);
+  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
+  const categories: Category[] = useSelector(selectCategories);
+  const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
   const selectedNotes: Record<EntityUid, boolean> = useSelector(selectSelectedNotes);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);
+  }, [currentCategoryId, categories]);
 
   const handleOnWrapperClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -39,29 +74,11 @@ export const Main = (): ReactElement => {
       onClick={ handleOnWrapperClick }
       onDoubleClick={ handleOnWrapperDoubleClick }
     >
-      <CategoryTitle>{ selectedCategory.name }</CategoryTitle>
-      <ControlsBar />
-      <NotesContainer />
+      <CategoryTitle>{ activeCategory?.name || rootCategory.name }</CategoryTitle>
+      <AppRoutes />
 
-      <NoteDialog />
       <ConfirmationDialog />
       <SnackbarContainer />
     </MainWrapper>
   );
 };
-
-const MainWrapper = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--dark300);
-  padding: 16px 0;
-  color: var(--white);
-`;
-
-const CategoryTitle = styled.h1`
-  display: inline-block;
-  font-size: 36px;
-  font-weight: inherit;
-  margin: 0 var(--wrapper-horizontal-padding) 16px;
-`;

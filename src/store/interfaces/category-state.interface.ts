@@ -1,10 +1,11 @@
 import { Category } from '../../domain/interfaces/category.interface';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 export interface CategoryState {
   categories: Category[];
   categoryCreationInProgress: boolean;
   categoriesLoading: boolean;
-  currentCategory: Category;
+  currentCategoryId: EntityUid;
   editedCategory: Category | null;
   temporaryCategory: Category | null;
   categoryUpdateInProgress: boolean;

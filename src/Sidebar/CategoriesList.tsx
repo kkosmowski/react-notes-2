@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectCategoriesLoading,
   selectEditedCategory,
-  selectCurrentCategory,
+  selectCurrentCategoryId,
   selectTemporaryCategory,
   selectUndeletedCategories
 } from '../store/selectors/category.selectors';
@@ -22,6 +22,8 @@ import { selectNotes } from '../store/selectors/note.selectors';
 import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { isRootCategory } from '../utils/is-root-category.util';
 
 interface Props {
   add: void[];
@@ -37,7 +39,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
   const categories: Category[] = useSelector(selectUndeletedCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
-  const selected: Category = useSelector(selectCurrentCategory);
+  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const edited: Category | null = useSelector(selectEditedCategory);
   const notes = useSelector(selectNotes);
   const confirmationResult = useSelector(selectConfirmationResult);
@@ -46,6 +48,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
   const dispatch = useDispatch();
   const { t } = useTranslation('CONFIRMATION');
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(CategoryActions.get());
@@ -65,7 +68,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   useEffect(() => {
     mapCategoriesToCategoryListItems();
-  }, [categories, temporary, selected]);
+  }, [categories, temporary, currentCategoryId]);
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -89,6 +92,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
           }
           break;
       }
+      dispatch(UiActions.clearConfirmationDialogData());
     }
   }, [confirmationResult]);
 
@@ -106,7 +110,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
           onCancel={ handleCancel }
           onDelete={ handleDelete }
           data={ category }
-          selected={ selected.id === category.id }
+          current={ currentCategoryId === category.id }
           edited={ edited?.id === category.id }
           key={ category.id }
         />
@@ -115,14 +119,20 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   };
 
   const handleCategorySelect = (category: Category): void => {
-    if (selected.id !== category.id) {
-      dispatch(CategoryActions.change(category));
+    console.log('handleCategorySelect');
+    if (currentCategoryId !== category.id) {
+      dispatch(CategoryActions.change(category.id));
+      const path: string = isRootCategory(category.id)
+        ? '/'
+        : `/category/${ category.id }`;
+      history.push(path);
     }
   };
 
   const handleCategorySave = (name: string): void => {
+    console.log('handleCategorySave');
     dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
-    dispatch(CategoryActions.change(edited));
+    dispatch(CategoryActions.change(edited!.id));
     dispatch(CategoryActions.finishEditingCategory());
   };
 

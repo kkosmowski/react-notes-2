@@ -16,12 +16,12 @@ interface Props {
   onDelete: (category: Category) => void;
   onCancel: () => void;
   data: Category;
-  selected: boolean;
+  current: boolean;
   edited: boolean;
 }
 
 export const CategoryListItem = (
-  { data, selected, edited, onSelect, onSave, onUpdate, onCancel, onDelete }: Props
+  { data, current, edited, onSelect, onSave, onUpdate, onCancel, onDelete }: Props
 ): ReactElement => {
   const { t } = useTranslation('SIDEBAR');
   const [originalName, setOriginalName] = useState<string>(data.name);
@@ -45,8 +45,8 @@ export const CategoryListItem = (
 
   const getListItemClasses = (): string => {
     let className = '';
-    if (selected) {
-      className += '--selected';
+    if (current) {
+      className += '--current';
     }
     if (edited) {
       className += ' --edited';
@@ -146,7 +146,7 @@ export const CategoryListItem = (
 
   return (
     <ListItem onClick={ handleSelect } className={ getListItemClasses() }>
-      { selected ? <FolderOpen className="icon --selected" /> : <Folder className="icon" /> }
+      { current ? <FolderOpen className="icon --current" /> : <Folder className="icon" /> }
       { edited || editMode ? EditModeView : RegularView }
     </ListItem>
   );
