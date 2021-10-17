@@ -12,7 +12,7 @@ import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styled';
 import { useTranslation } from 'react-i18next';
 import { NoteDialogActions } from './NoteDialogActions';
 import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';
-import { selectConfirmationResult, selectNoteDialogOpened } from '../store/selectors/ui.selectors';
+import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { selectOpenedNote } from '../store/selectors/note.selectors';
 import { selectUndeletedCategories } from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
@@ -22,6 +22,7 @@ import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
 import { noteDialogTestId } from '../domain/consts/test-ids.consts';
+import { useHistory } from 'react-router-dom';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -35,7 +36,6 @@ export const NoteDialog = (): ReactElement => {
     width: '400px',
     flex: true
   };
-  const opened = useSelector(selectNoteDialogOpened);
   const categories = useSelector(selectUndeletedCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
@@ -45,6 +45,7 @@ export const NoteDialog = (): ReactElement => {
   const [valid, setValid] = useState<boolean>(false);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     setEditMode(openedNote ? NoteEditMode.None : NoteEditMode.Both);
@@ -78,6 +79,7 @@ export const NoteDialog = (): ReactElement => {
           }
           break;
       }
+      dispatch(UiActions.clearConfirmationDialogData());
     }
   }, [confirmationResult]);
 
@@ -117,8 +119,9 @@ export const NoteDialog = (): ReactElement => {
 
   const closeDialog = (): void => {
     setEditMode(NoteEditMode.Both);
-    dispatch(UiActions.closeNoteDialog());
+    // dispatch(UiActions.closeNoteDialog());
     dispatch(NoteActions.setOpenedNote(null));
+    history.goBack();
   };
 
   const handleFormChange = (payload: NoteDialogFormPayload): void => {
@@ -210,7 +213,7 @@ export const NoteDialog = (): ReactElement => {
   return (
     <Dialog
       onClose={ handleClose }
-      opened={ opened }
+      opened={ true }
       config={ config }
       testid={ noteDialogTestId }
     >

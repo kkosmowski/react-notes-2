@@ -17,16 +17,18 @@ import {
   addNoteButtonTestId,
   toggleSelectionModeButtonTestId
 } from '../../domain/consts/test-ids.consts';
-import { selectCurrentCategory } from '../../store/selectors/category.selectors';
+import { selectCurrentCategoryId } from '../../store/selectors/category.selectors';
 import { isRootCategory } from '../../utils/is-root-category.util';
+import { useHistory } from 'react-router-dom';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
   const selectedNotes = useSelector(selectSelectedNotes);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode = useSelector(selectNoteSelectionMode);
-  const currentCategory = useSelector(selectCurrentCategory);
+  const currentCategoryId = useSelector(selectCurrentCategoryId);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleBarClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -34,6 +36,7 @@ export const ControlsBar = (): ReactElement => {
 
   const handleNoteAdd = () => {
     dispatch(UiActions.openNoteDialog());
+    history.push('/add-note');
   };
 
   const handleSelectionModeChange = () => {
@@ -48,12 +51,12 @@ export const ControlsBar = (): ReactElement => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.removeFromCategory({
         noteId: Object.keys(selectedNotes)[0],
-        categoryId: currentCategory.id
+        categoryId: currentCategoryId
       }));
     } else if (selectedNotesCount > 1) {
       dispatch(NoteActions.removeMultipleNotesFromCategory({
         noteIds: Object.keys(selectedNotes),
-        categoryId: currentCategory.id
+        categoryId: currentCategoryId
       }));
 
     }
@@ -94,7 +97,7 @@ export const ControlsBar = (): ReactElement => {
         ) }
       </Button>
 
-      { isRootCategory(currentCategory.id)
+      { isRootCategory(currentCategoryId)
         ? null
         : <Button
           onClick={ handleRemoveFromCategory }

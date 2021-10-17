@@ -3,7 +3,6 @@ import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
 import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
 import { debounce } from '@material-ui/core';
-import { Category } from '../domain/interfaces/category.interface';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../Loader/Loader';
@@ -13,7 +12,6 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { NoNotesText, NotesWrapper } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
-import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectNoteSelectionMode,
@@ -21,14 +19,17 @@ import {
   selectSelectedNotes,
   selectUndeletedNotes
 } from '../store/selectors/note.selectors';
-import { selectCurrentCategory } from '../store/selectors/category.selectors';
+import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
+import { useHistory, useParams } from 'react-router-dom';
+import CategoryActions from '../store/actionCreators/category.action-creators';
 
 export const NotesContainer = (): ReactElement => {
+  const { categoryId } = useParams<{ categoryId: EntityUid }>();
   const { t } = useTranslation('COMMON');
   const notes: NoteInterface[] = useSelector(selectUndeletedNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
-  const selectedCategory: Category | null = useSelector(selectCurrentCategory);
+  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
@@ -37,10 +38,17 @@ export const NotesContainer = (): ReactElement => {
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(NoteActions.get());
   }, []);
+
+  useEffect(() => {
+    if (categoryId && categoryId !== currentCategoryId) {
+      dispatch(CategoryActions.change(categoryId));
+    }
+  }, [categoryId]);
 
   useEffect(() => {
     calculateNumberOfColumns();
@@ -48,13 +56,13 @@ export const NotesContainer = (): ReactElement => {
   }, [notes]);
 
   useEffect(() => {
-    if (selectedCategory.id === rootCategory.id) {
+    if (currentCategoryId === rootCategory.id) {
       setCurrentCategoryNotes(notes);
     } else {
-      const filteredNotes = notes.filter((note) => note.categories.includes(selectedCategory.id));
+      const filteredNotes = notes.filter((note) => note.categories.includes(currentCategoryId));
       setCurrentCategoryNotes((filteredNotes));
     }
-  }, [notes, selectedCategory]);
+  }, [notes, currentCategoryId]);
 
   useEffect(() => {
     const _notes: ReactElement[] = currentCategoryNotes
@@ -91,7 +99,7 @@ export const NotesContainer = (): ReactElement => {
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {
     dispatch(NoteActions.setOpenedNote(noteToOpen));
-    dispatch(UiActions.openNoteDialog());
+    history.push(`/note/${ noteToOpen.id }`);
   };
 
   return (

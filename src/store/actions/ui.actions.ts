@@ -8,6 +8,7 @@ const uiActions = {
 
   openConfirmationDialog: createAction<ConfirmationDialogData>('OPEN_CONFIRMATION_DIALOG'),
   closeConfirmationDialog: createAction<boolean>('CLOSE_CONFIRMATION_DIALOG'),
+  clearConfirmationDialogData: createAction<void>('CLEAR_CONFIRMATION_DIALOG_DATA'),
 
   openSidebar: createAction<void>('OPEN_SIDEBAR'),
   closeSidebar: createAction<void>('CLOSE_SIDEBAR'),

@@ -28,7 +28,7 @@ export const ListItem = styled.li`
   > .icon {
     margin-right: calc((var(--sidebar-width) - var(--icon-size)) / 2);
 
-    &.--selected {
+    &.--current {
       color: var(--primary);
     }
   }

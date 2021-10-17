@@ -22,6 +22,9 @@ const UiActions = {
   closeConfirmationDialog(result: boolean): Action {
     return uiActions.closeConfirmationDialog(result);
   },
+  clearConfirmationDialogData(): Action {
+    return uiActions.clearConfirmationDialogData();
+  },
 
   openSidebar(): Action {
     return uiActions.openSidebar();

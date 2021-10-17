@@ -7,7 +7,7 @@ export const initialCategoryState: CategoryState = {
   categories: [],
   categoryCreationInProgress: false,
   categoriesLoading: false,
-  currentCategory: rootCategory,
+  currentCategoryId: rootCategory.id,
   editedCategory: null,
   temporaryCategory: null,
   categoryUpdateInProgress: false,
@@ -53,7 +53,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
 
     .addCase(categoryActions.changeCategory, (state, action) => {
       if (action.payload) {
-        state.currentCategory = action.payload;
+        state.currentCategoryId = action.payload;
       }
     })
 
@@ -72,8 +72,8 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
         ? payload
         : category
       );
-      if (state.currentCategory.id === payload.id) {
-        state.currentCategory = payload;
+      if (state.currentCategoryId === payload.id) {
+        state.currentCategoryId = payload.id;
       }
       state.categoryUpdateInProgress = false;
     })

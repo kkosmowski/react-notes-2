@@ -15,8 +15,8 @@ export const selectCategoriesLoading = createSelector(
   categorySelector, (category: CategoryState) => category.categoriesLoading
 );
 
-export const selectCurrentCategory = createSelector(
-  categorySelector, (category: CategoryState) => category.currentCategory
+export const selectCurrentCategoryId = createSelector(
+  categorySelector, (category: CategoryState) => category.currentCategoryId
 );
 
 export const selectEditedCategory = createSelector(
