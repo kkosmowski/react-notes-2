@@ -19,6 +19,7 @@ const noteActions = {
   clearSelection: createAction<void>('CLEAR_SELECTION'),
 
   setOpenedNote: createAction<NoteInterface | null>('SET_OPENED_NOTE'),
+  findOpenedNote: createAction<EntityUid>('FIND_OPENED_NOTE'),
 
   updateNote: createAction<void>('UPDATE_NOTE'),
   updateNoteSuccess: createAction<NoteInterface>('UPDATE_NOTE_SUCCESS'),

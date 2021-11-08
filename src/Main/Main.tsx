@@ -18,6 +18,9 @@ import { rootCategory } from '../domain/consts/root-category.const';
 const AppRoutes = (): ReactElement => (
   <Switch>
     <Route path="/category/:categoryId">
+      <ControlsBar />
+      <NotesContainer />
+
       <Route path="/add-note">
         <NoteDialog />
       </Route>
@@ -25,11 +28,12 @@ const AppRoutes = (): ReactElement => (
       <Route path="/note/:noteId">
         <NoteDialog />
       </Route>
-      <ControlsBar />
-      <NotesContainer />
     </Route>
 
     <Route path="/">
+      <ControlsBar />
+      <NotesContainer />
+
       <Route path="/add-note">
         <NoteDialog />
       </Route>
@@ -37,8 +41,6 @@ const AppRoutes = (): ReactElement => (
       <Route path="/note/:noteId">
         <NoteDialog />
       </Route>
-      <ControlsBar />
-      <NotesContainer />
     </Route>
   </Switch>
 );

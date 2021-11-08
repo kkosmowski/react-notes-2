@@ -12,6 +12,7 @@ export const initialNoteState: NoteState = {
   notesLoading: false,
   noteSelectionMode: NoteSelectionMode.Single,
   openedNote: null,
+  noteToOpen: null,
   noteCreationInProgress: false,
   noteUpdateInProgress: false,
   noteDeletionInProgress: false,
@@ -104,6 +105,9 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
 
     .addCase(noteActions.setOpenedNote, (state, action) => {
       state.openedNote = action.payload || null;
+    })
+    .addCase(noteActions.findOpenedNote, (state, { payload }) => {
+      state.noteToOpen = payload;
     })
 
     .addCase(noteActions.updateNote, (state) => {
