@@ -6,6 +6,7 @@ export const en = {
     DELETE: 'Delete',
     SAVE_AND_NEXT: 'Save & next',
     SAVE_AND_CLOSE: 'Save & close',
+    OPEN: 'Open',
     SAVE: 'Save',
     EDIT: 'Edit',
     CLOSE: 'Close',

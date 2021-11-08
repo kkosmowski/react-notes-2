@@ -5,6 +5,7 @@ import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { HistoryUtil } from '../../domain/utils/history.util';
+import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -44,6 +45,13 @@ const UiActions = {
   },
   hideSnackbar(): Action {
     return uiActions.hideSnackbar();
+  },
+
+  showContextMenu(data: ContextMenuData): Action {
+    return uiActions.showContextMenu(data);
+  },
+  hideContextMenu(): Action {
+    return uiActions.hideContextMenu();
   },
 };
 

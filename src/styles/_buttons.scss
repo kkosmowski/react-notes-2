@@ -3,6 +3,7 @@
 @use './buttons/button-regular';
 @use './buttons/button-icon';
 @use './buttons/button-lighter';
+@use './buttons/button-menu-item';
 
 :root {
   --icon-button-size: 40px;

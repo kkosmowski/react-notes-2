@@ -2,6 +2,7 @@ import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dia
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
 import { SnackbarInstance } from '../../domain/interfaces/snackbar-instance.interface';
+import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 
 export interface UiState {
   noteDialogOpened: boolean;
@@ -12,4 +13,5 @@ export interface UiState {
   sidebarOpened: boolean;
   snackbarVisible: boolean;
   snackbarQueue: SnackbarInstance[];
+  contextMenuData: ContextMenuData | null;
 }

@@ -10,16 +10,22 @@ import {
   noteSelectedTestId,
   noteTestId
 } from '../domain/consts/test-ids.consts';
+import { Coords } from '../domain/interfaces/coords.interface';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { useDispatch } from 'react-redux';
+import { handleEventAndReturnCoords } from '../ContextMenu/handle-event-and-return-coords.util';
 
 interface Props extends NoteSelectionProps {
   data: NoteInterface;
   onSelect: (id: EntityUid) => void;
   onOpen: (note: NoteInterface) => void;
+  onDelete: (note: NoteInterface) => void;
 }
 
-export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Props): ReactElement => {
+export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDelete }: Props): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTitle(trimIfNeeded(data.title, MAX_TITLE_LENGTH));
@@ -39,6 +45,15 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Prop
     onOpen(data);
   };
 
+  const handleOpenAndEdit = (): void => {
+    // @todo: implement remote setting of edit mode in the note dialog
+    onOpen(data);
+  };
+
+  const handleDelete = (): void => {
+    onDelete(data);
+  };
+
   const getTestId = (): string => {
     return isSelected
       ? noteSelectedTestId
@@ -47,10 +62,34 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen }: Prop
         : noteTestId;
   };
 
+  const handleContextMenu = (e: MouseEvent): void => {
+    const coords: Coords = handleEventAndReturnCoords(e);
+
+    dispatch(UiActions.showContextMenu({
+      coords,
+      items: [
+        {
+          label: 'COMMON:OPEN',
+          callback: handleOpen,
+        },
+        {
+          label: 'COMMON:EDIT',
+          callback: handleOpenAndEdit,
+        },
+        {
+          label: 'COMMON:DELETE',
+          callback: handleDelete,
+          warn: true,
+        },
+      ]
+    }));
+  };
+
   return (
     <NoteElement
       onClick={ handleSelect }
       onDoubleClick={ handleOpen }
+      onContextMenu={ handleContextMenu }
       isSelected={ isSelected }
       selectionMode={ selectionMode }
       data-testid={ getTestId() }
