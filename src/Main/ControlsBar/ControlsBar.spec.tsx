@@ -23,6 +23,64 @@ import { createMemoryHistory } from 'history';
 describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;
 
+  describe('Toggle Selection button', () => {
+    it('dispatch an action on click', (done) => {
+      const mockedStore = mockStore({
+        ...initialRootState,
+        note: {
+          ...initialNoteState,
+          notes: [getMockedNote(), getMockedNote()],
+        }
+      });
+
+      render(
+        <Provider store={ mockedStore }>
+          <App />
+        </Provider>
+      );
+
+      fireEvent(
+        screen.getByTestId(toggleSelectionModeButtonTestId),
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        })
+      );
+
+      const actionsTypes = mockedStore.getActions().map((action) => action.type);
+      expect(actionsTypes).toContain('TOGGLE_SELECTION_MODE');
+      done();
+    });
+
+    it('toggles selection mode on dispatched action', () => {
+      return store // real store
+        .dispatch(NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction)
+        .then(() => {
+          return store
+            .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
+            .then(async () => {
+              const history = createMemoryHistory();
+              history.push('/');
+
+              render(
+                <Provider store={ store }>
+                  <Router history={ history }>
+                    <App />
+                  </Router>
+                </Provider>
+              );
+
+              await waitFor(() => {
+                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
+              })
+                .catch();
+            })
+            .catch();
+        })
+        .catch();
+    });
+  });
+
   describe('Add Note button', function () {
     it('is displayed', async () => {
       mockedStore = mockStore(initialRootState);
@@ -76,63 +134,6 @@ describe('ControlsBar', function () {
           );
 
           expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
-        })
-        .catch();
-    });
-  });
-
-  describe('Toggle Selection button', () => {
-    it('dispatch an action on click', (done) => {
-      const mockedStore = mockStore({
-        ...initialRootState,
-        note: {
-          ...initialNoteState,
-          notes: [getMockedNote(), getMockedNote()],
-        }
-      });
-
-      render(
-        <Provider store={ mockedStore }>
-          <App />
-        </Provider>
-      );
-
-      fireEvent(
-        screen.getByTestId(toggleSelectionModeButtonTestId),
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
-
-      const actionsTypes = mockedStore.getActions().map((action) => action.type);
-      expect(actionsTypes).toContain('TOGGLE_SELECTION_MODE');
-      done();
-    });
-
-    it('toggles selection mode on dispatched action', () => {
-      return store // real store
-        .dispatch(NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction)
-        .then(() => {
-          return store
-            .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
-            .then(async () => {
-              const history = createMemoryHistory();
-              history.push('/');
-
-              render(
-                <Provider store={ store }>
-                  <Router history={ history }>
-                    <App />
-                  </Router>
-                </Provider>
-              );
-
-              await waitFor(() => {
-                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
-              });
-            })
-            .catch();
         })
         .catch();
     });
