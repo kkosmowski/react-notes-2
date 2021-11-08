@@ -41,13 +41,18 @@ export const NoteDialog = (): ReactElement => {
   const categories = useSelector(selectUndeletedCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
-  const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.Both);
+  const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => () => {
+    setEditMode(NoteEditMode.Both);
+    dispatch(NoteActions.setOpenedNote(null));
+  }, []);
 
   useEffect(() => {
     if (noteId && !openedNote) {
@@ -58,7 +63,10 @@ export const NoteDialog = (): ReactElement => {
   useEffect(() => {
     if (openedNote) {
       setForm(openedNote);
-      setEditMode(NoteEditMode.None);
+
+      if (!location.pathname.endsWith('/edit')) {
+        setEditMode(NoteEditMode.None);
+      }
     } else {
       setEditMode(NoteEditMode.Both);
     }
@@ -71,6 +79,13 @@ export const NoteDialog = (): ReactElement => {
           ? 'NOTE_DIALOG:EDIT_NOTE'
           : 'NOTE_DIALOG:VIEW_NOTE'
       );
+
+      history.push({
+        pathname: `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }`,
+        state: {
+          previous: location.state?.previous || '/',
+        },
+      });
     } else {
       setDialogTitleKey('ADD_NOTE');
     }
@@ -131,27 +146,17 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const closeDialog = (): void => {
-    setEditMode(NoteEditMode.Both);
-    dispatch(NoteActions.setOpenedNote(null));
-    goBack();
+    history.push({
+      pathname: location.state?.previous || '/',
+      state: {
+        previous: history.location.pathname
+      }
+    });
   };
 
   const handleFormChange = (payload: NoteDialogFormPayload): void => {
     setForm(payload.form);
     setValid(payload.valid);
-  };
-
-  const goBack = (): void => {
-    if (location.state) {
-      history.goBack();
-    } else {
-      history.push({
-        pathname: '/',
-        state: {
-          previous: history.location.pathname
-        }
-      });
-    }
   };
 
   const addNote = (): void => {

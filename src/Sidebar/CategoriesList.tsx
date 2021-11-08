@@ -119,7 +119,6 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   };
 
   const handleCategorySelect = (category: Category): void => {
-    console.log('handleCategorySelect');
     if (currentCategoryId !== category.id) {
       dispatch(CategoryActions.change(category.id));
       const pathname: string = isRootCategory(category.id)
@@ -135,7 +134,6 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   };
 
   const handleCategorySave = (name: string): void => {
-    console.log('handleCategorySave');
     dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
     dispatch(CategoryActions.change(edited!.id));
     dispatch(CategoryActions.finishEditingCategory());
