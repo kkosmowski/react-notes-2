@@ -1,6 +1,6 @@
 import { MockStoreEnhanced } from 'redux-mock-store';
 import { RootState } from '../store/interfaces/root-state.interface';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { ProvidedApp } from '../App';
 import store from '../store/store';
 import NoteActions from '../store/actionCreators/note.action-creators';
@@ -62,118 +62,118 @@ describe('Snackbar', () => {
       const note: NoteInterface = getMockedNote();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(NoteActions.create(note) as unknown as AnyAction)
-        .then(async () => {
-          await waitFor(() => {
-            expect(screen.queryByTestId(snackbarTestId)).toBeTruthy();
-          });
-        })
-        .catch();
+      act(() => {
+        store
+          .dispatch(NoteActions.create(note) as unknown as AnyAction)
+          .then(() => {
+            expect(screen.findByTestId(snackbarTestId)).toBeTruthy();
+          })
+          .catch();
+      });
     });
 
     it('category creation', () => {
       const category: Category = getMockedCategory();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
-        .then(async () => {
-          await waitFor(() => {
-            expect(screen.queryByTestId(snackbarTestId)).toBeTruthy();
-          });
-        })
-        .catch();
+      act(() => {
+        store
+          .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
+          .then(async () => {
+            expect(screen.findByTestId(snackbarTestId)).toBeTruthy();
+          })
+          .catch();
+      });
     });
 
     it('note deletion', () => {
       const note: NoteInterface = getMockedNote();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(NoteActions.create(note) as unknown as AnyAction)
-        .then(() => {
-          store
-            .dispatch(NoteActions.deleteNote(note.id) as unknown as AnyAction)
-            .then(async () => {
-              await waitFor(() => {
+      act(() => {
+        store
+          .dispatch(NoteActions.create(note) as unknown as AnyAction)
+          .then(() => {
+            store
+              .dispatch(NoteActions.deleteNote(note.id) as unknown as AnyAction)
+              .then(() => {
                 // "2": note created, deleted
                 expect(screen.queryAllByTestId(snackbarTestId)).toHaveLength(2);
-              });
-            })
-            .catch();
-        })
-        .catch();
+              })
+              .catch();
+          })
+          .catch();
+      });
     });
 
     it('category deletion', () => {
       const category: Category = getMockedCategory();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
-        .then(() => {
-          store
-            .dispatch(CategoryActions.deleteCategory(category) as unknown as AnyAction)
-            .then(async () => {
-              await waitFor(() => {
+      act(() => {
+        store
+          .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
+          .then(() => {
+            store
+              .dispatch(CategoryActions.deleteCategory(category) as unknown as AnyAction)
+              .then(() => {
                 // "2": category created, deleted
                 expect(screen.queryAllByTestId(snackbarTestId)).toHaveLength(2);
-              });
-            })
-            .catch();
-        })
-        .catch();
+              })
+              .catch();
+          })
+          .catch();
+      });
     });
 
     it('note restoration', () => {
       const note: NoteInterface = getMockedNote();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(NoteActions.create(note) as unknown as AnyAction)
-        .then(() => {
-          store
-            .dispatch(NoteActions.deleteNote(note.id) as unknown as AnyAction)
-            .then(() => {
-              store
-                .dispatch(NoteActions.restoreNote(note) as unknown as AnyAction)
-                .then(async () => {
-                  await waitFor(() => {
+      act(() => {
+        store
+          .dispatch(NoteActions.create(note) as unknown as AnyAction)
+          .then(() => {
+            store
+              .dispatch(NoteActions.deleteNote(note.id) as unknown as AnyAction)
+              .then(() => {
+                store
+                  .dispatch(NoteActions.restoreNote(note) as unknown as AnyAction)
+                  .then(() => {
                     // "2": note created, deleted, restored
                     expect(screen.queryAllByTestId(snackbarTestId)).toHaveLength(3);
-                  });
-                })
-                .catch();
-            })
-            .catch();
-        })
-        .catch();
+                  })
+                  .catch();
+              })
+              .catch();
+          })
+          .catch();
+      });
     });
 
     it('category restoration', () => {
       const category: Category = getMockedCategory();
       render(<ProvidedApp />);
 
-      return store
-        .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
-        .then(() => {
-          store
-            .dispatch(CategoryActions.deleteCategory(category) as unknown as AnyAction)
-            .then(() => {
-              store
-                .dispatch(CategoryActions.restoreCategory(category) as unknown as AnyAction)
-                .then(async () => {
-                  await waitFor(() => {
+      act(() => {
+        store
+          .dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction)
+          .then(() => {
+            store
+              .dispatch(CategoryActions.deleteCategory(category) as unknown as AnyAction)
+              .then(() => {
+                store
+                  .dispatch(CategoryActions.restoreCategory(category) as unknown as AnyAction)
+                  .then(() => {
                     // "3": category created, deleted, restored
                     expect(screen.queryAllByTestId(snackbarTestId)).toHaveLength(3);
-                  });
-                })
-                .catch();
-            })
-            .catch();
-        })
-        .catch();
+                  })
+                  .catch();
+              })
+              .catch();
+          })
+          .catch();
+      });
     });
   });
 });
