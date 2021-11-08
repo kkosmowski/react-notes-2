@@ -15,35 +15,34 @@ import { Route, Switch } from 'react-router-dom';
 import { CategoryTitle, MainWrapper } from './Main.styled';
 import { rootCategory } from '../domain/consts/root-category.const';
 
-const AppRoutes = (): ReactElement => (
-  <Switch>
-    <Route path="/category/:categoryId">
+const AppRoutes = (): ReactElement => {
+  const app: ReactElement = (
+    <>
       <ControlsBar />
       <NotesContainer />
 
-      <Route path="/add-note">
+      <Route path="*/add-note">
         <NoteDialog />
       </Route>
 
-      <Route path="/note/:noteId">
+      <Route path="*/note/:noteId">
         <NoteDialog />
       </Route>
-    </Route>
+    </>
+  );
 
-    <Route path="/">
-      <ControlsBar />
-      <NotesContainer />
-
-      <Route path="/add-note">
-        <NoteDialog />
+  return (
+    <Switch>
+      <Route path="/category/:categoryId">
+        { app }
       </Route>
 
-      <Route path="/note/:noteId">
-        <NoteDialog />
+      <Route path="/">
+        { app }
       </Route>
-    </Route>
-  </Switch>
-);
+    </Switch>
+  );
+};
 
 export const Main = (): ReactElement => {
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
