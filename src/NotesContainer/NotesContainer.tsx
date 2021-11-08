@@ -76,6 +76,7 @@ export const NotesContainer = (): ReactElement => {
         <Note
           onSelect={ handleNoteSelect }
           onOpen={ handleNoteOpen }
+          onDelete={ handleDelete }
           data={ note }
           isSelected={ selectedNotes[note.id] }
           selectionMode={ noteSelectionMode }
@@ -111,6 +112,10 @@ export const NotesContainer = (): ReactElement => {
         previous: history.location.pathname
       }
     });
+  };
+
+  const handleDelete = (): void => {
+    // @todo: implement
   };
 
   return (

@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
 import { SnackbarInstance } from '../../domain/interfaces/snackbar-instance.interface';
+import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 
 const uiActions = {
   openNoteDialog: createAction<void>('OPEN_NOTE_DIALOG'),
@@ -15,6 +16,9 @@ const uiActions = {
 
   showSnackbar: createAction<SnackbarInstance>('SHOW_SNACKBAR'),
   hideSnackbar: createAction<void>('HIDE_SNACKBAR'),
+
+  showContextMenu: createAction<ContextMenuData>('SHOW_CONTEXT_MENU'),
+  hideContextMenu: createAction<void>('HIDE_CONTEXT_MENU'),
 };
 
 export default uiActions;

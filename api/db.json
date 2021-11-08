@@ -16,7 +16,6 @@
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "id": "5f099e76-5e3c-4ee5-8181-208bb904b2e0",
       "categories": [
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
       "deleted": false
@@ -56,10 +55,115 @@
       "id": "06069df6-359f-4cc2-b778-f7fee5fb8cb6",
       "categories": [
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
       "deleted": false
+    },
+    {
+      "id": "9c50640a-d50d-4cfc-a854-0988a1b470ef",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": false,
+      "categories": []
+    },
+    {
+      "id": "467a27e2-05e3-4abc-a144-e65ef2c55805",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "d436c06d-cf62-420f-9d14-a7899a9bf1e7",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "15ea3ff4-093b-4b92-8989-43c18c2dba32",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": false,
+      "categories": []
+    },
+    {
+      "id": "c698b0f2-2006-4244-8091-f030795a20ae",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "f6244175-24e6-49df-b9f4-651e59aac0a8",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "485f29f7-cc11-48b1-9b43-f98f90ca0c29",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": false,
+      "categories": []
+    },
+    {
+      "id": "95bae37a-8419-4dbd-b51d-08fedae41ace",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "d5fc2224-4007-4264-946b-b37397488006",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "66dba3e6-6910-405a-93cd-97fb22150892",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": false,
+      "categories": []
+    },
+    {
+      "id": "aac22349-4a90-40c7-ab79-44fd5ef75ab5",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "70416ab4-ec5b-4ae7-957e-21d2373a7d94",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "393e4392-ffb2-4d95-988d-3db317cb7aa8",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": false,
+      "categories": []
+    },
+    {
+      "id": "f03d6d8f-2e8e-4611-b1fe-35c24ff9fa13",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
+    },
+    {
+      "id": "51cc6a2c-d385-4c74-97bf-e0a76a7d3196",
+      "title": "Mocked note title",
+      "content": "Mocked note content",
+      "deleted": true,
+      "categories": []
     }
   ],
   "categories": [
@@ -82,6 +186,126 @@
       "id": "56875b71-69ec-4ba3-840e-5fd46e1443bf",
       "name": "asdasdad",
       "deleted": true
+    },
+    {
+      "id": "b23c6132-d0ee-4d17-b633-268b5945d5b6",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "2e66d9be-1a1e-41bc-ab56-fcc9e1a15309",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "918b02be-2dc9-42ae-b452-33df2db8aec2",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "b30e790c-ff01-40a4-a3fc-de444fa2abf9",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "585956f3-e972-4f45-88d7-e4ef303bf02a",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "322662c5-1782-47b3-b3b8-5df44613ea86",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "e68e7987-99d0-47dd-a662-7aad78ae94b3",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "1aea64f0-991e-4495-b00d-46b878e1aa49",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "a45fd6dd-9cad-495c-ae09-6f757d4f8e84",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "4d937b05-238c-40c1-9bfc-da6c6cdd7af5",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "e466ebc4-e1df-4247-9f3d-9e5f366cfe8e",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "cc3e337e-0c7b-484b-a360-7d3ce33e053f",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "283403d9-2a2a-43b5-b90e-6dbc203545d9",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "cd0c7508-9d1c-424b-a601-656ca333560d",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "96f2e51d-5105-4136-bb99-34c572795ec4",
+      "name": "Mocked category",
+      "deleted": true
+    },
+    {
+      "id": "93656d0d-6bc6-43fe-a902-fe12ef9e02b2",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "4f7368e6-f821-4cd7-b444-be7012ce6786",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "291b3043-acfc-4a78-a296-99bbe8abce43",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "8ac40661-0672-4605-8d80-cd366acc7009",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "59c1fafc-a324-4cac-828b-04c4257868de",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "d1b3de9c-4f6b-45c6-8832-4db894b43c84",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "80d0db41-15ab-4519-8aa3-50d578fd340a",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "e4a4f6e7-27b9-4243-860c-1f0698363ece",
+      "name": "Mocked category",
+      "deleted": false
+    },
+    {
+      "id": "b3bb80a7-5e92-4032-8a6a-6a7095dad04c",
+      "name": "Mocked category",
+      "deleted": false
     }
   ]
 }

@@ -8,6 +8,10 @@ import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { stopPropagation } from '../utils/stop-propagation.util';
 import { isRootCategory } from '../utils/is-root-category.util';
+import { Coords } from '../domain/interfaces/coords.interface';
+import { handleEventAndReturnCoords } from '../ContextMenu/handle-event-and-return-coords.util';
+import UiActions from '../store/actionCreators/ui.action-creators';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -30,6 +34,7 @@ export const CategoryListItem = (
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const saveButtonId = 'save-category';
   const canBeEdited = useRef<boolean>(!isRootCategory(data.id));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (edited) {
@@ -115,6 +120,30 @@ export const CategoryListItem = (
     onDelete(data);
   };
 
+  const handleContextMenu = (e: MouseEvent): void => {
+    const coords: Coords = handleEventAndReturnCoords(e);
+
+    dispatch(UiActions.openSidebar());
+    dispatch(UiActions.showContextMenu({
+      coords,
+      items: [
+        {
+          label: 'COMMON:SELECT',
+          callback: handleSelect,
+        },
+        {
+          label: 'COMMON:EDIT',
+          callback: handleEditModeToggle,
+        },
+        {
+          label: 'COMMON:DELETE',
+          callback: handleDelete,
+          warn: true,
+        },
+      ]
+    }));
+  };
+
   const RegularView: ReactElement = (
     <>
       <span title={ data.name }>{ data.name }</span>
@@ -145,7 +174,11 @@ export const CategoryListItem = (
   );
 
   return (
-    <ListItem onClick={ handleSelect } className={ getListItemClasses() }>
+    <ListItem
+      onClick={ handleSelect }
+      onContextMenu={ handleContextMenu }
+      className={ getListItemClasses() }
+    >
       { current ? <FolderOpen className="icon --current" /> : <Folder className="icon" /> }
       { edited || editMode ? EditModeView : RegularView }
     </ListItem>
