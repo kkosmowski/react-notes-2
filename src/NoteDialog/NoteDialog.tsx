@@ -23,7 +23,6 @@ import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
 import { noteDialogTestId } from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { canGoBack } from '../utils/can-go-back.util';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -133,7 +132,6 @@ export const NoteDialog = (): ReactElement => {
 
   const closeDialog = (): void => {
     setEditMode(NoteEditMode.Both);
-    // dispatch(UiActions.closeNoteDialog());
     dispatch(NoteActions.setOpenedNote(null));
     goBack();
   };
@@ -144,7 +142,6 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const goBack = (): void => {
-    console.log(location.state);
     if (location.state) {
       history.goBack();
     } else {
@@ -155,7 +152,7 @@ export const NoteDialog = (): ReactElement => {
         }
       });
     }
-  }
+  };
 
   const addNote = (): void => {
     const note: NoteInterface = {
