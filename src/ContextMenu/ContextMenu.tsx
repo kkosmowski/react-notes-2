@@ -59,5 +59,5 @@ const StyledDiv = styled.div<{ coords: Coords }>`
   ${ ({ coords }) => `left: ${ coords.x }px; top: ${ coords.y }px;` }
   display: flex;
   flex-direction: column;
-  background-color: var(--dark100);
+  background-color: var(--dark250);
 `;

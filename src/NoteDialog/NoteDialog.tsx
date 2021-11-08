@@ -11,7 +11,11 @@ import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog
 import { DialogControls, DialogHeader } from '../Dialog/styles/Dialog.styled';
 import { useTranslation } from 'react-i18next';
 import { NoteDialogActions } from './NoteDialogActions';
-import { isEditMode, NoteEditMode, toggleEditMode } from '../domain/interfaces/note-edit-mode.interface';
+import {
+  isEditMode,
+  NoteEditMode,
+  toggleEditMode
+} from '../domain/interfaces/note-edit-mode.interface';
 import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { selectOpenedNote } from '../store/selectors/note.selectors';
 import { selectUndeletedCategories } from '../store/selectors/category.selectors';
@@ -55,6 +59,12 @@ export const NoteDialog = (): ReactElement => {
   }, []);
 
   useEffect(() => {
+    if (location.pathname.endsWith('/edit')) {
+      setEditMode(NoteEditMode.Both);
+    }
+  }, [location]);
+
+  useEffect(() => {
     if (noteId && !openedNote) {
       dispatch(NoteActions.findOpenedNote(noteId));
     }
@@ -63,10 +73,6 @@ export const NoteDialog = (): ReactElement => {
   useEffect(() => {
     if (openedNote) {
       setForm(openedNote);
-
-      if (!location.pathname.endsWith('/edit')) {
-        setEditMode(NoteEditMode.None);
-      }
     } else {
       setEditMode(NoteEditMode.Both);
     }

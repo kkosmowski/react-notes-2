@@ -59,8 +59,8 @@ export const CategoryListItem = (
     return className;
   };
 
-  const handleSelect = (e: MouseEvent): void => {
-    e.stopPropagation();
+  const handleSelect = (e?: MouseEvent): void => {
+    e && e.stopPropagation();
     if (!edited) {
       onSelect(data);
     }
@@ -74,8 +74,8 @@ export const CategoryListItem = (
     });
   };
 
-  const handleSave = (e: MouseEvent): void => {
-    e.stopPropagation();
+  const handleSave = (e?: MouseEvent): void => {
+    e && e.stopPropagation();
     if (editMode) {
       if (name !== originalName) {
         onUpdate({ ...data, name });
@@ -87,8 +87,8 @@ export const CategoryListItem = (
     setEditMode(false);
   };
 
-  const handleEditModeToggle = (e: MouseEvent): void => {
-    e.stopPropagation();
+  const handleEditModeToggle = (e?: MouseEvent): void => {
+    e && e.stopPropagation();
     setEditMode(!editMode);
   };
 
@@ -115,8 +115,8 @@ export const CategoryListItem = (
     </>
   );
 
-  const handleDelete = (e: MouseEvent): void => {
-    e.stopPropagation();
+  const handleDelete = (e?: MouseEvent): void => {
+    e && e.stopPropagation();
     onDelete(data);
   };
 
@@ -129,15 +129,15 @@ export const CategoryListItem = (
       items: [
         {
           label: 'COMMON:SELECT',
-          callback: handleSelect,
+          callback: () => handleSelect(),
         },
         {
           label: 'COMMON:EDIT',
-          callback: handleEditModeToggle,
+          callback: () => handleEditModeToggle(),
         },
         {
           label: 'COMMON:DELETE',
-          callback: handleDelete,
+          callback: () => handleDelete(),
           warn: true,
         },
       ]
