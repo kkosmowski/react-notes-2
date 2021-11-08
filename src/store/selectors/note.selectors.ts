@@ -18,6 +18,9 @@ export const selectNotesLoading = createSelector(
 export const selectOpenedNote = createSelector(
   noteSelector, (note: NoteState) => note.openedNote
 );
+export const selectNoteToOpen = createSelector(
+  noteSelector, (note: NoteState) => note.noteToOpen
+);
 
 export const selectNoteSelectionMode = createSelector(
   noteSelector, (note: NoteState) => note.noteSelectionMode

@@ -8,6 +8,8 @@ import { NotesContainer } from '../NotesContainer/NotesContainer';
 import { Provider } from 'react-redux';
 import { noteDialogTestId, noteSelectedTestId, noteTestId } from '../domain/consts/test-ids.consts';
 import { Main } from '../Main/Main';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 
 describe('Note', () => {
   it('should be selected on action dispatch', () => {
@@ -18,9 +20,14 @@ describe('Note', () => {
         return store
           .dispatch(NoteActions.selectNote(note.id) as unknown as AnyAction)
           .then(async () => {
+            const history = createMemoryHistory();
+            history.push('/');
+
             render(
-              <Provider store={store}>
-                <NotesContainer />
+              <Provider store={ store }>
+                <Router history={ history }>
+                  <NotesContainer />
+                </Router>
               </Provider>
             );
 

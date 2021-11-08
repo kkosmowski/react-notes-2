@@ -70,6 +70,9 @@ const NoteActions = {
   setOpenedNote(note: NoteInterface | null): Action {
     return noteActions.setOpenedNote(note);
   },
+  findOpenedNote(noteId: EntityUid): Action {
+    return noteActions.findOpenedNote(noteId);
+  },
 
   deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {

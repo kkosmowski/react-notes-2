@@ -36,7 +36,12 @@ export const ControlsBar = (): ReactElement => {
 
   const handleNoteAdd = () => {
     dispatch(UiActions.openNoteDialog());
-    history.push('/add-note');
+    history.push({
+      pathname: '/add-note',
+      state: {
+        previous: history.location.pathname
+      }
+    });
   };
 
   const handleSelectionModeChange = () => {

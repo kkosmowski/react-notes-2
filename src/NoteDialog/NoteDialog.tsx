@@ -22,7 +22,8 @@ import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
 import { noteDialogTestId } from '../domain/consts/test-ids.consts';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { canGoBack } from '../utils/can-go-back.util';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -36,19 +37,32 @@ export const NoteDialog = (): ReactElement => {
     width: '400px',
     flex: true
   };
+  const location = useLocation<{ previous?: string }>();
+  const { noteId } = useParams<{ noteId: string }>();
   const categories = useSelector(selectUndeletedCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.Both);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
-  const [form, setForm] = useState<NoteDialogFormValue>(openedNote || emptyForm);
+  const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    setEditMode(openedNote ? NoteEditMode.None : NoteEditMode.Both);
+    if (noteId && !openedNote) {
+      dispatch(NoteActions.findOpenedNote(noteId));
+    }
+  }, [noteId, openedNote]);
+
+  useEffect(() => {
+    if (openedNote) {
+      setForm(openedNote);
+      setEditMode(NoteEditMode.None);
+    } else {
+      setEditMode(NoteEditMode.Both);
+    }
   }, [openedNote]);
 
   useEffect(() => {
@@ -121,13 +135,27 @@ export const NoteDialog = (): ReactElement => {
     setEditMode(NoteEditMode.Both);
     // dispatch(UiActions.closeNoteDialog());
     dispatch(NoteActions.setOpenedNote(null));
-    history.goBack();
+    goBack();
   };
 
   const handleFormChange = (payload: NoteDialogFormPayload): void => {
     setForm(payload.form);
     setValid(payload.valid);
   };
+
+  const goBack = (): void => {
+    console.log(location.state);
+    if (location.state) {
+      history.goBack();
+    } else {
+      history.push({
+        pathname: '/',
+        state: {
+          previous: history.location.pathname
+        }
+      });
+    }
+  }
 
   const addNote = (): void => {
     const note: NoteInterface = {
@@ -233,6 +261,7 @@ export const NoteDialog = (): ReactElement => {
         onFormChange={ handleFormChange }
         onPartialEditModeChange={ handlePartialEditModeChange }
         initialForm={ openedNote || emptyForm }
+        openedNote={ openedNote }
         categories={ categories }
         clear={ clearForm }
       />

@@ -14,6 +14,7 @@ import { Checkbox, CheckboxLabel } from '../Checkbox/Checkbox';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { Categories, CategoriesWrapper, FormWrapper } from './NoteDialogForm.styled';
 import { NoteDialogUtil } from './note-dialog.util';
+import { NoteInterface } from '../domain/interfaces/note.interface';
 
 export interface NoteDialogFormPayload {
   form: NoteDialogFormValue;
@@ -22,6 +23,7 @@ export interface NoteDialogFormPayload {
 
 interface Props {
   initialForm: NoteDialogFormValue;
+  openedNote: NoteInterface | null;
   categories: Category[];
   editMode: NoteEditMode;
   clear: void[];
@@ -30,7 +32,7 @@ interface Props {
 }
 
 export const NoteDialogForm = (
-  { initialForm, clear, categories, editMode, onFormChange, onPartialEditModeChange }: Props
+  { initialForm, openedNote, clear, categories, editMode, onFormChange, onPartialEditModeChange }: Props
 ): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const initialRun = useRef<boolean>(true);
@@ -58,6 +60,16 @@ export const NoteDialogForm = (
       initialRun.current = false;
     }
   }, [clear]);
+
+  useEffect(() => {
+    if (openedNote) {
+      setForm({
+        title: openedNote.title,
+        content: openedNote.content,
+        categories: openedNote.categories,
+      });
+    }
+  }, [openedNote]);
 
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
     setForm({

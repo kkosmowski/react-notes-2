@@ -15,7 +15,7 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectNoteSelectionMode,
-  selectNotesLoading,
+  selectNotesLoading, selectNoteToOpen, selectOpenedNote,
   selectSelectedNotes,
   selectUndeletedNotes
 } from '../store/selectors/note.selectors';
@@ -25,13 +25,15 @@ import { useHistory, useParams } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 
 export const NotesContainer = (): ReactElement => {
-  const { categoryId } = useParams<{ categoryId: EntityUid }>();
+  const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
   const { t } = useTranslation('COMMON');
   const notes: NoteInterface[] = useSelector(selectUndeletedNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
+  const openedNote = useSelector(selectOpenedNote);
+  const noteToOpen = useSelector(selectNoteToOpen);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[] | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
@@ -53,7 +55,11 @@ export const NotesContainer = (): ReactElement => {
   useEffect(() => {
     calculateNumberOfColumns();
     initResizeListener();
-  }, [notes]);
+
+    if (notes.length && noteToOpen && !openedNote) {
+      dispatch(NoteActions.setOpenedNote(notes.find((note) => note.id === noteToOpen) || null));
+    }
+  }, [dispatch, notes, noteToOpen]);
 
   useEffect(() => {
     if (currentCategoryId === rootCategory.id) {
@@ -99,7 +105,12 @@ export const NotesContainer = (): ReactElement => {
 
   const handleNoteOpen = (noteToOpen: NoteInterface): void => {
     dispatch(NoteActions.setOpenedNote(noteToOpen));
-    history.push(`/note/${ noteToOpen.id }`);
+    history.push({
+      pathname: `/note/${ noteToOpen.id }`,
+      state: {
+        previous: history.location.pathname
+      }
+    });
   };
 
   return (

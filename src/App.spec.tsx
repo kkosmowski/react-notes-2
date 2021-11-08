@@ -26,7 +26,7 @@ describe('Category', () => {
           .dispatch(NoteActions._getSuccess([noteNotInAnyCategory, noteInMockedCategory]) as unknown as AnyAction)
           .then(() => {
             return store
-              .dispatch(CategoryActions.change(mockedCategory) as unknown as AnyAction)
+              .dispatch(CategoryActions.change(mockedCategory.id) as unknown as AnyAction)
               .then(async () => {
                 await waitFor(() => {
                   expect(screen.queryAllByTestId(noteTestId)).toHaveLength(1);

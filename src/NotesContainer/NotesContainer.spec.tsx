@@ -9,6 +9,7 @@ import { noNotesTextTestId, noteTestId } from '../domain/consts/test-ids.consts'
 import { initialRootState } from '../utils/initial-root-state';
 import { RootState } from '../store/interfaces/root-state.interface';
 import { getMockedNote } from '../utils/get-mocked-note.util';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('NotesContainer', () => {
   let mockedStore: MockStoreEnhanced<RootState>;
@@ -19,7 +20,9 @@ describe('NotesContainer', () => {
 
     render(
       <Provider store={ mockedStore }>
-        <NotesContainer />
+        <MemoryRouter>
+          <NotesContainer />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -39,7 +42,9 @@ describe('NotesContainer', () => {
 
     render(
       <Provider store={ mockedStore }>
-        <NotesContainer />
+        <MemoryRouter>
+          <NotesContainer />
+        </MemoryRouter>
       </Provider>
     );
 

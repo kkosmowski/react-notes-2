@@ -7,6 +7,7 @@ export interface NoteState {
   notesLoading: boolean;
   noteSelectionMode: NoteSelectionMode;
   openedNote: NoteInterface | null;
+  noteToOpen: EntityUid | null;
   noteCreationInProgress: boolean;
   noteUpdateInProgress: boolean;
   noteDeletionInProgress: boolean;

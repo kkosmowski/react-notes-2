@@ -11,13 +11,14 @@ import {
   toggleSelectionModeButtonTestId
 } from '../../domain/consts/test-ids.consts';
 import { Provider } from 'react-redux';
-import UiActions from '../../store/actionCreators/ui.action-creators';
-import { App, ProvidedApp } from '../../App';
+import { App } from '../../App';
 import { AnyAction } from 'redux';
 import store from '../../store/store';
 import { getMockedNote } from '../../utils/get-mocked-note.util';
 import { initialNoteState } from '../../store/reducers/note.reducer';
 import NoteActions from '../../store/actionCreators/note.action-creators';
+import { MemoryRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;
@@ -40,7 +41,9 @@ describe('ControlsBar', function () {
 
       render(
         <Provider store={ mockedStore }>
-          <ControlsBar />
+          <MemoryRouter>
+            <ControlsBar />
+          </MemoryRouter>
         </Provider>
       );
 
@@ -57,15 +60,22 @@ describe('ControlsBar', function () {
       done();
     });
 
-    it('opens NoteDialog on action dispatched', () => {
-      return store // real store
-        .dispatch(UiActions.openNoteDialog() as unknown as AnyAction)
-        .then(async () => {
-          render(<ProvidedApp />);
+    it('opens NoteDialog on specific route', () => {
+      const mockedNote = getMockedNote();
+      const noteRoute = `/note/${ mockedNote.id }`;
 
-          await waitFor(() => {
-            expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
-          });
+      store
+        .dispatch(NoteActions._getSuccess([mockedNote]) as unknown as AnyAction)
+        .then(() => {
+          render(
+            <Provider store={ store }>
+              <MemoryRouter initialEntries={ [noteRoute] }>
+                <App />
+              </MemoryRouter>
+            </Provider>
+          );
+
+          expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
         })
         .catch();
     });
@@ -107,9 +117,14 @@ describe('ControlsBar', function () {
           return store
             .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
             .then(async () => {
+              const history = createMemoryHistory();
+              history.push('/');
+
               render(
                 <Provider store={ store }>
-                  <App />
+                  <Router history={ history }>
+                    <App />
+                  </Router>
                 </Provider>
               );
 
