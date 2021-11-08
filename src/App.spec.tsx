@@ -4,18 +4,12 @@ import store from './store/store';
 import { AnyAction } from 'redux';
 import { getMockedNote } from './utils/get-mocked-note.util';
 import NoteActions from './store/actionCreators/note.action-creators';
-import { App, ProvidedApp } from './App';
+import { ProvidedApp } from './App';
 import { render, screen, waitFor } from '@testing-library/react';
 import { categoryTitleTestId, noteTestId } from './domain/consts/test-ids.consts';
-import { MemoryRouter, Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Main } from './Main/Main';
-import { mockStore } from './utils/mock.store';
-import { initialRootState } from './utils/initial-root-state';
-import { initialCategoryState } from './store/reducers/category.reducer';
-import { createMemoryHistory } from 'history';
-import { MockStoreEnhanced } from 'redux-mock-store';
-import { RootState } from './store/interfaces/root-state.interface';
 
 describe('Category', () => {
   it('selecting a category filters notes assigned to this category', () => {
@@ -39,7 +33,8 @@ describe('Category', () => {
               .then(async () => {
                 await waitFor(() => {
                   expect(screen.queryAllByTestId(noteTestId)).toHaveLength(1);
-                });
+                })
+                  .catch();
               })
               .catch();
           })
@@ -65,7 +60,8 @@ describe('Category', () => {
       .then(async () => {
         await waitFor(() => {
           expect(screen.queryByTestId(categoryTitleTestId)).toHaveTextContent(mockedCategory.name);
-        });
+        })
+          .catch();
       })
       .catch();
   });
