@@ -18,7 +18,7 @@ import { handleEventAndReturnCoords } from '../ContextMenu/handle-event-and-retu
 interface Props extends NoteSelectionProps {
   data: NoteInterface;
   onSelect: (id: EntityUid) => void;
-  onOpen: (note: NoteInterface) => void;
+  onOpen: (note: NoteInterface, openWithEdit?: boolean) => void;
   onDelete: (note: NoteInterface) => void;
 }
 
@@ -46,8 +46,7 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
   };
 
   const handleOpenAndEdit = (): void => {
-    // @todo: implement remote setting of edit mode in the note dialog
-    onOpen(data);
+    onOpen(data, true);
   };
 
   const handleDelete = (): void => {
