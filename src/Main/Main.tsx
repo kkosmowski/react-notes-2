@@ -14,6 +14,7 @@ import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
 import { Route, Switch } from 'react-router-dom';
 import { CategoryTitle, MainWrapper } from './Main.styled';
 import { rootCategory } from '../domain/consts/root-category.const';
+import { categoryTitleTestId } from '../domain/consts/test-ids.consts';
 
 const AppRoutes = (): ReactElement => {
   const app: ReactElement = (
@@ -75,7 +76,7 @@ export const Main = (): ReactElement => {
       onClick={ handleOnWrapperClick }
       onDoubleClick={ handleOnWrapperDoubleClick }
     >
-      <CategoryTitle>{ activeCategory?.name || rootCategory.name }</CategoryTitle>
+      <CategoryTitle data-testid={ categoryTitleTestId }>{ activeCategory?.name || rootCategory.name }</CategoryTitle>
       <AppRoutes />
 
       <ConfirmationDialog />
