@@ -25,10 +25,11 @@ import HistoryActions from '../store/actionCreators/history.action-creators';
 import { EntityUid } from '../domain/types/entity-uid.type';
 
 interface Props {
+  id: EntityUid;
   details: ActionDetails;
 }
 
-export const Snackbar = ({ details }: Props): ReactElement | null => {
+export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   const { t } = useTranslation('SNACKBAR');
   const [visible, setVisible] = useState<boolean>(true);
   const [hiding, setHiding] = useState<boolean>(false);
@@ -67,7 +68,7 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
       clearTimeout(timeout.current!);
       setTimeout(() => {
         setVisible(false);
-        dispatch(UiActions.hideSnackbar());
+        dispatch(UiActions.hideSnackbar(id));
       }, snackbarHidingDuration);
     }, additionalDelay);
   };

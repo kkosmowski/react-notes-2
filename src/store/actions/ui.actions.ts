@@ -3,6 +3,7 @@ import { SnackbarInstance } from '../../domain/interfaces/snackbar-instance.inte
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const uiActions = {
   openNoteDialog: createAction<void>('OPEN_NOTE_DIALOG'),
@@ -16,7 +17,7 @@ const uiActions = {
   closeSidebar: createAction<void>('CLOSE_SIDEBAR'),
 
   showSnackbar: createAction<SnackbarInstance>('SHOW_SNACKBAR'),
-  hideSnackbar: createAction<void>('HIDE_SNACKBAR'),
+  hideSnackbar: createAction<EntityUid | null>('HIDE_SNACKBAR'),
 
   showContextMenu: createAction<ContextMenuData>('SHOW_CONTEXT_MENU'),
   hideContextMenu: createAction<void>('HIDE_CONTEXT_MENU'),

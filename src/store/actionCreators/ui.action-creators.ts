@@ -7,6 +7,7 @@ import { HistoryUtil } from '../../domain/utils/history.util';
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
+import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -44,8 +45,8 @@ const UiActions = {
       },
     });
   },
-  hideSnackbar(): Action {
-    return uiActions.hideSnackbar();
+  hideSnackbar(snackbarId: EntityUid | null): Action {
+    return uiActions.hideSnackbar(snackbarId);
   },
 
   showContextMenu(data: ContextMenuData): Action {
