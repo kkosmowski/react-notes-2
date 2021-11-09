@@ -5,7 +5,7 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   margin: 24px 0;
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 
   > *:not(:last-child) {
     margin-bottom: 32px;
@@ -15,7 +15,6 @@ export const FormWrapper = styled.div`
 export const CategoriesWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   > p {
     margin-bottom: 8px;
@@ -25,7 +24,6 @@ export const CategoriesWrapper = styled.div`
 export const Categories = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: auto;
 
   > * {
     margin-bottom: 4px;

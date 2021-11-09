@@ -2,7 +2,7 @@
 
 :root {
   --sidebar-width: 48px;
-  --sidebar-width-opened: 268px;
+  --sidebar-width-opened: 80%;
   --sidebar-backdrop-transition: opacity 0.25s ease-in-out;
 
   --icon-size: 20px;
@@ -10,6 +10,7 @@
 
   @media (min-width: 600px) {
     --sidebar-width: 64px;
+    --sidebar-width-opened: 268px;
 
     --icon-size: 24px;
     --wrapper-horizontal-padding: 32px;

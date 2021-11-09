@@ -24,13 +24,17 @@ export const DialogContainer = styled.div<DialogConfig>`
   z-index: 100;
   width: 100%;
   ${ ({ flex }) => flex ? 'display: flex; flex-direction: column;' : '' }
-  height: ${ ({ height }) => height || '60%' };
-  max-width: ${ ({ width }) => width || '600px' };
-  max-height: 80%;
+  height: ${ ({ height }) => height || '100%' };
   padding: 24px;
   background-color: var(--dark300);
-  border-radius: 4px;
-  box-shadow: 0 0 16px var(--dark100);
+  
+  @media (min-width: 600px) {
+    height: ${ ({ height }) => height || 'fit-content' };
+    max-width: ${ ({ width }) => width || '600px' };
+    max-height: 80%;
+    border-radius: 4px;
+    box-shadow: 0 0 16px var(--dark100);
+  }
 `;
 
 export const DialogControls = styled.div`
