@@ -5,7 +5,7 @@ import uiActions from '../actions/ui.actions';
 export const initialUiState: UiState = {
   noteDialogOpened: false,
   confirmationDialogOpened: false,
-  confirmationDialogData: null,
+  confirmationDialogAction: null,
   confirmationDialogResult: null,
   editedCategoryId: null,
   sidebarOpened: false,
@@ -23,24 +23,20 @@ const uiReducer = createReducer(initialUiState, (builder) => {
       state.noteDialogOpened = false;
     })
 
-    .addCase(uiActions.openConfirmationDialog, (state, action) => {
+    .addCase(uiActions.openConfirmationDialog, (state, { payload }) => {
       state.confirmationDialogOpened = true;
       state.confirmationDialogResult = null;
-      state.confirmationDialogData = action.payload || null;
+      state.confirmationDialogAction = payload;
     })
-    .addCase(uiActions.closeConfirmationDialog, (state, action) => {
+    .addCase(uiActions.closeConfirmationDialog, (state, { payload }) => {
       state.confirmationDialogOpened = false;
-      state.confirmationDialogResult = {
-        result: action.payload,
-        action: state.confirmationDialogData!.action,
-        id: state.confirmationDialogData?.id,
-      };
-      state.confirmationDialogData = null;
+      state.confirmationDialogResult = payload;
+      state.confirmationDialogAction = null;
     })
     .addCase(uiActions.clearConfirmationDialogData, (state) => {
       state.confirmationDialogOpened = false;
       state.confirmationDialogResult = null;
-      state.confirmationDialogData = null;
+      state.confirmationDialogAction = null;
     })
 
     .addCase(uiActions.openSidebar, (state) => {

@@ -12,8 +12,8 @@ export const selectConfirmationResult = createSelector(
   uiSelector, (ui: UiState) => ui.confirmationDialogResult
 );
 
-export const selectConfirmationData = createSelector(
-  uiSelector, (ui: UiState) => ui.confirmationDialogData
+export const selectConfirmationAction = createSelector(
+  uiSelector, (ui: UiState) => ui.confirmationDialogAction
 );
 
 export const selectConfirmationDialogOpened = createSelector(

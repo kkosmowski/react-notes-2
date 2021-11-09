@@ -1,11 +1,12 @@
 import { Action } from '../../domain/interfaces/action.interface';
-import { ConfirmationDialogData } from '../../domain/interfaces/confirmation-dialog-data.interface';
 import uiActions from '../actions/ui.actions';
 import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { HistoryUtil } from '../../domain/utils/history.util';
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
+import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
+import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -17,10 +18,10 @@ const UiActions = {
     return uiActions.closeNoteDialog();
   },
 
-  openConfirmationDialog(data: ConfirmationDialogData): Action {
-    return uiActions.openConfirmationDialog(data);
+  openConfirmationDialog(confirmationAction: ConfirmationAction): Action {
+    return uiActions.openConfirmationDialog(confirmationAction);
   },
-  closeConfirmationDialog(result: boolean): Action {
+  closeConfirmationDialog(result: ConfirmationResult): Action {
     return uiActions.closeConfirmationDialog(result);
   },
   clearConfirmationDialogData(): Action {

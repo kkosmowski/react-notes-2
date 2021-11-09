@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
@@ -6,25 +6,40 @@ import { DialogControls } from '../Dialog/styles/Dialog.styled';
 import styled from 'styled-components';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectConfirmationData, selectConfirmationDialogOpened } from '../store/selectors/ui.selectors';
+import { selectConfirmationAction, selectConfirmationDialogOpened } from '../store/selectors/ui.selectors';
+import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
+import { getConfirmationDialogData } from './get-confirmation-dialog-data.util';
+import { useTranslation } from 'react-i18next';
 
 export const ConfirmationDialog = (): ReactElement => {
+  const { t } = useTranslation('CONFIRMATION');
   const opened: boolean = useSelector(selectConfirmationDialogOpened);
-  const data: ConfirmationDialogData | null = useSelector(selectConfirmationData);
+  const action: ConfirmationAction | null = useSelector(selectConfirmationAction);
+  const [data, setData] = useState<ConfirmationDialogData | null>(null);
   const dispatch = useDispatch();
   const dialogConfig: DialogConfig = {
-    width: '360px',
+    width: '400px',
     height: 'auto',
     flex: true
   };
 
+  useEffect(() => {
+    setData(getConfirmationDialogData(action));
+  }, [action, setData]);
+
   const handleCancel = (): void => {
-    dispatch(UiActions.closeConfirmationDialog(false));
+    dispatch(UiActions.closeConfirmationDialog({
+      action: action!,
+      result: false,
+    }));
   };
 
   const handleConfirm = (): void => {
-    dispatch(UiActions.closeConfirmationDialog(true));
+    dispatch(UiActions.closeConfirmationDialog({
+      action: action!,
+      result: true
+    }));
   };
 
   return (
@@ -32,21 +47,21 @@ export const ConfirmationDialog = (): ReactElement => {
       opened={ opened }
       config={ dialogConfig }
     >
-      <DialogTitle>{ data ? data.title : '' }</DialogTitle>
+      <DialogTitle>{ data && t(data.title) }</DialogTitle>
 
-      <Message>{ data ? data.message : '' }</Message>
+      <Message>{ data && t(data.message) }</Message>
 
       <DialogControls>
         <button
           onClick={ handleCancel }
           className="button --regular"
           type="button"
-        >{ data ? data.cancelButtonText : '' }</button>
+        >{ data && t(data.cancelButtonText) }</button>
         <button
           onClick={ handleConfirm }
           className="button --contained --primary"
           type="button"
-        >{ data ? data.confirmButtonText : '' }</button>
+        >{ data && t(data.confirmButtonText) }</button>
       </DialogControls>
     </Dialog>
   );
