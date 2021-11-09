@@ -9,10 +9,11 @@ export const SnackbarContainer = (): ReactElement => {
 
   return (
     <StyledContainer>
-      { snackbarQueue.map((snackbar) => (
+      { snackbarQueue.map((instance) => (
         <Snackbar
-          details={ snackbar.details }
-          key={ snackbar.id }
+          id={ instance.id }
+          details={ instance.details }
+          key={ instance.id }
         />
       )) }
     </StyledContainer>

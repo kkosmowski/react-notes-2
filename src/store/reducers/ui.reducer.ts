@@ -49,8 +49,12 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     .addCase(uiActions.showSnackbar, (state, { payload }) => {
       state.snackbarQueue.push(payload);
     })
-    .addCase(uiActions.hideSnackbar, (state) => {
-      state.snackbarQueue.shift();
+    .addCase(uiActions.hideSnackbar, (state, { payload }) => {
+      if (payload) {
+        state.snackbarQueue = state.snackbarQueue.filter((instance) => instance.id !== payload);
+      } else {
+        state.snackbarQueue.shift();
+      }
     })
 
     .addCase(uiActions.showContextMenu, (state, { payload }) => {
