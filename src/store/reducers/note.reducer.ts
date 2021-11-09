@@ -83,8 +83,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
 
         const entries = Object.entries(state.selectedNotes);
         if (entries.length) {
-          const onlySelectedEntries = entries.filter(([, selected]) => selected);
-          const [id] = onlySelectedEntries[onlySelectedEntries.length - 1];
+          const [id] = entries[entries.length - 1];
           state.selectedNotes = { [id]: true };
         }
       }
@@ -97,7 +96,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       }
     })
     .addCase(noteActions.deselectNote, (state, { payload }) => {
-      state.selectedNotes[payload] = false;
+      delete state.selectedNotes[payload];
     })
     .addCase(noteActions.clearSelection, (state) => {
       state.selectedNotes = {};
