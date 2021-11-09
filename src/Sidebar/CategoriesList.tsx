@@ -16,12 +16,10 @@ import {
   selectUndeletedCategories
 } from '../store/selectors/category.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
-import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { selectNotes } from '../store/selectors/note.selectors';
 import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
-import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { isRootCategory } from '../utils/is-root-category.util';
 
@@ -47,7 +45,6 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
   const dispatch = useDispatch();
-  const { t } = useTranslation('CONFIRMATION');
   const history = useHistory();
 
   useEffect(() => {
@@ -89,10 +86,10 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
         case ConfirmationAction.DeleteCategory:
           if (result && id) {
             deleteCategory(categories.find((cat) => cat.id === id)!);
+            dispatch(UiActions.clearConfirmationDialogData());
           }
           break;
       }
-      dispatch(UiActions.clearConfirmationDialogData());
     }
   }, [confirmationResult]);
 
@@ -149,15 +146,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   const handleDelete = (category: Category): void => {
     if (containsNotes.current[category.id]) {
-      const confirmationDialogData: ConfirmationDialogData = {
-        title: t('TITLE.DELETE_CATEGORY'),
-        message: t('MESSAGE.DELETE_CATEGORY'),
-        cancelButtonText: t('CONTROLS.NO_CANCEL'),
-        confirmButtonText: t('CONTROLS.YES_DELETE'),
-        action: ConfirmationAction.DeleteCategory,
-        id: category.id,
-      };
-      dispatch(UiActions.openConfirmationDialog(confirmationDialogData));
+      dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteCategory));
     } else {
       deleteCategory(category);
     }
