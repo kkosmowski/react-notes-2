@@ -122,6 +122,7 @@ const NoteActions = {
         })
         .then(() => {
           dispatch(noteActions.restoreNoteSuccess(note));
+          HistoryActions.push(noteActions.restoreNoteSuccess(note))(dispatch);
         })
         .catch(error => {
           console.error(error);
