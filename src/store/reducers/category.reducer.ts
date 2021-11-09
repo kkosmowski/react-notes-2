@@ -4,38 +4,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import categoryActions from '../actions/category.actions';
 
 export const initialCategoryState: CategoryState = {
-  categories: [
-    {
-      "id": "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
-      "name": "Test cat",
-      "deleted": false
-    },
-    {
-      "id": "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
-      "name": "Category 2",
-      "deleted": false
-    },
-    {
-      "id": "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
-      "name": "Cześć wszystkim, witam serdecznie",
-      "deleted": false
-    },
-    {
-      "id": "56875b71-69ec-4ba3-840e-5fd46e1443bf",
-      "name": "asdasdad",
-      "deleted": false
-    },
-    {
-      "id": "24e0ecb3-f0ee-49cd-ba0d-e1c6be2968ba",
-      "name": "Cześć wszystkim, witam serdecznie",
-      "deleted": false
-    },
-    {
-      "id": "56875b75-69ec-4ba3-840e-5fd46e1443bf",
-      "name": "asdasdad",
-      "deleted": false
-    }
-  ],
+  categories: [],
   categoryCreationInProgress: false,
   categoriesLoading: false,
   currentCategoryId: rootCategory.id,
@@ -53,7 +22,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
     .addCase(categoryActions.getCategoriesSuccess, (state, action) => {
       if (action.payload) {
-        // state.categories = action.payload;
+        state.categories = action.payload;
       }
       state.categoriesLoading = false;
     })

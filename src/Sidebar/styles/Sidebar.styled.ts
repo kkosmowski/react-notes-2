@@ -16,7 +16,7 @@ export const SidebarWrapper = styled.aside`
   ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
   
   &.--opened,
-  &:hover {
+  &.--hoverable:hover {
     background-color: var(--dark100);
     width: clamp(220px, var(--sidebar-width-opened), 300px);
 
