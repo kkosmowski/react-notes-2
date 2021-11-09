@@ -7,6 +7,7 @@ import { Action } from '../../domain/interfaces/action.interface';
 import HistoryActions from './history.action-creators';
 import NoteActions from './note.action-creators';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import UiActions from './ui.action-creators';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -51,6 +52,7 @@ const CategoryActions = {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.changeCategory(categoryId));
       dispatch(NoteActions.clearSelection());
+      dispatch(UiActions.closeSidebar());
     };
   },
 
