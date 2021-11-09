@@ -14,10 +14,11 @@ export const SidebarWrapper = styled.aside`
   overflow: hidden;
 
   ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
+  
   &.--opened,
   &:hover {
     background-color: var(--dark100);
-    width: var(--sidebar-width-opened);
+    width: clamp(220px, var(--sidebar-width-opened), 300px);
 
     + .sidebar-backdrop {
       opacity: 1;
@@ -33,5 +34,11 @@ export const SidebarWrapper = styled.aside`
     opacity: 0;
     pointer-events: none;
     ${ transition('opacity', '0.25s') }
+  }
+  
+  @media (min-width: 600px) {
+    &.--opened,
+    &:hover {
+      width: var(--sidebar-width-opened);
   }
 `;

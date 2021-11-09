@@ -33,14 +33,16 @@
       }
     }
 
-    &.--small {
-      width: var(--icon-button-size-small);
-      height: var(--icon-button-size-small);
+    @media (min-width: 600px) {
+      &.--small {
+        width: var(--icon-button-size-small);
+        height: var(--icon-button-size-small);
 
-      svg {
-        width: var(--icon-button-icon-size-small);
-        height: var(--icon-button-icon-size-small);
-        font-size: var(--icon-button-icon-size-small);
+        svg {
+          width: var(--icon-button-icon-size-small);
+          height: var(--icon-button-icon-size-small);
+          font-size: var(--icon-button-icon-size-small);
+        }
       }
     }
   }

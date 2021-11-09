@@ -23,7 +23,17 @@ export const initialCategoryState: CategoryState = {
     {
       "id": "56875b71-69ec-4ba3-840e-5fd46e1443bf",
       "name": "asdasdad",
-      "deleted": true
+      "deleted": false
+    },
+    {
+      "id": "24e0ecb3-f0ee-49cd-ba0d-e1c6be2968ba",
+      "name": "Cześć wszystkim, witam serdecznie",
+      "deleted": false
+    },
+    {
+      "id": "56875b75-69ec-4ba3-840e-5fd46e1443bf",
+      "name": "asdasdad",
+      "deleted": false
     }
   ],
   categoryCreationInProgress: false,
