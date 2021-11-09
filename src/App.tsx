@@ -9,8 +9,12 @@ import { debounce } from '@material-ui/core';
 import UiActions from './store/actionCreators/ui.action-creators';
 
 export const App = (): ReactElement => {
-  const [isMobile, setIsMobile] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    checkIfMobile();
+  }, []);
 
   useEffect(() => {
     dispatch(UiActions.setIsMobile(isMobile));
