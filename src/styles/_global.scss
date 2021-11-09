@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 
 :root {
-  --sidebar-width: 64px;
+  --sidebar-width: 48px;
   --sidebar-width-opened: 268px;
   --sidebar-backdrop-transition: opacity 0.25s ease-in-out;
 
-  --icon-size: 24px;
-  --wrapper-horizontal-padding: 32px;
+  --icon-size: 20px;
+  --wrapper-horizontal-padding: 16px;
 
+  @media (min-width: 600px) {
+    --sidebar-width: 64px;
+
+    --icon-size: 24px;
+    --wrapper-horizontal-padding: 32px;
+  }
 }
 
 *, *::before, *::after {

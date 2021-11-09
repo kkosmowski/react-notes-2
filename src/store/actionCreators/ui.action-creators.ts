@@ -55,6 +55,10 @@ const UiActions = {
   hideContextMenu(): Action {
     return uiActions.hideContextMenu();
   },
+
+  setIsMobile(isMobile: boolean): Action {
+    return uiActions.setIsMobile(isMobile);
+  },
 };
 
 export default UiActions;

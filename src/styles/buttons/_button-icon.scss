@@ -1,3 +1,23 @@
+:root {
+  --icon-button-size: 36px;
+  --icon-button-icon-size: 22px;
+
+  --icon-button-size-small: 24px;
+  --icon-button-icon-size-small: 14px;
+
+  --ghost-icon-button-size: 24px;
+
+  @media (min-width: 600px) {
+    --icon-button-size: 40px;
+    --icon-button-icon-size: 24px;
+
+    --icon-button-size-small: 28px;
+    --icon-button-icon-size-small: 18px;
+
+    --ghost-icon-button-size: 28px;
+  }
+}
+
 .button {
   &.--icon {
     border-radius: 50%;
@@ -5,6 +25,12 @@
     &:not(.--small) {
       width: var(--icon-button-size);
       height: var(--icon-button-size);
+
+      svg {
+        width: var(--icon-button-icon-size);
+        height: var(--icon-button-icon-size);
+        font-size: var(--icon-button-icon-size);
+      }
     }
 
     &.--small {
@@ -12,15 +38,16 @@
       height: var(--icon-button-size-small);
 
       svg {
-        width: 18px;
-        height: 18px;
+        width: var(--icon-button-icon-size-small);
+        height: var(--icon-button-icon-size-small);
+        font-size: var(--icon-button-icon-size-small);
       }
     }
   }
 
   &.--ghost-icon {
     border-radius: 50%;
-    
+
     width: var(--ghost-icon-button-size);
     height: var(--ghost-icon-button-size);
     padding: 2px;

@@ -20,6 +20,15 @@ import {
 import { selectCurrentCategoryId } from '../../store/selectors/category.selectors';
 import { isRootCategory } from '../../utils/is-root-category.util';
 import { useHistory } from 'react-router-dom';
+import { selectIsMobile } from '../../store/selectors/ui.selectors';
+import {
+  BookmarkBorder as BookmarkBorderIcon,
+  BookmarksOutlined as BookmarksOutlinedIcon,
+  Delete as DeleteIcon,
+  Done as DoneIcon,
+  DoneAll as DoneAllIcon,
+  NoteAdd as NoteAddIcon,
+} from '@material-ui/icons';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -27,6 +36,7 @@ export const ControlsBar = (): ReactElement => {
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode = useSelector(selectNoteSelectionMode);
   const currentCategoryId = useSelector(selectCurrentCategoryId);
+  const isMobile = useSelector(selectIsMobile);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -72,44 +82,53 @@ export const ControlsBar = (): ReactElement => {
       <Button
         onClick={ handleNoteAdd }
         color={ Color.Primary }
-        variant={ Variant.Regular }
+        variant={ isMobile ? Variant.Icon : Variant.Regular }
+        lighter={ isMobile }
         testid={ addNoteButtonTestId }
       >
-        { t('COMMON:ADD_NOTE') }
+        { isMobile
+          ? <NoteAddIcon />
+          : t('COMMON:ADD_NOTE')
+        }
       </Button>
 
       <Button
         onClick={ handleSelectionModeChange }
-        variant={ Variant.Regular }
+        variant={ isMobile ? Variant.Icon : Variant.Regular }
+        lighter={ isMobile }
         testid={ toggleSelectionModeButtonTestId }
       >
-        { t(
-          selectionMode === NoteSelectionMode.Single
-            ? 'MULTISELECT'
-            : 'SINGLE_SELECTION'
-        ) }
+        { isMobile
+          ? selectionMode === NoteSelectionMode.Single ? <DoneIcon /> : <DoneAllIcon />
+          : t(selectionMode === NoteSelectionMode.Single ? 'MULTISELECT' : 'SINGLE_SELECTION')
+        }
       </Button>
 
       <Button
         onClick={ handleNoteDelete }
         color={ Color.Warn }
-        variant={ Variant.Regular }
+        variant={ isMobile ? Variant.Icon : Variant.Regular }
         disabled={ !selectedNotesCount }
+        lighter={ isMobile }
       >
-        { t(selectedNotesCount > 1
-          ? 'DELETE_NOTES'
-          : 'DELETE_NOTE'
-        ) }
+        { isMobile
+          ? <DeleteIcon />
+          : t(selectedNotesCount > 1 ? 'DELETE_NOTES' : 'DELETE_NOTE')
+        }
       </Button>
 
       { isRootCategory(currentCategoryId)
         ? null
         : <Button
           onClick={ handleRemoveFromCategory }
-          variant={ Variant.Regular }
+          variant={ isMobile ? Variant.Icon : Variant.Regular }
           disabled={ !selectedNotesCount }
+          lighter={ isMobile }
         >
-          { t('REMOVE_FROM_CATEGORY') }
+          { isMobile
+            ? selectedNotesCount > 1 ? <BookmarksOutlinedIcon /> : <BookmarkBorderIcon />
+            : t('REMOVE_FROM_CATEGORY')
+          }
         </Button>
       }
     </Bar>
@@ -117,10 +136,11 @@ export const ControlsBar = (): ReactElement => {
 };
 
 const Bar = styled.div`
-  padding: 8px var(--wrapper-horizontal-padding);
+  padding: 8px var(--wrapper-horizontal-padding) 0;
   background-color: var(--dark200);
 
   > .button {
     margin-right: 8px;
+    margin-bottom: 8px;
   }
 `;
