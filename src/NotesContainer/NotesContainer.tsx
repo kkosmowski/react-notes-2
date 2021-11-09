@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
 import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
@@ -44,6 +44,10 @@ export const NotesContainer = (): ReactElement => {
 
   useEffect(() => {
     dispatch(NoteActions.get());
+
+    return () => {
+      window.removeEventListener('resize', debounce(calculateNumberOfColumns, 100));
+    };
   }, []);
 
   useEffect(() => {
@@ -53,11 +57,13 @@ export const NotesContainer = (): ReactElement => {
   }, [categoryId]);
 
   useEffect(() => {
-    calculateNumberOfColumns();
-    initResizeListener();
+    if (notes.length) {
+      calculateNumberOfColumns();
+      initResizeListener();
 
-    if (notes.length && noteToOpen && !openedNote) {
-      dispatch(NoteActions.setOpenedNote(notes.find((note) => note.id === noteToOpen) || null));
+      if (noteToOpen && !openedNote) {
+        dispatch(NoteActions.setOpenedNote(notes.find((note) => note.id === noteToOpen) || null));
+      }
     }
   }, [dispatch, notes, noteToOpen]);
 
@@ -90,11 +96,11 @@ export const NotesContainer = (): ReactElement => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));
   };
 
-  const calculateNumberOfColumns = (): void => {
+  const calculateNumberOfColumns = useCallback((): void => {
     const containerWidth: number = containerRef.current!.clientWidth;
     const theoreticalNumberOfColumns: number = Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1;
     setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
-  };
+  }, [setNumberOfColumns, containerRef, notes, COLUMN_MIN_WIDTH_PX]);
 
   const handleNoteSelect = (noteId: EntityUid): void => {
     if (!selectedNotes[noteId]) {
