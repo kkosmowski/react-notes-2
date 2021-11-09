@@ -1,18 +1,41 @@
 import { Main } from './Main/Main';
 import { Sidebar } from './Sidebar/Sidebar';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import store from './store/store';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ContextMenu } from './ContextMenu/ContextMenu';
+import { debounce } from '@material-ui/core';
+import UiActions from './store/actionCreators/ui.action-creators';
 
-export const App = (): ReactElement => (
-  <BrowserRouter>
-    <Sidebar />
-    <Main />
-    <ContextMenu />
-  </BrowserRouter>
-);
+export const App = (): ReactElement => {
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(UiActions.setIsMobile(isMobile));
+  }, [dispatch, isMobile]);
+
+  useEffect(() => {
+    window.addEventListener('resize', debounce(checkIfMobile, 100));
+
+    return () => {
+      window.removeEventListener('resize', debounce(checkIfMobile, 100));
+    };
+  });
+
+  const checkIfMobile = (): void => {
+    setIsMobile(window.innerWidth < 600);
+  };
+
+  return (
+    <BrowserRouter>
+      <Sidebar/>
+      <Main/>
+      <ContextMenu/>
+    </BrowserRouter>
+  );
+};
 
 export const ProvidedApp = (): ReactElement => (
   <Provider store={ store }>

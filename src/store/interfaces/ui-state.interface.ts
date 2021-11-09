@@ -14,4 +14,5 @@ export interface UiState {
   snackbarVisible: boolean;
   snackbarQueue: SnackbarInstance[];
   contextMenuData: ContextMenuData | null;
+  isMobile: boolean;
 }

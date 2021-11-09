@@ -11,7 +11,8 @@ export const initialUiState: UiState = {
   sidebarOpened: false,
   snackbarVisible: false,
   snackbarQueue: [],
-  contextMenuData: null
+  contextMenuData: null,
+  isMobile: true,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -62,6 +63,10 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     })
     .addCase(uiActions.hideContextMenu, (state) => {
       state.contextMenuData = null;
+    })
+
+    .addCase(uiActions.setIsMobile, (state, { payload }) => {
+      state.isMobile = payload;
     })
   ;
 });

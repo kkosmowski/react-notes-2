@@ -2,12 +2,13 @@ import styled from 'styled-components';
 import { transition } from '../../styles/styled-components-utils/transition.mixin';
 
 export const SidebarWrapper = styled.aside`
-  position: relative;
+  position: absolute;
   z-index: 100;
   display: flex;
   flex-direction: column;
   padding: 16px 0;
   width: var(--sidebar-width);
+  height: 100%;
   background-color: var(--dark200);
   color: var(--white-82);
   overflow: hidden;

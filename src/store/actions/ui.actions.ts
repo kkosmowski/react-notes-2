@@ -21,6 +21,8 @@ const uiActions = {
 
   showContextMenu: createAction<ContextMenuData>('SHOW_CONTEXT_MENU'),
   hideContextMenu: createAction<void>('HIDE_CONTEXT_MENU'),
+
+  setIsMobile: createAction<boolean>('SET_IS_MOBILE'),
 };
 
 export default uiActions;

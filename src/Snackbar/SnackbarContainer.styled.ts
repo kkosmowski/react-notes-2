@@ -10,6 +10,10 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   min-width: 200px;
-  max-width: 40%;
+  max-width: 90%;
   transition: width 0.2s;
+  
+  @media (max-width: 600px) {
+    max-width: 40%;
+  }
 `;
