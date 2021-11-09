@@ -8,7 +8,6 @@ import {
   SnackbarWrapper
 } from './Snackbar.styled';
 import { Close } from '@material-ui/icons';
-import historyActions from '../store/actions/history.actions';
 import { HistoryUtil } from '../domain/utils/history.util';
 import { useTranslation } from 'react-i18next';
 import {
@@ -22,6 +21,8 @@ import { Color } from '../domain/enums/color.enum';
 import { snackbarDuration, snackbarHidingDuration } from '../domain/consts/snackbar.const';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { snackbarCloseButtonTestId, snackbarTestId } from '../domain/consts/test-ids.consts';
+import HistoryActions from '../store/actionCreators/history.action-creators';
+import { EntityUid } from '../domain/types/entity-uid.type';
 
 interface Props {
   details: ActionDetails;
@@ -53,19 +54,22 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
 
   const handleUndoButtonClick = (): void => {
     if (details.reversible && !undoButtonDisabled) {
-      dispatch(historyActions.pop());
+      dispatch(HistoryActions.pop());
       dispatch(HistoryUtil.getRevertedAction(details));
       setUndoButtonDisabled(true);
+      hideSnackbar(500);
     }
   };
 
-  const hideSnackbar = (): void => {
-    setHiding(true);
-    clearTimeout(timeout.current!);
+  const hideSnackbar = (additionalDelay = 0): void => {
     setTimeout(() => {
-      setVisible(false);
-      dispatch(UiActions.hideSnackbar());
-    }, snackbarHidingDuration);
+      setHiding(true);
+      clearTimeout(timeout.current!);
+      setTimeout(() => {
+        setVisible(false);
+        dispatch(UiActions.hideSnackbar());
+      }, snackbarHidingDuration);
+    }, additionalDelay);
   };
 
   return visible
@@ -91,7 +95,7 @@ export const Snackbar = ({ details }: Props): ReactElement | null => {
             }
 
             <Button
-              onClick={ hideSnackbar }
+              onClick={ () => hideSnackbar() }
               variant={ Variant.Icon }
               testid={ snackbarCloseButtonTestId }
               small

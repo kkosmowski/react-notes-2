@@ -17,6 +17,12 @@ const HistoryActions = {
       }));
       dispatch(UiActions.showSnackbar(action));
     };
+  },
+
+  pop(): ActionFunction<void> {
+    return function (dispatch: Dispatch): void {
+      dispatch(historyActions.pop());
+    };
   }
 };
 
