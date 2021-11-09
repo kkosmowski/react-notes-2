@@ -44,6 +44,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const containsNotes = useRef<Record<EntityUid, boolean>>({});
   const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
+  const categoryToRemove = useRef<Category | null>(null);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -81,12 +82,18 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   useEffect(() => {
     if (confirmationResult) {
-      const { action, result, id } = confirmationResult;
+      const { action, result } = confirmationResult;
+
       switch (action) {
         case ConfirmationAction.DeleteCategory:
-          if (result && id) {
-            deleteCategory(categories.find((cat) => cat.id === id)!);
-            dispatch(UiActions.clearConfirmationDialogData());
+          if (categoryToRemove.current) {
+            if (typeof result === 'boolean') {
+              dispatch(UiActions.clearConfirmationDialogData());
+              if (result) {
+                deleteCategory(categoryToRemove.current);
+              }
+              categoryToRemove.current = null;
+            }
           }
           break;
       }
@@ -146,6 +153,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   const handleDelete = (category: Category): void => {
     if (containsNotes.current[category.id]) {
+      categoryToRemove.current = category;
       dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteCategory));
     } else {
       deleteCategory(category);
