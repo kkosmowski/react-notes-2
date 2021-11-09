@@ -62,7 +62,8 @@ export const NotesContainer = (): ReactElement => {
       initResizeListener();
 
       if (noteToOpen && !openedNote) {
-        dispatch(NoteActions.setOpenedNote(notes.find((note) => note.id === noteToOpen) || null));
+        const note: NoteInterface | undefined = notes.find((note) => note.id === noteToOpen);
+        note && dispatch(NoteActions.setOpenedNote(note));
       }
     }
   }, [dispatch, notes, noteToOpen]);

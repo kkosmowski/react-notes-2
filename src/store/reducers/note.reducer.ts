@@ -104,7 +104,10 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
 
     .addCase(noteActions.setOpenedNote, (state, action) => {
-      state.openedNote = action.payload || null;
+      state.openedNote = action.payload;
+    })
+    .addCase(noteActions.clearOpenedNote, (state) => {
+      state.openedNote = null;
     })
     .addCase(noteActions.findOpenedNote, (state, { payload }) => {
       state.noteToOpen = payload;

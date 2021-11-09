@@ -53,8 +53,10 @@ export const NoteDialog = (): ReactElement => {
   const history = useHistory();
 
   useEffect(() => () => {
-    setEditMode(NoteEditMode.Both);
-    dispatch(NoteActions.setOpenedNote(null));
+    if (openedNote) {
+      setEditMode(NoteEditMode.Both);
+      dispatch(NoteActions.clearOpenedNote());
+    }
   }, []);
 
   useEffect(() => {

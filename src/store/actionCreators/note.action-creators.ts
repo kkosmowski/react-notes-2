@@ -67,8 +67,11 @@ const NoteActions = {
     return noteActions.clearSelection();
   },
 
-  setOpenedNote(note: NoteInterface | null): Action {
+  setOpenedNote(note: NoteInterface): Action {
     return noteActions.setOpenedNote(note);
+  },
+  clearOpenedNote(): Action {
+    return noteActions.clearOpenedNote();
   },
   findOpenedNote(noteId: EntityUid): Action {
     return noteActions.findOpenedNote(noteId);
