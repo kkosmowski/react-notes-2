@@ -55,6 +55,8 @@ export const en = {
     NOTE_UPDATED: 'Note "{{ name }}" updated',
     NOTE_DELETED: 'Note "{{ name }}" deleted',
     NOTE_RESTORED: 'Note "{{ name }}" restored',
+    MULTIPLE_NOTES_DELETED: 'Multiple notes deleted',
+    MULTIPLE_NOTES_RESTORED: 'Multiple notes restored',
     CATEGORY_CREATED: 'Category "{{ name }}" created',
     CATEGORY_UPDATED: 'Category "{{ name }}" updated',
     CATEGORY_DELETED: 'Category "{{ name }}" deleted',

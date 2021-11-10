@@ -34,6 +34,14 @@ const noteActions = {
   restoreNoteSuccess: createAction<NoteInterface>('RESTORE_NOTE_SUCCESS'),
   restoreNoteFail: createAction<void>('RESTORE_NOTE_FAIL'),
 
+  deleteMultipleNotes: createAction<void>('DELETE_MULTIPLE_NOTES'),
+  deleteMultipleNotesSuccess: createAction<EntityUid[]>('DELETE_MULTIPLE_NOTES_SUCCESS'),
+  deleteMultipleNotesFail: createAction<void>('DELETE_MULTIPLE_NOTES_FAIL'),
+
+  restoreMultipleNotes: createAction<void>('RESTORE_MULTIPLE_NOTES'),
+  restoreMultipleNotesSuccess: createAction<EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
+  restoreMultipleNotesFail: createAction<void>('RESTORE_MULTIPLE_NOTES_FAIL'),
+
   removeNoteFromCategory: createAction<void>('REMOVE_NOTE_FROM_CATEGORY'),
   removeNoteFromCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('REMOVE_NOTE_FROM_CATEGORY_SUCCESS'),
   removeNoteFromCategoryFail: createAction<void>('REMOVE_NOTE_FROM_CATEGORY_FAIL'),
