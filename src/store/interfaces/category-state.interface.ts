@@ -11,4 +11,5 @@ export interface CategoryState {
   categoryUpdateInProgress: boolean;
   categoryDeletionInProgress: boolean;
   categoryRestorationInProgress: boolean;
+  categoryUpdateRevertInProgress: boolean;
 }

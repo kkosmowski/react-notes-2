@@ -60,6 +60,7 @@ export const en = {
     MULTIPLE_NOTES_RESTORED: 'Multiple notes restored',
     CATEGORY_CREATED: 'Category "{{ name }}" created',
     CATEGORY_UPDATED: 'Category "{{ name }}" updated',
+    CATEGORY_UPDATE_REVERTED: 'Category "{{ name }}" update reverted',
     CATEGORY_DELETED: 'Category "{{ name }}" deleted',
     CATEGORY_RESTORED: 'Category "{{ name }}" restored',
     NOTE_REMOVED_FROM_CATEGORY: 'Note "{{ name }}" removed from category',

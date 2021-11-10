@@ -8,6 +8,8 @@ import HistoryActions from './history.action-creators';
 import NoteActions from './note.action-creators';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import UiActions from './ui.action-creators';
+import store from '../store';
+import { RootState } from '../interfaces/root-state.interface';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -57,25 +59,15 @@ const CategoryActions = {
   },
 
   editCategory(category: Category): Action {
-    // @todo implement
     return categoryActions.editCategory(category);
-    // @todo implement
-    // HistoryActions.push(categoryActions.editCategorySuccess(category))(dispatch);
+  },
+
+  revertCategoryUpdate(category: Category): ActionFunction<Promise<void>> {
+    return updateOrRevert(category, 'revertCategoryUpdate');
   },
 
   updateCategory(category: Category): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
-      dispatch(categoryActions.updateCategory());
-      return HttpService
-        .put(`/categories/${ category.id }`, category)
-        .then(() => {
-          dispatch(categoryActions.updateCategorySuccess(category));
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(categoryActions.updateCategoryFail());
-        });
-    };
+    return updateOrRevert(category, 'updateCategory');
   },
 
   finishEditingCategory(): Action {
@@ -94,29 +86,57 @@ const CategoryActions = {
   },
 
   deleteCategory(category: Category): ActionFunction<Promise<void>> {
-    return deleteAndRestore('deleteCategory', category);
+    return deleteAndRestore(category, 'deleteCategory');
   },
 
   restoreCategory(category: Category): ActionFunction<Promise<void>> {
-    return deleteAndRestore('restoreCategory', category);
+    return deleteAndRestore(category, 'restoreCategory');
   },
 };
 
 // no idea if this is incredibly genius or extremely wrong, gonna keep it, though
-const deleteAndRestore = (actionName: 'deleteCategory' | 'restoreCategory', category: Category): ActionFunction<Promise<void>> => {
-  const success = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
-  const fail = actionName + 'Fail' as 'deleteCategoryFail' | 'restoreCategoryFail';
+const deleteAndRestore = (
+  category: Category,
+  actionName: 'deleteCategory' | 'restoreCategory',
+): ActionFunction<Promise<void>> => {
+  const successAction = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
+  const failAction = actionName + 'Fail' as 'deleteCategoryFail' | 'restoreCategoryFail';
+
   return function (dispatch: Dispatch): Promise<void> {
     dispatch((categoryActions[actionName])());
     return HttpService
       .patch(`/categories/${ category.id }`, { deleted: actionName === 'deleteCategory' })
       .then(() => {
-        dispatch(categoryActions[success](category));
-        HistoryActions.push(categoryActions[success](category))(dispatch);
+        dispatch(categoryActions[successAction](category));
+        HistoryActions.push(categoryActions[successAction](category))(dispatch);
       })
       .catch((error) => {
         console.error(error);
-        dispatch(categoryActions[fail]());
+        dispatch(categoryActions[failAction]());
+      });
+  };
+};
+
+const updateOrRevert = (
+  category: Category,
+  actionName: 'updateCategory' | 'revertCategoryUpdate',
+): ActionFunction<Promise<void>> => {
+  const successAction = actionName + 'Success' as 'updateCategorySuccess' | 'revertCategoryUpdateSuccess';
+  const failAction = actionName + 'Fail' as 'updateCategoryFail' | 'revertCategoryUpdateFail';
+
+  const originalCategory: Category = (store.getState() as RootState).category.categories.find((c) => c.id === category.id)!;
+
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch(categoryActions[actionName]());
+    return HttpService
+      .put(`/categories/${ category.id }`, category)
+      .then(() => {
+        dispatch(categoryActions[successAction](category));
+        HistoryActions.push(categoryActions[successAction](originalCategory))(dispatch);
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(categoryActions[failAction]());
       });
   };
 };
