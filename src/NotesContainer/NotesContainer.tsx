@@ -19,7 +19,6 @@ import {
   selectNoteToOpen,
   selectOpenedNote,
   selectSelectedNotes,
-  selectSelectedNotesCount,
   selectUndeletedNotes
 } from '../store/selectors/note.selectors';
 import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
@@ -35,7 +34,6 @@ export const NotesContainer = (): ReactElement => {
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
-  const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const openedNote = useSelector(selectOpenedNote);
   const noteToOpen = useSelector(selectNoteToOpen);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);

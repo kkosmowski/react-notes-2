@@ -24,8 +24,13 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       options.name = (payload as Category).name;
       break;
 
-    case 'EDIT_CATEGORY_SUCCESS':
-      message = 'CATEGORY_EDITED';
+    case 'UPDATE_CATEGORY_SUCCESS':
+      message = 'CATEGORY_UPDATED';
+      options.name = (payload as Category).name;
+      break;
+
+    case 'REVERT_CATEGORY_UPDATE_SUCCESS':
+      message = 'CATEGORY_UPDATE_REVERTED';
       options.name = (payload as Category).name;
       break;
 

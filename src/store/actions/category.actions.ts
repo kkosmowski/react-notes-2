@@ -30,6 +30,10 @@ const categoryActions = {
   updateCategory: createAction<void>('UPDATE_CATEGORY'),
   updateCategorySuccess: createAction<Category>('UPDATE_CATEGORY_SUCCESS'),
   updateCategoryFail: createAction<void>('UPDATE_CATEGORY_FAIL'),
+
+  revertCategoryUpdate: createAction<void>('REVERT_CATEGORY_UPDATE'),
+  revertCategoryUpdateSuccess: createAction<Category>('REVERT_CATEGORY_UPDATE_SUCCESS'),
+  revertCategoryUpdateFail: createAction<void>('REVERT_CATEGORY_UPDATE_FAIL'),
 };
 
 export default categoryActions;

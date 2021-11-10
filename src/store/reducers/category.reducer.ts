@@ -13,6 +13,7 @@ export const initialCategoryState: CategoryState = {
   categoryUpdateInProgress: false,
   categoryDeletionInProgress: false,
   categoryRestorationInProgress: false,
+  categoryUpdateRevertInProgress: false,
 };
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
@@ -72,13 +73,24 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
         ? payload
         : category
       );
-      if (state.currentCategoryId === payload.id) {
-        state.currentCategoryId = payload.id;
-      }
       state.categoryUpdateInProgress = false;
     })
     .addCase(categoryActions.updateCategoryFail, (state) => {
       state.categoryUpdateInProgress = false;
+    })
+
+    .addCase(categoryActions.revertCategoryUpdate, (state) => {
+      state.categoryUpdateRevertInProgress = true;
+    })
+    .addCase(categoryActions.revertCategoryUpdateSuccess, (state, { payload }) => {
+      state.categories = state.categories.map((category) => category.id === payload.id
+        ? payload
+        : category
+      );
+      state.categoryUpdateRevertInProgress = false;
+    })
+    .addCase(categoryActions.revertCategoryUpdateFail, (state) => {
+      state.categoryUpdateRevertInProgress = false;
     })
 
     .addCase(categoryActions.deleteCategory, (state) => {
