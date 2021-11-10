@@ -33,6 +33,10 @@ export class HistoryUtil {
         revertedAction = NoteActions.restoreNote;
         break;
 
+      case 'DELETE_MULTIPLE_NOTES_SUCCESS':
+        revertedAction = NoteActions.restoreMultipleNotes;
+        break;
+
       case 'UPDATE_NOTE_SUCCESS':
         revertedAction = NoteActions.updateNote;
         break;
@@ -64,6 +68,7 @@ export class HistoryUtil {
     const irreversibleActionTypes: string[] = [
       'RESTORE_CATEGORY_SUCCESS',
       'RESTORE_NOTE_SUCCESS',
+      'RESTORE_MULTIPLE_NOTES_SUCCESS',
       'RESTORE_NOTE_TO_CATEGORY_SUCCESS',
       'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'
     ];

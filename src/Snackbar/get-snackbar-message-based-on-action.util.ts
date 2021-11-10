@@ -54,6 +54,14 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       options.name = (payload as NoteInterface).title;
       break;
 
+    case 'DELETE_MULTIPLE_NOTES_SUCCESS':
+      message = 'MULTIPLE_NOTES_DELETED';
+      break;
+
+    case 'RESTORE_MULTIPLE_NOTES_SUCCESS':
+      message = 'MULTIPLE_NOTES_RESTORED';
+      break;
+
     case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
       message = 'NOTE_REMOVED_FROM_CATEGORY';
       options.name = (payload as RemoveFromCategorySuccessPayload).updatedNote.title;

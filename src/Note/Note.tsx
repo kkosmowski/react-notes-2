@@ -19,7 +19,7 @@ interface Props extends NoteSelectionProps {
   data: NoteInterface;
   onSelect: (id: EntityUid) => void;
   onOpen: (note: NoteInterface, openWithEdit?: boolean) => void;
-  onDelete: (note: NoteInterface) => void;
+  onDelete: (noteId: EntityUid) => void;
 }
 
 export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDelete }: Props): ReactElement => {
@@ -50,7 +50,7 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
   };
 
   const handleDelete = (): void => {
-    onDelete(data);
+    onDelete(data.id);
   };
 
   const getTestId = (): string => {

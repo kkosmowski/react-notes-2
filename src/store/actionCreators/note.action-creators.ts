@@ -96,6 +96,13 @@ const NoteActions = {
     };
   },
 
+  deleteMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
+    return deleteOrRestoreMultiple(noteIds, 'deleteMultipleNotes');
+  },
+  restoreMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
+    return deleteOrRestoreMultiple(noteIds, 'restoreMultipleNotes');
+  },
+
   updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.updateNote());
@@ -151,6 +158,41 @@ const NoteActions = {
     return removeOrRestoreMultiple('restoreMultipleNotesToCategory', { noteIds, categoryId }, false);
   },
 };
+
+const deleteOrRestoreMultiple = (
+  noteIds: EntityUid[],
+  actionName: 'deleteMultipleNotes' | 'restoreMultipleNotes'
+): ActionFunction<Promise<void>> => {
+  const success = actionName + 'Success' as 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
+  const fail = actionName + 'Fail' as 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch(noteActions[actionName]());
+
+    return new Promise((resolve) => {
+      noteIds.forEach((noteId: EntityUid) => {
+        HttpService
+          .patch(`/notes/${ noteId }`, {
+            deleted: actionName === 'deleteMultipleNotes',
+          })
+          .catch((error) => {
+            console.error(error);
+            dispatch(noteActions[fail]());
+          });
+      });
+      resolve(true);
+    })
+      .then(() => {
+        dispatch(noteActions[success](noteIds));
+        HistoryActions.push(noteActions[success](noteIds))(dispatch);
+        dispatch(NoteActions.clearSelection());
+      })
+      .catch((error) => {
+        console.error(error);
+        dispatch(noteActions[fail]());
+      });
+  };
+};
+
 const removeOrRestore = (
   actionName: 'removeNoteFromCategory' | 'restoreNoteToCategory',
   payload: RemoveFromCategoryPayload,

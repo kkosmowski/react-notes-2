@@ -137,6 +137,34 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteDeletionInProgress = false;
     })
 
+    .addCase(noteActions.deleteMultipleNotes, (state) => {
+      state.noteDeletionInProgress = true;
+    })
+    .addCase(noteActions.deleteMultipleNotesSuccess, (state, { payload }) => {
+      state.noteDeletionInProgress = false;
+      state.notes = state.notes.map((note) => ({
+        ...note,
+        deleted: payload.includes(note.id) || note.deleted,
+      }));
+    })
+    .addCase(noteActions.deleteMultipleNotesFail, (state) => {
+      state.noteDeletionInProgress = false;
+    })
+
+    .addCase(noteActions.restoreMultipleNotes, (state) => {
+      state.noteRestorationInProgress = true;
+    })
+    .addCase(noteActions.restoreMultipleNotesSuccess, (state, { payload }) => {
+      state.noteRestorationInProgress = false;
+      state.notes = state.notes.map((note) => ({
+        ...note,
+        deleted: !payload.includes(note.id) && note.deleted,
+      }));
+    })
+    .addCase(noteActions.restoreMultipleNotesFail, (state) => {
+      state.noteRestorationInProgress = false;
+    })
+
     .addCase(noteActions.restoreNote, (state) => {
       state.noteRestorationInProgress = true;
     })

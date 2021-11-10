@@ -15,8 +15,11 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectNoteSelectionMode,
-  selectNotesLoading, selectNoteToOpen, selectOpenedNote,
+  selectNotesLoading,
+  selectNoteToOpen,
+  selectOpenedNote,
   selectSelectedNotes,
+  selectSelectedNotesCount,
   selectUndeletedNotes
 } from '../store/selectors/note.selectors';
 import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
@@ -32,6 +35,7 @@ export const NotesContainer = (): ReactElement => {
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
+  const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const openedNote = useSelector(selectOpenedNote);
   const noteToOpen = useSelector(selectNoteToOpen);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
@@ -121,8 +125,8 @@ export const NotesContainer = (): ReactElement => {
     });
   };
 
-  const handleDelete = (): void => {
-    // @todo: implement
+  const handleDelete = (noteId: EntityUid): void => {
+    dispatch(NoteActions.deleteNote(noteId));
   };
 
   return (

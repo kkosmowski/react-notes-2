@@ -59,7 +59,11 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const handleNoteDelete = () => {
-    // @todo implement
+    if (selectedNotesCount === 1) {
+      dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
+    } else {
+      dispatch(NoteActions.deleteMultipleNotes(Object.keys(selectedNotes)));
+    }
   };
 
   const handleRemoveFromCategory = () => {
@@ -73,7 +77,6 @@ export const ControlsBar = (): ReactElement => {
         noteIds: Object.keys(selectedNotes),
         categoryId: currentCategoryId
       }));
-
     }
   };
 
