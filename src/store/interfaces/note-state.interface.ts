@@ -17,4 +17,5 @@ export interface NoteState {
   noteRestorationToCategoryInProgress: boolean;
   notesRemovalFromCategoryInProgress: boolean;
   notesRestorationToCategoryInProgress: boolean;
+  noteUpdateRevertInProgress: boolean;
 }

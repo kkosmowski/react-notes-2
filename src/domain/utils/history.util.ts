@@ -38,7 +38,7 @@ export class HistoryUtil {
         break;
 
       case 'UPDATE_NOTE_SUCCESS':
-        revertedAction = NoteActions.updateNote;
+        revertedAction = NoteActions.revertNoteUpdate;
         break;
 
       case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
@@ -70,7 +70,8 @@ export class HistoryUtil {
       'RESTORE_NOTE_SUCCESS',
       'RESTORE_MULTIPLE_NOTES_SUCCESS',
       'RESTORE_NOTE_TO_CATEGORY_SUCCESS',
-      'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'
+      'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS',
+      'REVERT_NOTE_UPDATE_SUCCESS',
     ];
     return !irreversibleActionTypes.includes(type);
   }

@@ -49,6 +49,11 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       options.name = (payload as NoteInterface).title;
       break;
 
+    case 'REVERT_NOTE_UPDATE_SUCCESS':
+      message = 'NOTE_UPDATE_REVERTED';
+      options.name = (payload as NoteInterface).title;
+      break;
+
     case 'RESTORE_NOTE_SUCCESS':
       message = 'NOTE_RESTORED';
       options.name = (payload as NoteInterface).title;

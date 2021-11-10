@@ -22,6 +22,7 @@ export const initialNoteState: NoteState = {
   noteRestorationToCategoryInProgress: false,
   notesRemovalFromCategoryInProgress: false,
   notesRestorationToCategoryInProgress: false,
+  noteUpdateRevertInProgress: false,
 };
 
 const removeOrRestoreReducer = (
@@ -124,6 +125,17 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.updateNoteFail, (state) => {
       state.noteUpdateInProgress = false;
+    })
+
+    .addCase(noteActions.revertNoteUpdate, (state) => {
+      state.noteUpdateRevertInProgress = true;
+    })
+    .addCase(noteActions.revertNoteUpdateSuccess, (state, { payload }) => {
+      state.noteUpdateRevertInProgress = false;
+      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
+    })
+    .addCase(noteActions.revertNoteUpdateFail, (state) => {
+      state.noteUpdateRevertInProgress = false;
     })
 
     .addCase(noteActions.deleteNote, (state) => {
