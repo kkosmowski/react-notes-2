@@ -53,6 +53,7 @@ export const en = {
     UNDO: 'Undo',
     NOTE_CREATED: 'Note "{{ name }}" created',
     NOTE_UPDATED: 'Note "{{ name }}" updated',
+    NOTE_UPDATE_REVERTED: 'Note "{{ name }}" update reverted',
     NOTE_DELETED: 'Note "{{ name }}" deleted',
     NOTE_RESTORED: 'Note "{{ name }}" restored',
     MULTIPLE_NOTES_DELETED: 'Multiple notes deleted',

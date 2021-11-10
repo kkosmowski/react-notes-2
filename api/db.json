@@ -61,9 +61,11 @@
       "deleted": false
     },
     {
-      "title": "geg",
-      "content": "gege",
-      "categories": [],
+      "title": "hello",
+      "content": "world",
+      "categories": [
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
+      ],
       "id": "10c6e1d8-7d7e-4cdf-a63b-a00a4934c2d4",
       "deleted": false
     },

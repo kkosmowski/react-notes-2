@@ -104,20 +104,11 @@ const NoteActions = {
   },
 
   updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
-      dispatch(noteActions.updateNote());
-      return HttpService
-        .put(`/notes/${ note.id }`, note)
-        .then(() => {
-          dispatch(noteActions.updateNoteSuccess(note));
-          // @todo implement
-          // HistoryActions.push(noteActions.updateNoteSuccess(note))(dispatch);
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.updateNoteFail());
-        });
-    };
+    return updateOrRevert(note, 'updateNote');
+  },
+
+  revertNoteUpdate(note: NoteInterface): ActionFunction<Promise<void>> {
+    return updateOrRevert(note, 'revertNoteUpdate');
   },
 
   restoreNote(note: NoteInterface): ActionFunction<Promise<void>> {
@@ -163,8 +154,9 @@ const deleteOrRestoreMultiple = (
   noteIds: EntityUid[],
   actionName: 'deleteMultipleNotes' | 'restoreMultipleNotes'
 ): ActionFunction<Promise<void>> => {
-  const success = actionName + 'Success' as 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
-  const fail = actionName + 'Fail' as 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
+  const successAction = actionName + 'Success' as 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
+  const failAction = actionName + 'Fail' as 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
+
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
 
@@ -176,19 +168,19 @@ const deleteOrRestoreMultiple = (
           })
           .catch((error) => {
             console.error(error);
-            dispatch(noteActions[fail]());
+            dispatch(noteActions[failAction]());
           });
       });
       resolve(true);
     })
       .then(() => {
-        dispatch(noteActions[success](noteIds));
-        HistoryActions.push(noteActions[success](noteIds))(dispatch);
+        dispatch(noteActions[successAction](noteIds));
+        HistoryActions.push(noteActions[successAction](noteIds))(dispatch);
         dispatch(NoteActions.clearSelection());
       })
       .catch((error) => {
         console.error(error);
-        dispatch(noteActions[fail]());
+        dispatch(noteActions[failAction]());
       });
   };
 };
@@ -198,8 +190,9 @@ const removeOrRestore = (
   payload: RemoveFromCategoryPayload,
   clearSelection: boolean,
 ): ActionFunction<Promise<void>> => {
-  const success = actionName + 'Success' as 'removeNoteFromCategorySuccess' | 'restoreNoteToCategorySuccess';
-  const fail = actionName + 'Fail' as 'removeNoteFromCategoryFail' | 'restoreNoteToCategoryFail';
+  const successAction = actionName + 'Success' as 'removeNoteFromCategorySuccess' | 'restoreNoteToCategorySuccess';
+  const failAction = actionName + 'Fail' as 'removeNoteFromCategoryFail' | 'restoreNoteToCategoryFail';
+
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
     const note: NoteInterface = (store.getState() as RootState).note.notes.find((note) => note.id === payload.noteId)!;
@@ -210,13 +203,13 @@ const removeOrRestore = (
     return HttpService
       .patch(`/notes/${ payload.noteId }`, { categories: noteCategories })
       .then((updatedNote: NoteInterface) => {
-        dispatch(noteActions[success]({ updatedNote, categoryId: payload.categoryId }));
-        HistoryActions.push(noteActions[success]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
+        dispatch(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }));
+        HistoryActions.push(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
         clearSelection && dispatch(NoteActions.clearSelection());
       })
       .catch((error) => {
         console.error(error);
-        dispatch(noteActions[fail]());
+        dispatch(noteActions[failAction]());
       });
   };
 };
@@ -226,8 +219,8 @@ const removeOrRestoreMultiple = (
   payload: RemoveMultipleNotesFromCategoryPayload,
   clearSelection: boolean,
 ): ActionFunction<void> => {
-  const success = actionName + 'Success' as 'removeMultipleNotesFromCategorySuccess' | 'restoreMultipleNotesToCategorySuccess';
-  const fail = actionName + 'Fail' as 'removeMultipleNotesFromCategoryFail' | 'restoreMultipleNotesToCategoryFail';
+  const successAction = actionName + 'Success' as 'removeMultipleNotesFromCategorySuccess' | 'restoreMultipleNotesToCategorySuccess';
+  const failAction = actionName + 'Fail' as 'removeMultipleNotesFromCategoryFail' | 'restoreMultipleNotesToCategoryFail';
   return function (dispatch: Dispatch): void {
     dispatch(noteActions[actionName]());
 
@@ -247,19 +240,43 @@ const removeOrRestoreMultiple = (
           .put(`/notes/${ note.id }`, note)
           .catch((error) => {
             console.error(error);
-            dispatch(noteActions[fail]());
+            dispatch(noteActions[failAction]());
           });
       });
       resolve(true);
     })
       .then(() => {
-        dispatch(noteActions[success]({ updatedNotes, categoryId: payload.categoryId }));
-        HistoryActions.push(noteActions[success]({ updatedNotes, categoryId: payload.categoryId }))(dispatch);
+        dispatch(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }));
+        HistoryActions.push(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }))(dispatch);
         clearSelection && dispatch(NoteActions.clearSelection());
       })
       .catch((error) => {
         console.error(error);
-        dispatch(noteActions[fail]());
+        dispatch(noteActions[failAction]());
+      });
+  };
+};
+
+const updateOrRevert = (
+  note: NoteInterface,
+  actionName: 'updateNote' | 'revertNoteUpdate'
+): ActionFunction<Promise<void>> => {
+  const successAction = actionName + 'Success' as 'updateNoteSuccess' | 'revertNoteUpdateSuccess';
+  const failAction = actionName + 'Fail' as 'updateNoteFail' | 'revertNoteUpdateFail';
+
+  const originalNote: NoteInterface = (store.getState() as RootState).note.notes.find((n) => n.id === note.id)!;
+
+  return function (dispatch: Dispatch): Promise<void> {
+    dispatch(noteActions[actionName]());
+    return HttpService
+      .put(`/notes/${ note.id }`, note)
+      .then(() => {
+        dispatch(noteActions[successAction](note));
+        HistoryActions.push(noteActions[successAction](originalNote))(dispatch);
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch(noteActions[failAction]());
       });
   };
 };
