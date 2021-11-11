@@ -9,12 +9,13 @@ interface Props {
   type?: 'text' | 'textarea';
   disabled?: boolean;
   required?: boolean;
+  testid?: string;
   onChange: (event: ChangeEvent<InputOrTextarea>) => void;
   onDoubleClick: (id: string) => void;
 }
 
 export const InputWithLabel = (
-  { id, label, value, type, disabled, required, onChange, onDoubleClick }: Props
+  { id, label, value, type, disabled, required, testid, onChange, onDoubleClick }: Props
 ): ReactElement => {
   const touched = useRef<boolean>(false);
 
@@ -41,6 +42,7 @@ export const InputWithLabel = (
             value={ value }
             disabled={ disabled }
             required={ required }
+            data-testid={ testid }
           />
           : <Input
             onChange={ handleChange }
@@ -50,6 +52,7 @@ export const InputWithLabel = (
             value={ value }
             disabled={ disabled }
             required={ required }
+            data-testid={ testid }
           />
         }
       </InputWrapper>
