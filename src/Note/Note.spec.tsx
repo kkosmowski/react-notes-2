@@ -10,6 +10,7 @@ import { noteDialogTestId, noteSelectedTestId, noteTestId } from '../domain/cons
 import { Main } from '../Main/Main';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import { App } from '../App';
 
 describe('Note', () => {
   it('should be selected on action dispatch', () => {
@@ -39,20 +40,30 @@ describe('Note', () => {
   });
 
   it('opens NoteDialog on double click', (done) => {
+    const mockedNote = getMockedNote();
     store
-      .dispatch((NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction))
+      .dispatch((NoteActions._getSuccess([mockedNote]) as unknown as AnyAction))
       .then(async () => {
+        const history = createMemoryHistory();
+        history.push(`/note/${ mockedNote.id }`);
+
         render(
           <Provider store={ store }>
-            <Main />
+            <Router history={ history }>
+              <App/>
+            </Router>
           </Provider>
         );
-        fireEvent.dblClick(screen.getByTestId(noteTestId));
-        expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
-        done();
       })
-      .catch(() => {
-        done();
-      });
+      .then(async () => {
+        fireEvent.dblClick(await screen.findByTestId(noteTestId));
+
+        expect(screen.getByTestId(noteDialogTestId)).toBeInTheDocument();
+      })
+      .catch();
+  });
+
+  it('open NoteDialog in edit mode on "Edit" context menu item click', () => {
+    //
   });
 });

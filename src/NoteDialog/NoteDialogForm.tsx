@@ -15,6 +15,10 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import { Categories, CategoriesWrapper, FormWrapper } from './NoteDialogForm.styled';
 import { NoteDialogUtil } from './note-dialog.util';
 import { NoteInterface } from '../domain/interfaces/note.interface';
+import {
+  noteDialogContentInputTestId,
+  noteDialogTitleInputTestId
+} from '../domain/consts/test-ids.consts';
 
 export interface NoteDialogFormPayload {
   form: NoteDialogFormValue;
@@ -118,6 +122,7 @@ export const NoteDialogForm = (
         label={ t('TITLE') }
         required={ true }
         disabled={ !isTitleEdited(editMode) }
+        testid={ noteDialogTitleInputTestId }
       />
 
       <InputWithLabel
@@ -129,6 +134,7 @@ export const NoteDialogForm = (
         type="textarea"
         required={ true }
         disabled={ !isContentEdited(editMode) }
+        testid={ noteDialogContentInputTestId }
       />
 
       <CategoriesWrapper>

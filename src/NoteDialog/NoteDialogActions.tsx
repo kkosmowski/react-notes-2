@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../Button/Button';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
+import { noteDialogEditModeButtonTestId } from '../domain/consts/test-ids.consts';
 
 interface Props {
   openedNote: NoteInterface | null;
@@ -52,6 +53,7 @@ export const NoteDialogActions = (
           color={ Color.Primary }
           small
           title={ t(isEditMode ? 'SAVE' : 'EDIT') }
+          testid={ noteDialogEditModeButtonTestId }
         >
           { isEditMode ? <Save /> : <Edit /> }
         </Button>

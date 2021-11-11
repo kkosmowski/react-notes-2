@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 interface Props {
   children: ReactNode;
+  testid?: string;
 }
 
-export const DialogTitle = ({ children }: Props): ReactElement => (
-  <StyledH2>{ children }</StyledH2>
+export const DialogTitle = ({ children, testid }: Props): ReactElement => (
+  <StyledH2 data-testid={ testid }>{ children }</StyledH2>
 );
 
 const StyledH2 = styled.h2`

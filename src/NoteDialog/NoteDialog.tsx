@@ -24,7 +24,7 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
-import { noteDialogTestId } from '../domain/consts/test-ids.consts';
+import { noteDialogTestId, noteDialogTitleTestId } from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 export const emptyForm: NoteDialogFormValue = {
@@ -66,21 +66,8 @@ export const NoteDialog = (): ReactElement => {
   }, [location]);
 
   useEffect(() => {
-    if (noteId && !openedNote) {
-      dispatch(NoteActions.findOpenedNote(noteId));
-    }
-  }, [noteId, openedNote]);
-
-  useEffect(() => {
     if (openedNote) {
       setForm(openedNote);
-    } else {
-      setEditMode(NoteEditMode.Both);
-    }
-  }, [openedNote]);
-
-  useEffect(() => {
-    if (openedNote) {
       setDialogTitleKey(
         isEditMode(editMode)
           ? 'NOTE_DIALOG:EDIT_NOTE'
@@ -93,10 +80,13 @@ export const NoteDialog = (): ReactElement => {
           previous: location.state?.previous || '/',
         },
       });
+    } else if (noteId) {
+      dispatch(NoteActions.findOpenedNote(noteId));
     } else {
+      setEditMode(NoteEditMode.Both);
       setDialogTitleKey('ADD_NOTE');
     }
-  }, [editMode]);
+  }, [openedNote, noteId, editMode]);
 
   useEffect(() => {
     if (confirmationResult) {
@@ -242,7 +232,7 @@ export const NoteDialog = (): ReactElement => {
       testid={ noteDialogTestId }
     >
       <DialogHeader>
-        <DialogTitle>{ t(dialogTitleKey) }</DialogTitle>
+        <DialogTitle testid={ noteDialogTitleTestId }>{ t(dialogTitleKey) }</DialogTitle>
         <NoteDialogActions
           openedNote={ openedNote }
           isEditMode={ isEditMode(editMode) }
