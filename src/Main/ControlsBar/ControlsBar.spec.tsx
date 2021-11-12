@@ -6,7 +6,6 @@ import { ControlsBar } from './ControlsBar';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
   addNoteButtonTestId,
-  noteDialogTestId,
   noteSelectableTestId,
   toggleSelectionModeButtonTestId
 } from '../../domain/consts/test-ids.consts';
@@ -17,8 +16,7 @@ import store from '../../store/store';
 import { getMockedNote } from '../../utils/get-mocked-note.util';
 import { initialNoteState } from '../../store/reducers/note.reducer';
 import NoteActions from '../../store/actionCreators/note.action-creators';
-import { MemoryRouter, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;
