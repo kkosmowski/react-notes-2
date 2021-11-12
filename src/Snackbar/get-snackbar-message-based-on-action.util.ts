@@ -44,6 +44,11 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       options.name = (payload as NoteInterface).title;
       break;
 
+    case 'ARCHIVE_NOTE_SUCCESS':
+      message = 'NOTE_ARCHIVED';
+      options.name = (payload as NoteInterface).title;
+      break;
+
     case 'DELETE_NOTE_SUCCESS':
       message = 'NOTE_DELETED';
       options.name = (payload as NoteInterface).title;

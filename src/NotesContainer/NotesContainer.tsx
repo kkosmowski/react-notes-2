@@ -14,12 +14,12 @@ import { NoNotesText, NotesWrapper } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectNotes,
   selectNoteSelectionMode,
   selectNotesLoading,
   selectNoteToOpen,
   selectOpenedNote,
   selectSelectedNotes,
-  selectUndeletedNotes
 } from '../store/selectors/note.selectors';
 import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
@@ -29,7 +29,7 @@ import CategoryActions from '../store/actionCreators/category.action-creators';
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
   const { t } = useTranslation('COMMON');
-  const notes: NoteInterface[] = useSelector(selectUndeletedNotes);
+  const notes: NoteInterface[] = useSelector(selectNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const noteSelectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);

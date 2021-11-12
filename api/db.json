@@ -9,6 +9,7 @@
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -18,6 +19,7 @@
       "categories": [
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -28,6 +30,7 @@
         "56875b71-69ec-4ba3-840e-5fd46e1443bf",
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -37,6 +40,7 @@
       "categories": [
         "56875b71-69ec-4ba3-840e-5fd46e1443bf"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -47,6 +51,7 @@
         "56875b71-69ec-4ba3-840e-5fd46e1443bf",
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -58,6 +63,7 @@
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
       ],
+      "archived": false,
       "deleted": false
     },
     {
@@ -67,6 +73,7 @@
         "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
       ],
       "id": "10c6e1d8-7d7e-4cdf-a63b-a00a4934c2d4",
+      "archived": false,
       "deleted": false
     },
     {
@@ -74,6 +81,7 @@
       "content": "gege",
       "categories": [],
       "id": "109f240f-36a6-41e8-a515-0d361d4fc070",
+      "archived": false,
       "deleted": false
     }
   ],
@@ -85,7 +93,7 @@
     },
     {
       "id": "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
-      "name": "Category 2",
+      "name": "Category 2a",
       "deleted": false
     },
     {
@@ -96,7 +104,12 @@
     {
       "id": "56875b71-69ec-4ba3-840e-5fd46e1443bf",
       "name": "asdasdad",
-      "deleted": true
+      "deleted": false
+    },
+    {
+      "id": "5450f55a-95c4-40c9-ae69-c427f31e8600",
+      "name": "empty category",
+      "deleted": false
     }
   ]
 }

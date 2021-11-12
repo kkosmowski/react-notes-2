@@ -58,6 +58,15 @@ export const ControlsBar = (): ReactElement => {
     dispatch(NoteActions.toggleSelectionMode());
   };
 
+  const handleNoteArchive = () => {
+    if (selectedNotesCount === 1) {
+      dispatch(NoteActions.archiveNote(Object.keys(selectedNotes)[0]));
+    } else {
+      // @todo
+      // dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
+    }
+  };
+
   const handleNoteDelete = () => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
@@ -104,6 +113,18 @@ export const ControlsBar = (): ReactElement => {
         { isMobile
           ? selectionMode === NoteSelectionMode.Single ? <DoneIcon /> : <DoneAllIcon />
           : t(selectionMode === NoteSelectionMode.Single ? 'MULTISELECT' : 'SINGLE_SELECTION')
+        }
+      </Button>
+
+      <Button
+        onClick={ handleNoteArchive }
+        variant={ isMobile ? Variant.Icon : Variant.Regular }
+        disabled={ !selectedNotesCount }
+        lighter={ isMobile }
+      >
+        { isMobile
+          ? <DeleteIcon />
+          : t(selectedNotesCount > 1 ? 'ARCHIVE_NOTES' : 'ARCHIVE_NOTE')
         }
       </Button>
 

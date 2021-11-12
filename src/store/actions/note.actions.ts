@@ -30,6 +30,10 @@ const noteActions = {
   revertNoteUpdateSuccess: createAction<NoteInterface>('REVERT_NOTE_UPDATE_SUCCESS'),
   revertNoteUpdateFail: createAction<void>('REVERT_NOTE_UPDATE_FAIL'),
 
+  archiveNote: createAction<void>('ARCHIVE_NOTE'),
+  archiveNoteSuccess: createAction<NoteInterface>('ARCHIVE_NOTE_SUCCESS'),
+  archiveNoteFail: createAction<void>('ARCHIVE_NOTE_FAIL'),
+
   deleteNote: createAction<void>('DELETE_NOTE'),
   deleteNoteSuccess: createAction<NoteInterface>('DELETE_NOTE_SUCCESS'),
   deleteNoteFail: createAction<void>('DELETE_NOTE_FAIL'),

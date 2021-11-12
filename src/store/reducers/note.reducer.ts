@@ -15,6 +15,7 @@ export const initialNoteState: NoteState = {
   noteToOpen: null,
   noteCreationInProgress: false,
   noteUpdateInProgress: false,
+  noteArchivingInProgress: false,
   noteDeletionInProgress: false,
   noteRestorationInProgress: false,
   selectedNotes: {},
@@ -23,6 +24,7 @@ export const initialNoteState: NoteState = {
   notesRemovalFromCategoryInProgress: false,
   notesRestorationToCategoryInProgress: false,
   noteUpdateRevertInProgress: false,
+  showArchived: false,
 };
 
 const removeOrRestoreReducer = (
@@ -56,7 +58,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.getNotesSuccess, (state, action) => {
       state.notesLoading = false;
       if (action.payload) {
-        state.notes = (action.payload as NoteInterface[]).reverse();
+        state.notes = (action.payload as NoteInterface[]).filter((note) => !note.deleted).reverse();
       }
     })
     .addCase(noteActions.getNotesFail, (state) => {
@@ -138,12 +140,23 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteUpdateRevertInProgress = false;
     })
 
+    .addCase(noteActions.archiveNote, (state) => {
+      state.noteArchivingInProgress = true;
+    })
+    .addCase(noteActions.archiveNoteSuccess, (state, { payload }) => {
+      state.noteArchivingInProgress = false;
+      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
+    })
+    .addCase(noteActions.archiveNoteFail, (state) => {
+      state.noteArchivingInProgress = false;
+    })
+
     .addCase(noteActions.deleteNote, (state) => {
       state.noteDeletionInProgress = true;
     })
     .addCase(noteActions.deleteNoteSuccess, (state, { payload }) => {
       state.noteDeletionInProgress = false;
-      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
+      state.notes = state.notes.filter((note) => note.id !== payload.id);
     })
     .addCase(noteActions.deleteNoteFail, (state) => {
       state.noteDeletionInProgress = false;
@@ -183,7 +196,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.restoreNoteSuccess, (state, { payload }) => {
       const restored: NoteInterface = {
         ...payload,
-        deleted: false
+        archived: false
       };
       state.notes = state.notes.map((note) => note.id === restored.id ? restored : note);
       state.noteRestorationInProgress = false;

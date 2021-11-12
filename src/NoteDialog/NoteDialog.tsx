@@ -162,6 +162,7 @@ export const NoteDialog = (): ReactElement => {
     const note: NoteInterface = {
       ...form,
       id: uuidv4(),
+      archived: false,
       deleted: false,
     };
     dispatch(NoteActions.create(note));

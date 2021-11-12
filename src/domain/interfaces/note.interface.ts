@@ -3,5 +3,6 @@ import { EntityUid } from '../types/entity-uid.type';
 
 export interface NoteInterface extends NoteDialogFormValue {
   id: EntityUid;
+  archived: boolean;
   deleted: boolean;
 }
