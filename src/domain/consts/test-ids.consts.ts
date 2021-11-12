@@ -22,3 +22,6 @@ export const noteDialogSaveAndNextButtonTestId = 'note-dialog-save-and-next-butt
 export const noteDialogDeleteButtonTestId = 'note-dialog-delete-button';
 
 export const confirmationDialogTestId = 'confirmation-dialog';
+
+export const contextMenuTestId = 'context-menu';
+export const contextMenuEditButtonTestId = 'context-menu-edit-button';
