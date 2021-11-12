@@ -14,10 +14,9 @@ export const selectNotesLoading = createSelector(
   noteSelector, (note: NoteState) => note.notesLoading
 );
 
-// @todo remove if redundant
-// export const selectShowArchived = createSelector(
-//   noteSelector, (note: NoteState) => note.showArchived
-// );
+export const selectShowArchived = createSelector(
+  noteSelector, (note: NoteState) => note.showArchived
+);
 
 export const selectOpenedNote = createSelector(
   noteSelector, (note: NoteState) => note.openedNote

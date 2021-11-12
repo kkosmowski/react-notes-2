@@ -171,6 +171,10 @@ const NoteActions = {
   }: RemoveMultipleNotesFromCategoryPayload): ActionFunction<void> {
     return removeOrRestoreMultiple('restoreMultipleNotesToCategory', { noteIds, categoryId }, false);
   },
+
+  setShowArchived(showArchived: boolean): Action {
+    return noteActions.setShowArchived(showArchived);
+  },
 };
 
 const archiveOrDeleteOrRestoreMultiple = (

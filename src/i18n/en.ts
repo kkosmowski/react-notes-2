@@ -21,6 +21,7 @@ export const en = {
     DELETE_NOTE: 'Delete note',
     DELETE_NOTES: 'Delete multiple notes',
     REMOVE_FROM_CATEGORY: 'Remove from category',
+    SHOW_ARCHIVED: 'Show archived',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',

@@ -246,6 +246,10 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.restoreMultipleNotesToCategorySuccess, removeOrRestoreMultipleReducer)
     .addCase(noteActions.restoreMultipleNotesToCategoryFail, (state) => {
       state.notesRemovalFromCategoryInProgress = false;
+    })
+
+    .addCase(noteActions.setShowArchived, (state, { payload }) => {
+      state.showArchived = payload;
     });
 });
 

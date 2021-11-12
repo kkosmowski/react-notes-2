@@ -1,5 +1,4 @@
-import { MouseEvent, ReactElement } from 'react';
-import styled from 'styled-components';
+import { ChangeEvent, MouseEvent, ReactElement } from 'react';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +8,8 @@ import { Variant } from '../../domain/enums/variant.enum';
 import {
   selectNoteSelectionMode,
   selectSelectedNotes,
-  selectSelectedNotesCount
+  selectSelectedNotesCount,
+  selectShowArchived
 } from '../../store/selectors/note.selectors';
 import NoteActions from '../../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
@@ -29,6 +29,8 @@ import {
   DoneAll as DoneAllIcon,
   NoteAdd as NoteAddIcon,
 } from '@material-ui/icons';
+import { Switch } from '@material-ui/core';
+import { Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -37,6 +39,7 @@ export const ControlsBar = (): ReactElement => {
   const selectionMode = useSelector(selectNoteSelectionMode);
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const isMobile = useSelector(selectIsMobile);
+  const showArchived = useSelector(selectShowArchived);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,7 +47,7 @@ export const ControlsBar = (): ReactElement => {
     e.stopPropagation();
   };
 
-  const handleNoteAdd = () => {
+  const handleNoteAdd = (): void => {
     dispatch(UiActions.openNoteDialog());
     history.push({
       pathname: '/add-note',
@@ -54,11 +57,11 @@ export const ControlsBar = (): ReactElement => {
     });
   };
 
-  const handleSelectionModeChange = () => {
+  const handleSelectionModeChange = (): void => {
     dispatch(NoteActions.toggleSelectionMode());
   };
 
-  const handleNoteArchive = () => {
+  const handleNoteArchive = (): void => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.archiveNote(Object.keys(selectedNotes)[0]));
     } else {
@@ -66,7 +69,7 @@ export const ControlsBar = (): ReactElement => {
     }
   };
 
-  const handleNoteDelete = () => {
+  const handleNoteDelete = (): void => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
     } else {
@@ -74,7 +77,7 @@ export const ControlsBar = (): ReactElement => {
     }
   };
 
-  const handleRemoveFromCategory = () => {
+  const handleRemoveFromCategory = (): void => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.removeFromCategory({
         noteId: Object.keys(selectedNotes)[0],
@@ -88,82 +91,89 @@ export const ControlsBar = (): ReactElement => {
     }
   };
 
+  const handleShowArchivedChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    dispatch((NoteActions.setShowArchived(e.target.checked)));
+  };
+
   return (
     <Bar onClick={ handleBarClick }>
-      <Button
-        onClick={ handleNoteAdd }
-        color={ Color.Primary }
-        variant={ isMobile ? Variant.Icon : Variant.Regular }
-        lighter={ isMobile }
-        testid={ addNoteButtonTestId }
-      >
-        { isMobile
-          ? <NoteAddIcon />
-          : t('COMMON:ADD_NOTE')
-        }
-      </Button>
+      <LeftContainer>
+        <Button
+          onClick={ handleNoteAdd }
+          color={ Color.Primary }
+          variant={ isMobile ? Variant.Icon : Variant.Regular }
+          lighter={ isMobile }
+          testid={ addNoteButtonTestId }
+        >
+          { isMobile
+            ? <NoteAddIcon />
+            : t('COMMON:ADD_NOTE')
+          }
+        </Button>
 
-      <Button
-        onClick={ handleSelectionModeChange }
-        variant={ isMobile ? Variant.Icon : Variant.Regular }
-        lighter={ isMobile }
-        testid={ toggleSelectionModeButtonTestId }
-      >
-        { isMobile
-          ? selectionMode === NoteSelectionMode.Single ? <DoneIcon /> : <DoneAllIcon />
-          : t(selectionMode === NoteSelectionMode.Single ? 'MULTISELECT' : 'SINGLE_SELECTION')
-        }
-      </Button>
+        <Button
+          onClick={ handleSelectionModeChange }
+          variant={ isMobile ? Variant.Icon : Variant.Regular }
+          lighter={ isMobile }
+          testid={ toggleSelectionModeButtonTestId }
+        >
+          { isMobile
+            ? selectionMode === NoteSelectionMode.Single ? <DoneIcon /> : <DoneAllIcon />
+            : t(selectionMode === NoteSelectionMode.Single ? 'MULTISELECT' : 'SINGLE_SELECTION')
+          }
+        </Button>
 
-      <Button
-        onClick={ handleNoteArchive }
-        variant={ isMobile ? Variant.Icon : Variant.Regular }
-        disabled={ !selectedNotesCount }
-        lighter={ isMobile }
-      >
-        { isMobile
-          ? <DeleteIcon />
-          : t(selectedNotesCount > 1 ? 'ARCHIVE_NOTES' : 'ARCHIVE_NOTE')
-        }
-      </Button>
-
-      <Button
-        onClick={ handleNoteDelete }
-        color={ Color.Warn }
-        variant={ isMobile ? Variant.Icon : Variant.Regular }
-        disabled={ !selectedNotesCount }
-        lighter={ isMobile }
-      >
-        { isMobile
-          ? <DeleteIcon />
-          : t(selectedNotesCount > 1 ? 'DELETE_NOTES' : 'DELETE_NOTE')
-        }
-      </Button>
-
-      { isRootCategory(currentCategoryId)
-        ? null
-        : <Button
-          onClick={ handleRemoveFromCategory }
+        <Button
+          onClick={ handleNoteArchive }
           variant={ isMobile ? Variant.Icon : Variant.Regular }
           disabled={ !selectedNotesCount }
           lighter={ isMobile }
         >
           { isMobile
-            ? selectedNotesCount > 1 ? <BookmarksOutlinedIcon /> : <BookmarkBorderIcon />
-            : t('REMOVE_FROM_CATEGORY')
+            ? <DeleteIcon />
+            : t(selectedNotesCount > 1 ? 'ARCHIVE_NOTES' : 'ARCHIVE_NOTE')
           }
         </Button>
-      }
+
+        <Button
+          onClick={ handleNoteDelete }
+          color={ Color.Warn }
+          variant={ isMobile ? Variant.Icon : Variant.Regular }
+          disabled={ !selectedNotesCount }
+          lighter={ isMobile }
+        >
+          { isMobile
+            ? <DeleteIcon />
+            : t(selectedNotesCount > 1 ? 'DELETE_NOTES' : 'DELETE_NOTE')
+          }
+        </Button>
+
+        { isRootCategory(currentCategoryId)
+          ? null
+          : <Button
+            onClick={ handleRemoveFromCategory }
+            variant={ isMobile ? Variant.Icon : Variant.Regular }
+            disabled={ !selectedNotesCount }
+            lighter={ isMobile }
+          >
+            { isMobile
+              ? selectedNotesCount > 1 ? <BookmarksOutlinedIcon /> : <BookmarkBorderIcon />
+              : t('REMOVE_FROM_CATEGORY')
+            }
+          </Button>
+        }
+      </LeftContainer>
+
+      <RightContainer>
+        <label htmlFor="showArchived">
+          { t('SHOW_ARCHIVED') }
+        </label>
+        <Switch
+          id="showArchived"
+          checked={ showArchived }
+          onChange={ handleShowArchivedChange }
+        />
+      </RightContainer>
     </Bar>
   );
 };
-
-const Bar = styled.div`
-  padding: 8px var(--wrapper-horizontal-padding) 0;
-  background-color: var(--dark200);
-
-  > .button {
-    margin-right: 8px;
-    margin-bottom: 8px;
-  }
-`;
