@@ -17,7 +17,7 @@ const uiActions = {
   closeSidebar: createAction<void>('CLOSE_SIDEBAR'),
 
   showSnackbar: createAction<SnackbarInstance>('SHOW_SNACKBAR'),
-  hideSnackbar: createAction<EntityUid | null>('HIDE_SNACKBAR'),
+  hideSnackbar: createAction<EntityUid | undefined>('HIDE_SNACKBAR'),
 
   showContextMenu: createAction<ContextMenuData>('SHOW_CONTEXT_MENU'),
   hideContextMenu: createAction<void>('HIDE_CONTEXT_MENU'),
