@@ -24,7 +24,7 @@ describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;
 
   describe('Toggle Selection button', () => {
-    it('dispatch an action on click', (done) => {
+    it('dispatch an action on click', () => {
       const mockedStore = mockStore({
         ...initialRootState,
         note: {
@@ -39,45 +39,25 @@ describe('ControlsBar', function () {
         </Provider>
       );
 
-      fireEvent(
-        screen.getByTestId(toggleSelectionModeButtonTestId),
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
+      fireEvent.click(screen.getByTestId(toggleSelectionModeButtonTestId));
 
       const actionsTypes = mockedStore.getActions().map((action) => action.type);
       expect(actionsTypes).toContain('TOGGLE_SELECTION_MODE');
-      done();
     });
 
-    it('toggles selection mode on dispatched action', () => {
-      return store // real store
-        .dispatch(NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction)
-        .then(() => {
-          return store
-            .dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction)
-            .then(async () => {
-              const history = createMemoryHistory();
-              history.push('/');
+    it('toggles selection mode on dispatched action', async () => {
+      await store.dispatch(NoteActions._getSuccess([getMockedNote()]) as unknown as AnyAction);
+      await store.dispatch(NoteActions.toggleSelectionMode() as unknown as AnyAction);
 
-              render(
-                <Provider store={ store }>
-                  <Router history={ history }>
-                    <App />
-                  </Router>
-                </Provider>
-              );
+      render(
+        <Provider store={ store }>
+          <App />
+        </Provider>
+      );
 
-              await waitFor(() => {
-                expect(screen.queryByTestId(noteSelectableTestId)).toBeTruthy();
-              })
-                .catch();
-            })
-            .catch();
-        })
-        .catch();
+      await waitFor(() => {
+        expect(screen.getByTestId(noteSelectableTestId)).toBeInTheDocument();
+      });
     });
   });
 
@@ -91,10 +71,10 @@ describe('ControlsBar', function () {
         </Provider>
       );
 
-      await expect(screen.queryByTestId(addNoteButtonTestId)).toBeTruthy();
+      expect(screen.getByTestId(addNoteButtonTestId)).toBeInTheDocument();
     });
 
-    it('dispatches an action on click', (done) => {
+    it('dispatches an action on click', () => {
       mockedStore = mockStore(initialRootState);
 
       render(
@@ -105,37 +85,10 @@ describe('ControlsBar', function () {
         </Provider>
       );
 
-      fireEvent(
-        screen.getByTestId(addNoteButtonTestId),
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
+      fireEvent.click(screen.getByTestId(addNoteButtonTestId));
 
       const actions = mockedStore.getActions();
       expect(actions[0].type).toEqual('OPEN_NOTE_DIALOG');
-      done();
-    });
-
-    it('opens NoteDialog on specific route', () => {
-      const mockedNote = getMockedNote();
-      const noteRoute = `/note/${ mockedNote.id }`;
-
-      store
-        .dispatch(NoteActions._getSuccess([mockedNote]) as unknown as AnyAction)
-        .then(() => {
-          render(
-            <Provider store={ store }>
-              <MemoryRouter initialEntries={ [noteRoute] }>
-                <App />
-              </MemoryRouter>
-            </Provider>
-          );
-
-          expect(screen.queryByTestId(noteDialogTestId)).toBeTruthy();
-        })
-        .catch();
     });
   });
 });

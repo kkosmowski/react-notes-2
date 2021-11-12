@@ -2,7 +2,7 @@ import { getMockedNote } from '../utils/get-mocked-note.util';
 import store from '../store/store';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { AnyAction } from 'redux';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import {
@@ -49,6 +49,12 @@ describe('NoteDialog', function() {
       ),
     };
   };
+
+  it('opens on specific route', async () => {
+    const { getByTestId } = setupEmpty();
+
+    expect(getByTestId(noteDialogTestId)).toBeInTheDocument();
+  });
 
   it('displays correct buttons and inputs in a Add note dialog', () => {
     const { getByTestId } = setupEmpty();
