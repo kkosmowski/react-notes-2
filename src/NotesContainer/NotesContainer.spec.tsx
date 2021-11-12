@@ -2,7 +2,7 @@ import { NoteInterface } from '../domain/interfaces/note.interface';
 import { MockStoreEnhanced } from 'redux-mock-store';
 import { mockStore } from '../utils/mock.store';
 import { initialNoteState } from '../store/reducers/note.reducer';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { NotesContainer } from './NotesContainer';
 import { noNotesTextTestId, noteTestId } from '../domain/consts/test-ids.consts';
@@ -12,27 +12,27 @@ import { getMockedNote } from '../utils/get-mocked-note.util';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('NotesContainer', () => {
-  let mockedStore: MockStoreEnhanced<RootState>;
-  let notes: NoteInterface[];
+  const setup = (rootState: RootState) => {
+    const mockedStore: MockStoreEnhanced<RootState> = mockStore(rootState);
 
-  it('should show appropriate text when there are no notes', (done) => {
-    mockedStore = mockStore(initialRootState);
-
-    render(
+    return render(
       <Provider store={ mockedStore }>
         <MemoryRouter>
           <NotesContainer />
         </MemoryRouter>
       </Provider>
     );
+  };
 
-    expect(screen.queryByTestId(noNotesTextTestId)).toBeInTheDocument();
-    done();
+  it('should show appropriate text when there are no notes', () => {
+    const { getByTestId } = setup(initialRootState);
+
+    expect(getByTestId(noNotesTextTestId)).toBeInTheDocument();
   });
 
-  it('should display notes if they are fetched', (done) => {
-    notes = [getMockedNote(), getMockedNote(), getMockedNote()];
-    mockedStore = mockStore({
+  it('should display notes if they are fetched', () => {
+    const notes: NoteInterface[] = [getMockedNote(), getMockedNote(), getMockedNote()];
+    const { getAllByTestId } = setup({
       ...initialRootState,
       note: {
         ...initialNoteState,
@@ -40,16 +40,6 @@ describe('NotesContainer', () => {
       }
     });
 
-    render(
-      <Provider store={ mockedStore }>
-        <MemoryRouter>
-          <NotesContainer />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(screen.queryAllByTestId(noteTestId).every((item) => !!item.dataset.testid)).toBeTruthy();
-    expect(screen.queryAllByTestId(noteTestId).length).toEqual(notes.length);
-    done();
+    expect(getAllByTestId(noteTestId).length).toEqual(notes.length);
   });
 });
