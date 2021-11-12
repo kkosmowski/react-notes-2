@@ -167,13 +167,24 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.deleteMultipleNotesSuccess, (state, { payload }) => {
       state.noteDeletionInProgress = false;
-      state.notes = state.notes.map((note) => ({
-        ...note,
-        deleted: payload.includes(note.id) || note.deleted,
-      }));
+      state.notes = state.notes.filter((note) => !payload.includes(note.id));
     })
     .addCase(noteActions.deleteMultipleNotesFail, (state) => {
       state.noteDeletionInProgress = false;
+    })
+
+    .addCase(noteActions.archiveMultipleNotes, (state) => {
+      state.noteArchivingInProgress = true;
+    })
+    .addCase(noteActions.archiveMultipleNotesSuccess, (state, { payload }) => {
+      state.noteArchivingInProgress = false;
+      state.notes = state.notes.map((note) => ({
+        ...note,
+        archived: payload.includes(note.id) || note.archived,
+      }));
+    })
+    .addCase(noteActions.archiveMultipleNotesFail, (state) => {
+      state.noteArchivingInProgress = false;
     })
 
     .addCase(noteActions.restoreMultipleNotes, (state) => {
@@ -183,7 +194,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteRestorationInProgress = false;
       state.notes = state.notes.map((note) => ({
         ...note,
-        deleted: !payload.includes(note.id) && note.deleted,
+        archived: !payload.includes(note.id) && note.archived,
       }));
     })
     .addCase(noteActions.restoreMultipleNotesFail, (state) => {

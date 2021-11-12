@@ -116,10 +116,14 @@ const NoteActions = {
   },
 
   deleteMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
-    return deleteOrRestoreMultiple(noteIds, 'deleteMultipleNotes');
+    return archiveOrDeleteOrRestoreMultiple(noteIds, 'deleteMultipleNotes');
+  },
+
+  archiveMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
+    return archiveOrDeleteOrRestoreMultiple(noteIds, 'archiveMultipleNotes');
   },
   restoreMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
-    return deleteOrRestoreMultiple(noteIds, 'restoreMultipleNotes');
+    return archiveOrDeleteOrRestoreMultiple(noteIds, 'restoreMultipleNotes');
   },
 
   updateNote(note: NoteInterface): ActionFunction<Promise<void>> {
@@ -169,12 +173,12 @@ const NoteActions = {
   },
 };
 
-const deleteOrRestoreMultiple = (
+const archiveOrDeleteOrRestoreMultiple = (
   noteIds: EntityUid[],
-  actionName: 'deleteMultipleNotes' | 'restoreMultipleNotes'
+  actionName: 'archiveMultipleNotes' | 'deleteMultipleNotes' | 'restoreMultipleNotes'
 ): ActionFunction<Promise<void>> => {
-  const successAction = actionName + 'Success' as 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
-  const failAction = actionName + 'Fail' as 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
+  const successAction = actionName + 'Success' as 'archiveMultipleNotesSuccess' | 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
+  const failAction = actionName + 'Fail' as 'archiveMultipleNotesFail' | 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
 
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
@@ -183,7 +187,10 @@ const deleteOrRestoreMultiple = (
       noteIds.forEach((noteId: EntityUid) => {
         HttpService
           .patch(`/notes/${ noteId }`, {
-            deleted: actionName === 'deleteMultipleNotes',
+            ...(actionName === 'deleteMultipleNotes'
+              ? { deleted: true }
+              : { archived: actionName === 'archiveMultipleNotes' }
+            )
           })
           .catch((error) => {
             console.error(error);

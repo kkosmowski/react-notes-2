@@ -62,8 +62,7 @@ export const ControlsBar = (): ReactElement => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.archiveNote(Object.keys(selectedNotes)[0]));
     } else {
-      // @todo
-      // dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
+      dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
     }
   };
 

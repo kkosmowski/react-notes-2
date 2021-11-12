@@ -33,7 +33,7 @@ export class HistoryUtil {
         revertedAction = NoteActions.restoreNote;
         break;
 
-      case 'DELETE_MULTIPLE_NOTES_SUCCESS':
+      case 'ARCHIVE_MULTIPLE_NOTES_SUCCESS':
         revertedAction = NoteActions.restoreMultipleNotes;
         break;
 
