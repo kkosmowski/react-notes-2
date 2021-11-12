@@ -46,6 +46,10 @@ const noteActions = {
   deleteMultipleNotesSuccess: createAction<EntityUid[]>('DELETE_MULTIPLE_NOTES_SUCCESS'),
   deleteMultipleNotesFail: createAction<void>('DELETE_MULTIPLE_NOTES_FAIL'),
 
+  archiveMultipleNotes: createAction<void>('ARCHIVE_MULTIPLE_NOTES'),
+  archiveMultipleNotesSuccess: createAction<EntityUid[]>('ARCHIVE_MULTIPLE_NOTES_SUCCESS'),
+  archiveMultipleNotesFail: createAction<void>('ARCHIVE_MULTIPLE_NOTES_FAIL'),
+
   restoreMultipleNotes: createAction<void>('RESTORE_MULTIPLE_NOTES'),
   restoreMultipleNotesSuccess: createAction<EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
   restoreMultipleNotesFail: createAction<void>('RESTORE_MULTIPLE_NOTES_FAIL'),
