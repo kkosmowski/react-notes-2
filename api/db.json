@@ -63,7 +63,7 @@
         "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
         "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
       ],
-      "archived": false,
+      "archived": true,
       "deleted": false
     },
     {
@@ -73,7 +73,7 @@
         "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
       ],
       "id": "10c6e1d8-7d7e-4cdf-a63b-a00a4934c2d4",
-      "archived": false,
+      "archived": true,
       "deleted": false
     },
     {

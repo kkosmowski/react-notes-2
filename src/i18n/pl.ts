@@ -21,6 +21,7 @@ export const pl = {
     DELETE_NOTE: 'Usuń notatkę',
     DELETE_NOTES: 'Usuń wiele notatek',
     REMOVE_FROM_CATEGORY: 'Usuń z kategorii',
+    SHOW_ARCHIVED: 'Pokaż zarchiwizowane',
   },
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',

@@ -69,6 +69,8 @@ const noteActions = {
   restoreMultipleNotesToCategory: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY'),
   restoreMultipleNotesToCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'),
   restoreMultipleNotesToCategoryFail: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_FAIL'),
+
+  setShowArchived: createAction<boolean>('SET_SHOW_ARCHIVED'),
 };
 
 export default noteActions;
