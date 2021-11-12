@@ -24,7 +24,15 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { Color } from '../domain/enums/color.enum';
 import { Variant } from '../domain/enums/variant.enum';
 import { Button } from '../Button/Button';
-import { noteDialogTestId, noteDialogTitleTestId } from '../domain/consts/test-ids.consts';
+import {
+  noteDialogBackdropTestId,
+  noteDialogCancelButtonTestId,
+  noteDialogCloseButtonTestId,
+  noteDialogDeleteButtonTestId,
+  noteDialogSaveAndNextButtonTestId,
+  noteDialogTestId,
+  noteDialogTitleTestId
+} from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 export const emptyForm: NoteDialogFormValue = {
@@ -213,13 +221,19 @@ export const NoteDialog = (): ReactElement => {
       variant={ Variant.Contained }
       title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
       disabled={ !valid }
+      testid={ noteDialogSaveAndNextButtonTestId }
     >
       { t('SAVE_AND_NEXT') }
     </Button>
   );
 
   const deleteNoteButton: ReactElement<HTMLButtonElement> = (
-    <Button onClick={ handleDelete } color={ Color.Warn } variant={ Variant.Contained }>
+    <Button
+      onClick={ handleDelete }
+      color={ Color.Warn }
+      variant={ Variant.Contained }
+      testid={ noteDialogDeleteButtonTestId }
+    >
       { t('DELETE') }
     </Button>
   );
@@ -230,6 +244,7 @@ export const NoteDialog = (): ReactElement => {
       opened={ true }
       config={ config }
       testid={ noteDialogTestId }
+      backdropTestid={ noteDialogBackdropTestId }
     >
       <DialogHeader>
         <DialogTitle testid={ noteDialogTitleTestId }>{ t(dialogTitleKey) }</DialogTitle>
@@ -254,7 +269,11 @@ export const NoteDialog = (): ReactElement => {
 
       <DialogControls>
         <div>
-          <Button onClick={ handleClose } variant={ Variant.Regular }>
+          <Button
+            onClick={ handleClose }
+            variant={ Variant.Regular }
+            testid={ noteDialogCancelButtonTestId }
+          >
             { t('CANCEL') }
           </Button>
         </div>
@@ -268,6 +287,7 @@ export const NoteDialog = (): ReactElement => {
             variant={ Variant.Contained }
             title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
             disabled={ !valid }
+            testid={ noteDialogCloseButtonTestId }
           >
             { t(isEditMode(editMode) ? 'SAVE_AND_CLOSE' : 'CLOSE') }
           </Button>
