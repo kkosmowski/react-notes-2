@@ -3,67 +3,73 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { getMockedNote } from '../utils/get-mocked-note.util';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { AnyAction } from 'redux';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { NotesContainer } from '../NotesContainer/NotesContainer';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { noteDialogTestId, noteSelectedTestId, noteTestId } from '../domain/consts/test-ids.consts';
+import {
+  contextMenuEditButtonTestId,
+  contextMenuTestId,
+  noteDialogTestId, noteDialogTitleTestId,
+  noteSelectedTestId,
+  noteTestId
+} from '../domain/consts/test-ids.consts';
+import { MemoryRouter } from 'react-router-dom';
 import { Main } from '../Main/Main';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
-import { App } from '../App';
+import userEvent from '@testing-library/user-event';
+import { ContextMenu } from '../ContextMenu/ContextMenu';
 
 describe('Note', () => {
-  it('should be selected on action dispatch', () => {
+  const setup = (withContextMenu = false) => {
     const note: NoteInterface = getMockedNote();
-    return store
-      .dispatch((NoteActions._getSuccess([note]) as unknown as AnyAction))
-      .then(() => {
-        return store
-          .dispatch(NoteActions.selectNote(note.id) as unknown as AnyAction)
-          .then(async () => {
-            const history = createMemoryHistory();
-            history.push('/');
 
-            render(
-              <Provider store={ store }>
-                <Router history={ history }>
-                  <NotesContainer />
-                </Router>
-              </Provider>
-            );
+    store.dispatch((NoteActions._getSuccess([note]) as unknown as AnyAction));
 
-            await waitFor(() => {
-              expect(screen.getByTestId(noteSelectedTestId)).toBeTruthy();
-            });
-          });
-      });
+    return {
+      note,
+      ...render(
+        <Provider store={ store }>
+          <MemoryRouter initialEntries={ ['/'] }>
+            <Main />
+            { withContextMenu && <ContextMenu/> }
+          </MemoryRouter>
+        </Provider>
+      ),
+    };
+  };
+
+  it('should be selected on action dispatch', async () => {
+    const { note, getByTestId } = setup();
+
+    store.dispatch(NoteActions.selectNote(note.id) as unknown as AnyAction);
+
+    await waitFor(() => {
+      expect(getByTestId(noteSelectedTestId)).toBeInTheDocument();
+    });
   });
 
-  it('opens NoteDialog on double click', (done) => {
-    const mockedNote = getMockedNote();
-    store
-      .dispatch((NoteActions._getSuccess([mockedNote]) as unknown as AnyAction))
-      .then(async () => {
-        const history = createMemoryHistory();
-        history.push(`/note/${ mockedNote.id }`);
+  it('opens NoteDialog on double click', async () => {
+    const { getByTestId, getAllByTestId } = setup();
 
-        render(
-          <Provider store={ store }>
-            <Router history={ history }>
-              <App/>
-            </Router>
-          </Provider>
-        );
-      })
-      .then(async () => {
-        fireEvent.dblClick(await screen.findByTestId(noteTestId));
+    await waitFor(() => {
+      userEvent.dblClick(getAllByTestId(noteTestId)[0]);
 
-        expect(screen.getByTestId(noteDialogTestId)).toBeInTheDocument();
-      })
-      .catch();
+      expect(getByTestId(noteDialogTestId)).toBeInTheDocument();
+    });
   });
 
-  it('open NoteDialog in edit mode on "Edit" context menu item click', () => {
-    //
+  it('open NoteDialog in edit mode on "Edit" context menu item click', async () => {
+    const { getByTestId, getAllByTestId } = setup(true);
+
+    await waitFor(() => {
+      fireEvent.contextMenu(getAllByTestId(noteTestId)[0]);
+    });
+
+    expect(getByTestId(contextMenuTestId)).toBeInTheDocument();
+
+    await waitFor(() => {
+      userEvent.click(getByTestId(contextMenuEditButtonTestId));
+    });
+
+    expect(getByTestId(noteDialogTestId)).toBeInTheDocument();
+    expect(getByTestId(noteDialogTitleTestId)).toHaveTextContent('Edit note');
   });
 });

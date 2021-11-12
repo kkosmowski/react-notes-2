@@ -6,6 +6,7 @@ import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.in
 import { NoteContent, NoteElement, NoteTitle } from './Note.styled';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import {
+  contextMenuEditButtonTestId,
   noteSelectableTestId,
   noteSelectedTestId,
   noteTestId
@@ -74,6 +75,7 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
         {
           label: 'COMMON:EDIT',
           callback: handleOpenAndEdit,
+          testid: contextMenuEditButtonTestId,
         },
         {
           label: 'COMMON:DELETE',

@@ -2,7 +2,7 @@ import { getMockedNote } from '../utils/get-mocked-note.util';
 import store from '../store/store';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { AnyAction } from 'redux';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import {

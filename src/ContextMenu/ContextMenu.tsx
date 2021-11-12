@@ -8,6 +8,7 @@ import UiActions from '../store/actionCreators/ui.action-creators';
 import { ContextMenuItem } from './ContextMenuItem';
 import { ContextMenuItemInterface } from '../domain/interfaces/context-menu-item.interface';
 import { useTranslation } from 'react-i18next';
+import { contextMenuTestId } from '../domain/consts/test-ids.consts';
 
 export const ContextMenu = (): ReactElement | null => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ export const ContextMenu = (): ReactElement | null => {
         <ContextMenuItem
           onClick={ item.callback }
           warn={ item.warn }
+          testid={ item.testid }
           key={ item.label }
         >
           { t(item.label) }
@@ -37,7 +39,10 @@ export const ContextMenu = (): ReactElement | null => {
   return data
     ? (
       <Backdrop onClick={ handleBackdropClick }>
-        <StyledDiv coords={ data.coords }>
+        <StyledDiv
+          coords={ data.coords }
+          data-testid={ contextMenuTestId }
+        >
           { children }
         </StyledDiv>
       </Backdrop>
