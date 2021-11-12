@@ -77,6 +77,25 @@ const NoteActions = {
     return noteActions.findOpenedNote(noteId);
   },
 
+  archiveNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+    return function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.archiveNote());
+      return HttpService
+        .patch(`/notes/${ noteId }`, {
+          archived: true
+        })
+        .then((note: NoteInterface) => {
+          dispatch(noteActions.archiveNoteSuccess(note));
+          HistoryActions.push(noteActions.archiveNoteSuccess(note))(dispatch);
+          dispatch(NoteActions.clearSelection());
+        })
+        .catch(error => {
+          console.error(error);
+          dispatch(noteActions.archiveNoteFail());
+        });
+    };
+  },
+
   deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.deleteNote());
@@ -116,7 +135,7 @@ const NoteActions = {
       dispatch(noteActions.restoreNote());
       return HttpService
         .patch(`/notes/${ note.id }`, {
-          deleted: false,
+          archived: false,
         })
         .then(() => {
           dispatch(noteActions.restoreNoteSuccess(note));

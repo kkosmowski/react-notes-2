@@ -10,6 +10,7 @@ export interface NoteState {
   noteToOpen: EntityUid | null;
   noteCreationInProgress: boolean;
   noteUpdateInProgress: boolean;
+  noteArchivingInProgress: boolean;
   noteDeletionInProgress: boolean;
   noteRestorationInProgress: boolean;
   selectedNotes: Record<EntityUid, boolean>;
@@ -18,4 +19,5 @@ export interface NoteState {
   notesRemovalFromCategoryInProgress: boolean;
   notesRestorationToCategoryInProgress: boolean;
   noteUpdateRevertInProgress: boolean;
+  showArchived: boolean;
 }

@@ -5,6 +5,7 @@ export const getMockedNote = (partial: Partial<NoteInterface> = {}): NoteInterfa
   id: v4(),
   title: 'Mocked note title',
   content: 'Mocked note content',
+  archived: false,
   deleted: false,
   categories: [],
   ...partial,
