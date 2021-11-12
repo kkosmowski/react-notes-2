@@ -11,6 +11,7 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 import { getConfirmationDialogData } from './get-confirmation-dialog-data.util';
 import { useTranslation } from 'react-i18next';
+import { confirmationDialogTestId } from '../domain/consts/test-ids.consts';
 
 export const ConfirmationDialog = (): ReactElement => {
   const { t } = useTranslation('CONFIRMATION');
@@ -46,6 +47,7 @@ export const ConfirmationDialog = (): ReactElement => {
     <Dialog
       opened={ opened }
       config={ dialogConfig }
+      testid={ confirmationDialogTestId }
     >
       <DialogTitle>{ data && t(data.title) }</DialogTitle>
 

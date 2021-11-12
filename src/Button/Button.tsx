@@ -34,7 +34,7 @@ export const Button = (
 
   useEffect(() => {
     setClassName(getClassName({ color, variant, lighter, small }));
-  }, [variant]);
+  }, [color, variant, lighter, small]);
 
   return (
     <button

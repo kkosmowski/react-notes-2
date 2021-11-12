@@ -11,7 +11,14 @@ export const snackbarTestId = 'snackbar';
 export const snackbarCloseButtonTestId = 'snackbar-close-button';
 
 export const noteDialogTestId = 'note-dialog';
+export const noteDialogBackdropTestId = 'note-dialog-backdrop';
 export const noteDialogTitleTestId = 'note-dialog-title';
 export const noteDialogEditModeButtonTestId = 'note-dialog-edit-mode-button';
 export const noteDialogTitleInputTestId = 'note-dialog-title-input';
 export const noteDialogContentInputTestId = 'note-dialog-content-input';
+export const noteDialogCloseButtonTestId = 'note-dialog-close-button';
+export const noteDialogCancelButtonTestId = 'note-dialog-cancel-button';
+export const noteDialogSaveAndNextButtonTestId = 'note-dialog-save-and-next-button';
+export const noteDialogDeleteButtonTestId = 'note-dialog-delete-button';
+
+export const confirmationDialogTestId = 'confirmation-dialog';

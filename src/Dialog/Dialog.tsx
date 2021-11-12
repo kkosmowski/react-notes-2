@@ -8,10 +8,13 @@ interface Props {
   config?: DialogConfig;
   children: ReactElement | ReactElement[];
   testid?: string;
+  backdropTestid?: string;
   onClose?: () => void; // optional, backdrop close may be disabled
 }
 
-export const Dialog = ({ opened, config, testid, children, onClose }: Props): ReactElement | null => {
+export const Dialog = (
+  { opened, config, testid, backdropTestid, children, onClose }: Props
+): ReactElement | null => {
   const handleDialogClick = (e: MouseEvent): void => {
     e.stopPropagation();
   };
@@ -19,7 +22,7 @@ export const Dialog = ({ opened, config, testid, children, onClose }: Props): Re
   return opened
     ? (
       <DialogWrapper onClick={ handleDialogClick } data-testid={ testid }>
-        <Backdrop onClick={ onClose } />
+        <Backdrop onClick={ onClose } data-testid={ backdropTestid } />
         <DialogContainer
           width={ config?.width }
           height={ config?.height }
