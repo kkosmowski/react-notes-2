@@ -45,7 +45,7 @@ const UiActions = {
       },
     });
   },
-  hideSnackbar(snackbarId: EntityUid | null): Action {
+  hideSnackbar(snackbarId?: EntityUid): Action {
     return uiActions.hideSnackbar(snackbarId);
   },
 
