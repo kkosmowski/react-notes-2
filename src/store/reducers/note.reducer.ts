@@ -6,6 +6,7 @@ import noteActions from '../actions/note.actions';
 import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 
 export const initialNoteState: NoteState = {
   notes: [],
@@ -36,6 +37,18 @@ const removeOrRestoreReducer = (
     : note
   );
   state.noteRestorationToCategoryInProgress = false;
+};
+
+const archiveOrDeleteOrRestoreHelper = (payload: ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]) => {
+  let noteIds: EntityUid[];
+  let date = '';
+  if ((payload as ArchiveOrDeleteOrRestoreMultipleNotesPayload)?.noteIds) {
+    noteIds = (payload as ArchiveOrDeleteOrRestoreMultipleNotesPayload).noteIds;
+    date = (payload as ArchiveOrDeleteOrRestoreMultipleNotesPayload).date!;
+  } else {
+    noteIds = payload as EntityUid[];
+  }
+  return { noteIds, date };
 };
 
 const removeOrRestoreMultipleReducer = (
@@ -167,7 +180,8 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.deleteMultipleNotesSuccess, (state, { payload }) => {
       state.noteDeletionInProgress = false;
-      state.notes = state.notes.filter((note) => !payload.includes(note.id));
+      const { noteIds } = archiveOrDeleteOrRestoreHelper(payload);
+      state.notes = state.notes.filter((note) => !noteIds.includes(note.id));
     })
     .addCase(noteActions.deleteMultipleNotesFail, (state) => {
       state.noteDeletionInProgress = false;
@@ -178,9 +192,11 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.archiveMultipleNotesSuccess, (state, { payload }) => {
       state.noteArchivingInProgress = false;
+      const { noteIds, date } = archiveOrDeleteOrRestoreHelper(payload);
       state.notes = state.notes.map((note) => ({
         ...note,
-        archived: payload.includes(note.id) || note.archived,
+        archived: noteIds.includes(note.id) || note.archived,
+        ...(date ? { archivedAt: date } : {}),
       }));
     })
     .addCase(noteActions.archiveMultipleNotesFail, (state) => {
@@ -192,9 +208,11 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.restoreMultipleNotesSuccess, (state, { payload }) => {
       state.noteRestorationInProgress = false;
+      const { noteIds } = archiveOrDeleteOrRestoreHelper(payload);
       state.notes = state.notes.map((note) => ({
         ...note,
-        archived: !payload.includes(note.id) && note.archived,
+        archived: !noteIds.includes(note.id) && note.archived,
+        archivedAt: undefined,
       }));
     })
     .addCase(noteActions.restoreMultipleNotesFail, (state) => {
@@ -208,6 +226,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       const restored: NoteInterface = {
         ...payload,
         archived: false,
+        archivedAt: undefined,
       };
       state.notes = state.notes.map((note) => note.id === restored.id ? restored : note);
       state.noteRestorationInProgress = false;

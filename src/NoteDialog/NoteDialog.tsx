@@ -34,6 +34,8 @@ import {
   noteDialogTitleTestId
 } from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { DateUtil } from '../domain/utils/date.util';
+import { NoteDetails } from './NoteDialog.styled';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -164,6 +166,7 @@ export const NoteDialog = (): ReactElement => {
       id: uuidv4(),
       archived: false,
       deleted: false,
+      createdAt: new Date().toISOString(),
     };
     dispatch(NoteActions.create(note));
   };
@@ -267,6 +270,18 @@ export const NoteDialog = (): ReactElement => {
         categories={ categories }
         clear={ clearForm }
       />
+
+      { openedNote && (
+        <NoteDetails>
+          <span>Created at { DateUtil.formatDate(openedNote.createdAt) }</span>
+          { openedNote.updatedAt && (
+            <span>Updated at { DateUtil.formatDate(openedNote.updatedAt) }</span>
+          ) }
+          { openedNote.archivedAt && (
+            <span>Archived at { DateUtil.formatDate(openedNote.archivedAt) }</span>
+          ) }
+        </NoteDetails>
+      ) }
 
       <DialogControls>
         <div>

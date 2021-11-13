@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 24px 0;
+  margin: 24px 0 8px;
   flex: 1;
   overflow: auto;
 
@@ -25,7 +25,7 @@ export const Categories = styled.div`
   display: flex;
   flex-direction: column;
 
-  > * {
+  > *:not:last-child {
     margin-bottom: 4px;
   }
 `;

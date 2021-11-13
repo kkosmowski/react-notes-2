@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement } from 'react';
+import { MouseEvent, ReactElement, ReactNode } from 'react';
 import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { DialogContainer, DialogWrapper } from './styles/Dialog.styled';
 import { Backdrop } from '../Backdrop/Backdrop';
@@ -6,7 +6,7 @@ import { Backdrop } from '../Backdrop/Backdrop';
 interface Props {
   opened: boolean;
   config?: DialogConfig;
-  children: ReactElement | ReactElement[];
+  children: ReactNode | ReactNode[];
   testid?: string;
   backdropTestid?: string;
   onClose?: () => void; // optional, backdrop close may be disabled

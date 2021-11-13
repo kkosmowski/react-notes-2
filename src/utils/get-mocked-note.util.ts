@@ -8,5 +8,6 @@ export const getMockedNote = (partial: Partial<NoteInterface> = {}): NoteInterfa
   archived: false,
   deleted: false,
   categories: [],
+  createdAt: new Date().toISOString(),
   ...partial,
 });

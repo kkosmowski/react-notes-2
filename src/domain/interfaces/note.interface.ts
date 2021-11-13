@@ -5,4 +5,7 @@ export interface NoteInterface extends NoteDialogFormValue {
   id: EntityUid;
   archived: boolean;
   deleted: boolean;
+  createdAt: string;
+  updatedAt?: string;
+  archivedAt?: string;
 }
