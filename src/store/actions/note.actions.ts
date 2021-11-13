@@ -3,6 +3,7 @@ import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
+import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -43,15 +44,15 @@ const noteActions = {
   restoreNoteFail: createAction<void>('RESTORE_NOTE_FAIL'),
 
   deleteMultipleNotes: createAction<void>('DELETE_MULTIPLE_NOTES'),
-  deleteMultipleNotesSuccess: createAction<EntityUid[]>('DELETE_MULTIPLE_NOTES_SUCCESS'),
+  deleteMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('DELETE_MULTIPLE_NOTES_SUCCESS'),
   deleteMultipleNotesFail: createAction<void>('DELETE_MULTIPLE_NOTES_FAIL'),
 
   archiveMultipleNotes: createAction<void>('ARCHIVE_MULTIPLE_NOTES'),
-  archiveMultipleNotesSuccess: createAction<EntityUid[]>('ARCHIVE_MULTIPLE_NOTES_SUCCESS'),
+  archiveMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('ARCHIVE_MULTIPLE_NOTES_SUCCESS'),
   archiveMultipleNotesFail: createAction<void>('ARCHIVE_MULTIPLE_NOTES_FAIL'),
 
   restoreMultipleNotes: createAction<void>('RESTORE_MULTIPLE_NOTES'),
-  restoreMultipleNotesSuccess: createAction<EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
+  restoreMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
   restoreMultipleNotesFail: createAction<void>('RESTORE_MULTIPLE_NOTES_FAIL'),
 
   removeNoteFromCategory: createAction<void>('REMOVE_NOTE_FROM_CATEGORY'),

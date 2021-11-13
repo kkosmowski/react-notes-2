@@ -10,6 +10,7 @@ import store from '../store';
 import { RootState } from '../interfaces/root-state.interface';
 import { RemoveFromCategoryPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategoryPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
+import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -82,7 +83,8 @@ const NoteActions = {
       dispatch(noteActions.archiveNote());
       return HttpService
         .patch(`/notes/${ noteId }`, {
-          archived: true
+          archived: true,
+          archivedAt: new Date().toISOString(),
         })
         .then((note: NoteInterface) => {
           dispatch(noteActions.archiveNoteSuccess(note));
@@ -140,6 +142,7 @@ const NoteActions = {
       return HttpService
         .patch(`/notes/${ note.id }`, {
           archived: false,
+          archivedAt: null,
         })
         .then(() => {
           dispatch(noteActions.restoreNoteSuccess(note));
@@ -187,13 +190,19 @@ const archiveOrDeleteOrRestoreMultiple = (
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
 
+    const date = new Date().toISOString();
     return new Promise((resolve) => {
       noteIds.forEach((noteId: EntityUid) => {
         HttpService
           .patch(`/notes/${ noteId }`, {
             ...(actionName === 'deleteMultipleNotes'
               ? { deleted: true }
-              : { archived: actionName === 'archiveMultipleNotes' }
+              : {
+                archived: actionName === 'archiveMultipleNotes',
+                archivedAt: actionName === 'archiveMultipleNotes'
+                  ? date
+                  : null
+              }
             )
           })
           .catch((error) => {
@@ -204,7 +213,11 @@ const archiveOrDeleteOrRestoreMultiple = (
       resolve(true);
     })
       .then(() => {
-        dispatch(noteActions[successAction](noteIds));
+        const payload: ArchiveOrDeleteOrRestoreMultipleNotesPayload = {
+          noteIds,
+          ...(actionName === 'archiveMultipleNotes' && { date })
+        };
+        dispatch(noteActions[successAction](payload));
         HistoryActions.push(noteActions[successAction](noteIds))(dispatch);
         dispatch(NoteActions.clearSelection());
       })
@@ -298,10 +311,14 @@ const updateOrRevert = (
 
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
+    const _note = {
+      ...note,
+      updatedAt: new Date().toISOString(),
+    };
     return HttpService
-      .put(`/notes/${ note.id }`, note)
+      .put(`/notes/${ note.id }`, _note)
       .then(() => {
-        dispatch(noteActions[successAction](note));
+        dispatch(noteActions[successAction](_note));
         HistoryActions.push(noteActions[successAction](originalNote))(dispatch);
       })
       .catch(error => {

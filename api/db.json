@@ -1,88 +1,61 @@
 {
   "notes": [
     {
-      "id": "b666d9a5-04de-411f-9260-9413c6d20136",
       "title": "test note 1",
-      "content": "Cras vitae nisl a sem efficitur faucibus.",
-      "categories": [
-        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
-        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
-      ],
+      "content": "aaa",
+      "categories": [],
+      "id": "f11df3d9-3d6c-40ae-be91-df417d1875f2",
       "archived": false,
-      "deleted": false
+      "deleted": false,
+      "createdAt": "2021-11-13T16:24:58.100Z",
+      "archivedAt": null
     },
     {
       "title": "test note 2",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "id": "5f099e76-5e3c-4ee5-8181-208bb904b2e0",
-      "categories": [
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
-      ],
+      "content": "whatever",
+      "categories": [],
+      "id": "b3614766-0c7f-44f7-b78e-652909f25a28",
       "archived": false,
-      "deleted": false
+      "deleted": false,
+      "createdAt": "2021-11-13T16:25:05.874Z"
     },
     {
       "title": "test note 3",
-      "content": "Nullam pretium libero nec diam ullamcorper cursus.",
-      "id": "425647b7-ce5f-4ddb-8356-0e9bd5ffa974",
-      "categories": [
-        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
-      ],
-      "archived": false,
-      "deleted": false
-    },
-    {
-      "title": "test note 455",
-      "content": "Phasellus ut blandit nibh, et molestie sapien. Nullam eget malesuada turpis, et blandit nulla. Praesent faucibus lectus eget semper mattis.",
-      "id": "4cc0e8fa-082f-49bd-8f76-2d927643d7bc",
-      "categories": [
-        "56875b71-69ec-4ba3-840e-5fd46e1443bf"
-      ],
-      "archived": false,
-      "deleted": false
-    },
-    {
-      "title": "test note 5asd",
-      "content": "Hello semper lobortis convallis. Pellentesque quis magna dapibus nisi placerat suscipit. Nulla augue velit, posuere in tincidunt vel, finibus vel est. Nulla sollicitudin eleifend elit, a mattis massa semper eget. Praesent ultrices neque quam, venenatis pharetra magna dignissim sit amet.",
-      "id": "f7f711c7-d233-4307-997f-0ff7d522d64e",
-      "categories": [
-        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
-      ],
-      "archived": false,
-      "deleted": false
-    },
-    {
-      "title": "super duper long note title asdasd",
-      "content": "Lorem ipsum",
-      "id": "06069df6-359f-4cc2-b778-f7fee5fb8cb6",
-      "categories": [
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
-        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
-        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
-      ],
-      "archived": true,
-      "deleted": false
-    },
-    {
-      "title": "hello",
-      "content": "world",
-      "categories": [
-        "18cb4c96-1f0f-4eac-b57a-06837321ee0c"
-      ],
-      "id": "10c6e1d8-7d7e-4cdf-a63b-a00a4934c2d4",
-      "archived": true,
-      "deleted": false
-    },
-    {
-      "title": "ege",
-      "content": "gege",
+      "content": "ahahaah",
       "categories": [],
-      "id": "109f240f-36a6-41e8-a515-0d361d4fc070",
+      "id": "cf930057-380b-4e71-8233-780a0f297c3d",
       "archived": false,
-      "deleted": false
+      "deleted": false,
+      "createdAt": "2021-11-13T16:25:13.053Z"
+    },
+    {
+      "title": "test note 4",
+      "content": "_ update",
+      "categories": [],
+      "id": "92833de0-2de4-4b72-9936-36f2b82f2cd9",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-13T16:25:19.521Z",
+      "updatedAt": "2021-11-13T16:27:12.616Z",
+      "archivedAt": null
+    },
+    {
+      "title": "test note 5",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget sollicitudin turpis. In accumsan mauris et lectus auctor convallis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut porttitor quam dui, non condimentum velit vulputate sit amet. Sed fringilla lorem quis scelerisque venenatis. In id ligula sodales, porta sem nec, lacinia nibh.",
+      "categories": [],
+      "id": "c46507c0-79ec-4a89-a4f1-7ca4a63dff2c",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-13T16:25:39.503Z"
+    },
+    {
+      "title": "test note 6",
+      "content": "something",
+      "categories": [],
+      "id": "9ccb0831-7791-403c-a729-c86c468eb179",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-13T16:25:47.805Z"
     }
   ],
   "categories": [
