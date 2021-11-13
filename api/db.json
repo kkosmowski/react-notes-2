@@ -3,59 +3,90 @@
     {
       "title": "test note 1",
       "content": "aaa",
-      "categories": [],
+      "categories": [
+        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd",
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
       "id": "f11df3d9-3d6c-40ae-be91-df417d1875f2",
       "archived": false,
       "deleted": false,
       "createdAt": "2021-11-13T16:24:58.100Z",
-      "archivedAt": null
+      "archivedAt": null,
+      "updatedAt": "2021-11-13T17:22:35.279Z"
     },
     {
       "title": "test note 2",
       "content": "whatever",
-      "categories": [],
+      "categories": [
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
       "id": "b3614766-0c7f-44f7-b78e-652909f25a28",
       "archived": false,
       "deleted": false,
-      "createdAt": "2021-11-13T16:25:05.874Z"
+      "createdAt": "2021-11-13T16:25:05.874Z",
+      "archivedAt": null,
+      "updatedAt": "2021-11-13T17:22:43.677Z"
     },
     {
       "title": "test note 3",
       "content": "ahahaah",
-      "categories": [],
+      "categories": [
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba",
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "5450f55a-95c4-40c9-ae69-c427f31e8600"
+      ],
       "id": "cf930057-380b-4e71-8233-780a0f297c3d",
       "archived": false,
       "deleted": false,
-      "createdAt": "2021-11-13T16:25:13.053Z"
+      "createdAt": "2021-11-13T16:25:13.053Z",
+      "archivedAt": null,
+      "updatedAt": "2021-11-13T17:22:51.758Z"
     },
     {
       "title": "test note 4",
       "content": "_ update",
-      "categories": [],
+      "categories": [
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "5450f55a-95c4-40c9-ae69-c427f31e8600",
+        "18cb4c96-1f0f-4eac-b57a-06837321ee0c",
+        "eb88879e-a5ed-4aa1-8eeb-49e7268b62dd"
+      ],
       "id": "92833de0-2de4-4b72-9936-36f2b82f2cd9",
       "archived": false,
       "deleted": false,
       "createdAt": "2021-11-13T16:25:19.521Z",
-      "updatedAt": "2021-11-13T16:27:12.616Z",
+      "updatedAt": "2021-11-13T17:22:59.430Z",
       "archivedAt": null
     },
     {
       "title": "test note 5",
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eget sollicitudin turpis. In accumsan mauris et lectus auctor convallis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut porttitor quam dui, non condimentum velit vulputate sit amet. Sed fringilla lorem quis scelerisque venenatis. In id ligula sodales, porta sem nec, lacinia nibh.",
-      "categories": [],
+      "categories": [
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
       "id": "c46507c0-79ec-4a89-a4f1-7ca4a63dff2c",
       "archived": false,
       "deleted": false,
-      "createdAt": "2021-11-13T16:25:39.503Z"
+      "createdAt": "2021-11-13T16:25:39.503Z",
+      "archivedAt": null,
+      "updatedAt": "2021-11-13T17:23:03.541Z"
     },
     {
       "title": "test note 6",
       "content": "something",
-      "categories": [],
+      "categories": [
+        "56875b71-69ec-4ba3-840e-5fd46e1443bf",
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
       "id": "9ccb0831-7791-403c-a729-c86c468eb179",
       "archived": false,
       "deleted": false,
-      "createdAt": "2021-11-13T16:25:47.805Z"
+      "createdAt": "2021-11-13T16:25:47.805Z",
+      "archivedAt": null,
+      "updatedAt": "2021-11-13T17:23:07.843Z"
     }
   ],
   "categories": [

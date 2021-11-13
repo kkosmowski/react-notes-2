@@ -13,7 +13,7 @@ export interface NoteState {
   noteArchivingInProgress: boolean;
   noteDeletionInProgress: boolean;
   noteRestorationInProgress: boolean;
-  selectedNotes: Record<EntityUid, boolean>;
+  selectedNotes: Record<EntityUid, NoteInterface>;
   noteRemovalFromCategoryInProgress: boolean;
   noteRestorationToCategoryInProgress: boolean;
   notesRemovalFromCategoryInProgress: boolean;
