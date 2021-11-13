@@ -1,7 +1,10 @@
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog-data.interface';
 
-export const getConfirmationDialogData = (action: ConfirmationAction | null): ConfirmationDialogData | null => {
+export const getConfirmationDialogData = (
+  action: ConfirmationAction | null,
+  selectedNotesCount: number,
+): ConfirmationDialogData | null => {
   switch (action) {
     case (ConfirmationAction.LeaveNoteProgress):
       return {
@@ -15,12 +18,12 @@ export const getConfirmationDialogData = (action: ConfirmationAction | null): Co
     case ConfirmationAction.DeleteNote:
       return {
         action,
-        title: 'TITLE.DELETE_NOTE',
-        message: 'MESSAGE.DELETE_NOTE',
+        title: selectedNotesCount > 1 ? 'TITLE.DELETE_NOTES' : 'TITLE.DELETE_NOTE',
+        message: selectedNotesCount > 1 ? 'MESSAGE.DELETE_NOTES' : 'MESSAGE.DELETE_NOTE',
         cancelButtonText: 'CONTROLS.NO_CANCEL',
         confirmButtonText: 'CONTROLS.YES_DELETE',
       };
-      
+
     case ConfirmationAction.DeleteCategory:
       return {
         action,

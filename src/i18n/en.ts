@@ -39,11 +39,13 @@ export const en = {
     TITLE: {
       LEAVE_PROGRESS: 'Leave?',
       DELETE_NOTE: 'Delete note?',
+      DELETE_NOTES: 'Delete notes?',
       DELETE_CATEGORY: 'Delete category?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Are you sure you want to leave your progress?',
-      DELETE_NOTE: 'Are you sure you want to delete this note?',
+      DELETE_NOTE: 'Are you sure you want to delete this note?\nThis operation cannot be undone.',
+      DELETE_NOTES: 'Are you sure you want to delete these notes?\nThis operation cannot be undone.',
       DELETE_CATEGORY: 'This category is not empty. Are you sure you want to delete it?\nIt will not delete any notes.',
     },
     CONTROLS: {

@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, ReactElement } from 'react';
+import { ChangeEvent, MouseEvent, ReactElement, useEffect } from 'react';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import {
 import { selectCurrentCategoryId } from '../../store/selectors/category.selectors';
 import { isRootCategory } from '../../utils/is-root-category.util';
 import { useHistory } from 'react-router-dom';
-import { selectIsMobile } from '../../store/selectors/ui.selectors';
+import { selectConfirmationResult, selectIsMobile } from '../../store/selectors/ui.selectors';
 import {
   AssignmentTurnedIn,
   BookmarkBorder as BookmarkBorderIcon,
@@ -31,6 +31,7 @@ import {
   NoteAdd as NoteAddIcon,
 } from '@material-ui/icons';
 import { ArchivedSwitch, Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
+import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -40,8 +41,18 @@ export const ControlsBar = (): ReactElement => {
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const isMobile = useSelector(selectIsMobile);
   const showArchived = useSelector(selectShowArchived);
+  const confirmationResult = useSelector(selectConfirmationResult);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    if (confirmationResult?.result
+      && confirmationResult.action === ConfirmationAction.DeleteNote
+      && selectedNotesCount > 0
+    ) {
+      deleteNote();
+    }
+  }, [confirmationResult, selectedNotesCount]);
 
   const handleBarClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -70,6 +81,10 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const handleNoteDelete = (): void => {
+    dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
+  };
+
+  const deleteNote = (): void => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
     } else {

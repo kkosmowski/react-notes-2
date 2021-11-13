@@ -1,4 +1,6 @@
-export const pl = {
+import { en } from './en';
+
+export const pl: typeof en = {
   COMMON: {
     ADD_NOTE: 'Dodaj notatkę',
     ROOT_CATEGORY: 'Wszystkie',
@@ -39,11 +41,13 @@ export const pl = {
     TITLE: {
       LEAVE_PROGRESS: 'Porzucić zmiany?',
       DELETE_NOTE: 'Usunąć notatkę?',
+      DELETE_NOTES: 'Usunąć notatki?',
       DELETE_CATEGORY: 'Usunąć kategori?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Czy na pewno chcesz porzucić swoje zmiany?',
-      DELETE_NOTE: 'Czy na pewno chcesz usunąć tę notatkę?',
+      DELETE_NOTE: 'Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.',
+      DELETE_NOTES: 'Czy na pewno chcesz usunąć te notatki? Tej operacji nie można cofnąć.',
       DELETE_CATEGORY: 'Kategoria nie jest pusta. Czy na pewno chcesz ją usunąć?\nNie usunie to żadnej notatki.',
     },
     CONTROLS: {
