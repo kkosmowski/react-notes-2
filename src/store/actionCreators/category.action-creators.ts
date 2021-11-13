@@ -50,11 +50,14 @@ const CategoryActions = {
     };
   },
 
-  change(categoryId: EntityUid): ActionFunction<void> {
+  change(categoryId: EntityUid, initial = false): ActionFunction<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.changeCategory(categoryId));
-      dispatch(NoteActions.clearSelection());
-      dispatch(UiActions.closeSidebar());
+
+      if (!initial) {
+        dispatch(NoteActions.clearSelection());
+        dispatch(UiActions.closeSidebar());
+      }
     };
   },
 

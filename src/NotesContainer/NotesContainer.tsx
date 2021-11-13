@@ -54,7 +54,7 @@ export const NotesContainer = (): ReactElement => {
 
   useEffect(() => {
     if (categoryId && categoryId !== currentCategoryId) {
-      dispatch(CategoryActions.change(categoryId));
+      dispatch(CategoryActions.change(categoryId, true));
     }
   }, [categoryId]);
 
