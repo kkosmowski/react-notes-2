@@ -44,6 +44,9 @@ export const ControlsBar = (): ReactElement => {
   const confirmationResult = useSelector(selectConfirmationResult);
   const dispatch = useDispatch();
   const history = useHistory();
+  const allSelectedNotesAreArchived = Object.values(selectedNotes).every((note) => note.archived);
+  const noSelectedNotesAreArchived = !Object.values(selectedNotes).some((note) => note.archived);
+  const archiveOrRestoreButtonEnabled = selectedNotesCount && (allSelectedNotesAreArchived || noSelectedNotesAreArchived);
 
   useEffect(() => {
     if (confirmationResult?.result
@@ -72,11 +75,23 @@ export const ControlsBar = (): ReactElement => {
     dispatch(NoteActions.toggleSelectionMode());
   };
 
-  const handleNoteArchive = (): void => {
-    if (selectedNotesCount === 1) {
-      dispatch(NoteActions.archiveNote(Object.keys(selectedNotes)[0]));
+  const handleNoteArchiveOrRestore = (): void => {
+    if (selectedNotesCount === 1 ) {
+      const note = Object.values(selectedNotes)[0];
+
+      if (note.archived) {
+        dispatch(NoteActions.restoreNote(note));
+      } else {
+        dispatch(NoteActions.archiveNote(note.id));
+      }
     } else {
-      dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
+      const notes = Object.values(selectedNotes);
+
+      if (notes.every((note) => note.archived)) {
+        dispatch(NoteActions.restoreMultipleNotes(Object.keys(selectedNotes)));
+      } else if (!notes.some((note) => note.archived)) {
+        dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
+      }
     }
   };
 
@@ -139,14 +154,17 @@ export const ControlsBar = (): ReactElement => {
         </Button>
 
         <Button
-          onClick={ handleNoteArchive }
+          onClick={ handleNoteArchiveOrRestore }
           variant={ isMobile ? Variant.Icon : Variant.Regular }
-          disabled={ !selectedNotesCount }
+          disabled={ !archiveOrRestoreButtonEnabled }
           lighter={ isMobile }
         >
           { isMobile
             ? <DeleteIcon />
-            : t(selectedNotesCount > 1 ? 'ARCHIVE_NOTES' : 'ARCHIVE_NOTE')
+            : t(selectedNotesCount > 1
+              ? noSelectedNotesAreArchived ? 'ARCHIVE_NOTES' : 'RESTORE_NOTES'
+              : noSelectedNotesAreArchived ? 'ARCHIVE_NOTE' : 'RESTORE_NOTE'
+            )
           }
         </Button>
 

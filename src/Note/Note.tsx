@@ -20,10 +20,13 @@ interface Props extends NoteSelectionProps {
   data: NoteInterface;
   onSelect: (id: EntityUid) => void;
   onOpen: (note: NoteInterface, openWithEdit?: boolean) => void;
+  onArchive: (note: NoteInterface) => void;
   onDelete: (noteId: EntityUid) => void;
 }
 
-export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDelete }: Props): ReactElement => {
+export const Note = (
+  { data, isSelected, selectionMode, onSelect, onOpen, onArchive, onDelete }: Props
+): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const dispatch = useDispatch();
@@ -48,6 +51,10 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
 
   const handleOpenAndEdit = (): void => {
     onOpen(data, true);
+  };
+
+  const handleArchive = (): void => {
+    onArchive(data);
   };
 
   const handleDelete = (): void => {
@@ -76,6 +83,10 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
           label: 'COMMON:EDIT',
           callback: handleOpenAndEdit,
           testid: contextMenuEditButtonTestId,
+        },
+        {
+          label: data.archived ? 'COMMON:RESTORE' : 'COMMON:ARCHIVE',
+          callback: handleArchive,
         },
         {
           label: 'COMMON:DELETE',

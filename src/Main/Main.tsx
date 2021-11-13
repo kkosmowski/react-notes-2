@@ -8,7 +8,7 @@ import { selectCategories, selectCurrentCategoryId } from '../store/selectors/ca
 import { Category } from '../domain/interfaces/category.interface';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
-import { selectNoteSelectionMode, selectSelectedNotes } from '../store/selectors/note.selectors';
+import { selectNoteSelectionMode, selectSelectedNotesCount } from '../store/selectors/note.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
 import { Route, Switch } from 'react-router-dom';
@@ -49,7 +49,7 @@ export const Main = (): ReactElement => {
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const categories: Category[] = useSelector(selectCategories);
   const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
-  const selectedNotes: Record<EntityUid, boolean> = useSelector(selectSelectedNotes);
+  const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const dispatch = useDispatch();
 
@@ -59,14 +59,14 @@ export const Main = (): ReactElement => {
 
   const handleOnWrapperClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    if (selectionMode === NoteSelectionMode.Single && Object.values(selectedNotes).length) {
+    if (selectionMode === NoteSelectionMode.Single && selectedNotesCount) {
       dispatch(NoteActions.clearSelection());
     }
   };
 
   const handleOnWrapperDoubleClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    if (selectionMode === NoteSelectionMode.Multi && Object.values(selectedNotes).length) {
+    if (selectionMode === NoteSelectionMode.Multi && selectedNotesCount) {
       dispatch(NoteActions.clearSelection());
     }
   };

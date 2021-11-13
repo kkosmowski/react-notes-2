@@ -98,17 +98,20 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         state.noteSelectionMode = NoteSelectionMode.Single;
 
         const entries = Object.entries(state.selectedNotes);
+
         if (entries.length) {
-          const [id] = entries[entries.length - 1];
-          state.selectedNotes = { [id]: true };
+          const [id, note] = entries[entries.length - 1];
+          state.selectedNotes = { [id]: note };
         }
       }
     })
     .addCase(noteActions.selectNote, (state, { payload }) => {
+      const note = state.notes.find((note) => note.id === payload)!;
+
       if (state.noteSelectionMode === NoteSelectionMode.Multi) {
-        state.selectedNotes[payload] = true;
+        state.selectedNotes[payload] = note;
       } else {
-        state.selectedNotes = { [payload]: true };
+        state.selectedNotes = { [payload]: note };
       }
     })
     .addCase(noteActions.deselectNote, (state, { payload }) => {
@@ -269,6 +272,15 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
 
     .addCase(noteActions.setShowArchived, (state, { payload }) => {
       state.showArchived = payload;
+
+      if (!payload) {
+        const archivedNoteIds: EntityUid[] = Object.values(state.selectedNotes)
+          .filter(n => n.archived)
+          .map(n => n.id);
+        archivedNoteIds.forEach((id) => {
+          delete state.selectedNotes[id];
+        });
+      }
     });
 });
 

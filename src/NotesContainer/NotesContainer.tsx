@@ -85,9 +85,10 @@ export const NotesContainer = (): ReactElement => {
         <Note
           onSelect={ handleNoteSelect }
           onOpen={ handleNoteOpen }
+          onArchive={ handleArchive }
           onDelete={ handleDelete }
           data={ note }
-          isSelected={ selectedNotes[note.id] }
+          isSelected={ !!selectedNotes[note.id] }
           selectionMode={ noteSelectionMode }
           key={ note.id }
         />
@@ -121,6 +122,10 @@ export const NotesContainer = (): ReactElement => {
         previous: history.location.pathname
       }
     });
+  };
+
+  const handleArchive = (note: NoteInterface): void => {
+    dispatch(note.archived ? NoteActions.restoreNote(note) : NoteActions.archiveNote(note.id));
   };
 
   const handleDelete = (noteId: EntityUid): void => {
