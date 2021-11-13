@@ -138,8 +138,9 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   };
 
   const handleCategorySave = (name: string): void => {
-    dispatch(CategoryActions.createFromTemporary({ ...edited!, name }));
-    dispatch(CategoryActions.change(edited!.id));
+    const newCategory: Category = { ...edited!, name };
+    dispatch(CategoryActions.createFromTemporary(newCategory));
+    handleCategorySelect(newCategory);
     dispatch(CategoryActions.finishEditingCategory());
   };
 
