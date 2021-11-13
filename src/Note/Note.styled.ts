@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.interface';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { getNoteSelectionStyles } from './get-note-selection-styles.util';
+import { getNoteStyles } from './get-notes-styles.util';
 
 export const NoteElement = styled.article<NoteSelectionProps>`
   display: flex;
   flex-direction: column;
   padding: 8px 12px;
-  background-color: var(--dark200);
   cursor: pointer;
+  ${ ({ isArchived }) => getNoteStyles(isArchived) }
   ${ transition('box-shadow', '0.15s') }
   ${ (props) => getNoteSelectionStyles(props) }
 `;

@@ -22,6 +22,7 @@ import { isRootCategory } from '../../utils/is-root-category.util';
 import { useHistory } from 'react-router-dom';
 import { selectIsMobile } from '../../store/selectors/ui.selectors';
 import {
+  AssignmentTurnedIn,
   BookmarkBorder as BookmarkBorderIcon,
   BookmarksOutlined as BookmarksOutlinedIcon,
   Delete as DeleteIcon,
@@ -29,8 +30,7 @@ import {
   DoneAll as DoneAllIcon,
   NoteAdd as NoteAddIcon,
 } from '@material-ui/icons';
-import { Switch } from '@material-ui/core';
-import { Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
+import { ArchivedSwitch, Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -166,9 +166,12 @@ export const ControlsBar = (): ReactElement => {
 
       <RightContainer>
         <label htmlFor="showArchived">
-          { t('SHOW_ARCHIVED') }
+          { isMobile
+            ? <AssignmentTurnedIn />
+            : t('SHOW_ARCHIVED')
+          }
         </label>
-        <Switch
+        <ArchivedSwitch
           id="showArchived"
           checked={ showArchived }
           onChange={ handleShowArchivedChange }

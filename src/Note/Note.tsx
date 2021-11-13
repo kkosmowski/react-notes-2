@@ -91,6 +91,7 @@ export const Note = ({ data, isSelected, selectionMode, onSelect, onOpen, onDele
       onClick={ handleSelect }
       onDoubleClick={ handleOpen }
       onContextMenu={ handleContextMenu }
+      isArchived={ data.archived }
       isSelected={ isSelected }
       selectionMode={ selectionMode }
       data-testid={ getTestId() }

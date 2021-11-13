@@ -207,7 +207,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.restoreNoteSuccess, (state, { payload }) => {
       const restored: NoteInterface = {
         ...payload,
-        archived: false
+        archived: false,
       };
       state.notes = state.notes.map((note) => note.id === restored.id ? restored : note);
       state.noteRestorationInProgress = false;

@@ -1,9 +1,14 @@
 import styled from 'styled-components';
+import { Switch, withStyles } from '@material-ui/core';
 
 export const Bar = styled.div`
-  display: flex;
-  align-items: center;
   background-color: var(--dark200);
+
+  &,
+  > * {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 export const LeftContainer = styled.div`
@@ -16,6 +21,20 @@ export const LeftContainer = styled.div`
   }
 `;
 
+export const ArchivedSwitch = withStyles({
+  switchBase: {
+    color: 'var(--primary200)',
+    '&$checked': {
+      color: 'var(--primary100)',
+    },
+    '&$checked + $track': {
+      backgroundColor: 'var(--primary)',
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 export const RightContainer = styled.div`
-  
+  font-size: 13.3333px;
 `;

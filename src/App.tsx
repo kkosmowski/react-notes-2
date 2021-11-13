@@ -7,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ContextMenu } from './ContextMenu/ContextMenu';
 import { debounce } from '@material-ui/core';
 import UiActions from './store/actionCreators/ui.action-creators';
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -43,6 +45,8 @@ export const App = (): ReactElement => {
 
 export const ProvidedApp = (): ReactElement => (
   <Provider store={ store }>
-    <App />
+    <ThemeProvider theme={ theme }>
+      <App />
+    </ThemeProvider>
   </Provider>
 );
