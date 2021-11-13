@@ -12,11 +12,13 @@ import { ConfirmationDialogData } from '../domain/interfaces/confirmation-dialog
 import { getConfirmationDialogData } from './get-confirmation-dialog-data.util';
 import { useTranslation } from 'react-i18next';
 import { confirmationDialogTestId } from '../domain/consts/test-ids.consts';
+import { selectSelectedNotesCount } from '../store/selectors/note.selectors';
 
 export const ConfirmationDialog = (): ReactElement => {
   const { t } = useTranslation('CONFIRMATION');
   const opened: boolean = useSelector(selectConfirmationDialogOpened);
   const action: ConfirmationAction | null = useSelector(selectConfirmationAction);
+  const selectedNotesCount: number = useSelector(selectSelectedNotesCount);
   const [data, setData] = useState<ConfirmationDialogData | null>(null);
   const dispatch = useDispatch();
   const dialogConfig: DialogConfig = {
@@ -26,8 +28,8 @@ export const ConfirmationDialog = (): ReactElement => {
   };
 
   useEffect(() => {
-    setData(getConfirmationDialogData(action));
-  }, [action, setData]);
+    setData(getConfirmationDialogData(action, selectedNotesCount));
+  }, [action, setData, selectedNotesCount]);
 
   const handleCancel = (): void => {
     dispatch(UiActions.closeConfirmationDialog({
