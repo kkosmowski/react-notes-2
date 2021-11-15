@@ -25,7 +25,7 @@ interface Props extends NoteSelectionProps {
 }
 
 export const Note = (
-  { data, isSelected, selectionMode, onSelect, onOpen, onArchive, onDelete }: Props
+  { data, isSelected, isSelectionCovered, selectionMode, onSelect, onOpen, onArchive, onDelete }: Props
 ): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -104,6 +104,7 @@ export const Note = (
       onContextMenu={ handleContextMenu }
       isArchived={ data.archived }
       isSelected={ isSelected }
+      isSelectionCovered={ isSelectionCovered }
       selectionMode={ selectionMode }
       className="note"
       data-testid={ getTestId() }
