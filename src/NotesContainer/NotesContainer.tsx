@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
-import { COLUMN_MIN_WIDTH_PX } from '../domain/consts/note-container.consts';
+import { COLUMN_MIN_WIDTH_PX, MIN_SELECTION_SIZE_PX } from '../domain/consts/note-container.consts';
 import { debounce } from '@material-ui/core';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +28,8 @@ import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
 import { useHistory, useParams } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import styled from 'styled-components/macro';
-import { Coords } from '../domain/interfaces/coords.interface';
+
+const initialSelection: SelectionValues = { left: -999, top: 0, width: 0, height: 0, startX: 0, startY: 0 };
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -45,14 +46,14 @@ export const NotesContainer = (): ReactElement => {
   const [renderedNotes, setRenderedNotes] = useState<RenderedNote[]>([]);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
   const [style, setStyle] = useState<CSSProperties>({});
-  const [selection, setSelection] = useState<SelectionValues>({ left: 0, top: 0, width: 0, height: 0});
+  const [selection, setSelection] = useState<SelectionValues>(initialSelection);
   const isMouseDown = useRef<boolean>(false);
   const containerRef = useRef<HTMLElement | null>(null);
-  const containerOffset = useRef<{ top: number; left: number }>({ top: 0, left: 0 });
   const selectionCoveredNotes = useRef<EntityUid[]>([]);
   const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
   const dispatch = useDispatch();
   const history = useHistory();
+  const selectionThreshold = 0.5;
 
   useEffect(() => {
     setTimeout(() => {
@@ -70,24 +71,33 @@ export const NotesContainer = (): ReactElement => {
   }, [notesToRender]);
 
   useEffect(() => {
-    setStyle({
-      left: selection.left + 'px',
-      top: selection.top + 'px',
-      width: selection.width + 'px',
-      height: selection.height + 'px',
-    });
-    checkIfContainsNotes();
-  }, [selection]);
+    const { left, top, width, height } = selection;
+    const isSelectionHidden = left === -999;
+    const isSelectionSizeAcceptable = width > MIN_SELECTION_SIZE_PX && height > MIN_SELECTION_SIZE_PX;
+
+    if (isSelectionHidden || isSelectionSizeAcceptable) {
+      setStyle({
+        left: left + 'px',
+        top: top + 'px',
+        width: width + 'px',
+        height: height + 'px',
+      });
+    }
+
+    if (isSelectionSizeAcceptable) {
+      checkIfContainsNotes();
+    }
+  }, [selection, setStyle]);
 
   const checkIfContainsNotes = () => {
-    const getCoords = (values: SelectionValues) => [
+    const getCoords = (uiCoords: UICoords) => [
       {
-        y: values.top,
-        x: values.left,
+        y: uiCoords.top,
+        x: uiCoords.left,
       },
       {
-        y: values.top + values.height,
-        x: values.left + values.width,
+        y: uiCoords.top + uiCoords.height,
+        x: uiCoords.left + uiCoords.width,
       },
     ];
     const [selectionStart, selectionEnd] = getCoords(selection);
@@ -95,46 +105,64 @@ export const NotesContainer = (): ReactElement => {
     selectionCoveredNotes.current = renderedNotes
       .filter((note) => {
         const [noteStart, noteEnd] = getCoords(note);
-        return (
-          selectionStart.x <= noteStart.x &&
-          selectionStart.y <= noteStart.y &&
-          selectionEnd.x >= noteEnd.x &&
-          selectionEnd.y >= noteEnd.y
-        );
+        const selectionEndsBeforeNote = selectionEnd.x <= noteStart.x || selectionEnd.y <= noteStart.y;
+        const selectionStartsAfterNote = selectionStart.x >= noteEnd.x || selectionStart.y >= noteEnd.y;
+
+        if (selectionEndsBeforeNote || selectionStartsAfterNote) {
+          return false;
+        }
+
+        const [, intersectionX1, intersectionX2] = [selectionStart.x, selectionEnd.x, noteStart.x, noteEnd.x].sort((a,b) => a > b ? 1 : -1);
+        const [, intersectionY1, intersectionY2] = [selectionStart.y, selectionEnd.y, noteStart.y, noteEnd.y].sort((a,b) => a > b ? 1 : -1);
+
+        const noteArea = note.width * note.height;
+        const intersectedArea = (intersectionX2 - intersectionX1) * (intersectionY2 - intersectionY1);
+        return intersectedArea / noteArea > selectionThreshold;
       })
-      .map(note => {
-        console.log(note);
-        return note.id
-      });
+      .map(note => note.id);
   };
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>): void => {
     isMouseDown.current = true;
 
     setSelection({
-      left: e.clientX - containerOffset.current.left,
-      top: e.clientY - containerOffset.current.top,
+      startX: e.clientX,
+      startY: e.clientY,
+      left: e.clientX,
+      top: e.clientY,
       width: 0,
       height: 0,
     });
   };
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>): void => {
-    e.preventDefault();
-    e.stopPropagation();
     if (isMouseDown.current) {
       setSelection({
         ...selection,
-        width: e.clientX - containerOffset.current.left - selection.left,
-        height: e.clientY - containerOffset.current.top - selection.top,
+        ...(e.clientX - selection.startX >= 0
+          ? { width: e.clientX - selection.left }
+          : {
+            width: Math.abs(e.clientX - selection.startX),
+            left: e.clientX,
+          }
+        ),
+        ...(e.clientY - selection.startY >= 0
+          ? { height: e.clientY - selection.top }
+          : {
+            height: Math.abs(e.clientY - selection.startY),
+            top: e.clientY,
+          }
+        ),
       });
     }
   };
 
   const handleMouseUp = (): void => {
     isMouseDown.current = false;
-    dispatch(NoteActions.selectMultipleNotes(selectionCoveredNotes.current));
-    setSelection({ left: 0, top: 0, width: 0, height: 0 });
+    if (selectionCoveredNotes.current.length) {
+      dispatch(NoteActions.selectMultipleNotes(selectionCoveredNotes.current));
+    }
+    setSelection(initialSelection);
   };
 
   useEffect(() => {
@@ -182,12 +210,13 @@ export const NotesContainer = (): ReactElement => {
           onDelete={ handleDelete }
           data={ note }
           isSelected={ !!selectedNotes[note.id] }
+          isSelectionCovered={ selectionCoveredNotes.current.includes(note.id) }
           selectionMode={ noteSelectionMode }
           key={ note.id }
         />
       ));
     setNotesToRender(_notes);
-  }, [currentCategoryNotes, selectedNotes, noteSelectionMode]);
+  }, [currentCategoryNotes, selectedNotes, selection, selectionCoveredNotes, noteSelectionMode]);
 
   const initResizeListener = (): void => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));
@@ -244,11 +273,16 @@ export const NotesContainer = (): ReactElement => {
   );
 };
 
-interface SelectionValues {
+interface UICoords {
   left: number;
   top: number;
   width: number;
   height: number;
+}
+
+interface SelectionValues extends UICoords {
+  startX: number;
+  startY: number;
 }
 
 const Selection = styled.div`
@@ -259,6 +293,6 @@ const Selection = styled.div`
   opacity: 0.3;
 `;
 
-interface RenderedNote extends SelectionValues {
+interface RenderedNote extends UICoords {
   id: EntityUid;
 }
