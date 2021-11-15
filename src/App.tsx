@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ContextMenu } from './ContextMenu/ContextMenu';
 import { debounce } from '@material-ui/core';
 import UiActions from './store/actionCreators/ui.action-creators';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components/macro';
 import theme from './theme';
 
 export const App = (): ReactElement => {

@@ -61,6 +61,11 @@ const NoteActions = {
       dispatch(noteActions.selectNote(noteId));
     };
   },
+  selectMultipleNotes(noteIds: EntityUid[]): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.selectMultipleNotes(noteIds));
+    };
+  },
   deselectNote(noteId: EntityUid): Action {
     return noteActions.deselectNote(noteId);
   },

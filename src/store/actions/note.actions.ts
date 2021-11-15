@@ -16,6 +16,7 @@ const noteActions = {
 
   toggleSelectionMode: createAction('TOGGLE_SELECTION_MODE'),
   selectNote: createAction<EntityUid>('SELECT_NOTE'),
+  selectMultipleNotes: createAction<EntityUid[]>('SELECT_MULTIPLE_NOTES'),
   deselectNote: createAction<EntityUid>('DESELECT_NOTE'),
   clearSelection: createAction<void>('CLEAR_SELECTION'),
 

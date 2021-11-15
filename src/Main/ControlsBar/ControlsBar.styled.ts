@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Switch, withStyles } from '@material-ui/core';
 
 export const Bar = styled.div`

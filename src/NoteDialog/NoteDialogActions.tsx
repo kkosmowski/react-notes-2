@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { Clear, Edit, Restore, Save } from '@material-ui/icons';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { useTranslation } from 'react-i18next';

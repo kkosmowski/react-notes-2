@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { snackbarHidingDuration } from '../domain/consts/snackbar.const';
 

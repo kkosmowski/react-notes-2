@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.interface';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { getNoteSelectionStyles } from './get-note-selection-styles.util';

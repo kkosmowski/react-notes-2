@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const AddCategoryButtonWrapper = styled.div`
   display: flex;

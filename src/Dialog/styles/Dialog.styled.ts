@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { DialogConfig } from '../../domain/interfaces/dialog-config.interface';
 
 export const DialogWrapper = styled.div`
