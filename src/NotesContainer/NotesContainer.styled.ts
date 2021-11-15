@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
-export const NotesWrapper = styled.section<{ columns: number }>`
+export const NotesWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const NotesWrapperContainer= styled.section<{ columns: number }>`
   position: relative;
   display: grid; // @todo to optional refactor into custom masonry
   grid-template-columns: repeat(${ ({ columns }) => columns }, 1fr);

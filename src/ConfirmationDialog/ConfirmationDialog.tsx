@@ -3,7 +3,7 @@ import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
 import { DialogControls } from '../Dialog/styles/Dialog.styled';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectConfirmationAction, selectConfirmationDialogOpened } from '../store/selectors/ui.selectors';

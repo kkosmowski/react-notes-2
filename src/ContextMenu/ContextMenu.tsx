@@ -1,5 +1,5 @@
 import { MouseEvent, ReactElement, ReactNode, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useDispatch, useSelector } from 'react-redux';
 import { Coords } from '../domain/interfaces/coords.interface';
 import { selectContextMenuData } from '../store/selectors/ui.selectors';

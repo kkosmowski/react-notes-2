@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { textEllipsis } from '../../styles/styled-components-utils/text-ellipsis.mixin';
 
 export const ListItem = styled.li`

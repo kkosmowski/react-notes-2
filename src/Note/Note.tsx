@@ -105,6 +105,7 @@ export const Note = (
       isArchived={ data.archived }
       isSelected={ isSelected }
       selectionMode={ selectionMode }
+      className="note"
       data-testid={ getTestId() }
     >
       <NoteTitle>{ title }</NoteTitle>

@@ -1,4 +1,4 @@
-import { css, FlattenSimpleInterpolation } from 'styled-components';
+import { css, FlattenSimpleInterpolation } from 'styled-components/macro';
 
 export const getNoteStyles = (isArchived?: boolean): FlattenSimpleInterpolation => {
   return isArchived
