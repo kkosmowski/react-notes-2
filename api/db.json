@@ -87,6 +87,76 @@
       "createdAt": "2021-11-13T16:25:47.805Z",
       "archivedAt": null,
       "updatedAt": "2021-11-13T17:23:07.843Z"
+    },
+    {
+      "title": "a note to archive",
+      "content": "hehe",
+      "categories": [
+        "24e0ecb2-f0ee-49cd-ba0d-e1c6be2968ba"
+      ],
+      "id": "c06ccd34-5ba8-4148-a01a-561800265886",
+      "archived": true,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:35:36.481Z",
+      "archivedAt": "2021-11-16T11:10:39.730Z"
+    },
+    {
+      "title": "another note to archive",
+      "content": "goodbye cruel world",
+      "categories": [],
+      "id": "53cac01c-b99f-4fff-9720-79de5d4f675b",
+      "archived": true,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:38:34.008Z",
+      "archivedAt": "2021-11-16T11:10:39.730Z"
+    },
+    {
+      "title": "archived",
+      "content": "hello death",
+      "categories": [],
+      "id": "79620359-5f81-424b-b7ae-52e16eed9a18",
+      "archived": true,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:38:53.751Z",
+      "archivedAt": "2021-11-16T11:10:37.055Z"
+    },
+    {
+      "title": "imma get archived",
+      "content": "lol",
+      "categories": [],
+      "id": "a532fd3b-6026-41b5-909f-af7740a193a2",
+      "archived": true,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:39:47.272Z",
+      "archivedAt": "2021-11-16T11:10:34.895Z"
+    },
+    {
+      "title": "archiiiiveeee meeee",
+      "content": "archiiiveeeee my bodyyyy",
+      "categories": [],
+      "id": "07db0862-1b22-47a0-9a1a-e6d33540b24b",
+      "archived": true,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:40:45.423Z",
+      "archivedAt": "2021-11-16T11:10:34.895Z"
+    },
+    {
+      "title": "test 7",
+      "content": "777",
+      "categories": [],
+      "id": "6b88b0e2-fea8-4f19-8e49-93b36a8b2d03",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:41:24.255Z"
+    },
+    {
+      "title": "note test no. 8",
+      "content": "once upon a time, hehe",
+      "categories": [],
+      "id": "acecebfe-f62a-47d0-ae93-c54e6f25d4f0",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-16T09:41:57.533Z"
     }
   ],
   "categories": [

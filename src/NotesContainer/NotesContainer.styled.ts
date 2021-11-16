@@ -20,3 +20,11 @@ export const NotesWrapperContainer= styled.section<{ columns: number }>`
 export const NoNotesText = styled.p`
   color: var(--white-61);
 `;
+
+export const Selection = styled.div`
+  position: absolute;
+  z-index: 1;
+  background: var(--primary200-60);
+  border: 1px solid var(--primary100);
+  opacity: 0.3;
+`;

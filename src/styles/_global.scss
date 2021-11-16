@@ -57,3 +57,7 @@ ul {
 p {
   letter-spacing: 0.2px;
 }
+
+::selection {
+  background-color: var(--primary200-37);
+}

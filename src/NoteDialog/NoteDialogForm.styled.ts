@@ -18,7 +18,7 @@ export const CategoriesWrapper = styled.div`
 
   > p {
     margin-bottom: 8px;
-  }
+  } 
 `;
 
 export const Categories = styled.div`
