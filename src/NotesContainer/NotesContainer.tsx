@@ -89,7 +89,7 @@ export const NotesContainer = (): ReactElement => {
   }, [notes, currentCategoryId]);
 
   useEffect(() => {
-    if (currentCategoryNotes.length && selectedNotes && selectionMode) {
+    if (selectedNotes && selectionMode) {
       const _notes: ReactElement[] = currentCategoryNotes
         .map((note) => (
           <Note
