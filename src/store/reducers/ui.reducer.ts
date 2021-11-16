@@ -57,10 +57,14 @@ const uiReducer = createReducer(initialUiState, (builder) => {
       if (payload) {
         state.snackbarQueue = state.snackbarQueue.filter((instance) => instance.id !== payload);
       } else {
-        snackbarId = state.snackbarQueue.shift()!.id;
+        const shiftedInstance = state.snackbarQueue.shift();
+        if (shiftedInstance) {
+          snackbarId = shiftedInstance.id;
+        }
       }
-      if (state.snackbarDataWasChanged.includes(snackbarId!)) {
-        state.snackbarDataWasChanged.splice(state.snackbarDataWasChanged.indexOf(snackbarId!), 1);
+
+      if (snackbarId && state.snackbarDataWasChanged.includes(snackbarId)) {
+        state.snackbarDataWasChanged.splice(state.snackbarDataWasChanged.indexOf(snackbarId), 1);
       }
     })
 

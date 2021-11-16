@@ -66,6 +66,8 @@ describe('Snackbar', () => {
       store.dispatch(NoteActions.create(note) as unknown as AnyAction);
       store.dispatch(NoteActions.deleteNote(note.id) as unknown as AnyAction);
       store.dispatch(NoteActions.restoreNote(note) as unknown as AnyAction);
+      //@todo swap delete with archive, chain the snackbars by clicking UI as user does
+      // instead of dispatching artificial actions. Also, create a separate test for delete
 
       await waitFor(() => {
         const expectedSnackbarsCount = ['created', 'deleted', 'restored'].length;
@@ -79,6 +81,7 @@ describe('Snackbar', () => {
       store.dispatch(CategoryActions.createFromTemporary(category) as unknown as AnyAction);
       store.dispatch(CategoryActions.deleteCategory(category) as unknown as AnyAction);
       store.dispatch(CategoryActions.restoreCategory(category) as unknown as AnyAction);
+      //@todo same as note (comment above)
 
       await waitFor(() => {
         const expectedSnackbarsCount = ['created', 'deleted', 'restored'].length;
