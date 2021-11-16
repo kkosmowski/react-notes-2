@@ -1,15 +1,7 @@
-import {
-  CSSProperties,
-  MouseEvent,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
+import { MouseEvent, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
-import { COLUMN_MIN_WIDTH_PX, MIN_SELECTION_SIZE_PX } from '../domain/consts/note-container.consts';
+import { COLUMN_MIN_WIDTH_PX, MAX_CLICK_DURATION_MS } from '../domain/consts/note-container.consts';
 import { debounce } from '@material-ui/core';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +10,7 @@ import { LoaderCentered } from '../domain/enums/loader-centered.enum';
 import { LoaderSize } from '../domain/enums/loader-size.enum';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
-import { NoNotesText, NotesWrapper, NotesWrapperContainer, Selection } from './NotesContainer.styled';
+import { NoNotesText, NotesWrapper, NotesWrapperContainer } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -33,11 +25,9 @@ import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
 import { useHistory, useParams } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
-import { UICoords } from '../domain/interfaces/ui-coords.interface';
 import { RenderedNote } from '../domain/interfaces/rendered-note.interface';
-import { SelectionCoords } from '../domain/interfaces/selection-coords.interface';
-
-const initialSelection: SelectionCoords = { left: -999, top: 0, width: 0, height: 0, startX: 0, startY: 0 };
+import { Selection } from './Selection';
+import { MouseAction, MouseActionPayload } from '../domain/interfaces/mouse-action.interface';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -50,19 +40,18 @@ export const NotesContainer = (): ReactElement => {
   const openedNote = useSelector(selectOpenedNote);
   const noteToOpen = useSelector(selectNoteToOpen);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
+  const [selectionCoveredNotes, setSelectionCoveredNotes] = useState<EntityUid[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[]>([]);
   const [renderedNotes, setRenderedNotes] = useState<RenderedNote[]>([]);
+  const [mouseAction, setMouseAction] = useState<MouseActionPayload | null>(null);
+  const mouseDownAt = useRef<Date | null>(null);
+  const clickDuration = useRef<number | null>(null);
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
-  const [style, setStyle] = useState<CSSProperties>({});
-  const [selection, setSelection] = useState<SelectionCoords>(initialSelection);
   const isMouseDown = useRef<boolean>(false);
-  const wasMouseDown = useRef<boolean>(false);
   const containerRef = useRef<HTMLElement | null>(null);
-  const [selectionCoveredNotes, setSelectionCoveredNotes] = useState<EntityUid[]>([]);
   const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectionThreshold = 0.5;
 
   useEffect(() => {
     dispatch(NoteActions.get());
@@ -134,80 +123,32 @@ export const NotesContainer = (): ReactElement => {
     }
   }, [notes, notesToRender]);
 
-  useEffect(() => {
-    const isAcceptable = isSelectionSizeAcceptable();
+  const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
+    clickDuration.current = new Date().getTime() - mouseDownAt.current!.getTime();
+    mouseDownAt.current = null;
 
-    if (isSelectionHidden() || isAcceptable) {
-      setStyle({
-        left: selection.left + 'px',
-        top: selection.top + 'px',
-        width: selection.width + 'px',
-        height: selection.height + 'px',
-      });
-    }
-
-    if (isAcceptable) {
-      checkIfContainsNotes();
-    }
-  }, [selection, setStyle]);
-
-  const isSelectionSizeAcceptable = useCallback(() =>
-    selection.width > MIN_SELECTION_SIZE_PX && selection.height > MIN_SELECTION_SIZE_PX,
-  [selection]);
-
-  const isSelectionHidden = useCallback(() => selection.left === -999, [selection]);
-
-  const checkIfContainsNotes = () => {
-    const getCoords = (uiCoords: UICoords) => [
-      {
-        y: uiCoords.top,
-        x: uiCoords.left,
-      },
-      {
-        y: uiCoords.top + uiCoords.height,
-        x: uiCoords.left + uiCoords.width,
-      },
-    ];
-    const [selectionStart, selectionEnd] = getCoords(selection);
-
-    setSelectionCoveredNotes(renderedNotes
-      .filter((note) => {
-        const [noteStart, noteEnd] = getCoords(note);
-        const selectionEndsBeforeNote = selectionEnd.x <= noteStart.x || selectionEnd.y <= noteStart.y;
-        const selectionStartsAfterNote = selectionStart.x >= noteEnd.x || selectionStart.y >= noteEnd.y;
-
-        if (selectionEndsBeforeNote || selectionStartsAfterNote) {
-          return false;
-        }
-
-        const [, intersectionX1, intersectionX2] = [selectionStart.x, selectionEnd.x, noteStart.x, noteEnd.x].sort((a,b) => a > b ? 1 : -1);
-        const [, intersectionY1, intersectionY2] = [selectionStart.y, selectionEnd.y, noteStart.y, noteEnd.y].sort((a,b) => a > b ? 1 : -1);
-
-        const noteArea = note.width * note.height;
-        const intersectedArea = (intersectionX2 - intersectionX1) * (intersectionY2 - intersectionY1);
-        return intersectedArea / noteArea > selectionThreshold;
-      })
-      .map(note => note.id)
-    );
+    isMouseDown.current = false;
+    setMouseAction({ action: MouseAction.Up, event });
+  };
+  const handleMouseMove = (event: MouseEvent<HTMLDivElement>): void => {
+    setMouseAction({ action: MouseAction.Move, event });
+  };
+  const handleMouseDown = (event: MouseEvent<HTMLDivElement>): void => {
+    clickDuration.current = null;
+    mouseDownAt.current = new Date();
+    setMouseAction({ action: MouseAction.Down, event });
+    isMouseDown.current = true;
   };
 
-  const handleMouseUp = (e: MouseEvent<HTMLDivElement>): void => {
-    e.stopPropagation();
-    isMouseDown.current = false;
-    if (selectionCoveredNotes.length) {
-      dispatch(NoteActions.selectMultipleNotes(selectionCoveredNotes));
-    }
-    setSelectionCoveredNotes([]);
-    setSelection(initialSelection);
-
-    setTimeout(() => {
-      wasMouseDown.current = false;
-    });
+  const handleSelectionCoverageChange = (noteIds: EntityUid[]) => {
+    setSelectionCoveredNotes(noteIds);
   };
 
   const initResizeListener = (): void => {
     window.addEventListener('resize', debounce(calculateNumberOfColumns, 100));
   };
+
+  const wasAClick = (): boolean => clickDuration.current !== null && clickDuration.current <= MAX_CLICK_DURATION_MS;
 
   const calculateNumberOfColumns = useCallback((): void => {
     const containerWidth: number = containerRef.current!.clientWidth;
@@ -215,46 +156,10 @@ export const NotesContainer = (): ReactElement => {
     setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
   }, [setNumberOfColumns, containerRef, notes, COLUMN_MIN_WIDTH_PX]);
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>): void => {
-    isMouseDown.current = true;
-    wasMouseDown.current = true; // @todo: try to find a better way
-
-    setSelection({
-      startX: e.clientX,
-      startY: e.clientY,
-      left: e.clientX,
-      top: e.clientY,
-      width: 0,
-      height: 0,
-    });
-  };
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>): void => {
-    if (isMouseDown.current) {
-      setSelection({
-        ...selection,
-        ...(e.clientX - selection.startX >= 0
-          ? { width: e.clientX - selection.left }
-          : {
-            width: Math.abs(e.clientX - selection.startX),
-            left: e.clientX,
-          }
-        ),
-        ...(e.clientY - selection.startY >= 0
-          ? { height: e.clientY - selection.top }
-          : {
-            height: Math.abs(e.clientY - selection.startY),
-            top: e.clientY,
-          }
-        ),
-      });
-    }
-  };
-
   const handleNoteSelect = (noteId: EntityUid): void => {
     if (!selectedNotes[noteId]) {
       dispatch(NoteActions.selectNote(noteId));
-    } else if (selectionMode === NoteSelectionMode.Multi && !wasMouseDown.current) {
+    } else if (selectionMode === NoteSelectionMode.Multi && wasAClick()) {
       dispatch(NoteActions.deselectNote(noteId));
     }
   };
@@ -283,13 +188,16 @@ export const NotesContainer = (): ReactElement => {
       onMouseMove={ handleMouseMove }
       onMouseUp={ handleMouseUp }
     >
-      <Selection style={ style } />
+      <Selection
+        renderedNotes={ renderedNotes }
+        mouseAction={ mouseAction }
+        selectionCoveredNotes={ selectionCoveredNotes }
+        onSelectionCoverageChange={ handleSelectionCoverageChange }
+      />
       <NotesWrapperContainer ref={ containerRef } columns={ numberOfColumns }>
         { notesLoading
           ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } size={ LoaderSize.Medium } />
-          : notesToRender.length
-            ? notesToRender
-            : noNotesText
+          : notesToRender.length ? notesToRender : noNotesText
         }
       </NotesWrapperContainer>
     </NotesWrapper>
