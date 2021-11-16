@@ -11,6 +11,7 @@ import { RootState } from '../interfaces/root-state.interface';
 import { RemoveFromCategoryPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategoryPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
+import UiActions from './ui.action-creators';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -114,6 +115,7 @@ const NoteActions = {
           dispatch(noteActions.deleteNoteSuccess(note));
           HistoryActions.push(noteActions.deleteNoteSuccess(note))(dispatch);
           dispatch(NoteActions.clearSelection());
+          dispatch(UiActions.checkIfSnackbarInformsAboutThis(note.id));
         })
         .catch(error => {
           console.error(error);

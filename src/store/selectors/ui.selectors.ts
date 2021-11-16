@@ -39,3 +39,7 @@ export const selectContextMenuData = createSelector(
 export const selectIsMobile = createSelector(
   uiSelector, (ui: UiState) => ui.isMobile
 );
+
+export const selectSnackbarDataWasChanged = createSelector(
+  uiSelector, (ui: UiState) => ui.snackbarDataWasChanged
+);

@@ -23,6 +23,8 @@ const uiActions = {
   hideContextMenu: createAction<void>('HIDE_CONTEXT_MENU'),
 
   setIsMobile: createAction<boolean>('SET_IS_MOBILE'),
+
+  checkIfSnackbarInformsAboutThis: createAction<EntityUid>('CHECK_IF_SNACKBAR_INFORMS_ABOUT_THIS'),
 };
 
 export default uiActions;

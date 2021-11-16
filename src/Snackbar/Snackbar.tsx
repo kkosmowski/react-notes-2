@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SnackbarTimeIndicator } from './SnackbarTimeIndicator';
 import {
   SnackbarActions,
@@ -23,6 +23,7 @@ import UiActions from '../store/actionCreators/ui.action-creators';
 import { snackbarCloseButtonTestId, snackbarTestId } from '../domain/consts/test-ids.consts';
 import HistoryActions from '../store/actionCreators/history.action-creators';
 import { EntityUid } from '../domain/types/entity-uid.type';
+import { selectSnackbarDataWasChanged } from '../store/selectors/ui.selectors';
 
 interface Props {
   id: EntityUid;
@@ -37,6 +38,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   const [translation, setTranslation] = useState<TranslationData>({ message: '' });
   const [undoButtonVisible, setUndoButtonVisible] = useState<boolean>(false);
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
+  const snackbarIdsToDisableUndoButton: EntityUid[] = useSelector(selectSnackbarDataWasChanged);
   const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
@@ -44,6 +46,12 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
     setUndoButtonVisible(details.reversible);
     setSnackbarMessage();
   }, []);
+
+  useEffect(() => {
+    if (snackbarIdsToDisableUndoButton.includes(id)) {
+      setUndoButtonDisabled(true);
+    }
+  }, [snackbarIdsToDisableUndoButton]);
 
   const setSnackbarTimeout = (): void => {
     timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration + snackbarHidingDuration);

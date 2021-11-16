@@ -59,6 +59,10 @@ const UiActions = {
   setIsMobile(isMobile: boolean): Action {
     return uiActions.setIsMobile(isMobile);
   },
+
+  checkIfSnackbarInformsAboutThis(dataId: EntityUid): Action {
+    return uiActions.checkIfSnackbarInformsAboutThis(dataId);
+  },
 };
 
 export default UiActions;
