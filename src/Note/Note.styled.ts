@@ -12,6 +12,7 @@ export const NoteElement = styled.article<NoteSelectionProps>`
   ${ ({ isArchived }) => getNoteStyles(isArchived) }
   ${ transition('box-shadow', '0.15s') }
   ${ (props) => getNoteSelectionStyles(props) }
+  user-select: none;
 `;
 
 export const NoteTitle = styled.h3`

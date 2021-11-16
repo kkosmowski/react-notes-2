@@ -13,6 +13,7 @@
   color: var(--white-77);
   cursor: pointer;
   border: 0;
+  user-select: none;
 
   &:disabled {
     cursor: not-allowed;
