@@ -13,6 +13,7 @@ export interface UiState {
   sidebarOpened: boolean;
   snackbarVisible: boolean;
   snackbarQueue: SnackbarInstance[];
+  snackbarDataWasChanged: EntityUid[];
   contextMenuData: ContextMenuData | null;
   isMobile: boolean;
 }
