@@ -32,6 +32,7 @@ export const pl: typeof en = {
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',
     CATEGORY_NAME_PLACEHOLDER: 'Nazwa kategorii...',
+    SETTINGS: 'Ustawienia',
   },
   NOTE_DIALOG: {
     EDIT_NOTE: 'Edytuj notatkę',

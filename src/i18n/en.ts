@@ -30,6 +30,7 @@ export const en = {
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',
     CATEGORY_NAME_PLACEHOLDER: 'Category name...',
+    SETTINGS: 'Settings',
   },
   NOTE_DIALOG: {
     EDIT_NOTE: 'Edit note',

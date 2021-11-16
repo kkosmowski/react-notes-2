@@ -1,10 +1,10 @@
 import styled from 'styled-components/macro';
 
-export const AddCategoryButtonWrapper = styled.div`
+export const SidebarButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   white-space: nowrap;
-  padding-bottom: 16px;
+  padding: 16px 0;
 `;
 
 export const StyledButton = styled.button`

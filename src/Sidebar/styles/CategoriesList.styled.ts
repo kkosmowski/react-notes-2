@@ -4,6 +4,7 @@ export const CategoriesListWrapper = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex: 1;
   line-height: 1;
   overflow: hidden;
 `;

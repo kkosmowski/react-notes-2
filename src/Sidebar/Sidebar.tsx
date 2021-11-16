@@ -1,11 +1,15 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
-import { AddCategoryButton } from './AddCategoryButton';
+import { SidebarButton } from './SidebarButton';
 import { CategoriesList } from './CategoriesList';
 import { SidebarWrapper } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
+import { Button } from '../Button/Button';
+import { Variant } from '../domain/enums/variant.enum';
+import { CreateNewFolder, Settings as SettingsIcon } from '@material-ui/icons';
+import { Color } from '../domain/enums/color.enum';
 
 export const Sidebar = (): ReactElement => {
   const opened: boolean = useSelector(selectSidebarOpened);
@@ -39,14 +43,32 @@ export const Sidebar = (): ReactElement => {
     dispatch(UiActions.openSidebar());
   };
 
+  const handleSettingsClick = (): void => {
+    //
+  }
+
   return (
     <>
       <SidebarWrapper
         onClick={ handleSidebarClick }
         className={ className }
       >
-        <AddCategoryButton onClick={ handleCategoryAdd } />
+        <SidebarButton
+          onClick={ handleCategoryAdd }
+          color={ Color.Primary }
+          label="ADD_CATEGORY"
+        >
+          <CreateNewFolder />
+        </SidebarButton>
+
         <CategoriesList add={ addCategory } />
+
+        <SidebarButton
+          onClick={ handleSettingsClick }
+          label="SETTINGS"
+        >
+          <SettingsIcon />
+        </SidebarButton>
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
     </>

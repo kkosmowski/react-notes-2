@@ -6,7 +6,6 @@ export const SidebarWrapper = styled.aside`
   z-index: 100;
   display: flex;
   flex-direction: column;
-  padding: 16px 0;
   width: var(--sidebar-width);
   height: 100%;
   background-color: var(--dark200);
