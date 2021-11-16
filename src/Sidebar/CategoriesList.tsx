@@ -163,6 +163,10 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
 
   const deleteCategory = (category: Category): void => {
     dispatch(CategoryActions.deleteCategory(category));
+
+    if (category.id === currentCategoryId) {
+      dispatch(CategoryActions.change(rootCategory.id));
+    }
   };
 
   return (
