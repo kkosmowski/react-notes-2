@@ -100,6 +100,7 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const deleteNote = (): void => {
+    dispatch(UiActions.clearConfirmationDialogData());
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
     } else {
