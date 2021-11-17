@@ -91,6 +91,7 @@ export const CategoryListItem = (
 
   const handleEditModeToggle = (e?: MouseEvent): void => {
     e && e.stopPropagation();
+    dispatch(UiActions.openSidebar());
     setName(data.name);
     setEditMode(!editMode);
   };

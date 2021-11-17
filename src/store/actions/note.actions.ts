@@ -12,7 +12,7 @@ const noteActions = {
 
   createNote: createAction<void>('CREATE_NOTE'),
   createNoteSuccess: createAction<NoteInterface>('CREATE_NOTE_SUCCESS'),
-  createNoteFail: createAction<void>('CREATE_NOTES_FAIL'),
+  createNoteFail: createAction<void>('CREATE_NOTE_FAIL'),
 
   toggleSelectionMode: createAction('TOGGLE_SELECTION_MODE'),
   selectNote: createAction<EntityUid>('SELECT_NOTE'),

@@ -14,7 +14,6 @@ const StyledH2 = styled.h2`
   position: relative;
   margin: 0;
   font-size: 24px;
-  font-weight: 300;
   color: var(--white-82);
 
   &::after {

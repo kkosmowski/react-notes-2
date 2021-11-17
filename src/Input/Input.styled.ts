@@ -1,13 +1,8 @@
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const Label = styled.label`
-  margin-bottom: 4px;
-  color: var(--white-64);
 `;
 
 export const InputWrapper = styled.div`
@@ -15,7 +10,7 @@ export const InputWrapper = styled.div`
   flex-direction: column;
 `;
 
-const InputStyles = `
+export const InputStyles = css`
   padding: 8px 24px;
   font: inherit;
   background-color: var(--white-4);
@@ -44,7 +39,7 @@ const InputStyles = `
   }
 `;
 
-export const Input = styled.input`${ InputStyles }`;
+export const StyledInput = styled.input`${ InputStyles }`;
 
 export const TextArea = styled.textarea`
   ${ InputStyles };

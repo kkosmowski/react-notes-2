@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { SidebarButton } from './SidebarButton';
 import { CategoriesList } from './CategoriesList';
@@ -6,10 +6,10 @@ import { SidebarWrapper } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
-import { Button } from '../Button/Button';
-import { Variant } from '../domain/enums/variant.enum';
 import { CreateNewFolder, Settings as SettingsIcon } from '@material-ui/icons';
 import { Color } from '../domain/enums/color.enum';
+import { useHistory } from 'react-router-dom';
+import SettingsActions from '../store/actionCreators/settings.action-creators';
 
 export const Sidebar = (): ReactElement => {
   const opened: boolean = useSelector(selectSidebarOpened);
@@ -17,6 +17,7 @@ export const Sidebar = (): ReactElement => {
   const [className, setClassName] = useState<string>('');
   const [addCategory, setAddCategory] = useState<void[]>([]); // @todo temporary hack
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     const classNameArray: string[] = [];
@@ -43,9 +44,18 @@ export const Sidebar = (): ReactElement => {
     dispatch(UiActions.openSidebar());
   };
 
-  const handleSettingsClick = (): void => {
-    //
-  }
+  const handleSettingsClick = (e: MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+
+    dispatch(SettingsActions.openSettings());
+
+    history.push({
+      pathname: '/settings',
+      state: {
+        previous: history.location.pathname
+      }
+    });
+  };
 
   return (
     <>
@@ -65,7 +75,7 @@ export const Sidebar = (): ReactElement => {
 
         <SidebarButton
           onClick={ handleSettingsClick }
-          label="SETTINGS"
+          label="COMMON:SETTINGS"
         >
           <SettingsIcon />
         </SidebarButton>

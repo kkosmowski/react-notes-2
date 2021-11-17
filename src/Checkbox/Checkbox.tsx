@@ -5,7 +5,7 @@ export const CheckboxLabel = styled.label`
   align-items: center;
 
   > input[type="checkbox"] {
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 `;
 

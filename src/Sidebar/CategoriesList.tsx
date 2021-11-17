@@ -125,9 +125,11 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const handleCategorySelect = (category: Category): void => {
     if (currentCategoryId !== category.id) {
       dispatch(CategoryActions.change(category.id));
+
       const pathname: string = isRootCategory(category.id)
         ? '/'
         : `/category/${ category.id }`;
+
       history.push({
         pathname,
         state: {

@@ -37,9 +37,9 @@ export const SnackbarMessage = styled.p`
 export const SnackbarActions = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   > .button:not(:last-child) {
-    margin-right: 4px;
+    margin-inline-end: 4px;
   }
 `;

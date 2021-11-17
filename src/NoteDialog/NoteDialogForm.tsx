@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactElement, useEffect, useRef, useState } from 'react';
-import { InputWithLabel } from '../InputWithLabel/InputWithLabel';
+import { Input } from '../Input/Input';
 import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.interface';
 import { Category } from '../domain/interfaces/category.interface';
 import { useTranslation } from 'react-i18next';
@@ -114,7 +114,7 @@ export const NoteDialogForm = (
 
   return (
     <FormWrapper>
-      <InputWithLabel
+      <Input
         id="title"
         onChange={ handleChange }
         onDoubleClick={ handleEditModeChange }
@@ -125,7 +125,7 @@ export const NoteDialogForm = (
         testid={ noteDialogTitleInputTestId }
       />
 
-      <InputWithLabel
+      <Input
         id="content"
         onChange={ handleChange }
         onDoubleClick={ handleEditModeChange }

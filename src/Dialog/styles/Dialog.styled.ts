@@ -43,6 +43,6 @@ export const DialogControls = styled.div`
   align-items: center;
 
   button + button {
-    margin-left: 8px;
+    margin-inline-start: 8px;
   }
 `;

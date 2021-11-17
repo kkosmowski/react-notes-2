@@ -16,6 +16,7 @@ export const pl: typeof en = {
     NO_NOTES: 'Brak notatek do wyświetlenia.',
     ARCHIVE: 'Zarchiwizuj',
     RESTORE: 'Przywróć',
+    SETTINGS: 'Ustawienia',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
@@ -32,7 +33,6 @@ export const pl: typeof en = {
   SIDEBAR: {
     ADD_CATEGORY: 'Dodaj kategorię',
     CATEGORY_NAME_PLACEHOLDER: 'Nazwa kategorii...',
-    SETTINGS: 'Ustawienia',
   },
   NOTE_DIALOG: {
     EDIT_NOTE: 'Edytuj notatkę',
@@ -81,5 +81,29 @@ export const pl: typeof en = {
     NOTE_RESTORED_TO_CATEGORY: 'Notatka "{{ name }}" przywrócona do kategorii',
     NOTES_REMOVED_FROM_CATEGORY: 'Wiele notatek usuniętych z kategorii',
     NOTES_RESTORED_TO_CATEGORY: 'Wiele notatek przywróconych do kategorii',
+  },
+  SETTINGS: {
+    GO_BACK: 'Cofnij',
+    THEME: 'Motyw',
+    CURRENT_THEME: 'Obecny motyw to',
+    CHANGE_THEME: 'Zmień motyw',
+    DIRECTION: 'Kierunek tekstu',
+    CURRENT_DIRECTION: 'Obecny kierunek to',
+    CHANGE_DIRECTION: 'Zmień kierunek tekstu',
+    LANGUAGE: 'Język',
+    CURRENT_LANGUAGE: 'Obecny język to',
+    CHANGE_LANGUAGE: 'Zmień język',
+    SNACKBAR_DURATION: 'Czas trwania snackbara',
+    CURRENT_SNACKBAR_DURATION: 'Obecny czas trwania to',
+    CHANGE_SNACKBAR_DURATION: 'Zmień czas trwania',
+    THEME_DARK: 'Ciemny',
+    THEME_LIGHT: 'Jasny',
+    DIRECTION_LTR: 'Od lewej do prawej',
+    DIRECTION_RTL: 'Od prawej do lewej',
+    SECOND: 'sekunda',
+    SECONDS: 'sekund',
+    SECONDS2: 'sekundy',
+    DURATION_TOO_SMALL: 'Minimalny czas trwania to {{ min }} ms',
+    DURATION_TOO_LARGE: 'Maksymalny czas trwania to {{ max }} ms',
   }
 };

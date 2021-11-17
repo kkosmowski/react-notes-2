@@ -18,12 +18,13 @@ import { ActionDetails } from '../domain/interfaces/action-details.interface';
 import { Button } from '../Button/Button';
 import { Variant } from '../domain/enums/variant.enum';
 import { Color } from '../domain/enums/color.enum';
-import { snackbarDuration, snackbarHidingDuration } from '../domain/consts/snackbar.const';
+import { snackbarHidingDuration } from '../domain/consts/snackbar.const';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { snackbarCloseButtonTestId, snackbarTestId } from '../domain/consts/test-ids.consts';
 import HistoryActions from '../store/actionCreators/history.action-creators';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { selectSnackbarDataWasChanged } from '../store/selectors/ui.selectors';
+import { selectSnackbarDuration } from '../store/selectors/settings.selectors';
 
 interface Props {
   id: EntityUid;
@@ -39,9 +40,11 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   const [undoButtonVisible, setUndoButtonVisible] = useState<boolean>(false);
   const [undoButtonDisabled, setUndoButtonDisabled] = useState<boolean>(false);
   const snackbarIdsToDisableUndoButton: EntityUid[] = useSelector(selectSnackbarDataWasChanged);
+  const snackbarDuration = useSelector(selectSnackbarDuration);
   const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
+    console.log(snackbarDuration);
     setSnackbarTimeout();
     setUndoButtonVisible(details.reversible);
     setSnackbarMessage();

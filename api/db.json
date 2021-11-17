@@ -185,5 +185,11 @@
       "name": "empty category",
       "deleted": false
     }
-  ]
+  ],
+  "settings": {
+    "theme": "dark",
+    "direction": "ltr",
+    "language": "en",
+    "snackbarDuration": 5000
+  }
 }

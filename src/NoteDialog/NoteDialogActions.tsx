@@ -64,7 +64,7 @@ export const NoteDialogActions = (
 };
 
 const StyledAside = styled.aside`
-  padding-left: 16px;
+  padding-inline-start: 16px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 4px;

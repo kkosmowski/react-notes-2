@@ -16,7 +16,7 @@ export const LeftContainer = styled.div`
   padding: 8px var(--wrapper-horizontal-padding) 0;
 
   > .button {
-    margin-right: 8px;
+    margin-inline-end: 8px;
     margin-bottom: 8px;
   }
 `;
