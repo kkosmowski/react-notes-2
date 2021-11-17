@@ -17,6 +17,11 @@
   }
 }
 
+body {
+  &.ltr { direction: ltr; }
+  &.rtl { direction: rtl; }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }

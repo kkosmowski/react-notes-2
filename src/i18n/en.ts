@@ -14,6 +14,7 @@ export const en = {
     NO_NOTES: 'No notes to display.',
     ARCHIVE: 'Archive',
     RESTORE: 'Restore',
+    SETTINGS: 'Settings',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
@@ -30,7 +31,6 @@ export const en = {
   SIDEBAR: {
     ADD_CATEGORY: 'Add a category',
     CATEGORY_NAME_PLACEHOLDER: 'Category name...',
-    SETTINGS: 'Settings',
   },
   NOTE_DIALOG: {
     EDIT_NOTE: 'Edit note',
@@ -79,5 +79,29 @@ export const en = {
     NOTE_RESTORED_TO_CATEGORY: 'Note "{{ name }}" restored to category',
     NOTES_REMOVED_FROM_CATEGORY: 'Multiple notes removed from category',
     NOTES_RESTORED_TO_CATEGORY: 'Multiple notes restored to category',
+  },
+  SETTINGS: {
+    GO_BACK: 'Go back',
+    THEME: 'Theme',
+    CURRENT_THEME: 'Current theme is',
+    CHANGE_THEME: 'Change theme',
+    DIRECTION: 'Direction',
+    CURRENT_DIRECTION: 'Current direction is',
+    CHANGE_DIRECTION: 'Change direction',
+    LANGUAGE: 'Language',
+    CURRENT_LANGUAGE: 'Current language is',
+    CHANGE_LANGUAGE: 'Change language',
+    SNACKBAR_DURATION: 'Snackbar duration',
+    CURRENT_SNACKBAR_DURATION: 'Current duration is',
+    CHANGE_SNACKBAR_DURATION: 'Change duration',
+    THEME_DARK: 'Dark',
+    THEME_LIGHT: 'Light',
+    DIRECTION_LTR: 'Left to right',
+    DIRECTION_RTL: 'Right to left',
+    SECOND: 'second',
+    SECONDS: 'seconds',
+    SECONDS2: 'seconds',
+    DURATION_TOO_SMALL: 'Minimum duration time is {{ min }} ms',
+    DURATION_TOO_LARGE: 'Maximum duration time is {{ max }} ms',
   }
 };

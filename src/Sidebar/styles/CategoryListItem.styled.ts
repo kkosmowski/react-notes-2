@@ -5,11 +5,13 @@ export const ListItem = styled.li`
   display: flex;
   align-items: center;
   white-space: nowrap;
-  padding: 3px 4px 3px calc((var(--sidebar-width) - var(--icon-size)) / 2);
+  padding: 3px 0;
   height: 52px;
   cursor: pointer;
   border-bottom: 1px solid var(--white-7);
   flex-shrink: 0;
+  padding-inline-start: calc((var(--sidebar-width) - var(--icon-size)) / 2);
+  padding-inline-end: 4px;
 
   > span {
     flex: 1;
@@ -26,7 +28,7 @@ export const ListItem = styled.li`
   }
 
   > .icon {
-    margin-right: calc((var(--sidebar-width) - var(--icon-size)) / 2);
+    margin-inline-end: calc((var(--sidebar-width) - var(--icon-size)) / 2);
 
     &.--current {
       color: var(--primary);
@@ -39,8 +41,8 @@ export const ListItem = styled.li`
   }
 
   > .category-name {
-    margin-left: -8px;
-    margin-right: 2px;
+    margin-inline-start: -8px;
+    margin-inline-end: 2px;
   }
 
   @media (min-width: 600px) {

@@ -8,7 +8,7 @@ export const MainWrapper = styled.main`
   background-color: var(--dark300);
   padding: 16px 0;
   color: var(--white);
-  margin-left: var(--sidebar-width);
+  margin-inline-start: var(--sidebar-width);
 `;
 
 export const CategoryTitle = styled.h1`

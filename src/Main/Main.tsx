@@ -15,6 +15,9 @@ import { Route, Switch } from 'react-router-dom';
 import { CategoryTitle, MainWrapper } from './Main.styled';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { categoryTitleTestId } from '../domain/consts/test-ids.consts';
+import { Settings } from '../Settings/Settings';
+import { selectSettingsOpened } from '../store/selectors/settings.selectors';
+import { useTranslation } from 'react-i18next';
 
 const AppRoutes = (): ReactElement => {
   const app: ReactElement = (
@@ -38,6 +41,10 @@ const AppRoutes = (): ReactElement => {
         { app }
       </Route>
 
+      <Route path="/settings">
+        <Settings />
+      </Route>
+
       <Route path="/">
         { app }
       </Route>
@@ -51,7 +58,9 @@ export const Main = (): ReactElement => {
   const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
+  const settingsOpened: boolean = useSelector(selectSettingsOpened);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);
@@ -76,7 +85,11 @@ export const Main = (): ReactElement => {
       onClick={ handleOnWrapperClick }
       onDoubleClick={ handleOnWrapperDoubleClick }
     >
-      <CategoryTitle data-testid={ categoryTitleTestId }>{ activeCategory?.name || rootCategory.name }</CategoryTitle>
+      <CategoryTitle data-testid={ categoryTitleTestId }>
+        { settingsOpened
+          ? t('SETTINGS')
+          : activeCategory?.name || rootCategory.name
+        }</CategoryTitle>
       <AppRoutes />
 
       <ConfirmationDialog />

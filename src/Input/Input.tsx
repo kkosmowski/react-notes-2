@@ -1,22 +1,35 @@
-import { ChangeEvent, ReactElement, useRef } from 'react';
+import { ChangeEvent, CSSProperties, ReactElement, useRef } from 'react';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
-import { Input, InputWrapper, Label, TextArea, Wrapper } from './InputWithLabel.styled';
+import { StyledInput, InputWrapper, TextArea, Wrapper } from './Input.styled';
+import { Label } from '../Label/Label';
 
 interface Props {
   id: string;
-  label: string;
+  label?: string;
   value: any;
-  type?: 'text' | 'textarea';
+  type?: 'text' | 'number' | 'textarea';
   disabled?: boolean;
   required?: boolean;
   testid?: string;
   onChange: (event: ChangeEvent<InputOrTextarea>) => void;
-  onDoubleClick: (id: string) => void;
+  onDoubleClick?: (id: string) => void;
+  placeholder?: string;
+  style?: CSSProperties;
 }
 
-export const InputWithLabel = (
-  { id, label, value, type, disabled, required, testid, onChange, onDoubleClick }: Props
-): ReactElement => {
+export const Input = ({
+  id,
+  label,
+  value,
+  type,
+  disabled,
+  required,
+  testid,
+  style,
+  onChange,
+  onDoubleClick,
+  placeholder
+}: Props): ReactElement => {
   const touched = useRef<boolean>(false);
 
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
@@ -25,14 +38,12 @@ export const InputWithLabel = (
   };
 
   const handleDoubleClick = (): void => {
-    if (disabled) {
-      onDoubleClick(id);
-    }
+    onDoubleClick && onDoubleClick(id);
   };
 
   return (
     <Wrapper>
-      <Label>{ label }</Label>
+      { label && <Label>{ label }</Label> }
       <InputWrapper onDoubleClick={ handleDoubleClick }>
         { type === 'textarea'
           ? <TextArea
@@ -42,16 +53,20 @@ export const InputWithLabel = (
             value={ value }
             disabled={ disabled }
             required={ required }
+            placeholder={ placeholder }
+            style={ style }
             data-testid={ testid }
           />
-          : <Input
+          : <StyledInput
             onChange={ handleChange }
             className={ touched.current ? '--touched' : '' }
-            type="text"
+            type={ type }
             id={ id }
             value={ value }
             disabled={ disabled }
             required={ required }
+            placeholder={ placeholder }
+            style={ style }
             data-testid={ testid }
           />
         }
