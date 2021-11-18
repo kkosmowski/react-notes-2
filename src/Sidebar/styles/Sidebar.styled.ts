@@ -11,6 +11,7 @@ export const SidebarWrapper = styled.aside`
   background-color: var(--dark200);
   color: var(--white-82);
   overflow: hidden;
+  cursor: pointer;
 
   ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
   
@@ -33,6 +34,14 @@ export const SidebarWrapper = styled.aside`
     opacity: 0;
     pointer-events: none;
     ${ transition('opacity', '0.25s') }
+  }
+
+  &.--hoverable:hover {
+    transition-delay: 0.4s;
+
+    + .sidebar-backdrop {
+      transition-delay: 0.3s;
+    }
   }
   
   @media (min-width: 600px) {

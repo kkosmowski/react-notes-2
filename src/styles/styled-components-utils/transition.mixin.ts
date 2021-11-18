@@ -34,7 +34,7 @@ export const transition = (
     willChangeValue = willChangeValues.join(', ');
 
   } else {
-    transitionValue = `${ property } ${ time } ${ timingFn }`;
+    transitionValue = `${ time } ${ property } ${ delay } ${ timingFn }`;
     willChangeValue = property;
   }
 
