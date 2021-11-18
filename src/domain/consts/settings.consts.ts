@@ -12,16 +12,16 @@ export const defaultSettings: SettingsModel = {
 };
 
 export const themes: SelectOption[] = [
-  { label: 'SETTINGS:THEME_DARK', value: 'dark', translate: true, },
-  // { label: 'SETTINGS:THEME_LIGHT', value: 'light', translate: true, },
+  { label: 'SETTINGS:THEME_DARK', value: Theme.Dark, translate: true, },
+  // { label: 'SETTINGS:THEME_LIGHT', value: Theme.Light, translate: true, },
 ];
 export const directions: SelectOption[] = [
   { label: 'SETTINGS:DIRECTION_LTR', value: 'ltr', translate: true, },
   { label: 'SETTINGS:DIRECTION_RTL', value: 'rtl', translate: true, },
 ];
 export const languages: SelectOption[] = [
-  { label: 'English', value: 'en' },
-  { label: 'Polski', value: 'pl' },
+  { label: 'English', value: Language.EN },
+  { label: 'Polski', value: Language.PL },
 ];
 
 export const MIN_SNACKBAR_DURATION = 2000;
