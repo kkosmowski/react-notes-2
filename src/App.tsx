@@ -11,6 +11,7 @@ import { ThemeProvider } from 'styled-components/macro';
 import theme from './theme';
 import SettingsActions from './store/actionCreators/settings.action-creators';
 import { selectDirection, selectLanguage, selectTheme } from './store/selectors/settings.selectors';
+import i18n from './i18n';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -28,6 +29,10 @@ export const App = (): ReactElement => {
       window.removeEventListener('resize', debounce(checkIfMobile, 100));
     };
   }, []);
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
 
   useEffect(() => {
     document.body.className = `${ theme } ${ direction } ${ language }`;
