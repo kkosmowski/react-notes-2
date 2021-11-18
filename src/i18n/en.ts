@@ -104,7 +104,8 @@ export const en = {
     THEME: {
       DARK_GREEN: 'Dark green',
       DARK_BLUE: 'Dark blue',
-      LIGHT: 'Light',
+      LIGHT_RED: 'Light red',
+      LIGHT_PURPLE: 'Light purple',
     }
   }
 };

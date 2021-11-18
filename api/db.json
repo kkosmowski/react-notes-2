@@ -157,6 +157,15 @@
       "archived": false,
       "deleted": false,
       "createdAt": "2021-11-16T09:41:57.533Z"
+    },
+    {
+      "title": "asdasd",
+      "content": "asdasd",
+      "categories": [],
+      "id": "b7ab2579-f4a2-467b-8995-2b83433fd5b0",
+      "archived": false,
+      "deleted": false,
+      "createdAt": "2021-11-18T18:44:57.495Z"
     }
   ],
   "categories": [
@@ -187,7 +196,7 @@
     }
   ],
   "settings": {
-    "theme": "darkblue",
+    "theme": "lightpurple",
     "direction": "ltr",
     "language": "en",
     "snackbarDuration": 20000

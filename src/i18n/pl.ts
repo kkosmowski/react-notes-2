@@ -105,8 +105,9 @@ export const pl: typeof en = {
     DURATION_TOO_LARGE: 'Maksymalny czas trwania to {{ max }} ms',
     THEME: {
       DARK_GREEN: 'Ciemny zielony',
-      DARK_BLUE: 'Ciemny niebieksi',
-      LIGHT: 'Jasny',
+      DARK_BLUE: 'Ciemny niebieski',
+      LIGHT_RED: 'Jasny czerwony',
+      LIGHT_PURPLE: 'Jasny fioletowy',
     }
   }
 };

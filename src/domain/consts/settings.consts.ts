@@ -14,7 +14,8 @@ export const defaultSettings: SettingsModel = {
 export const themes: SelectOption[] = [
   { label: 'SETTINGS:THEME.DARK_GREEN', value: Theme.DarkGreen, translate: true, },
   { label: 'SETTINGS:THEME.DARK_BLUE', value: Theme.DarkBlue, translate: true, },
-  // { label: 'SETTINGS:THEME_LIGHT', value: Theme.Light, translate: true, },
+  { label: 'SETTINGS:THEME.LIGHT_RED', value: Theme.LightRed, translate: true, },
+  { label: 'SETTINGS:THEME.LIGHT_PURPLE', value: Theme.LightPurple, translate: true, },
 ];
 export const directions: SelectOption[] = [
   { label: 'SETTINGS:DIRECTION_LTR', value: 'ltr', translate: true, },

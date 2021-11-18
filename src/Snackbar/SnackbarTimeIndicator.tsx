@@ -27,7 +27,7 @@ const DurationBar = styled.div<Props>`
   width: 100%;
   transform: scaleX(1);
   transform-origin: left;
-  ${ ({ duration }) => transition('transform', duration + 'ms', null, 'linear') };
+  ${ ({ duration }) => transition('transform', duration + 'ms', '', 'linear') };
 
   &.animate {
     transform: scaleX(0);
