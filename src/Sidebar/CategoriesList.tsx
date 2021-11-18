@@ -22,6 +22,7 @@ import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { useHistory } from 'react-router-dom';
 import { isRootCategory } from '../utils/is-root-category.util';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   add: void[];
@@ -47,6 +48,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const categoryToRemove = useRef<Category | null>(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(CategoryActions.get());
@@ -101,10 +103,13 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   }, [confirmationResult]);
 
   const mapCategoriesToCategoryListItems = (): void => {
-    const _categories = [rootCategory, ...categories];
+    const translatedRootCategory = { ...rootCategory, name: t(rootCategory.name) };
+    const _categories = [translatedRootCategory, ...categories];
+
     if (temporary) {
       _categories.push(temporary);
     }
+
     const elements: ReactElement[] = _categories
       .map((category: Category) => (
         <CategoryListItem
@@ -119,6 +124,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
           key={ category.id }
         />
       ));
+
     setCategoryElements(elements);
   };
 

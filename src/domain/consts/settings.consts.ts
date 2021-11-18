@@ -13,7 +13,7 @@ export const defaultSettings: SettingsModel = {
 
 export const themes: SelectOption[] = [
   { label: 'SETTINGS:THEME_DARK', value: 'dark', translate: true, },
-  { label: 'SETTINGS:THEME_LIGHT', value: 'light', translate: true, },
+  // { label: 'SETTINGS:THEME_LIGHT', value: 'light', translate: true, },
 ];
 export const directions: SelectOption[] = [
   { label: 'SETTINGS:DIRECTION_LTR', value: 'ltr', translate: true, },
