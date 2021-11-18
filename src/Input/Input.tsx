@@ -2,6 +2,7 @@ import { ChangeEvent, CSSProperties, ReactElement, useRef } from 'react';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 import { StyledInput, InputWrapper, TextArea, Wrapper } from './Input.styled';
 import { Label } from '../Label/Label';
+import { EntityUid } from '../domain/types/entity-uid.type';
 
 interface Props {
   id: string;
@@ -12,7 +13,7 @@ interface Props {
   required?: boolean;
   testid?: string;
   onChange: (event: ChangeEvent<InputOrTextarea>) => void;
-  onDoubleClick?: (id: string) => void;
+  onDoubleClick?: (id: EntityUid, disabled?: boolean) => void;
   placeholder?: string;
   style?: CSSProperties;
 }
@@ -38,7 +39,7 @@ export const Input = ({
   };
 
   const handleDoubleClick = (): void => {
-    onDoubleClick && onDoubleClick(id);
+    onDoubleClick && onDoubleClick(id, disabled);
   };
 
   return (

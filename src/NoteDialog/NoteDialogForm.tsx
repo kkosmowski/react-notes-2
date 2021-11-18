@@ -93,7 +93,9 @@ export const NoteDialogForm = (
     });
   };
 
-  const handleEditModeChange = (id: string): void => {
+  const handleEditModeChange = (id: EntityUid, disabled?: boolean): void => {
+    if (!disabled) return;
+
     let mode: NoteEditMode;
 
     switch (id) {

@@ -1,4 +1,4 @@
-export enum LoaderSize {
+export const enum LoaderSize {
   Small = 'Small',
   Medium = 'Medium',
 }
