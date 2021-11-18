@@ -14,7 +14,7 @@ const StyledH2 = styled.h2`
   position: relative;
   margin: 0;
   font-size: 24px;
-  color: var(--white-82);
+  color: var(--foreground-82);
 
   &::after {
     content: '';
@@ -23,6 +23,6 @@ const StyledH2 = styled.h2`
     bottom: -4px;
     width: 5ch;
     height: 2px;
-    background-color: var(--white-16);
+    background-color: var(--foreground-16);
   }
 `;

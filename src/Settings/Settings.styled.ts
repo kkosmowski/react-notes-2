@@ -10,7 +10,7 @@ export const Section = styled.section`
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 24px 0;
-  border-top: 1px solid var(--white-11);
+  border-top: 1px solid var(--foreground-11);
   
   &:not(:first-child) {
     margin-top: 64px;
@@ -20,7 +20,7 @@ export const Section = styled.section`
 export const Subtitle = styled.h2`
   width: 100%;
   font-size: 20px;
-  color: var(--white-64);
+  color: var(--foreground-64);
   text-transform: uppercase;
 `;
 

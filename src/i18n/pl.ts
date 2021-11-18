@@ -84,7 +84,7 @@ export const pl: typeof en = {
   },
   SETTINGS: {
     GO_BACK: 'Cofnij',
-    THEME: 'Motyw',
+    THEME_TITLE: 'Motyw',
     CURRENT_THEME: 'Obecny motyw to',
     CHANGE_THEME: 'Zmień motyw',
     DIRECTION: 'Kierunek tekstu',
@@ -96,8 +96,6 @@ export const pl: typeof en = {
     SNACKBAR_DURATION: 'Czas trwania snackbara',
     CURRENT_SNACKBAR_DURATION: 'Obecny czas trwania to',
     CHANGE_SNACKBAR_DURATION: 'Zmień czas trwania',
-    THEME_DARK: 'Ciemny',
-    THEME_LIGHT: 'Jasny',
     DIRECTION_LTR: 'Od lewej do prawej',
     DIRECTION_RTL: 'Od prawej do lewej',
     SECOND: 'sekunda',
@@ -105,5 +103,10 @@ export const pl: typeof en = {
     SECONDS2: 'sekundy',
     DURATION_TOO_SMALL: 'Minimalny czas trwania to {{ min }} ms',
     DURATION_TOO_LARGE: 'Maksymalny czas trwania to {{ max }} ms',
+    THEME: {
+      DARK_GREEN: 'Ciemny zielony',
+      DARK_BLUE: 'Ciemny niebieksi',
+      LIGHT: 'Jasny',
+    }
   }
 };

@@ -87,7 +87,7 @@ export const Main = (): ReactElement => {
     >
       <CategoryTitle data-testid={ categoryTitleTestId }>
         { settingsOpened
-          ? t('SETTINGS')
+          ? t('COMMON:SETTINGS')
           : activeCategory?.name || t(rootCategory.name)
         }</CategoryTitle>
       <AppRoutes />

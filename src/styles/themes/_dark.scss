@@ -1,0 +1,40 @@
+body[class^="dark"] {
+  --foreground: #fff;
+  --foreground-82: rgba(255, 255, 255, 0.82);
+  --foreground-77: rgba(255, 255, 255, 0.77);
+  --foreground-64: rgba(255, 255, 255, 0.64);
+  --foreground-61: rgba(255, 255, 255, 0.61);
+  --foreground-43: rgba(255, 255, 255, 0.43);
+  --foreground-27: rgba(255, 255, 255, 0.27);
+  --foreground-16: rgba(255, 255, 255, 0.16);
+  --foreground-11: rgba(255, 255, 255, 0.11);
+  --foreground-7: rgba(255, 255, 255, 0.07);
+  --foreground-4: rgba(255, 255, 255, 0.04);
+
+
+  --background0: #000;
+  --background0-61: rgba(0, 0, 0, 0.61);
+  --background0-47: rgba(0, 0, 0, 0.47);
+  --background50: #101010;
+  --background100: #161616;
+  --background150: #181818;
+  --background150-60: #18181899;
+  --background200: #1a1a1a;
+  --background250: #1e1e1e;
+  --background300: #222;
+  --background350: #2a2a2a;
+  --background400: #333;
+  --background500: #4a4a4a;
+
+  --warn: #ff325b;
+  --warn-7: #ff325b12;
+  --warn100: #ff4267;
+  --warn200: #d23856;
+  --warn300: #a2374c;
+  --warn400: #882f40;
+  --warn500: #802d3e;
+
+  // @todo adjust darker shades to new warn color
+  --warn800: #44272d;
+  --warn900: #3a272a;
+}

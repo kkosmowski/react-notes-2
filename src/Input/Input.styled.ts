@@ -13,10 +13,10 @@ export const InputWrapper = styled.div`
 export const InputStyles = css`
   padding: 8px 24px;
   font: inherit;
-  background-color: var(--white-4);
+  background-color: var(--foreground-4);
   border-radius: 2px;
   line-height: 1.5;
-  color: var(--white);
+  color: var(--foreground);
   outline: none;
   border: 2px solid transparent;
 
@@ -27,11 +27,11 @@ export const InputStyles = css`
   }
   
   &:not([disabled]):hover {
-    background-color: var(--white-7);
+    background-color: var(--foreground-7);
   }
   
   &:not([disabled]):focus {
-    border-color: var(--white-16);
+    border-color: var(--foreground-16);
   }
   
   &:invalid.--touched {

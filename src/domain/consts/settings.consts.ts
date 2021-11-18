@@ -5,14 +5,15 @@ import { defaultSnackbarDuration } from './snackbar.const';
 import { SettingsModel } from '../model/settings.model';
 
 export const defaultSettings: SettingsModel = {
-  theme: Theme.Dark,
+  theme: Theme.DarkGreen,
   direction: 'ltr',
   language: Language.EN,
   snackbarDuration: defaultSnackbarDuration,
 };
 
 export const themes: SelectOption[] = [
-  { label: 'SETTINGS:THEME_DARK', value: Theme.Dark, translate: true, },
+  { label: 'SETTINGS:THEME.DARK_GREEN', value: Theme.DarkGreen, translate: true, },
+  { label: 'SETTINGS:THEME.DARK_BLUE', value: Theme.DarkBlue, translate: true, },
   // { label: 'SETTINGS:THEME_LIGHT', value: Theme.Light, translate: true, },
 ];
 export const directions: SelectOption[] = [

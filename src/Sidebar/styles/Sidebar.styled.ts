@@ -1,23 +1,23 @@
 import styled from 'styled-components/macro';
 import { transition } from '../../styles/styled-components-utils/transition.mixin';
 
-export const SidebarWrapper = styled.aside`
+export const SidebarWrapper = styled.aside<{ animated: boolean }>`
   position: absolute;
   z-index: 100;
   display: flex;
   flex-direction: column;
   width: var(--sidebar-width);
   height: 100%;
-  background-color: var(--dark200);
-  color: var(--white-82);
+  background-color: var(--background200);
+  color: var(--foreground-82);
   overflow: hidden;
   cursor: pointer;
 
-  ${ transition(['width', 'background-color'], '0.2s', '0.1s') }
+  ${ ({ animated }) => animated && transition(['width', 'background-color'], '0.2s', '0.1s') }
   
   &.--opened,
   &.--hoverable:hover {
-    background-color: var(--dark100);
+    background-color: var(--background100);
     width: clamp(220px, var(--sidebar-width-opened), 300px);
 
     + .sidebar-backdrop {

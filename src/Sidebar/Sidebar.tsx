@@ -16,8 +16,15 @@ export const Sidebar = (): ReactElement => {
   const isMobile: boolean = useSelector(selectIsMobile);
   const [className, setClassName] = useState<string>('');
   const [addCategory, setAddCategory] = useState<void[]>([]); // @todo temporary hack
+  const [animated, setAnimated] = useState<boolean>(false);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimated(true);
+    });
+  }, []);
 
   useEffect(() => {
     const classNameArray: string[] = [];
@@ -62,6 +69,7 @@ export const Sidebar = (): ReactElement => {
       <SidebarWrapper
         onClick={ handleSidebarClick }
         className={ className }
+        animated={ animated }
       >
         <SidebarButton
           onClick={ handleCategoryAdd }

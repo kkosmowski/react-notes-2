@@ -5,5 +5,5 @@ export const NoteDetails = styled.p`
   flex-direction: column;
   margin-bottom: 8px;
   font-size: 13px;
-  color: var(--white-43);
+  color: var(--foreground-43);
 `;

@@ -4,7 +4,7 @@
   line-height: 1;
   border-radius: 2px;
   font-weight: 700;
-  background-color: var(--white-7);
+  background-color: var(--foreground-7);
 
   @media (max-width: 599px) {
     font-size: 15px;
@@ -12,12 +12,12 @@
 
   &:not(:disabled) {
     &:hover {
-      background-color: var(--white-16);
+      background-color: var(--foreground-16);
     }
   }
 
   &.--primary {
-    color: var(--dark50);
+    color: var(--background50);
 
     &:not(:disabled) {
       background-color: var(--primary);
@@ -33,7 +33,7 @@
   }
 
   &.--warn {
-    color: var(--dark50);
+    color: var(--background50);
 
     &:not(:disabled) {
       background-color: var(--warn);

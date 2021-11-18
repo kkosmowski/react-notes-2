@@ -5,9 +5,9 @@ export const MainWrapper = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  background-color: var(--dark300);
+  background-color: var(--background300);
   padding: 16px 0;
-  color: var(--white);
+  color: var(--foreground);
   margin-inline-start: var(--sidebar-width);
 `;
 

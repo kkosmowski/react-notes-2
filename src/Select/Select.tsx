@@ -40,7 +40,7 @@ const SelectWrapper = styled.div`
     content: '';
     width: 8px;
     height: 8px;
-    color: var(--white-61);
+    color: var(--foreground-61);
     border-right: 1px solid;
     border-bottom: 1px solid;
     right: 10px;

@@ -110,7 +110,7 @@ export const Settings = (): ReactElement => {
 
       <Section>
         <LeftSide>
-          <Subtitle>{ t('THEME') }</Subtitle>
+          <Subtitle>{ t('THEME_TITLE') }</Subtitle>
           <p>{ t('CURRENT_THEME') } <strong>{ t(getThemeLabel(theme)) }</strong></p>
         </LeftSide>
 

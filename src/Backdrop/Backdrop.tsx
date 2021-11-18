@@ -7,6 +7,6 @@ export const Backdrop = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--dark150-60);
+  background-color: var(--background150-60);
   cursor: pointer;
 `;
