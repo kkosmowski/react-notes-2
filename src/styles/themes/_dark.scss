@@ -11,7 +11,6 @@ body[class^="dark"] {
   --foreground-7: rgba(255, 255, 255, 0.07);
   --foreground-4: rgba(255, 255, 255, 0.04);
 
-
   --background0: #000;
   --background0-61: rgba(0, 0, 0, 0.61);
   --background0-47: rgba(0, 0, 0, 0.47);
@@ -25,6 +24,8 @@ body[class^="dark"] {
   --background350: #2a2a2a;
   --background400: #333;
   --background500: #4a4a4a;
+
+  --shadow: #161616;
 
   --warn: #ff325b;
   --warn-7: #ff325b12;

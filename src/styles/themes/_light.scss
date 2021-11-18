@@ -1,1 +1,40 @@
-// @todo implement
+body[class^="light"] {
+  --foreground: #222;
+  --foreground-82: rgba(34, 34, 34, 0.87);
+  --foreground-77: rgba(34, 34, 34, 0.83);
+  --foreground-64: rgba(34, 34, 34, 0.70);
+  --foreground-61: rgba(34, 34, 34, 0.66 );
+  --foreground-43: rgba(34, 34, 34, 0.47);
+  --foreground-27: rgba(34, 34, 34, 0.30);
+  --foreground-16: rgba(34, 34, 34, 0.18);
+  --foreground-11: rgba(34, 34, 34, 0.13);
+  --foreground-7: rgba(34, 34, 34, 0.08);
+  --foreground-4: rgba(34, 34, 34, 0.05);
+
+  --background0: #fff;
+  --background0-61: rgba(172, 172, 172, 0.61);
+  --background0-47: rgba(172, 172, 172, 0.47);
+  --background50: #efefef;
+  --background100: #dbdbdb;
+  --background150: #c3c3c3;
+  --background150-60: #c3c3c399;
+  --background200: #d9d9d9;
+  --background250: #e0e0e0;
+  --background300: #ebebeb;
+  --background350: #c3c3c3;
+  --background400: #bdbdbd;
+  --background500: #b1b1b1;
+
+  --shadow: #bbb;
+
+  --warn: #d32711;
+  --warn-7: #d3271112;
+  --warn100: #f33e27;
+  --warn200: #c73825;
+  --warn300: #bd493a;
+  --warn400: #b76258;
+  --warn500: #b7746c;
+
+  --warn800: #5b3934;
+  --warn900: #e0c8c5;
+}

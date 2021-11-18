@@ -33,7 +33,7 @@ export const DialogContainer = styled.div<DialogConfig>`
     max-width: ${ ({ width }) => width || '600px' };
     max-height: 80%;
     border-radius: 4px;
-    box-shadow: 0 0 16px var(--background100);
+    box-shadow: 0 0 16px var(--shadow);
   }
 `;
 
