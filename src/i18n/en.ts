@@ -106,6 +106,8 @@ export const en = {
       DARK_BLUE: 'Dark blue',
       LIGHT_RED: 'Light red',
       LIGHT_PURPLE: 'Light purple',
+      DARK_VIOLET: 'Dark violet',
+      DARK_GRAY: 'Dark gray',
     }
   }
 };

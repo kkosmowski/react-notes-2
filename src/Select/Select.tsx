@@ -18,9 +18,9 @@ export const Select = ({ options, label, initialValue, onChange }: Props): React
   return (
     <SelectWrapper>
       { label && <Label>{ label }</Label> }
-      <StyledSelect onChange={ onChange }>
+      <StyledSelect onChange={ onChange } defaultValue={ initialValue }>
         { options.map(({ label, value, translate }) => (
-          <option value={ value } key={ value } selected={ value === initialValue }>
+          <option value={ value } key={ value } >
             { translate ? t(label) : label }
           </option>
         ))}
