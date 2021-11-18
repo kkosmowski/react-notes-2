@@ -82,7 +82,6 @@ export const Settings = (): ReactElement => {
 
   const handleSnackbarDurationSave = (): void => {
     if (form.snackbarDuration !== snackbarDuration) {
-      console.log(form.snackbarDuration);
       dispatch(SettingsActions.updateSnackbarDuration(form.snackbarDuration));
     }
   };

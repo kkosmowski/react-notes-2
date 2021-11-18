@@ -16,7 +16,7 @@ import { CategoryTitle, MainWrapper } from './Main.styled';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { categoryTitleTestId } from '../domain/consts/test-ids.consts';
 import { Settings } from '../Settings/Settings';
-import { selectLanguage, selectSettingsOpened } from '../store/selectors/settings.selectors';
+import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 import { useTranslation } from 'react-i18next';
 
 const AppRoutes = (): ReactElement => {
@@ -59,13 +59,8 @@ export const Main = (): ReactElement => {
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const settingsOpened: boolean = useSelector(selectSettingsOpened);
-  const language = useSelector(selectLanguage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    //
-  }, [language]);
 
   useEffect(() => {
     setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);

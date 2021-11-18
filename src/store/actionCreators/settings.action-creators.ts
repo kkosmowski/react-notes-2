@@ -22,7 +22,6 @@ const SettingsActions = {
         .get('/settings')
         .then((settings: SettingsModel) => {
           dispatch(settingsActions.fetchSettingsSuccess(settings));
-          console.log(settings);
         })
         .catch((error) => {
           dispatch(settingsActions.fetchSettingsFail());

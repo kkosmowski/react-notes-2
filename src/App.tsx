@@ -11,7 +11,7 @@ import { ThemeProvider } from 'styled-components/macro';
 import theme from './theme';
 import SettingsActions from './store/actionCreators/settings.action-creators';
 import { selectDirection, selectLanguage, selectTheme } from './store/selectors/settings.selectors';
-import i18n from './i18n';
+// import i18n from './i18n';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -30,13 +30,15 @@ export const App = (): ReactElement => {
     };
   }, []);
 
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
+  // useEffect(() => {
+  //   if (i18n.language !== language) {
+  //     i18n.changeLanguage(language);
+  //   }
+  // }, [i18n, language]);
 
   useEffect(() => {
-    document.body.className = `${ theme } ${ direction } ${ language }`;
-  }, [theme, direction, language]);
+    document.body.className = `${ theme } ${ direction }`;
+  }, [theme, direction]);
 
   useEffect(() => {
     dispatch(UiActions.setIsMobile(isMobile));

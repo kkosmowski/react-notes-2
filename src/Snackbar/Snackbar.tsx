@@ -44,7 +44,6 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
-    console.log(snackbarDuration);
     setSnackbarTimeout();
     setUndoButtonVisible(details.reversible);
     setSnackbarMessage();
