@@ -1,4 +1,4 @@
-export enum NoteSelectionMode {
+export const enum NoteSelectionMode {
   Single = 'Single',
   Multi = 'Multi',
 }

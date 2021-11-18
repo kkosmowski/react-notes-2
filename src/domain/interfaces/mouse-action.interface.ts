@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 
-export enum MouseAction {
+export const enum MouseAction {
   Up = 'Up',
   Move = 'Move',
   Down = 'Down',

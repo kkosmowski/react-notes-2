@@ -1,4 +1,4 @@
-export enum Variant {
+export const enum Variant {
   Contained = '--contained',
   Regular = '--regular',
   Icon = '--icon',

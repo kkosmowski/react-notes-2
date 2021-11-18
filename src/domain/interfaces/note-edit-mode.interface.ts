@@ -1,4 +1,4 @@
-export enum NoteEditMode {
+export const enum NoteEditMode {
   None = 'None',
   Title = 'Title',
   Content = 'Content',
