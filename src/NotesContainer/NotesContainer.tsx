@@ -169,12 +169,10 @@ export const NotesContainer = (): ReactElement => {
 
   const handleNoteOpen = (noteToOpen: NoteInterface, openWithEdit = false): void => {
     dispatch(NoteActions.setOpenedNote(noteToOpen));
-    history.push({
-      pathname: `/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }`,
-      state: {
-        previous: history.location.pathname
-      }
-    });
+    history.push(
+      { pathname: `/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }` },
+      { previous: history.location.pathname }
+    );
   };
 
   const handleArchive = (note: NoteInterface): void => {

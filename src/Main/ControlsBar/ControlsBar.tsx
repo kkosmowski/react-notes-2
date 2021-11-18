@@ -63,12 +63,10 @@ export const ControlsBar = (): ReactElement => {
 
   const handleNoteAdd = (): void => {
     dispatch(UiActions.openNoteDialog());
-    history.push({
-      pathname: '/add-note',
-      state: {
-        previous: history.location.pathname
-      }
-    });
+    history.push(
+      { pathname: '/add-note' },
+      { previous: history.location.pathname }
+    );
   };
 
   const handleSelectionModeChange = (): void => {
