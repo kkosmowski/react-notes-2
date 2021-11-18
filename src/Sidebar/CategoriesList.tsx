@@ -136,12 +136,10 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
         ? '/'
         : `/category/${ category.id }`;
 
-      history.push({
-        pathname,
-        state: {
-          previous: history.location.pathname
-        }
-      });
+      history.push(
+        { pathname },
+        { previous: history.location.pathname }
+      );
     }
   };
 

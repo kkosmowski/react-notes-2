@@ -84,12 +84,10 @@ export const NoteDialog = (): ReactElement => {
           : 'NOTE_DIALOG:VIEW_NOTE'
       );
 
-      history.push({
-        pathname: `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }`,
-        state: {
-          previous: location.state?.previous || '/',
-        },
-      });
+      history.push(
+        { pathname: `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }` },
+        { previous: location.state?.previous || '/' }
+      );
     } else if (noteId) {
       dispatch(NoteActions.findOpenedNote(noteId));
     } else {
@@ -147,12 +145,10 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const closeDialog = (): void => {
-    history.push({
-      pathname: location.state?.previous || '/',
-      state: {
-        previous: history.location.pathname
-      }
-    });
+    history.push(
+      { pathname: location.state?.previous || '/' },
+      { previous: history.location.pathname }
+    );
   };
 
   const handleFormChange = (payload: NoteDialogFormPayload): void => {

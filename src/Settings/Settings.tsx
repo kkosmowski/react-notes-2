@@ -90,12 +90,10 @@ export const Settings = (): ReactElement => {
     const previous = location.state.previous;
     const pathname = previous && previous !== location.pathname ? previous : '/';
 
-    history.push({
-      pathname,
-      state: {
-        previous: history.location.pathname,
-      },
-    });
+    history.push(
+      { pathname },
+      { previous: history.location.pathname }
+    );
   };
 
   return (

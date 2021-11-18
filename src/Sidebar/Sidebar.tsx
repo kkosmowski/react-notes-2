@@ -56,12 +56,10 @@ export const Sidebar = (): ReactElement => {
 
     dispatch(SettingsActions.openSettings());
 
-    history.push({
-      pathname: '/settings',
-      state: {
-        previous: history.location.pathname
-      }
-    });
+    history.push(
+      { pathname: '/settings' },
+      { previous: history.location.pathname }
+      );
   };
 
   return (
