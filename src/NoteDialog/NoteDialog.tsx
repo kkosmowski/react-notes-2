@@ -70,7 +70,7 @@ export const NoteDialog = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname.endsWith('/edit')) {
+    if (location.pathname.endsWith('/edit') && editMode === NoteEditMode.None) {
       setEditMode(NoteEditMode.Both);
     }
   }, [location]);
