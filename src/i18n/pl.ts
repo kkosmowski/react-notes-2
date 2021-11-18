@@ -107,7 +107,9 @@ export const pl: typeof en = {
       DARK_GREEN: 'Ciemny zielony',
       DARK_BLUE: 'Ciemny niebieski',
       LIGHT_RED: 'Jasny czerwony',
-      LIGHT_PURPLE: 'Jasny fioletowy',
+      LIGHT_PURPLE: 'Jasny purporowy',
+      DARK_VIOLET: 'Ciemny fioletowy',
+      DARK_GRAY: 'Ciemny szary',
     }
   }
 };
