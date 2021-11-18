@@ -151,8 +151,11 @@ export const NotesContainer = (): ReactElement => {
   const wasAClick = (): boolean => clickDuration.current !== null && clickDuration.current <= MAX_CLICK_DURATION_MS;
 
   const calculateNumberOfColumns = useCallback((): void => {
-    const containerWidth: number = containerRef.current!.clientWidth;
+    if (!containerRef.current) return;
+
+    const containerWidth: number = containerRef.current.clientWidth;
     const theoreticalNumberOfColumns: number = Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1;
+
     setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
   }, [setNumberOfColumns, containerRef, notes, COLUMN_MIN_WIDTH_PX]);
 
