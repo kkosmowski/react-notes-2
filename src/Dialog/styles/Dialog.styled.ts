@@ -26,14 +26,14 @@ export const DialogContainer = styled.div<DialogConfig>`
   ${ ({ flex }) => flex ? 'display: flex; flex-direction: column;' : '' }
   height: ${ ({ height }) => height || '100%' };
   padding: 24px;
-  background-color: var(--dark300);
+  background-color: var(--background300);
   
   @media (min-width: 600px) {
     height: ${ ({ height }) => height || 'fit-content' };
     max-width: ${ ({ width }) => width || '600px' };
     max-height: 80%;
     border-radius: 4px;
-    box-shadow: 0 0 16px var(--dark100);
+    box-shadow: 0 0 16px var(--background100);
   }
 `;
 

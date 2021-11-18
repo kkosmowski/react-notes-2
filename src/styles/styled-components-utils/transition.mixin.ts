@@ -10,7 +10,7 @@ const addTimeOrTimingFn = (partial: string, value: string | string[], i: number)
 export const transition = (
   property: string | string[],
   time: string | string[],
-  delay: (string | null) | (string | null)[] = null,
+  delay: (string | null) | (string | null)[] = '',
   timingFn: string | string[] = 'ease-in-out'
 ): string => {
   let transitionValue: string;

@@ -8,7 +8,7 @@ export const SnackbarWrapper = styled.div`
   width: 100%;
   min-height: 48px;
   border-radius: 4px;
-  background-color: var(--dark100);
+  background-color: var(--background100);
   overflow: hidden;
 
   ${ transition('opacity', `${ snackbarHidingDuration }ms`) }

@@ -8,7 +8,7 @@ export const ListItem = styled.li`
   padding: 3px 0;
   height: 52px;
   cursor: pointer;
-  border-bottom: 1px solid var(--white-7);
+  border-bottom: 1px solid var(--foreground-7);
   flex-shrink: 0;
   padding-inline-start: calc((var(--sidebar-width) - var(--icon-size)) / 2);
   padding-inline-end: 4px;
@@ -20,11 +20,11 @@ export const ListItem = styled.li`
   }
 
   &:first-child {
-    border-top: 1px solid var(--white-7);
+    border-top: 1px solid var(--foreground-7);
   }
 
   &:hover {
-    background-color: var(--white-7);
+    background-color: var(--foreground-7);
   }
 
   > .icon {

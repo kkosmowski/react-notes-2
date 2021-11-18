@@ -18,5 +18,5 @@ export const NotesWrapperContainer= styled.section<{ columns: number }>`
 `;
 
 export const NoNotesText = styled.p`
-  color: var(--white-61);
+  color: var(--foreground-61);
 `;

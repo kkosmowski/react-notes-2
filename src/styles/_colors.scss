@@ -1,55 +1,5 @@
-:root {
-  --white: #fff;
-  --white-82: rgba(255, 255, 255, 0.82);
-  --white-77: rgba(255, 255, 255, 0.77);
-  --white-64: rgba(255, 255, 255, 0.64);
-  --white-61: rgba(255, 255, 255, 0.61);
-  --white-43: rgba(255, 255, 255, 0.43);
-  --white-27: rgba(255, 255, 255, 0.27);
-  --white-16: rgba(255, 255, 255, 0.16);
-  --white-11: rgba(255, 255, 255, 0.11);
-  --white-7: rgba(255, 255, 255, 0.07);
-  --white-4: rgba(255, 255, 255, 0.04);
+@import 'themes/dark';
+@import 'themes/darkgreen';
+@import 'themes/darkblue';
 
-
-  --dark0: #000;
-  --dark0-61: rgba(0, 0, 0, 0.61);
-  --dark0-47: rgba(0, 0, 0, 0.47);
-  --dark50: #101010;
-  --dark100: #161616;
-  --dark150: #181818;
-  --dark150-60: #18181899;
-  --dark200: #1a1a1a;
-  --dark250: #1e1e1e;
-  --dark300: #222;
-  --dark350: #2a2a2a;
-  --dark400: #333;
-  --dark500: #4a4a4a;
-
-
-  --primary: #0ad78f;
-  --primary100: #15f5a6;
-  --primary200: #1db37e;
-  --primary200-37: rgba(29, 179, 126, 0.37);
-  --primary200-60: rgba(29, 179, 126, 0.60);
-  --primary300: #2a946f;
-  --primary400: #2d8163;
-  --primary500: #2c6752;
-  --primary600: #285445;
-  --primary700: #234237;
-  --primary800: #2b3c37;
-  --primary900: #27312e;
-
-
-  --warn: #ff325b;
-  --warn-7: #ff325b12;
-  --warn100: #ff4267;
-  --warn200: #d23856;
-  --warn300: #a2374c;
-  --warn400: #882f40;
-  --warn500: #802d3e;
-
-  // @todo adjust darker shades to new warn color
-  --warn800: #44272d;
-  --warn900: #3a272a;
-}
+@import 'themes/light';

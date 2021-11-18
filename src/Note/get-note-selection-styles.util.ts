@@ -12,5 +12,5 @@ export const getNoteSelectionStyles = (
     return styles + 'var(--primary700);';
   }
 
-  return selectionMode === NoteSelectionMode.Multi ? styles + 'var(--dark400);' : '';
+  return selectionMode === NoteSelectionMode.Multi ? styles + 'var(--background400);' : '';
 };

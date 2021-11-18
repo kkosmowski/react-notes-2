@@ -187,9 +187,9 @@
     }
   ],
   "settings": {
-    "theme": "dark",
+    "theme": "darkblue",
     "direction": "ltr",
     "language": "en",
-    "snackbarDuration": 5000
+    "snackbarDuration": 20000
   }
 }

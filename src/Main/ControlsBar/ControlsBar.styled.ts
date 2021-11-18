@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 import { Switch, withStyles } from '@material-ui/core';
 
 export const Bar = styled.div`
-  background-color: var(--dark200);
+  background-color: var(--background200);
 
   &,
   > * {

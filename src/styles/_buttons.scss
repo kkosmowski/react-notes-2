@@ -10,17 +10,17 @@
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  color: var(--white-77);
+  color: var(--foreground-77);
   cursor: pointer;
   border: 0;
   user-select: none;
 
   &:disabled {
     cursor: not-allowed;
-    color: var(--white-43);
+    color: var(--foreground-43);
   }
 
   &:hover {
-    background-color: var(--white-7);
+    background-color: var(--foreground-7);
   }
 }

@@ -10,7 +10,7 @@ interface Props {
 export const ContextMenuItem: FC<Props> = ({ onClick, children, warn, testid }): ReactElement => (
   <button
     onClick={ onClick }
-    className={ `button --menu-item --darker${ warn ? ' --warn' : '' }` }
+    className={ `button --menu-item --backgrounder${ warn ? ' --warn' : '' }` }
     data-testid={ testid }
   >{ children }
   </button>

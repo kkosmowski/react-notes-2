@@ -6,16 +6,16 @@
 
   &.--text {
     padding: 8px;
-    background-color: var(--white-4);
-    color: var(--white-82);
+    background-color: var(--foreground-4);
+    color: var(--foreground-82);
     outline: none;
 
     &::placeholder {
-      color: var(--white-61);
+      color: var(--foreground-61);
     }
 
     &:focus {
-      background-color: var(--white-7);
+      background-color: var(--foreground-7);
     }
   }
 }

@@ -82,7 +82,7 @@ export const en = {
   },
   SETTINGS: {
     GO_BACK: 'Go back',
-    THEME: 'Theme',
+    THEME_TITLE: 'Theme',
     CURRENT_THEME: 'Current theme is',
     CHANGE_THEME: 'Change theme',
     DIRECTION: 'Direction',
@@ -94,8 +94,6 @@ export const en = {
     SNACKBAR_DURATION: 'Snackbar duration',
     CURRENT_SNACKBAR_DURATION: 'Current duration is',
     CHANGE_SNACKBAR_DURATION: 'Change duration',
-    THEME_DARK: 'Dark',
-    THEME_LIGHT: 'Light',
     DIRECTION_LTR: 'Left to right',
     DIRECTION_RTL: 'Right to left',
     SECOND: 'second',
@@ -103,5 +101,10 @@ export const en = {
     SECONDS2: 'seconds',
     DURATION_TOO_SMALL: 'Minimum duration time is {{ min }} ms',
     DURATION_TOO_LARGE: 'Maximum duration time is {{ max }} ms',
+    THEME: {
+      DARK_GREEN: 'Dark green',
+      DARK_BLUE: 'Dark blue',
+      LIGHT: 'Light',
+    }
   }
 };

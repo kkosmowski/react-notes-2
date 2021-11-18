@@ -23,7 +23,7 @@ export const Checkbox = styled.input`
     width: 10px;
     height: 6px;
     transform: rotate(-45deg);
-    color: var(--dark0);
+    color: var(--background0);
     margin-bottom: 2px;
     border-left: 2px solid;
     border-bottom: 2px solid;
@@ -33,10 +33,10 @@ export const Checkbox = styled.input`
     cursor: pointer;
 
     &:not(:checked) {
-      background-color: var(--white-16);
+      background-color: var(--foreground-16);
 
       &:hover {
-        background-color: var(--white-27);
+        background-color: var(--foreground-27);
       }
     }
 
@@ -50,13 +50,13 @@ export const Checkbox = styled.input`
   }
 
   &:disabled {
-    background-color: var(--white-7);
+    background-color: var(--foreground-7);
 
     &:checked {
       background-color: var(--primary400);
 
       &::after {
-        color: var(--dark200)
+        color: var(--background200)
       }
     }
   }

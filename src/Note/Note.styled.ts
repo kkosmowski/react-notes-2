@@ -23,7 +23,7 @@ export const NoteTitle = styled.h3`
 `;
 
 export const NoteContent = styled.p`
-  color: var(--white-61);
+  color: var(--foreground-61);
   word-break: break-word;
   max-height: 57px;
   overflow: hidden;
