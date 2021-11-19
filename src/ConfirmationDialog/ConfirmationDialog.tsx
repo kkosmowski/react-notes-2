@@ -32,17 +32,11 @@ export const ConfirmationDialog = (): ReactElement => {
   }, [action, setData, selectedNotesCount]);
 
   const handleCancel = (): void => {
-    dispatch(UiActions.closeConfirmationDialog({
-      action: action!,
-      result: false,
-    }));
+    dispatch(UiActions.closeConfirmationDialog(false));
   };
 
   const handleConfirm = (): void => {
-    dispatch(UiActions.closeConfirmationDialog({
-      action: action!,
-      result: true
-    }));
+    dispatch(UiActions.closeConfirmationDialog(true));
   };
 
   return (

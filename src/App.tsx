@@ -13,6 +13,7 @@ import SettingsActions from './store/actionCreators/settings.action-creators';
 import { selectDirection, selectLanguage, selectTheme } from './store/selectors/settings.selectors';
 import i18n from './i18n';
 import NoteActions from './store/actionCreators/note.action-creators';
+import { KeyboardHandler } from './KeyboardHandler/KeyboardHandler';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -52,9 +53,10 @@ export const App = (): ReactElement => {
 
   return (
     <BrowserRouter>
-      <Sidebar/>
-      <Main/>
-      <ContextMenu/>
+      <Sidebar />
+      <Main />
+      <ContextMenu />
+      <KeyboardHandler />
     </BrowserRouter>
   );
 };

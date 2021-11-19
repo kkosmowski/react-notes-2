@@ -6,7 +6,6 @@ import { v4 } from 'uuid';
 import { HistoryUtil } from '../../domain/utils/history.util';
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
-import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const UiActions = {
@@ -22,7 +21,7 @@ const UiActions = {
   openConfirmationDialog(confirmationAction: ConfirmationAction): Action {
     return uiActions.openConfirmationDialog(confirmationAction);
   },
-  closeConfirmationDialog(result: ConfirmationResult): Action {
+  closeConfirmationDialog(result: boolean): Action {
     return uiActions.closeConfirmationDialog(result);
   },
   clearConfirmationDialogData(): Action {
