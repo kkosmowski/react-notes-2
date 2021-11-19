@@ -4,9 +4,11 @@ import { useHistory } from 'react-router-dom';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import {
   selectConfirmationDialogOpened,
-  selectNoteDialogOpened
+  selectNoteDialogOpened,
+  selectShortcutsDialogOpened
 } from '../store/selectors/ui.selectors';
 import { selectOpenedNote, selectSelectedNotes } from '../store/selectors/note.selectors';
+import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
@@ -23,6 +25,10 @@ export const KeyboardHandler = (): ReactElement => {
   const confirmationDialogOpenedRef = useRef(confirmationDialogOpened);
   const selectedNotes = useSelector(selectSelectedNotes);
   const selectedNotesRef = useRef(selectedNotes);
+  const shortcutsDialogOpened = useSelector(selectShortcutsDialogOpened);
+  const shortcutsDialogOpenedRef = useRef(shortcutsDialogOpened);
+  const settingsOpened = useSelector(selectSettingsOpened);
+  const settingsOpenedRef = useRef(settingsOpened);
   const allSelectedNotesAreArchived = useRef<boolean>();
   const noSelectedNotesAreArchived = useRef<boolean>();
   const archiveOrRestoreEnabled = useRef<boolean>();
@@ -43,6 +49,8 @@ export const KeyboardHandler = (): ReactElement => {
     noSelectedNotesAreArchived.current = !Object.values(selectedNotesRef.current).some((note) => note.archived);
     archiveOrRestoreEnabled.current = !!Object.values(selectedNotesRef.current).length && (allSelectedNotesAreArchived.current || noSelectedNotesAreArchived.current);
   }, [selectedNotes]);
+  useEffect(() => { shortcutsDialogOpenedRef.current = shortcutsDialogOpened; }, [shortcutsDialogOpened]);
+  useEffect(() => { settingsOpenedRef.current = settingsOpened; }, [settingsOpened]);
 
   const pushHistory = (pathname: string, previous = history.location.pathname): void => {
     history.push({ pathname }, { previous });
@@ -85,31 +93,58 @@ export const KeyboardHandler = (): ReactElement => {
         handleConfirm();
         break;
 
+      case 'c':
+        handleCreateCategory();
+        break;
+
+      case 's':
+        handleOpenSettings();
+        break;
+
+      case '/':
+        handleOpenShortcutsDialog();
+        break;
+
       default:
         return;
     }
   };
 
+  // @todo simplify the repeated logic
+
   const handleAddNote = (): void => {
-    if (!noteDialogOpenedRef.current && !confirmationDialogOpenedRef.current) {
-      pushHistory('/add-note');
+    if (
+      noteDialogOpenedRef.current ||
+      confirmationDialogOpenedRef.current ||
+      shortcutsDialogOpenedRef.current ||
+      settingsOpenedRef.current
+    ) {
+      return;
     }
+
+    pushHistory('/add-note');
   };
 
   const handleEscape = (): void => {
     if (confirmationDialogOpenedRef.current) {
       dispatch(UiActions.closeConfirmationDialog(false));
     }
-    else if (noteDialogOpenedRef.current) {
+    else if (
+      noteDialogOpenedRef.current ||
+      shortcutsDialogOpenedRef.current ||
+      settingsOpenedRef.current
+    ) {
       pushHistory(history.location.state?.previous || '/');
     }
   };
 
   const handleOpenNote = (): void => {
     if (
-      !noteDialogOpenedRef.current
-      && !confirmationDialogOpenedRef.current
-      && Object.values(selectedNotesRef.current).length === 1
+      !noteDialogOpenedRef.current &&
+      !confirmationDialogOpenedRef.current &&
+      !settingsOpenedRef.current &&
+      !shortcutsDialogOpenedRef.current &&
+      Object.values(selectedNotesRef.current).length === 1
     ) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
       dispatch(NoteActions.setOpenedNote(noteToOpen));
@@ -118,7 +153,11 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleKeyE = (): void => {
-    if (confirmationDialogOpenedRef.current) {
+    if (
+      confirmationDialogOpenedRef.current ||
+      shortcutsDialogOpenedRef.current ||
+      settingsOpenedRef.current
+    ) {
       return;
     }
 
@@ -137,13 +176,28 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleDelete = (): void => {
-    if (Object.values(selectedNotesRef.current).length >= 1) {
-      dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
+    if (
+      confirmationDialogOpenedRef.current ||
+      settingsOpenedRef.current ||
+      shortcutsDialogOpenedRef.current
+    ) {
+      return;
+    }
+
+    if (!noteDialogOpenedRef.current || (noteDialogOpenedRef.current && openedNoteRef.current)) {
+      if (Object.values(selectedNotesRef.current).length >= 1) {
+        dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
+      }
     }
   };
 
   const handleArchive = (): void => {
-    if (!selectedNotesRef.current) {
+    if (
+      !selectedNotesRef.current ||
+      confirmationDialogOpenedRef.current ||
+      shortcutsDialogOpenedRef.current ||
+      settingsOpenedRef.current
+    ) {
       return;
     }
 
@@ -169,13 +223,58 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleNumberKey = (digit: number): void => {
-    if (!confirmationDialogOpenedRef.current && !noteDialogOpenedRef.current) {
-      if (digit === 0) {
-        dispatch(CategoryActions.change(rootCategory.id));
-      } else {
-        dispatch(CategoryActions.changeToIndex(digit));
-      }
+    if (
+      confirmationDialogOpenedRef.current ||
+      noteDialogOpenedRef.current ||
+      settingsOpenedRef.current ||
+      shortcutsDialogOpenedRef.current
+    ) {
+      return;
     }
+
+    if (digit === 0) {
+      dispatch(CategoryActions.change(rootCategory.id));
+    } else {
+      dispatch(CategoryActions.changeToIndex(digit));
+    }
+  };
+
+  const handleCreateCategory = (): void => {
+    if (
+      confirmationDialogOpenedRef.current ||
+      noteDialogOpenedRef.current ||
+      settingsOpenedRef.current ||
+      shortcutsDialogOpenedRef.current
+    ) {
+      return;
+    }
+    // @todo
+  };
+
+  const handleOpenSettings = (): void => {
+    if (
+      confirmationDialogOpenedRef.current ||
+      noteDialogOpenedRef.current ||
+      settingsOpenedRef.current ||
+      shortcutsDialogOpenedRef.current
+    ) {
+      return;
+    }
+
+    pushHistory('/settings');
+  };
+
+  const handleOpenShortcutsDialog = (): void => {
+    if (
+      confirmationDialogOpenedRef.current ||
+      noteDialogOpenedRef.current ||
+      settingsOpenedRef.current ||
+      shortcutsDialogOpenedRef.current
+    ) {
+      return;
+    }
+
+    pushHistory('/shortcuts');
   };
 
   return <></>;
