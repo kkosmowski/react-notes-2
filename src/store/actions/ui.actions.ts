@@ -2,7 +2,6 @@ import { createAction } from '@reduxjs/toolkit';
 import { SnackbarInstance } from '../../domain/interfaces/snackbar-instance.interface';
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
-import { ConfirmationResult } from '../../domain/interfaces/confirmation-result.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 
 const uiActions = {
@@ -10,7 +9,7 @@ const uiActions = {
   closeNoteDialog: createAction<void>('CLOSE_NOTE_DIALOG'),
 
   openConfirmationDialog: createAction<ConfirmationAction>('OPEN_CONFIRMATION_DIALOG'),
-  closeConfirmationDialog: createAction<ConfirmationResult>('CLOSE_CONFIRMATION_DIALOG'),
+  closeConfirmationDialog: createAction<boolean>('CLOSE_CONFIRMATION_DIALOG'),
   clearConfirmationDialogData: createAction<void>('CLEAR_CONFIRMATION_DIALOG_DATA'),
 
   openSidebar: createAction<void>('OPEN_SIDEBAR'),
