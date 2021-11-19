@@ -124,11 +124,12 @@ export const NotesContainer = (): ReactElement => {
   }, [notes, notesToRender]);
 
   const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
-    clickDuration.current = new Date().getTime() - mouseDownAt.current!.getTime();
-    mouseDownAt.current = null;
-
+    if (mouseDownAt.current) {
+      clickDuration.current = new Date().getTime() - mouseDownAt.current.getTime();
+      mouseDownAt.current = null;
+      setMouseAction({ action: MouseAction.Up, event });
+    }
     isMouseDown.current = false;
-    setMouseAction({ action: MouseAction.Up, event });
   };
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>): void => {
     setMouseAction({ action: MouseAction.Move, event });
