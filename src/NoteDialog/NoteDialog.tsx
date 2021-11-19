@@ -36,6 +36,8 @@ import {
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { DateUtil } from '../domain/utils/date.util';
 import { NoteDetails } from './NoteDialog.styled';
+import noteActions from '../store/actions/note.actions';
+import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -62,11 +64,16 @@ export const NoteDialog = (): ReactElement => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(() => () => {
-    if (openedNote) {
-      setEditMode(NoteEditMode.Both);
-      dispatch(NoteActions.clearOpenedNote());
-    }
+  useEffect(() => {
+    dispatch(noteActions.toggleSelectionMode());
+    dispatch(NoteActions.selectNote(noteId));
+
+    return () => {
+      if (openedNote) {
+        setEditMode(NoteEditMode.Both);
+        dispatch(NoteActions.clearOpenedNote());
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -108,9 +115,7 @@ export const NoteDialog = (): ReactElement => {
           break;
         case ConfirmationAction.DeleteNote:
           if (result) {
-            dispatch(NoteActions.deleteNote(openedNote!.id));
             closeDialog();
-            dispatch(UiActions.clearConfirmationDialogData());
           }
           break;
       }

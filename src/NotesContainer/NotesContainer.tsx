@@ -20,6 +20,7 @@ import {
   selectNoteToOpen,
   selectOpenedNote,
   selectSelectedNotes,
+  selectSelectedNotesCount,
 } from '../store/selectors/note.selectors';
 import { selectCurrentCategoryId } from '../store/selectors/category.selectors';
 import { noNotesTextTestId } from '../domain/consts/test-ids.consts';
@@ -28,6 +29,9 @@ import CategoryActions from '../store/actionCreators/category.action-creators';
 import { RenderedNote } from '../domain/interfaces/rendered-note.interface';
 import { Selection } from './Selection';
 import { MouseAction, MouseActionPayload } from '../domain/interfaces/mouse-action.interface';
+import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
+import { selectConfirmationResult } from '../store/selectors/ui.selectors';
+import UiActions from '../store/actionCreators/ui.action-creators';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -37,6 +41,8 @@ export const NotesContainer = (): ReactElement => {
   const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
+  const selectedNotesCount = useSelector(selectSelectedNotesCount);
+  const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
   const noteToOpen = useSelector(selectNoteToOpen);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
@@ -60,6 +66,15 @@ export const NotesContainer = (): ReactElement => {
       window.removeEventListener('resize', debounce(calculateNumberOfColumns, 100));
     };
   }, []);
+
+  useEffect(() => {
+    if (confirmationResult?.result
+      && confirmationResult.action === ConfirmationAction.DeleteNote
+      && selectedNotesCount > 0
+    ) {
+      deleteNote();
+    }
+  }, [confirmationResult, selectedNotesCount]);
 
   useEffect(() => {
     if (categoryId && categoryId !== currentCategoryId) {
@@ -122,6 +137,15 @@ export const NotesContainer = (): ReactElement => {
       setRenderedNotes(rendered);
     }
   }, [notes, notesToRender]);
+
+  const deleteNote = (): void => {
+    dispatch(UiActions.clearConfirmationDialogData());
+    if (selectedNotesCount === 1) {
+      dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
+    } else {
+      dispatch(NoteActions.deleteMultipleNotes(Object.keys(selectedNotes)));
+    }
+  };
 
   const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
     if (mouseDownAt.current) {
