@@ -45,7 +45,7 @@ export const ControlsBar = (): ReactElement => {
   const history = useHistory();
   const allSelectedNotesAreArchived = Object.values(selectedNotes).every((note) => note.archived);
   const noSelectedNotesAreArchived = !Object.values(selectedNotes).some((note) => note.archived);
-  const archiveOrRestoreButtonEnabled = selectedNotesCount && (allSelectedNotesAreArchived || noSelectedNotesAreArchived);
+  const archiveOrRestoreButtonEnabled = !!selectedNotesCount && (allSelectedNotesAreArchived || noSelectedNotesAreArchived);
 
   const handleBarClick = (e: MouseEvent): void => {
     e.stopPropagation();
@@ -67,7 +67,7 @@ export const ControlsBar = (): ReactElement => {
       const note = Object.values(selectedNotes)[0];
 
       if (note.archived) {
-        dispatch(NoteActions.restoreNote(note));
+        dispatch(NoteActions.restoreNote(note.id));
       } else {
         dispatch(NoteActions.archiveNote(note.id));
       }

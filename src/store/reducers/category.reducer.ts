@@ -52,10 +52,11 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       state.categoryCreationInProgress = false;
     })
 
-    .addCase(categoryActions.changeCategory, (state, action) => {
-      if (action.payload) {
-        state.currentCategoryId = action.payload;
-      }
+    .addCase(categoryActions.changeCategory, (state, { payload }) => {
+      state.currentCategoryId = payload;
+    })
+    .addCase(categoryActions.changeCategoryToIndex, (state, { payload }) => {
+      state.currentCategoryId = state.categories[payload].id;
     })
 
     .addCase(categoryActions.editCategory, (state, action) => {

@@ -59,7 +59,7 @@ export const Sidebar = (): ReactElement => {
     history.push(
       { pathname: '/settings' },
       { previous: history.location.pathname }
-      );
+    );
   };
 
   return (
