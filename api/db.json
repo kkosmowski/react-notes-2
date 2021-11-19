@@ -200,5 +200,8 @@
     "direction": "ltr",
     "language": "en",
     "snackbarDuration": 20000
+  },
+  "showArchived": {
+    "showArchived": true
   }
 }

@@ -12,6 +12,7 @@ import theme from './theme';
 import SettingsActions from './store/actionCreators/settings.action-creators';
 import { selectDirection, selectLanguage, selectTheme } from './store/selectors/settings.selectors';
 import i18n from './i18n';
+import NoteActions from './store/actionCreators/note.action-creators';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -23,6 +24,7 @@ export const App = (): ReactElement => {
   useEffect(() => {
     checkIfMobile();
     dispatch(SettingsActions.load());
+    dispatch(NoteActions.fetchShowArchived());
     window.addEventListener('resize', debounce(checkIfMobile, 100));
 
     return () => {

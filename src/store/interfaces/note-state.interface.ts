@@ -19,5 +19,7 @@ export interface NoteState {
   notesRemovalFromCategoryInProgress: boolean;
   notesRestorationToCategoryInProgress: boolean;
   noteUpdateRevertInProgress: boolean;
+  showArchivedFetchInProgress: boolean;
+  showArchivedUpdateInProgress: boolean;
   showArchived: boolean;
 }

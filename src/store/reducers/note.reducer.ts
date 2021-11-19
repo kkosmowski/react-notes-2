@@ -25,6 +25,8 @@ export const initialNoteState: NoteState = {
   notesRemovalFromCategoryInProgress: false,
   notesRestorationToCategoryInProgress: false,
   noteUpdateRevertInProgress: false,
+  showArchivedFetchInProgress: false,
+  showArchivedUpdateInProgress: false,
   showArchived: false,
 };
 
@@ -49,6 +51,19 @@ const archiveOrDeleteOrRestoreHelper = (payload: ArchiveOrDeleteOrRestoreMultipl
     noteIds = payload as EntityUid[];
   }
   return { noteIds, date };
+};
+
+const showArchivedHelper = (state: Draft<NoteState>, payload?: boolean) => {
+  state.showArchived = typeof payload === 'boolean' && payload;
+
+  if (!payload) {
+    const archivedNoteIds: EntityUid[] = Object.values(state.selectedNotes)
+      .filter(n => n.archived)
+      .map(n => n.id);
+    archivedNoteIds.forEach((id) => {
+      delete state.selectedNotes[id];
+    });
+  }
 };
 
 const removeOrRestoreMultipleReducer = (
@@ -278,18 +293,28 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.notesRemovalFromCategoryInProgress = false;
     })
 
-    .addCase(noteActions.setShowArchived, (state, { payload }) => {
-      state.showArchived = payload;
+    .addCase(noteActions.fetchShowArchived, (state) => {
+      state.showArchivedFetchInProgress = true;
+    })
+    .addCase(noteActions.fetchShowArchivedSuccess, (state, { payload }) => {
+      state.showArchivedFetchInProgress = false;
+      showArchivedHelper(state, payload);
+    })
+    .addCase(noteActions.fetchShowArchivedFail, (state) => {
+      state.showArchivedFetchInProgress = false;
+    })
 
-      if (!payload) {
-        const archivedNoteIds: EntityUid[] = Object.values(state.selectedNotes)
-          .filter(n => n.archived)
-          .map(n => n.id);
-        archivedNoteIds.forEach((id) => {
-          delete state.selectedNotes[id];
-        });
-      }
-    });
+    .addCase(noteActions.setShowArchived, (state) => {
+      state.showArchivedUpdateInProgress = true;
+    })
+    .addCase(noteActions.setShowArchivedSuccess, (state, { payload }) => {
+      state.showArchivedUpdateInProgress = false;
+      showArchivedHelper(state, payload);
+    })
+    .addCase(noteActions.setShowArchivedFail, (state) => {
+      state.showArchivedUpdateInProgress = false;
+    })
+  ;
 });
 
 export default noteReducer;

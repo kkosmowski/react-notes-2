@@ -182,8 +182,36 @@ const NoteActions = {
     return removeOrRestoreMultiple('restoreMultipleNotesToCategory', { noteIds, categoryId }, false);
   },
 
-  setShowArchived(showArchived: boolean): Action {
-    return noteActions.setShowArchived(showArchived);
+  fetchShowArchived(): ActionFunction<Promise<void>> {
+    return function(dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.fetchShowArchived());
+
+      return HttpService
+        .get('/showArchived')
+        .then((data: { showArchived: boolean }) => {
+          dispatch(noteActions.fetchShowArchivedSuccess(data.showArchived));
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.fetchShowArchivedFail());
+        });
+    };
+  },
+
+  setShowArchived(showArchived: boolean): ActionFunction<Promise<void>> {
+    return function(dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.setShowArchived());
+
+      return HttpService
+        .put('/showArchived', { showArchived })
+        .then(() => {
+          dispatch(noteActions.setShowArchivedSuccess(showArchived));
+        })
+        .catch((error) => {
+          console.error(error);
+          dispatch(noteActions.setShowArchivedFail());
+        });
+    };
   },
 };
 
