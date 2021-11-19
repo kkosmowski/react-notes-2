@@ -23,6 +23,7 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import { useHistory } from 'react-router-dom';
 import { isRootCategory } from '../utils/is-root-category.util';
 import { useTranslation } from 'react-i18next';
+import { selectLanguage } from '../store/selectors/settings.selectors';
 
 interface Props {
   add: void[];

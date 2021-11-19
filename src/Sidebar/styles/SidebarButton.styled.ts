@@ -5,6 +5,10 @@ export const SidebarButtonWrapper = styled.div`
   align-items: center;
   white-space: nowrap;
   padding: 16px 0;
+    
+  & + & {
+    padding-top: 0;
+  }
 `;
 
 export const StyledButton = styled.button`

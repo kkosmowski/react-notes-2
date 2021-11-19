@@ -62,6 +62,13 @@ const UiActions = {
   checkIfSnackbarInformsAboutThis(dataId: EntityUid): Action {
     return uiActions.checkIfSnackbarInformsAboutThis(dataId);
   },
+
+  openShortcutsDialog(): Action {
+    return uiActions.openShortcutsDialog();
+  },
+  closeShortcutsDialog(): Action {
+    return uiActions.closeShortcutsDialog();
+  },
 };
 
 export default UiActions;

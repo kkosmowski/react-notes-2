@@ -15,6 +15,7 @@ export const en = {
     ARCHIVE: 'Archive',
     RESTORE: 'Restore',
     SETTINGS: 'Settings',
+    SHORTCUTS: 'Shortcuts',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
@@ -109,5 +110,32 @@ export const en = {
       DARK_VIOLET: 'Dark violet',
       DARK_GRAY: 'Dark gray',
     }
+  },
+  SHORTCUTS_DIALOG: {
+    OPEN_ADD_NEW_NOTE_DIALOG: 'Opens Add Note dialog (unless any other dialog is currently opened).',
+    CLOSE_MOST_RECENT_DIALOG_OR_SETTINGS: 'Closes the dialog or settings (if opened).',
+    OPEN_CURRENTLY_SELECTED_NOTE: 'Opens currently selected note (only when 1 note is selected).',
+    EDIT_NOTE: 'Toggles edit mode if note is opened, otherwise opens a selected note in Edit mode (only when 1 note is selected).',
+    DELETE_SELECTED_NOTE_OR_NOTES: 'Deletes currently selected note or notes.',
+    ARCHIVE_OR_RESTORE_SELECTED_NOTE_OR_NOTES: 'Archives or restores currently selected note or notes.',
+    CONFIRM_ACTION: 'Confirms an action (only in Confirmation dialog).',
+    CREATE_NEW_CATEGORY: 'Creates new category.',
+    OPEN_SETTINGS: 'Opens settings view.',
+    CATEGORY_QUICK_SELECT: 'Quick select of a category. Works only for first ten categories.',
+    OPEN_SHORTCUTS_DIALOG: 'Opens shortcuts dialog (this dialog).',
+
+    NOTE_SHIFT_CLICK: 'Shift + click on note',
+    NOTE_DOUBLE_CLICK: 'Note double click',
+    APP_DOUBLE_CLICK: 'App double click',
+    NOTE_RIGHT_CLICK: 'Note right mouse button click',
+    SIDEBAR_CLICK: 'Sidebar click',
+    APP_CLICK_AND_DRAG: 'Click and drag',
+
+    TOGGLE_MULTISELECT_WHEN_HOLD: 'When holding Shift, selecting a second note will toggle Multiselect mode.',
+    OPEN_CLICKED_NOTE: 'Double clicking note will open it (in View mode).',
+    CLEAR_SELECTION_AND_TURN_SINGLE_SELECT: 'Double clicking anywhere in the app (except Sidebar and Note) will deselect any notes and turn off Multiselect mode.',
+    OPEN_NOTE_CONTEXT_MENU: 'Right clicking note will open its context menu.',
+    PERSIST_OPENED_SIDEBAR: 'Clicking on a Sidebar directly will keep it opened. To close it, click anywhere except the Sidebar.',
+    MANUAL_NOTES_SELECTION: 'You can quickly select notes by pressing down the mouse and dragging it across the desired notes.',
   }
 };

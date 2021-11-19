@@ -33,14 +33,12 @@ export const Settings = (): ReactElement => {
   const seconds = getPluralizedSecondsUtil(snackbarDuration / 1000);
 
   useEffect(() => {
-    if (location.pathname.endsWith('settings')) {
-      dispatch(SettingsActions.openSettings());
-    }
+    dispatch(SettingsActions.openSettings());
 
     return () => {
       dispatch(SettingsActions.closeSettings());
     };
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     setForm({ theme, direction, language, snackbarDuration });

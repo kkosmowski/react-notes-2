@@ -25,3 +25,5 @@ export const confirmationDialogTestId = 'confirmation-dialog';
 
 export const contextMenuTestId = 'context-menu';
 export const contextMenuEditButtonTestId = 'context-menu-edit-button';
+
+export const shortcutsDialogTestId = 'shortcuts-dialog';
