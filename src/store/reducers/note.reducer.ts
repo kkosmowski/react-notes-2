@@ -60,6 +60,7 @@ const showArchivedHelper = (state: Draft<NoteState>, payload?: boolean) => {
     const archivedNoteIds: EntityUid[] = Object.values(state.selectedNotes)
       .filter(n => n.archived)
       .map(n => n.id);
+
     archivedNoteIds.forEach((id) => {
       delete state.selectedNotes[id];
     });
@@ -249,12 +250,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteRestorationInProgress = true;
     })
     .addCase(noteActions.restoreNoteSuccess, (state, { payload }) => {
-      const restored: NoteInterface = {
-        ...payload,
-        archived: false,
-        archivedAt: undefined,
-      };
-      state.notes = state.notes.map((note) => note.id === restored.id ? restored : note);
+      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
       state.noteRestorationInProgress = false;
     })
     .addCase(noteActions.restoreNoteFail, (state) => {

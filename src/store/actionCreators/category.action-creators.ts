@@ -60,6 +60,15 @@ const CategoryActions = {
       }
     };
   },
+  changeToIndex(index: number): ActionFunction<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      const state = (store.getState() as RootState).category;
+
+      if (state.categories.length >= index && state.currentCategoryId !== state.categories[index - 1].id) {
+        dispatch(categoryActions.changeCategoryToIndex(index - 1));
+      }
+    };
+  },
 
   editCategory(category: Category): Action {
     return categoryActions.editCategory(category);

@@ -201,7 +201,7 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleArchive = (note: NoteInterface): void => {
-    dispatch(note.archived ? NoteActions.restoreNote(note) : NoteActions.archiveNote(note.id));
+    dispatch(note.archived ? NoteActions.restoreNote(note.id) : NoteActions.archiveNote(note.id));
   };
 
   const handleDelete = (noteId: EntityUid): void => {

@@ -143,15 +143,15 @@ const NoteActions = {
     return updateOrRevert(note, 'revertNoteUpdate');
   },
 
-  restoreNote(note: NoteInterface): ActionFunction<Promise<void>> {
+  restoreNote(noteId: EntityUid): ActionFunction<Promise<void>> {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.restoreNote());
       return HttpService
-        .patch(`/notes/${ note.id }`, {
+        .patch(`/notes/${ noteId }`, {
           archived: false,
           archivedAt: null,
         })
-        .then(() => {
+        .then((note) => {
           dispatch(noteActions.restoreNoteSuccess(note));
           HistoryActions.push(noteActions.restoreNoteSuccess(note))(dispatch);
         })

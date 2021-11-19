@@ -74,7 +74,7 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       break;
 
     case 'ARCHIVE_MULTIPLE_NOTES_SUCCESS':
-      message = 'MULTIPLE_NOTES_DELETED';
+      message = 'MULTIPLE_NOTES_ARCHIVED';
       break;
 
     case 'RESTORE_MULTIPLE_NOTES_SUCCESS':
