@@ -45,4 +45,8 @@ export const DialogControls = styled.div`
   button + button {
     margin-inline-start: 8px;
   }
+  
+  button:first-child:last-child {
+    margin-inline-start: auto;
+  }
 `;

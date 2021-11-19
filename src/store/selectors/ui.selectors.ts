@@ -43,3 +43,7 @@ export const selectIsMobile = createSelector(
 export const selectSnackbarDataWasChanged = createSelector(
   uiSelector, (ui: UiState) => ui.snackbarDataWasChanged
 );
+
+export const selectShortcutsDialogOpened = createSelector(
+  uiSelector, (ui: UiState) => ui.shortcutsDialogOpened
+);

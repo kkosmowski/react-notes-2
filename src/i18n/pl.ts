@@ -17,6 +17,7 @@ export const pl: typeof en = {
     ARCHIVE: 'Zarchiwizuj',
     RESTORE: 'Przywróć',
     SETTINGS: 'Ustawienia',
+    SHORTCUTS: 'Skróty klawiszowe',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
@@ -111,5 +112,32 @@ export const pl: typeof en = {
       DARK_VIOLET: 'Ciemny fioletowy',
       DARK_GRAY: 'Ciemny szary',
     }
+  },
+  SHORTCUTS_DIALOG: {
+    OPEN_ADD_NEW_NOTE_DIALOG: 'Otwiera dialog dodawania nowej notatki (jeżeli żaden dialog nie jest już otwarty).',
+    CLOSE_MOST_RECENT_DIALOG_OR_SETTINGS: 'Zamyka dialog bądź ustawienia (o ile otwarte).',
+    OPEN_CURRENTLY_SELECTED_NOTE: 'Otwiera obecnie zaznaczoną notatkę (pod warunkiem, że zaznaczona jest tylko jedna).',
+    EDIT_NOTE: 'Włącza tryb edycji jeżeli notatka jest otwarta. W przeciwnym wypadku edytuj zaznaczoną notatkę (pod warunkiem, że zanaczona jest tylko jedna).',
+    DELETE_SELECTED_NOTE_OR_NOTES: 'Usuwa zanaczoną notatkę (lub notatki).',
+    ARCHIVE_OR_RESTORE_SELECTED_NOTE_OR_NOTES: 'Archiwizuje lub przywraca zanaczoną notatkę (lub notatki).',
+    CONFIRM_ACTION: 'Potwierdza akcję (tylko w dialogu potwierdzenia).',
+    CREATE_NEW_CATEGORY: 'Tworzy nową kategorię.',
+    OPEN_SETTINGS: 'Otwiera ustawienia.',
+    CATEGORY_QUICK_SELECT: 'Szybki wybór kategorii, tylko dla pierwszych 10 kategorii.',
+    OPEN_SHORTCUTS_DIALOG: 'Otwiera dialog skrótów klawiaturowych (ten, który widzisz).',
+
+    NOTE_SHIFT_CLICK: 'Shift + kliknięcie notatki',
+    NOTE_DOUBLE_CLICK: 'Podwójnie kliknięcie notatki',
+    APP_DOUBLE_CLICK: 'Podwójnie kliknięcie',
+    NOTE_RIGHT_CLICK: 'Kliknięcie notatki prawym przyciskiem',
+    SIDEBAR_CLICK: 'Kliknięcie na sidebar',
+    APP_CLICK_AND_DRAG: 'Przytrzymanie i przeciągnięcie',
+
+    TOGGLE_MULTISELECT_WHEN_HOLD: 'Zaznaczając drugą notatkę z wciśniętym Shiftem włączony zostanie Multiselect (wybór wielu notatek).',
+    OPEN_CLICKED_NOTE: 'Podwójne kliknięcie na notatkę otworzy ją.',
+    CLEAR_SELECTION_AND_TURN_SINGLE_SELECT: 'Podwójne kliknięcie gdziekolwiek (poza Sidebarem i notatką) wyczyści zaznaczenie i wyłączy Multiselect.',
+    OPEN_NOTE_CONTEXT_MENU: 'Kliknięcie prawym przyciskiem na notatkę otworzy jej menu kontekstowe.',
+    PERSIST_OPENED_SIDEBAR: 'Klikięcie na Sidebar spowoduje jego otwarcie na stałe. Aby go zamknąć kliknij poza Sidebar.',
+    MANUAL_NOTES_SELECTION: 'Aby szybko zaznaczać notatki, przytrzymaj lewy przycisk myszki i przeciągnij zaznaczenie na notatki.',
   }
 };

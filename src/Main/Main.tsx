@@ -18,6 +18,7 @@ import { categoryTitleTestId } from '../domain/consts/test-ids.consts';
 import { Settings } from '../Settings/Settings';
 import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 import { useTranslation } from 'react-i18next';
+import { ShortcutsDialog } from '../ShortcutsDialog/ShortcutsDialog';
 
 const AppRoutes = (): ReactElement => {
   const app: ReactElement = (
@@ -31,6 +32,10 @@ const AppRoutes = (): ReactElement => {
 
       <Route path="*/note/:noteId">
         <NoteDialog />
+      </Route>
+
+      <Route path="/shortcuts">
+        <ShortcutsDialog />
       </Route>
     </>
   );

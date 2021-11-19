@@ -12,6 +12,7 @@ import { RemoveFromCategoryPayload } from '../../domain/interfaces/remove-from-c
 import { RemoveMultipleNotesFromCategoryPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 import UiActions from './ui.action-creators';
+import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 
 const NoteActions = {
   get(): ActionFunction<Promise<void>> {
@@ -57,6 +58,14 @@ const NoteActions = {
       dispatch(noteActions.toggleSelectionMode());
     };
   },
+  setSelectionMode(mode: NoteSelectionMode): ActionFunction<Promise<void>> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      if ((store.getState() as RootState).note.noteSelectionMode !== mode) {
+        dispatch(noteActions.setSelectionMode(mode));
+      }
+    };
+  },
+
   selectNote(noteId: EntityUid): ActionFunction<Promise<void>> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.selectNote(noteId));

@@ -24,6 +24,9 @@ const uiActions = {
   setIsMobile: createAction<boolean>('SET_IS_MOBILE'),
 
   checkIfSnackbarInformsAboutThis: createAction<EntityUid>('CHECK_IF_SNACKBAR_INFORMS_ABOUT_THIS'),
+
+  openShortcutsDialog: createAction<void>('OPEN_SHORTCUTS_DIALOG'),
+  closeShortcutsDialog: createAction<void>('CLOSE_SHORTCUTS_DIALOG'),
 };
 
 export default uiActions;

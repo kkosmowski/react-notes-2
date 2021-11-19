@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, ReactElement } from 'react';
+import { ChangeEvent, MouseEvent, ReactElement, useEffect } from 'react';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -43,8 +43,8 @@ export const ControlsBar = (): ReactElement => {
   const showArchived = useSelector(selectShowArchived);
   const dispatch = useDispatch();
   const history = useHistory();
-  const allSelectedNotesAreArchived = Object.values(selectedNotes).every((note) => note.archived);
-  const noSelectedNotesAreArchived = !Object.values(selectedNotes).some((note) => note.archived);
+  const allSelectedNotesAreArchived = !!selectedNotesCount && Object.values(selectedNotes).every((note) => note.archived);
+  const noSelectedNotesAreArchived = !!selectedNotesCount && !Object.values(selectedNotes).some((note) => note.archived);
   const archiveOrRestoreButtonEnabled = !!selectedNotesCount && (allSelectedNotesAreArchived || noSelectedNotesAreArchived);
 
   const handleBarClick = (e: MouseEvent): void => {

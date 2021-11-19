@@ -16,4 +16,5 @@ export interface UiState {
   snackbarDataWasChanged: EntityUid[];
   contextMenuData: ContextMenuData | null;
   isMobile: boolean;
+  shortcutsDialogOpened: boolean;
 }

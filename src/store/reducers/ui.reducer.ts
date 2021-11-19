@@ -15,6 +15,7 @@ export const initialUiState: UiState = {
   snackbarDataWasChanged: [],
   contextMenuData: null,
   isMobile: true,
+  shortcutsDialogOpened: false,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -87,6 +88,13 @@ const uiReducer = createReducer(initialUiState, (builder) => {
         .filter((instance) => (instance.details.action.payload as NoteInterface).id === payload)
         .map(instance => instance.id);
       state.snackbarDataWasChanged.push(...idsOfSnackbarsWithDataChanged);
+    })
+
+    .addCase(uiActions.openShortcutsDialog, (state) => {
+      state.shortcutsDialogOpened = true;
+    })
+    .addCase(uiActions.closeShortcutsDialog, (state) => {
+      state.shortcutsDialogOpened = false;
     })
   ;
 });

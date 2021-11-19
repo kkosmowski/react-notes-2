@@ -4,6 +4,7 @@ import { EntityUid } from '../../domain/types/entity-uid.type';
 import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
+import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -15,6 +16,8 @@ const noteActions = {
   createNoteFail: createAction<void>('CREATE_NOTE_FAIL'),
 
   toggleSelectionMode: createAction<void>('TOGGLE_SELECTION_MODE'),
+  setSelectionMode: createAction<NoteSelectionMode>('SET_SELECTION_MODE'),
+
   selectNote: createAction<EntityUid>('SELECT_NOTE'),
   selectMultipleNotes: createAction<EntityUid[]>('SELECT_MULTIPLE_NOTES'),
   deselectNote: createAction<EntityUid>('DESELECT_NOTE'),

@@ -36,7 +36,7 @@ import {
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { DateUtil } from '../domain/utils/date.util';
 import { NoteDetails } from './NoteDialog.styled';
-import noteActions from '../store/actions/note.actions';
+import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -65,8 +65,7 @@ export const NoteDialog = (): ReactElement => {
 
   useEffect(() => {
     dispatch(UiActions.openNoteDialog());
-    dispatch(noteActions.toggleSelectionMode());
-    dispatch(NoteActions.selectNote(noteId));
+    dispatch(NoteActions.setSelectionMode(NoteSelectionMode.Single));
 
     return () => {
       setEditMode(NoteEditMode.Both);
@@ -89,6 +88,8 @@ export const NoteDialog = (): ReactElement => {
           ? 'NOTE_DIALOG:EDIT_NOTE'
           : 'NOTE_DIALOG:VIEW_NOTE'
       );
+
+      dispatch(NoteActions.selectNote(noteId));
 
       history.push(
         { pathname: `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }` },

@@ -6,10 +6,9 @@ import { SidebarWrapper } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
-import { CreateNewFolder, Settings as SettingsIcon } from '@material-ui/icons';
+import { CreateNewFolder, Keyboard, Settings as SettingsIcon } from '@material-ui/icons';
 import { Color } from '../domain/enums/color.enum';
 import { useHistory } from 'react-router-dom';
-import SettingsActions from '../store/actionCreators/settings.action-creators';
 
 export const Sidebar = (): ReactElement => {
   const opened: boolean = useSelector(selectSidebarOpened);
@@ -53,12 +52,23 @@ export const Sidebar = (): ReactElement => {
 
   const handleSettingsClick = (e: MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
-
-    dispatch(SettingsActions.openSettings());
-
     history.push(
       { pathname: '/settings' },
       { previous: history.location.pathname }
+    );
+  };
+
+  const handleShortcutsClick = (e: MouseEvent<HTMLButtonElement>): void => {
+    e.stopPropagation();
+    const previous = !history.location.state
+      ? history.location.state.previous === '/shortcuts'
+        ? '/'
+        : history.location.state.previous
+      : '/';
+
+    history.push(
+      { pathname: '/shortcuts' },
+      { previous }
     );
   };
 
@@ -84,6 +94,13 @@ export const Sidebar = (): ReactElement => {
           label="COMMON:SETTINGS"
         >
           <SettingsIcon />
+        </SidebarButton>
+
+        <SidebarButton
+          onClick={ handleShortcutsClick }
+          label="COMMON:SHORTCUTS"
+        >
+          <Keyboard />
         </SidebarButton>
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />

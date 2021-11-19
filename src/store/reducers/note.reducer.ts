@@ -121,6 +121,19 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         }
       }
     })
+    .addCase(noteActions.setSelectionMode, (state, { payload }) => {
+      state.noteSelectionMode = payload;
+
+      if (payload === NoteSelectionMode.Single) {
+        const entries = Object.entries(state.selectedNotes);
+
+        if (entries.length) {
+          const [id, note] = entries[entries.length - 1];
+          state.selectedNotes = { [id]: note };
+        }
+      }
+    })
+
     .addCase(noteActions.selectNote, (state, { payload }) => {
       const note = state.notes.find((note) => note.id === payload)!;
 
