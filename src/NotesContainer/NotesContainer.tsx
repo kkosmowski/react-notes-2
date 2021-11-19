@@ -56,14 +56,19 @@ export const NotesContainer = (): ReactElement => {
   const isMouseDown = useRef<boolean>(false);
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
+  const shiftPressed = useRef<boolean>(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
     dispatch(NoteActions.get());
+    document.addEventListener('keydown', setShiftDown);
+    document.addEventListener('keyup', setShiftUp);
 
     return () => {
       window.removeEventListener('resize', debounce(calculateNumberOfColumns, 100));
+      document.removeEventListener('keydown', setShiftDown);
+      document.removeEventListener('keyup', setShiftUp);
     };
   }, []);
 
@@ -147,6 +152,14 @@ export const NotesContainer = (): ReactElement => {
     }
   };
 
+  const setShiftDown = (event: KeyboardEvent): void  => {
+    event.key === 'Shift' && (shiftPressed.current = true);
+  };
+
+  const setShiftUp = (event: KeyboardEvent): void  => {
+    event.key === 'Shift' && (shiftPressed.current = false);
+  };
+
   const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
     if (mouseDownAt.current) {
       clickDuration.current = new Date().getTime() - mouseDownAt.current.getTime();
@@ -185,6 +198,10 @@ export const NotesContainer = (): ReactElement => {
   }, [setNumberOfColumns, containerRef, notes, COLUMN_MIN_WIDTH_PX]);
 
   const handleNoteSelect = (noteId: EntityUid): void => {
+    if (selectedNotesCount === 1 && shiftPressed.current) {
+      dispatch(NoteActions.toggleSelectionMode());
+    }
+
     if (!selectedNotes[noteId]) {
       dispatch(NoteActions.selectNote(noteId));
     } else if (selectionMode === NoteSelectionMode.Multi && wasAClick()) {

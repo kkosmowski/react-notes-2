@@ -77,6 +77,7 @@ export const Main = (): ReactElement => {
     e.stopPropagation();
     if (selectionMode === NoteSelectionMode.Multi && selectedNotesCount) {
       dispatch(NoteActions.clearSelection());
+      dispatch(NoteActions.toggleSelectionMode());
     }
   };
 
