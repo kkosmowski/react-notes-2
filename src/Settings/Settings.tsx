@@ -21,6 +21,7 @@ import {
 } from '../domain/consts/settings.consts';
 import { getDirectionLabel, getLanguageLabel, getThemeLabel } from './settings.utils';
 import { getPluralizedSecondsUtil } from '../utils/get-pluralized-seconds.util';
+import { RouterUtil } from '../domain/utils/router.util';
 
 export const Settings = (): ReactElement => {
   const location = useLocation<{ previous?: string }>();
@@ -85,13 +86,7 @@ export const Settings = (): ReactElement => {
   };
 
   const handleGoBack = (): void => {
-    const previous = location.state.previous;
-    const pathname = previous && previous !== location.pathname ? previous : '/';
-
-    history.push(
-      { pathname },
-      { previous: history.location.pathname }
-    );
+    RouterUtil.back(history);
   };
 
   return (

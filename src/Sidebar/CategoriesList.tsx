@@ -22,7 +22,7 @@ import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { useHistory } from 'react-router-dom';
 import { isRootCategory } from '../utils/is-root-category.util';
-import { useTranslation } from 'react-i18next';
+import { RouterUtil } from '../domain/utils/router.util';
 
 const emptyCategory: Category = {
   id: '',
@@ -45,7 +45,6 @@ export const CategoriesList = (): ReactElement => {
   const categoryToRemove = useRef<Category | null>(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(CategoryActions.get());
@@ -132,10 +131,7 @@ export const CategoriesList = (): ReactElement => {
         ? '/'
         : `/category/${ category.id }`;
 
-      history.push(
-        { pathname },
-        { previous: history.location.pathname }
-      );
+      RouterUtil.push(pathname, history, { dontCompareWithPrevious: true });
     }
   };
 

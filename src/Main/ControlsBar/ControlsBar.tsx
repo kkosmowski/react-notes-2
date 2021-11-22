@@ -32,6 +32,7 @@ import {
 } from '@material-ui/icons';
 import { ArchivedSwitch, Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
+import { RouterUtil } from '../../domain/utils/router.util';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -52,10 +53,7 @@ export const ControlsBar = (): ReactElement => {
   };
 
   const handleNoteAdd = (): void => {
-    history.push(
-      { pathname: '/add-note' },
-      { previous: history.location.pathname }
-    );
+    RouterUtil.push('/add-note', history);
   };
 
   const handleSelectionModeChange = (): void => {

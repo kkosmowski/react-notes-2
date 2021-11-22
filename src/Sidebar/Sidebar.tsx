@@ -10,6 +10,7 @@ import { CreateNewFolder, Keyboard, Settings as SettingsIcon } from '@material-u
 import { Color } from '../domain/enums/color.enum';
 import { useHistory } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
+import { RouterUtil } from '../domain/utils/router.util';
 
 export const Sidebar = (): ReactElement => {
   const opened: boolean = useSelector(selectSidebarOpened);
@@ -52,24 +53,12 @@ export const Sidebar = (): ReactElement => {
 
   const handleSettingsClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    history.push(
-      { pathname: '/settings' },
-      { previous: history.location.pathname }
-    );
+    RouterUtil.push('/settings', history, { dontCompareWithPrevious: true });
   };
 
   const handleShortcutsClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    const previous = !history.location.state
-      ? history.location.state.previous === '/shortcuts'
-        ? '/'
-        : history.location.state.previous
-      : '/';
-
-    history.push(
-      { pathname: '/shortcuts' },
-      { previous }
-    );
+    RouterUtil.push('/shortcuts', history, { dontCompareWithPrevious: true });
   };
 
   return (

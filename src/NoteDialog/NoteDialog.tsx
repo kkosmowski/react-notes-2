@@ -37,6 +37,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { DateUtil } from '../domain/utils/date.util';
 import { NoteDetails } from './NoteDialog.styled';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
+import { RouterUtil } from '../domain/utils/router.util';
 
 export const emptyForm: NoteDialogFormValue = {
   title: '',
@@ -91,10 +92,10 @@ export const NoteDialog = (): ReactElement => {
 
       dispatch(NoteActions.selectNote(noteId));
 
-      history.push(
-        { pathname: `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }` },
-        { previous: location.state?.previous || '/' }
-      );
+      RouterUtil.push(
+        `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }`,
+        history,
+        { keepPrevious: true });
     } else if (noteId) {
       dispatch(NoteActions.findOpenedNote(noteId));
     } else {
@@ -150,10 +151,7 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const closeDialog = (): void => {
-    history.push(
-      { pathname: history.location.state.previous || '/' },
-      { previous: history.location.pathname }
-    );
+    RouterUtil.back(history);
   };
 
   const handleFormChange = (payload: NoteDialogFormPayload): void => {

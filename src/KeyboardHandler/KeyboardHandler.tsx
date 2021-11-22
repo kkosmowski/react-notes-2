@@ -14,6 +14,7 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { selectAddCategoryInProgress } from '../store/selectors/category.selectors';
+import { RouterUtil } from '../domain/utils/router.util';
 
 type ObservedDialogs = 'noteDialog' | 'confirmationDialog' | 'shortcutsDialog' | 'settings';
 
@@ -64,10 +65,6 @@ export const KeyboardHandler = (): ReactElement => {
     shortcutsDialogOpenedRef.current && !except?.includes('shortcutsDialog') ||
     settingsOpenedRef.current && !except?.includes('settings')
   );
-
-  const pushHistory = (pathname: string, previous = history.location.pathname): void => {
-    history.push({ pathname }, { previous });
-  };
 
   const handleKeyDown = (event: KeyboardEvent): void => {
     if (!isNaN(parseInt(event.key, 10))) {
@@ -128,14 +125,14 @@ export const KeyboardHandler = (): ReactElement => {
       return;
     }
 
-    pushHistory('/add-note');
+    RouterUtil.push('/add-note', history);
   };
 
   const handleEscape = (): void => {
     if (confirmationDialogOpenedRef.current) {
       dispatch(UiActions.closeConfirmationDialog(false));
     } else if (anyDialogOrSettingsOpened(['confirmationDialog'])) {
-      pushHistory(history.location.state?.previous || '/');
+      RouterUtil.back(history, { keepPrevious: true });
     } else if (addCategoryInProgressRef.current) {
       dispatch(CategoryActions.deleteTemporary(true));
     }
@@ -148,7 +145,7 @@ export const KeyboardHandler = (): ReactElement => {
     ) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
       dispatch(NoteActions.setOpenedNote(noteToOpen));
-      pushHistory(`/note/${ noteToOpen.id }`);
+      RouterUtil.push(`/note/${ noteToOpen.id }`, history);
     }
   };
 
@@ -162,11 +159,11 @@ export const KeyboardHandler = (): ReactElement => {
       openedNoteRef.current &&
       !history.location.pathname.endsWith('/edit')
     ) {
-      pushHistory(history.location.pathname + '/edit', history.location.state?.previous || '/' );
-    } else if (noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
+      RouterUtil.push(history.location.pathname + '/edit', history, { keepPrevious: true });
+    } else if (!noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
       dispatch(NoteActions.setOpenedNote(noteToOpen));
-      pushHistory(`/note/${ noteToOpen.id }/edit`);
+      RouterUtil.push(`/note/${ noteToOpen.id }/edit`, history);
     }
   };
 
@@ -233,7 +230,7 @@ export const KeyboardHandler = (): ReactElement => {
       return;
     }
 
-    pushHistory('/settings');
+    RouterUtil.push('/settings', history);
   };
 
   const handleOpenShortcutsDialog = (): void => {
@@ -241,7 +238,7 @@ export const KeyboardHandler = (): ReactElement => {
       return;
     }
 
-    pushHistory('/shortcuts');
+    RouterUtil.push('/shortcuts', history);
   };
 
   return <></>;

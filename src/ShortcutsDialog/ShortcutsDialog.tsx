@@ -13,6 +13,7 @@ import { Variant } from '../domain/enums/variant.enum';
 import { useHistory } from 'react-router-dom';
 import SHORTCUTS from './shortcuts';
 import { Explanation, Key, ListItem, ShortcutsList, Spacer } from './ShortcutsDialog.styled';
+import { RouterUtil } from '../domain/utils/router.util';
 
 export const ShortcutsDialog = (): ReactElement => {
   const { t } = useTranslation('SHORTCUTS_DIALOG');
@@ -62,17 +63,7 @@ export const ShortcutsDialog = (): ReactElement => {
   };
 
   const handleClose = (): void => {
-    //@todo refactor the routing
-    const pathname = !history.location.state
-      ? history.location.state.previous === '/shortcuts'
-        ? '/'
-        : history.location.state.previous
-      : '/';
-
-    history.push(
-      { pathname },
-      { previous: history.location.state?.previous || '/' }
-    );
+    RouterUtil.back(history);
   };
 
   return (

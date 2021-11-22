@@ -32,6 +32,7 @@ import { MouseAction, MouseActionPayload } from '../domain/interfaces/mouse-acti
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
+import { RouterUtil } from '../domain/utils/router.util';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -133,7 +134,7 @@ export const NotesContainer = (): ReactElement => {
       const rendered: RenderedNote[] = [];
 
       Array.from(document.getElementsByClassName('note')).forEach((note: Element, index) => {
-        if (notes[index]) {
+        if (currentCategoryNotes[index]) {
           const { top, left, width, height } = note.getBoundingClientRect();
           rendered.push({ top, left, width, height, id: currentCategoryNotes[index].id });
         }
@@ -214,10 +215,7 @@ export const NotesContainer = (): ReactElement => {
 
   const handleNoteOpen = (noteToOpen: NoteInterface, openWithEdit = false): void => {
     dispatch(NoteActions.setOpenedNote(noteToOpen));
-    history.push(
-      { pathname: `/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }` },
-      { previous: history.location.pathname }
-    );
+    RouterUtil.push(`/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }`, history);
   };
 
   const handleArchive = (note: NoteInterface): void => {
