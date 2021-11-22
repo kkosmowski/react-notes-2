@@ -14,6 +14,7 @@ export const initialCategoryState: CategoryState = {
   categoryDeletionInProgress: false,
   categoryRestorationInProgress: false,
   categoryUpdateRevertInProgress: false,
+  addCategoryInProgress: false,
 };
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
@@ -36,6 +37,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
     .addCase(categoryActions.deleteTemporaryCategory, (state) => {
       state.temporaryCategory = null;
+      state.addCategoryInProgress = false;
     })
 
     .addCase(categoryActions.createCategory, (state) => {
@@ -120,7 +122,12 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
     .addCase(categoryActions.restoreCategoryFail, (state) => {
       state.categoryRestorationInProgress = false;
-    });
+    })
+
+    .addCase(categoryActions.addCategory, (state) => {
+      state.addCategoryInProgress = true;
+    })
+  ;
 });
 
 export default categoryReducer;

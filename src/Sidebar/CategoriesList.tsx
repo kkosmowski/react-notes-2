@@ -13,7 +13,7 @@ import {
   selectEditedCategory,
   selectCurrentCategoryId,
   selectTemporaryCategory,
-  selectUndeletedCategories
+  selectUndeletedCategories, selectAddCategoryInProgress
 } from '../store/selectors/category.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
@@ -23,11 +23,6 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import { useHistory } from 'react-router-dom';
 import { isRootCategory } from '../utils/is-root-category.util';
 import { useTranslation } from 'react-i18next';
-import { selectLanguage } from '../store/selectors/settings.selectors';
-
-interface Props {
-  add: void[];
-}
 
 const emptyCategory: Category = {
   id: '',
@@ -35,7 +30,7 @@ const emptyCategory: Category = {
   deleted: false,
 };
 
-export const CategoriesList = ({ add }: Props): ReactElement => {
+export const CategoriesList = (): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
   const categories: Category[] = useSelector(selectUndeletedCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
@@ -43,6 +38,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   const edited: Category | null = useSelector(selectEditedCategory);
   const notes = useSelector(selectNotes);
   const confirmationResult = useSelector(selectConfirmationResult);
+  const addCategoryInProgress = useSelector(selectAddCategoryInProgress);
   const containsNotes = useRef<Record<EntityUid, boolean>>({});
   const initialRender = useRef<boolean>(true);
   const [categoryElements, setCategoryElements] = useState<ReactElement[]>([]);
@@ -72,7 +68,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
   }, [categories, temporary, currentCategoryId]);
 
   useEffect(() => {
-    if (!initialRender.current) {
+    if (!initialRender.current && addCategoryInProgress) {
       const newCategory: Category = { ...emptyCategory, id: uuidv4() };
       if (!temporary) {
         dispatch(CategoryActions.createTemporary(newCategory));
@@ -81,7 +77,7 @@ export const CategoriesList = ({ add }: Props): ReactElement => {
     } else {
       initialRender.current = false;
     }
-  }, [add]);
+  }, [addCategoryInProgress]);
 
   useEffect(() => {
     if (confirmationResult) {

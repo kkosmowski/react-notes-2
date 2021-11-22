@@ -9,12 +9,12 @@ import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selec
 import { CreateNewFolder, Keyboard, Settings as SettingsIcon } from '@material-ui/icons';
 import { Color } from '../domain/enums/color.enum';
 import { useHistory } from 'react-router-dom';
+import CategoryActions from '../store/actionCreators/category.action-creators';
 
 export const Sidebar = (): ReactElement => {
   const opened: boolean = useSelector(selectSidebarOpened);
   const isMobile: boolean = useSelector(selectIsMobile);
   const [className, setClassName] = useState<string>('');
-  const [addCategory, setAddCategory] = useState<void[]>([]); // @todo temporary hack
   const [animated, setAnimated] = useState<boolean>(false);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -39,7 +39,7 @@ export const Sidebar = (): ReactElement => {
   }, [opened, isMobile]);
 
   const handleCategoryAdd = (): void => {
-    setAddCategory([...addCategory]);
+    dispatch(CategoryActions.addCategory());
   };
 
   const handleSidebarClose = (): void => {
@@ -87,7 +87,7 @@ export const Sidebar = (): ReactElement => {
           <CreateNewFolder />
         </SidebarButton>
 
-        <CategoriesList add={ addCategory } />
+        <CategoriesList />
 
         <SidebarButton
           onClick={ handleSettingsClick }
