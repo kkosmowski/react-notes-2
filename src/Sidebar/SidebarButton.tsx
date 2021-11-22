@@ -4,7 +4,7 @@ import { SidebarButtonWrapper, StyledButton } from './styles/SidebarButton.style
 import { Color } from '../domain/enums/color.enum';
 
 interface Props {
-  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClick: (e: MouseEvent) => void;
   children: ReactElement;
   label: string;
   color?: Color;
@@ -13,8 +13,8 @@ interface Props {
 export const SidebarButton = ({ onClick, children, label, color }: Props): ReactElement => {
   const { t } = useTranslation('SIDEBAR');
   return (
-    <SidebarButtonWrapper>
-      <StyledButton onClick={ onClick } className={ `button --icon --lighter ${ color }` } type="button">
+    <SidebarButtonWrapper onClick={ onClick }>
+      <StyledButton className={ `button --icon --lighter ${ color }` } type="button">
         { children }
       </StyledButton>
 

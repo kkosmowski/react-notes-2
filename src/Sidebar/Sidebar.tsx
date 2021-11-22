@@ -50,7 +50,7 @@ export const Sidebar = (): ReactElement => {
     dispatch(UiActions.openSidebar());
   };
 
-  const handleSettingsClick = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleSettingsClick = (e: MouseEvent): void => {
     e.stopPropagation();
     history.push(
       { pathname: '/settings' },
@@ -58,7 +58,7 @@ export const Sidebar = (): ReactElement => {
     );
   };
 
-  const handleShortcutsClick = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleShortcutsClick = (e: MouseEvent): void => {
     e.stopPropagation();
     const previous = !history.location.state
       ? history.location.state.previous === '/shortcuts'
