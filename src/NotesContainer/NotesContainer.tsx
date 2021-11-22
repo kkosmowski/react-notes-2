@@ -135,7 +135,7 @@ export const NotesContainer = (): ReactElement => {
       Array.from(document.getElementsByClassName('note')).forEach((note: Element, index) => {
         if (notes[index]) {
           const { top, left, width, height } = note.getBoundingClientRect();
-          rendered.push({ top, left, width, height, id: notes[index].id });
+          rendered.push({ top, left, width, height, id: currentCategoryNotes[index].id });
         }
       });
 
@@ -171,6 +171,7 @@ export const NotesContainer = (): ReactElement => {
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>): void => {
     setMouseAction({ action: MouseAction.Move, event });
   };
+
   const handleMouseDown = (event: MouseEvent<HTMLDivElement>): void => {
     if (event.button === 0) { // LMB only
       clickDuration.current = null;
