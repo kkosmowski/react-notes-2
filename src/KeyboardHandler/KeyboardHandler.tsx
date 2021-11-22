@@ -183,7 +183,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleArchive = (): void => {
-    if (!selectedNotesRef.current || anyDialogOrSettingsOpened(['noteDialog'])) {
+    if (!selectedNotesRef.current || anyDialogOrSettingsOpened()) {
       return;
     }
 
