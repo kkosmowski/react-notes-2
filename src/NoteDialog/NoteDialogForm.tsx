@@ -136,7 +136,6 @@ export const NoteDialogForm = (
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
-        required
         disabled={ !isContentEdited(editMode) }
         testid={ noteDialogContentInputTestId }
       />

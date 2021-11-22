@@ -17,7 +17,10 @@ import {
 } from '../domain/interfaces/note-edit-mode.interface';
 import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { selectOpenedNote } from '../store/selectors/note.selectors';
-import { selectUndeletedCategories } from '../store/selectors/category.selectors';
+import {
+  selectCurrentCategoryId,
+  selectUndeletedCategories
+} from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
@@ -38,12 +41,7 @@ import { DateUtil } from '../domain/utils/date.util';
 import { NoteDetails } from './NoteDialog.styled';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { RouterUtil } from '../domain/utils/router.util';
-
-export const emptyForm: NoteDialogFormValue = {
-  title: '',
-  content: '',
-  categories: [],
-};
+import { rootCategory } from '../domain/consts/root-category.const';
 
 export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
@@ -55,9 +53,15 @@ export const NoteDialog = (): ReactElement => {
   const { noteId } = useParams<{ noteId: string }>();
   const categories = useSelector(selectUndeletedCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
+  const currentCategoryId = useSelector(selectCurrentCategoryId);
   const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
   const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
+  const emptyForm: NoteDialogFormValue = {
+    title: '',
+    content: '',
+    categories: currentCategoryId !== rootCategory.id ? [currentCategoryId] : [],
+  };
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
   const [clearForm, setClearForm] = useState<void[]>([]); // @todo temporary hack
@@ -83,7 +87,6 @@ export const NoteDialog = (): ReactElement => {
 
   useEffect(() => {
     if (openedNote) {
-      setForm(openedNote);
       setDialogTitleKey(
         isEditMode(editMode)
           ? 'NOTE_DIALOG:EDIT_NOTE'
