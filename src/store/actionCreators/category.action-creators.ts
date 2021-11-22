@@ -93,8 +93,11 @@ const CategoryActions = {
     };
   },
 
-  deleteTemporary(): Action {
-    return categoryActions.deleteTemporaryCategory();
+  deleteTemporary(closeSidebar = false): ActionFunction<void> {
+    return function (dispatch: Dispatch): void {
+      dispatch(categoryActions.deleteTemporaryCategory());
+      closeSidebar && dispatch(UiActions.closeSidebar());
+    };
   },
 
   deleteCategory(category: Category): ActionFunction<Promise<void>> {
@@ -103,6 +106,10 @@ const CategoryActions = {
 
   restoreCategory(category: Category): ActionFunction<Promise<void>> {
     return deleteAndRestore(category, 'restoreCategory');
+  },
+
+  addCategory(): Action {
+    return categoryActions.addCategory();
   },
 };
 

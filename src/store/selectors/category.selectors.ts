@@ -26,3 +26,7 @@ export const selectEditedCategory = createSelector(
 export const selectTemporaryCategory = createSelector(
   categorySelector, (category: CategoryState) => category.temporaryCategory
 );
+
+export const selectAddCategoryInProgress = createSelector(
+  categorySelector, (category: CategoryState) => category.addCategoryInProgress
+);

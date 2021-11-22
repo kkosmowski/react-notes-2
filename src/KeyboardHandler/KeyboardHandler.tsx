@@ -13,6 +13,7 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { rootCategory } from '../domain/consts/root-category.const';
+import { selectAddCategoryInProgress } from '../store/selectors/category.selectors';
 
 type ObservedDialogs = 'noteDialog' | 'confirmationDialog' | 'shortcutsDialog' | 'settings';
 
@@ -31,6 +32,8 @@ export const KeyboardHandler = (): ReactElement => {
   const shortcutsDialogOpenedRef = useRef(shortcutsDialogOpened);
   const settingsOpened = useSelector(selectSettingsOpened);
   const settingsOpenedRef = useRef(settingsOpened);
+  const addCategoryInProgress = useSelector(selectAddCategoryInProgress);
+  const addCategoryInProgressRef = useRef(addCategoryInProgress);
   const allSelectedNotesAreArchived = useRef<boolean>();
   const noSelectedNotesAreArchived = useRef<boolean>();
   const archiveOrRestoreEnabled = useRef<boolean>();
@@ -53,6 +56,7 @@ export const KeyboardHandler = (): ReactElement => {
   }, [selectedNotes]);
   useEffect(() => { shortcutsDialogOpenedRef.current = shortcutsDialogOpened; }, [shortcutsDialogOpened]);
   useEffect(() => { settingsOpenedRef.current = settingsOpened; }, [settingsOpened]);
+  useEffect(() => { addCategoryInProgressRef.current = addCategoryInProgress; }, [addCategoryInProgress]);
 
   const anyDialogOrSettingsOpened = (except?: ObservedDialogs[]): boolean => (
     noteDialogOpenedRef.current && !except?.includes('noteDialog') ||
@@ -130,9 +134,10 @@ export const KeyboardHandler = (): ReactElement => {
   const handleEscape = (): void => {
     if (confirmationDialogOpenedRef.current) {
       dispatch(UiActions.closeConfirmationDialog(false));
-    }
-    else if (anyDialogOrSettingsOpened(['confirmationDialog'])) {
+    } else if (anyDialogOrSettingsOpened(['confirmationDialog'])) {
       pushHistory(history.location.state?.previous || '/');
+    } else if (addCategoryInProgressRef.current) {
+      dispatch(CategoryActions.deleteTemporary(true));
     }
   };
 
@@ -158,8 +163,7 @@ export const KeyboardHandler = (): ReactElement => {
       !history.location.pathname.endsWith('/edit')
     ) {
       pushHistory(history.location.pathname + '/edit', history.location.state?.previous || '/' );
-    }
-    else if (noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
+    } else if (noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
       dispatch(NoteActions.setOpenedNote(noteToOpen));
       pushHistory(`/note/${ noteToOpen.id }/edit`);
@@ -221,7 +225,7 @@ export const KeyboardHandler = (): ReactElement => {
       return;
     }
 
-    // @todo
+    dispatch(CategoryActions.addCategory());
   };
 
   const handleOpenSettings = (): void => {
