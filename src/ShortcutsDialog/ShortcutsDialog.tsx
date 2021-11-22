@@ -82,7 +82,7 @@ export const ShortcutsDialog = (): ReactElement => {
       testid={ shortcutsDialogTestId }
       onClose={ handleClose }
     >
-      <DialogTitle>Shortcuts </DialogTitle>
+      <DialogTitle>{ t('COMMON:SHORTCUTS') }</DialogTitle>
 
       <ShortcutsList>
         { shortcutsList }
@@ -90,7 +90,7 @@ export const ShortcutsDialog = (): ReactElement => {
 
       <DialogControls>
         <Button onClick={ handleClose } variant={ Variant.Regular }>
-          Close
+          { t('COMMON:CLOSE') }
         </Button>
       </DialogControls>
     </Dialog>
