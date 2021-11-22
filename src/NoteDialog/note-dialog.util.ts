@@ -2,7 +2,7 @@ import { NoteDialogFormValue } from '../domain/interfaces/note-dialog-form.inter
 
 export class NoteDialogUtil {
   static isFormValid(form: NoteDialogFormValue): boolean {
-    return this.isFieldValid(form.title) && this.isFieldValid(form.content);
+    return this.isFieldValid(form.title);
   }
 
   static isFieldValid(value: string): boolean {
