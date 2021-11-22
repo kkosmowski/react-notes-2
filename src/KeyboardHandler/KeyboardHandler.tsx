@@ -14,6 +14,8 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { rootCategory } from '../domain/consts/root-category.const';
 
+type ObservedDialogs = 'noteDialog' | 'confirmationDialog' | 'shortcutsDialog' | 'settings';
+
 export const KeyboardHandler = (): ReactElement => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -51,6 +53,13 @@ export const KeyboardHandler = (): ReactElement => {
   }, [selectedNotes]);
   useEffect(() => { shortcutsDialogOpenedRef.current = shortcutsDialogOpened; }, [shortcutsDialogOpened]);
   useEffect(() => { settingsOpenedRef.current = settingsOpened; }, [settingsOpened]);
+
+  const anyDialogOrSettingsOpened = (except?: ObservedDialogs[]): boolean => (
+    noteDialogOpenedRef.current && !except?.includes('noteDialog') ||
+    confirmationDialogOpenedRef.current && !except?.includes('confirmationDialog') ||
+    shortcutsDialogOpenedRef.current && !except?.includes('shortcutsDialog') ||
+    settingsOpenedRef.current && !except?.includes('settings')
+  );
 
   const pushHistory = (pathname: string, previous = history.location.pathname): void => {
     history.push({ pathname }, { previous });
@@ -110,15 +119,8 @@ export const KeyboardHandler = (): ReactElement => {
     }
   };
 
-  // @todo simplify the repeated logic
-
   const handleAddNote = (): void => {
-    if (
-      noteDialogOpenedRef.current ||
-      confirmationDialogOpenedRef.current ||
-      shortcutsDialogOpenedRef.current ||
-      settingsOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened()) {
       return;
     }
 
@@ -129,21 +131,14 @@ export const KeyboardHandler = (): ReactElement => {
     if (confirmationDialogOpenedRef.current) {
       dispatch(UiActions.closeConfirmationDialog(false));
     }
-    else if (
-      noteDialogOpenedRef.current ||
-      shortcutsDialogOpenedRef.current ||
-      settingsOpenedRef.current
-    ) {
+    else if (anyDialogOrSettingsOpened(['confirmationDialog'])) {
       pushHistory(history.location.state?.previous || '/');
     }
   };
 
   const handleOpenNote = (): void => {
     if (
-      !noteDialogOpenedRef.current &&
-      !confirmationDialogOpenedRef.current &&
-      !settingsOpenedRef.current &&
-      !shortcutsDialogOpenedRef.current &&
+      !anyDialogOrSettingsOpened() &&
       Object.values(selectedNotesRef.current).length === 1
     ) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
@@ -153,11 +148,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleKeyE = (): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      shortcutsDialogOpenedRef.current ||
-      settingsOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened(['noteDialog'])) {
       return;
     }
 
@@ -168,7 +159,7 @@ export const KeyboardHandler = (): ReactElement => {
     ) {
       pushHistory(history.location.pathname + '/edit', history.location.state?.previous || '/' );
     }
-    else if (!noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
+    else if (noteDialogOpenedRef.current && Object.values(selectedNotesRef.current).length === 1) {
       const noteToOpen = Object.values(selectedNotesRef.current)[0];
       dispatch(NoteActions.setOpenedNote(noteToOpen));
       pushHistory(`/note/${ noteToOpen.id }/edit`);
@@ -176,15 +167,11 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleDelete = (): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      settingsOpenedRef.current ||
-      shortcutsDialogOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened(['noteDialog'])) {
       return;
     }
 
-    if (!noteDialogOpenedRef.current || (noteDialogOpenedRef.current && openedNoteRef.current)) {
+    if (noteDialogOpenedRef.current || (noteDialogOpenedRef.current && openedNoteRef.current)) {
       if (Object.values(selectedNotesRef.current).length >= 1) {
         dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
       }
@@ -192,12 +179,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleArchive = (): void => {
-    if (
-      !selectedNotesRef.current ||
-      confirmationDialogOpenedRef.current ||
-      shortcutsDialogOpenedRef.current ||
-      settingsOpenedRef.current
-    ) {
+    if (!selectedNotesRef.current || anyDialogOrSettingsOpened(['noteDialog'])) {
       return;
     }
 
@@ -223,12 +205,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleNumberKey = (digit: number): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      noteDialogOpenedRef.current ||
-      settingsOpenedRef.current ||
-      shortcutsDialogOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened()) {
       return;
     }
 
@@ -240,24 +217,15 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleCreateCategory = (): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      noteDialogOpenedRef.current ||
-      settingsOpenedRef.current ||
-      shortcutsDialogOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened()) {
       return;
     }
+
     // @todo
   };
 
   const handleOpenSettings = (): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      noteDialogOpenedRef.current ||
-      settingsOpenedRef.current ||
-      shortcutsDialogOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened()) {
       return;
     }
 
@@ -265,12 +233,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleOpenShortcutsDialog = (): void => {
-    if (
-      confirmationDialogOpenedRef.current ||
-      noteDialogOpenedRef.current ||
-      settingsOpenedRef.current ||
-      shortcutsDialogOpenedRef.current
-    ) {
+    if (anyDialogOrSettingsOpened()) {
       return;
     }
 
