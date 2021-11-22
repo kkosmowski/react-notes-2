@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties, ReactElement, useRef } from 'react';
+import { ChangeEvent, CSSProperties, KeyboardEvent, ReactElement, useRef } from 'react';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 import { StyledInput, InputWrapper, TextArea, Wrapper } from './Input.styled';
 import { Label } from '../Label/Label';
@@ -42,6 +42,10 @@ export const Input = ({
     onDoubleClick && onDoubleClick(id, disabled);
   };
 
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    event.stopPropagation();
+  };
+
   return (
     <Wrapper>
       { label && <Label>{ label }</Label> }
@@ -49,6 +53,7 @@ export const Input = ({
         { type === 'textarea'
           ? <TextArea
             onChange={ handleChange }
+            onKeyDown={ handleKeyDown }
             className={ touched.current ? '--touched' : '' }
             id={ id }
             value={ value }
@@ -60,6 +65,7 @@ export const Input = ({
           />
           : <StyledInput
             onChange={ handleChange }
+            onKeyDown={ handleKeyDown }
             className={ touched.current ? '--touched' : '' }
             type={ type }
             id={ id }

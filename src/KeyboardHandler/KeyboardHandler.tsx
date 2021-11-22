@@ -221,7 +221,7 @@ export const KeyboardHandler = (): ReactElement => {
   };
 
   const handleCreateCategory = (): void => {
-    if (anyDialogOrSettingsOpened()) {
+    if (anyDialogOrSettingsOpened() || addCategoryInProgressRef.current) {
       return;
     }
 
