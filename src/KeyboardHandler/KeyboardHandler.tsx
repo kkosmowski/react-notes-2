@@ -175,7 +175,7 @@ export const KeyboardHandler = (): ReactElement => {
       return;
     }
 
-    if (noteDialogOpenedRef.current || (noteDialogOpenedRef.current && openedNoteRef.current)) {
+    if (!noteDialogOpenedRef.current || (noteDialogOpenedRef.current && openedNoteRef.current)) {
       if (Object.values(selectedNotesRef.current).length >= 1) {
         dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
       }
