@@ -100,8 +100,7 @@ export const CategoriesList = (): ReactElement => {
   }, [confirmationResult]);
 
   const mapCategoriesToCategoryListItems = (): void => {
-    const translatedRootCategory = { ...rootCategory, name: t(rootCategory.name) };
-    const _categories = [translatedRootCategory, ...categories];
+    const _categories = [rootCategory, ...categories];
 
     if (temporary) {
       _categories.push(temporary);

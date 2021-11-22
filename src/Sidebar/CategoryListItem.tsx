@@ -12,6 +12,7 @@ import { Coords } from '../domain/interfaces/coords.interface';
 import { handleEventAndReturnCoords } from '../ContextMenu/handle-event-and-return-coords.util';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch } from 'react-redux';
+import { rootCategory } from '../domain/consts/root-category.const';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -155,7 +156,10 @@ export const CategoryListItem = (
 
   const RegularView: ReactElement = (
     <>
-      <span title={ data.name }>{ data.name }</span>
+      { data.id === rootCategory.id
+        ? <span title={ t(data.name) }>{ t(data.name) }</span>
+        : <span title={ data.name }>{ data.name }</span>
+      }
       { canBeEdited.current
         ? (
           <>
