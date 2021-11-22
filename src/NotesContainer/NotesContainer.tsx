@@ -161,7 +161,7 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
-    if (mouseDownAt.current) {
+    if (mouseDownAt.current && event.button === 0) {
       clickDuration.current = new Date().getTime() - mouseDownAt.current.getTime();
       mouseDownAt.current = null;
       setMouseAction({ action: MouseAction.Up, event });
@@ -172,10 +172,12 @@ export const NotesContainer = (): ReactElement => {
     setMouseAction({ action: MouseAction.Move, event });
   };
   const handleMouseDown = (event: MouseEvent<HTMLDivElement>): void => {
-    clickDuration.current = null;
-    mouseDownAt.current = new Date();
-    setMouseAction({ action: MouseAction.Down, event });
-    isMouseDown.current = true;
+    if (event.button === 0) { // LMB only
+      clickDuration.current = null;
+      mouseDownAt.current = new Date();
+      setMouseAction({ action: MouseAction.Down, event });
+      isMouseDown.current = true;
+    }
   };
 
   const handleSelectionCoverageChange = (noteIds: EntityUid[]) => {
