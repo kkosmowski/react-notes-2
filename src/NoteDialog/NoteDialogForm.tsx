@@ -5,6 +5,7 @@ import { Category } from '../domain/interfaces/category.interface';
 import { useTranslation } from 'react-i18next';
 import {
   isContentEdited,
+  isEditMode,
   isEditModeBoth,
   isTitleEdited,
   NoteEditMode
@@ -122,8 +123,9 @@ export const NoteDialogForm = (
         onDoubleClick={ handleEditModeChange }
         value={ form.title }
         label={ t('TITLE') }
-        required={ true }
         disabled={ !isTitleEdited(editMode) }
+        autofocus={ !openedNote || isEditMode(editMode) }
+        required
         testid={ noteDialogTitleInputTestId }
       />
 
@@ -134,7 +136,7 @@ export const NoteDialogForm = (
         value={ form.content }
         label={ t('CONTENT') }
         type="textarea"
-        required={ true }
+        required
         disabled={ !isContentEdited(editMode) }
         testid={ noteDialogContentInputTestId }
       />
