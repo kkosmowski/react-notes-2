@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { Delete, Edit, Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
 import { ListItem } from './styles/CategoryListItem.styled';
@@ -77,6 +77,10 @@ export const CategoryListItem = (
     });
   };
 
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    event.stopPropagation();
+  };
+
   const handleSave = (e?: MouseEvent): void => {
     e && e.stopPropagation();
     if (editMode) {
@@ -102,6 +106,7 @@ export const CategoryListItem = (
         onClick={ stopPropagation }
         onChange={ (event) => setName(event.target.value) }
         onBlur={ handleBlur }
+        onKeyDown={ handleKeyDown }
         value={ name }
         ref={ nameInputRef }
         className="input --text category-name"
