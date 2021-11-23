@@ -60,7 +60,14 @@ export const Sidebar = (): ReactElement => {
 
   const handleShortcutsClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    RouterUtil.push('/shortcuts', history, { dontCompareWithPrevious: true });
+    RouterUtil.push(
+      '/shortcuts',
+      history,
+      {
+        dontCompareWithPrevious: true,
+        keepPrevious: settingsOpened,
+      }
+    );
   };
 
   return (

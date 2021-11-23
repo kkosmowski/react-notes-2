@@ -84,8 +84,12 @@ export const NotesContainer = (): ReactElement => {
   }, [confirmationResult, selectedNotesCount]);
 
   useEffect(() => {
-    if (categoryId && categoryId !== currentCategoryId) {
-      dispatch(CategoryActions.change(categoryId, true));
+    if (categoryId) {
+      if (categoryId !== currentCategoryId) {
+        dispatch(CategoryActions.change(categoryId, true));
+      }
+    } else if (!history.location.pathname.endsWith('/shortcuts')) {
+      dispatch(CategoryActions.change(rootCategory.id, true));
     }
   }, [categoryId]);
 

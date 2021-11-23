@@ -42,7 +42,6 @@ export const Settings = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    console.log({ theme, direction, language, snackbarDuration });
     setForm({ theme, direction, language, snackbarDuration });
   }, [ theme, direction, language, snackbarDuration ]);
 

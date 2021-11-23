@@ -2,8 +2,8 @@ import { History } from 'history';
 
 interface RouterUtilOptions {
   customPrevious?: string;
-  dontCompareWithPrevious?: true;
-  keepPrevious?: true;
+  dontCompareWithPrevious?: boolean;
+  keepPrevious?: boolean;
 }
 
 export class RouterUtil {
