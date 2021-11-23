@@ -108,7 +108,7 @@ export const pl: typeof en = {
       DARK_GREEN: 'Ciemny zielony',
       DARK_BLUE: 'Ciemny niebieski',
       LIGHT_RED: 'Jasny czerwony',
-      LIGHT_PURPLE: 'Jasny purporowy',
+      LIGHT_PURPLE: 'Jasny purpurowy',
       DARK_VIOLET: 'Ciemny fioletowy',
       DARK_GRAY: 'Ciemny szary',
     }

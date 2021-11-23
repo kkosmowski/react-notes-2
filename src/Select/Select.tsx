@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
 import { SelectOption } from './select-option.interface';
 import styled from 'styled-components/macro';
 import { Label } from '../Label/Label';
@@ -13,14 +13,22 @@ interface Props {
 }
 
 export const Select = ({ options, label, initialValue, onChange }: Props): ReactElement => {
+  const [value, setValue] = useState(initialValue);
   const { t } = useTranslation();
+
+  useEffect(() => { setValue(initialValue); }, [initialValue]);
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>): void => {
+    setValue(e.target.value);
+    onChange(e);
+  };
 
   return (
     <SelectWrapper>
       { label && <Label>{ label }</Label> }
-      <StyledSelect onChange={ onChange } defaultValue={ initialValue }>
+      <StyledSelect onChange={ handleChange } value={ value }>
         { options.map(({ label, value, translate }) => (
-          <option value={ value } key={ value } >
+          <option value={ value } key={ value }>
             { translate ? t(label) : label }
           </option>
         ))}
