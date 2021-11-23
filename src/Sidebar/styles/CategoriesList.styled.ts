@@ -7,4 +7,8 @@ export const CategoriesListWrapper = styled.ul`
   flex: 1;
   line-height: 1;
   overflow: hidden;
+
+  @media (max-width: 599px) {
+    overflow-y: auto;
+  }
 `;
