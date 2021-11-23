@@ -1,19 +1,35 @@
 import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
-  padding: 32px var(--wrapper-horizontal-padding);
+  padding: 16px 24px;
+  
+  @media (min-width: 600px) {
+    padding: 32px var(--wrapper-horizontal-padding);
+  }
 `;
 
 export const Section = styled.section`
   max-width: 800px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  padding: 24px 0;
+  flex-direction: column;
+  padding: 16px 0;
+  row-gap: 16px;
   border-top: 1px solid var(--foreground-11);
   
   &:not(:first-child) {
-    margin-top: 64px;
+    margin-top: 40px;
+  }
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: flex-start;
+    row-gap: unset;
+    padding-top: 24px;
+    padding-bottom: 24px;
+
+    &:not(:first-child) {
+      margin-top: 64px;
+    }
   }
 `;
 
@@ -33,12 +49,25 @@ export const LeftSide = styled.div`
 
 export const RightSide = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  column-gap: 24px;
+  flex-direction: column;
+  row-gap: 8px;
   
-  > .button {
+  > .button,
+  input {
     height: 36px;
+  }
+  
+  @media (max-width: 599px) {
+    input {
+      width: 100% !important;
+    }
+  }
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    align-items: flex-end;
+    column-gap: 24px;
+    row-gap: unset;
   }
 `;
 

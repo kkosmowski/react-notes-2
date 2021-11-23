@@ -54,4 +54,8 @@ const StyledSelect = styled.select`
   ${ InputStyles };
   padding: 4px 32px 4px 20px;
   min-width: 80px;
+  
+  @media (max-width: 599px) {
+    width: 100%;
+  }
 `;
