@@ -71,22 +71,5 @@ describe('ControlsBar', function () {
 
       expect(screen.getByTestId(addNoteButtonTestId)).toBeInTheDocument();
     });
-
-    it('dispatches an action on click', () => {
-      mockedStore = mockStore(initialRootState);
-
-      render(
-        <Provider store={ mockedStore }>
-          <MemoryRouter>
-            <ControlsBar />
-          </MemoryRouter>
-        </Provider>
-      );
-
-      fireEvent.click(screen.getByTestId(addNoteButtonTestId));
-
-      const actions = mockedStore.getActions();
-      expect(actions[0].type).toEqual('OPEN_NOTE_DIALOG');
-    });
   });
 });

@@ -135,12 +135,16 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
 
     .addCase(noteActions.selectNote, (state, { payload }) => {
-      const note = state.notes.find((note) => note.id === payload)!;
+      if (state.notes.length) {
+        const note = state.notes.find((note) => note.id === payload);
 
-      if (state.noteSelectionMode === NoteSelectionMode.Multi) {
-        state.selectedNotes[payload] = note;
-      } else {
-        state.selectedNotes = { [payload]: note };
+        if (note) {
+          if (state.noteSelectionMode === NoteSelectionMode.Multi) {
+            state.selectedNotes[payload] = note;
+          } else {
+            state.selectedNotes = { [payload]: note };
+          }
+        }
       }
     })
     .addCase(noteActions.selectMultipleNotes, (state, { payload }) => {
