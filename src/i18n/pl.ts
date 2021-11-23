@@ -13,6 +13,7 @@ export const pl: typeof en = {
     EDIT: 'Edytuj',
     CLOSE: 'Zamknij',
     RESET: 'Resetuj',
+    SELECT: 'Zmień',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
     ARCHIVE: 'Zarchiwizuj',
     RESTORE: 'Przywróć',
@@ -48,7 +49,7 @@ export const pl: typeof en = {
       LEAVE_PROGRESS: 'Porzucić zmiany?',
       DELETE_NOTE: 'Usunąć notatkę?',
       DELETE_NOTES: 'Usunąć notatki?',
-      DELETE_CATEGORY: 'Usunąć kategori?',
+      DELETE_CATEGORY: 'Usunąć kategorię?',
     },
     MESSAGE: {
       LEAVE_PROGRESS: 'Czy na pewno chcesz porzucić swoje zmiany?',
