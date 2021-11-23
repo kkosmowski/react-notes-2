@@ -6,10 +6,15 @@ import { SettingsModel } from '../../domain/model/settings.model';
 import { Theme } from '../../domain/enums/theme.enum';
 import { Direction } from '../../domain/types/direction.type';
 import { Language } from '../../domain/enums/language.enum';
+import { Dispatch } from 'redux';
+import categoryActions from '../actions/category.actions';
 
 const SettingsActions = {
-  openSettings(): Action {
-    return settingsActions.openSettings();
+  openSettings(): ActionFunction<void> {
+    return (dispatch: Dispatch): void => {
+      dispatch(settingsActions.openSettings());
+      dispatch(categoryActions.clearCurrent());
+    };
   },
   closeSettings(): Action {
     return settingsActions.closeSettings();

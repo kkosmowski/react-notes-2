@@ -57,6 +57,9 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     .addCase(categoryActions.changeCategory, (state, { payload }) => {
       state.currentCategoryId = payload;
     })
+    .addCase(categoryActions.clearCurrent, (state) => {
+      state.currentCategoryId = null;
+    })
     .addCase(categoryActions.changeCategoryToIndex, (state, { payload }) => {
       state.currentCategoryId = state.categories[payload].id;
     })

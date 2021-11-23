@@ -9,7 +9,6 @@ import { Category } from '../domain/interfaces/category.interface';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { selectNoteSelectionMode, selectSelectedNotesCount } from '../store/selectors/note.selectors';
-import { EntityUid } from '../domain/types/entity-uid.type';
 import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
 import { Route, Switch } from 'react-router-dom';
 import { CategoryTitle, MainWrapper } from './Main.styled';
@@ -58,7 +57,7 @@ const AppRoutes = (): ReactElement => {
 };
 
 export const Main = (): ReactElement => {
-  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
+  const currentCategoryId = useSelector(selectCurrentCategoryId);
   const categories: Category[] = useSelector(selectCategories);
   const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);

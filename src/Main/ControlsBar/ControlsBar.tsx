@@ -33,6 +33,7 @@ import {
 import { ArchivedSwitch, Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { RouterUtil } from '../../domain/utils/router.util';
+import { rootCategory } from '../../domain/consts/root-category.const';
 
 export const ControlsBar = (): ReactElement => {
   const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
@@ -88,12 +89,12 @@ export const ControlsBar = (): ReactElement => {
     if (selectedNotesCount === 1) {
       dispatch(NoteActions.removeFromCategory({
         noteId: Object.keys(selectedNotes)[0],
-        categoryId: currentCategoryId
+        categoryId: currentCategoryId || rootCategory.id
       }));
     } else if (selectedNotesCount > 1) {
       dispatch(NoteActions.removeMultipleNotesFromCategory({
         noteIds: Object.keys(selectedNotes),
-        categoryId: currentCategoryId
+        categoryId: currentCategoryId || rootCategory.id
       }));
     }
   };

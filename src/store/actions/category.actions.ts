@@ -15,6 +15,7 @@ const categoryActions = {
   createCategoryFail: createAction<void>('CREATE_CATEGORY_FAIL'),
 
   changeCategory: createAction<EntityUid>('CHANGE_CATEGORY'),
+  clearCurrent: createAction<void>('CLEAR_CURRENT_CATEGORY'),
   changeCategoryToIndex: createAction<number>('CHANGE_CATEGORY_TO_INDEX'),
 
   editCategory: createAction<Category>('EDIT_CATEGORY'),

@@ -34,7 +34,7 @@ export const CategoriesList = (): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
   const categories: Category[] = useSelector(selectUndeletedCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
-  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
+  const currentCategoryId = useSelector(selectCurrentCategoryId);
   const edited: Category | null = useSelector(selectEditedCategory);
   const notes = useSelector(selectNotes);
   const confirmationResult = useSelector(selectConfirmationResult);

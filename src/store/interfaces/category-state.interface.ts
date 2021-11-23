@@ -5,7 +5,7 @@ export interface CategoryState {
   categories: Category[];
   categoryCreationInProgress: boolean;
   categoriesLoading: boolean;
-  currentCategoryId: EntityUid;
+  currentCategoryId: EntityUid | null;
   editedCategory: Category | null;
   temporaryCategory: Category | null;
   categoryUpdateInProgress: boolean;

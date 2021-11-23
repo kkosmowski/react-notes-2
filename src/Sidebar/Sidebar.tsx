@@ -11,10 +11,12 @@ import { Color } from '../domain/enums/color.enum';
 import { useHistory } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
+import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 
 export const Sidebar = (): ReactElement => {
-  const opened: boolean = useSelector(selectSidebarOpened);
-  const isMobile: boolean = useSelector(selectIsMobile);
+  const opened = useSelector(selectSidebarOpened);
+  const isMobile = useSelector(selectIsMobile);
+  const settingsOpened = useSelector(selectSettingsOpened);
   const [className, setClassName] = useState<string>('');
   const [animated, setAnimated] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -81,6 +83,7 @@ export const Sidebar = (): ReactElement => {
         <SidebarButton
           onClick={ handleSettingsClick }
           label="COMMON:SETTINGS"
+          color={ settingsOpened ? Color.Primary : Color.None }
         >
           <SettingsIcon />
         </SidebarButton>

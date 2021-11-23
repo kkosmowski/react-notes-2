@@ -39,7 +39,7 @@ export const NotesContainer = (): ReactElement => {
   const { t } = useTranslation('COMMON');
   const notes: NoteInterface[] = useSelector(selectNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
-  const currentCategoryId: EntityUid = useSelector(selectCurrentCategoryId);
+  const currentCategoryId = useSelector(selectCurrentCategoryId);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const selectedNotes = useSelector(selectSelectedNotes);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
@@ -104,7 +104,7 @@ export const NotesContainer = (): ReactElement => {
   useEffect(() => {
     if (currentCategoryId === rootCategory.id) {
       setCurrentCategoryNotes(notes);
-    } else {
+    } else if (currentCategoryId) {
       const filteredNotes = notes.filter((note) => note.categories.includes(currentCategoryId));
       setCurrentCategoryNotes((filteredNotes));
     }

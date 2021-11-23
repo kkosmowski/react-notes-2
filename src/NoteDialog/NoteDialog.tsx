@@ -60,7 +60,7 @@ export const NoteDialog = (): ReactElement => {
   const emptyForm: NoteDialogFormValue = {
     title: '',
     content: '',
-    categories: currentCategoryId !== rootCategory.id ? [currentCategoryId] : [],
+    categories: currentCategoryId && currentCategoryId !== rootCategory.id ? [currentCategoryId] : [],
   };
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
