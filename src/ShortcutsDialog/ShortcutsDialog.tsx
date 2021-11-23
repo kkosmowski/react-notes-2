@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import SHORTCUTS from './shortcuts';
 import { Explanation, Key, ListItem, ShortcutsList, Spacer } from './ShortcutsDialog.styled';
 import { RouterUtil } from '../domain/utils/router.util';
+import { debounce } from '@material-ui/core';
 
 export const ShortcutsDialog = (): ReactElement => {
   const { t } = useTranslation('SHORTCUTS_DIALOG');
@@ -37,7 +38,7 @@ export const ShortcutsDialog = (): ReactElement => {
     };
   }, []);
 
-  const renderShortcutsList = (): void => {
+  const renderShortcutsList = debounce((): void => {
     const list = [];
 
     for (const key in SHORTCUTS.general) {
@@ -61,7 +62,7 @@ export const ShortcutsDialog = (): ReactElement => {
     }
 
     setShortcutsList(list);
-  };
+  }, 200);
 
   const handleClose = (): void => {
     RouterUtil.back(history);
