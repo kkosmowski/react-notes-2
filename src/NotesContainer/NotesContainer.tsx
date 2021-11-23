@@ -30,7 +30,7 @@ import { RenderedNote } from '../domain/interfaces/rendered-note.interface';
 import { Selection } from './Selection';
 import { MouseAction, MouseActionPayload } from '../domain/interfaces/mouse-action.interface';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
-import { selectConfirmationResult } from '../store/selectors/ui.selectors';
+import { selectConfirmationResult, selectIsMobile } from '../store/selectors/ui.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
 
@@ -46,6 +46,7 @@ export const NotesContainer = (): ReactElement => {
   const confirmationResult = useSelector(selectConfirmationResult);
   const openedNote = useSelector(selectOpenedNote);
   const noteToOpen = useSelector(selectNoteToOpen);
+  const isMobile = useSelector(selectIsMobile);
   const [currentCategoryNotes, setCurrentCategoryNotes] = useState<NoteInterface[]>([]);
   const [selectionCoveredNotes, setSelectionCoveredNotes] = useState<EntityUid[]>([]);
   const [notesToRender, setNotesToRender] = useState<ReactElement[]>([]);
@@ -162,7 +163,7 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleMouseUp = (event: MouseEvent<HTMLDivElement>): void => {
-    if (mouseDownAt.current && event.button === 0) {
+    if (!isMobile && mouseDownAt.current && event.button === 0) {
       clickDuration.current = new Date().getTime() - mouseDownAt.current.getTime();
       mouseDownAt.current = null;
       setMouseAction({ action: MouseAction.Up, event });
@@ -170,11 +171,13 @@ export const NotesContainer = (): ReactElement => {
     isMouseDown.current = false;
   };
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>): void => {
-    setMouseAction({ action: MouseAction.Move, event });
+    if (!isMobile) {
+      setMouseAction({ action: MouseAction.Move, event });
+    }
   };
 
   const handleMouseDown = (event: MouseEvent<HTMLDivElement>): void => {
-    if (event.button === 0) { // LMB only
+    if (!isMobile && event.button === 0) { // LMB only
       clickDuration.current = null;
       mouseDownAt.current = new Date();
       setMouseAction({ action: MouseAction.Down, event });
@@ -232,12 +235,14 @@ export const NotesContainer = (): ReactElement => {
       onMouseMove={ handleMouseMove }
       onMouseUp={ handleMouseUp }
     >
-      <Selection
-        renderedNotes={ renderedNotes }
-        mouseAction={ mouseAction }
-        selectionCoveredNotes={ selectionCoveredNotes }
-        onSelectionCoverageChange={ handleSelectionCoverageChange }
-      />
+      { !isMobile && (
+        <Selection
+          renderedNotes={ renderedNotes }
+          mouseAction={ mouseAction }
+          selectionCoveredNotes={ selectionCoveredNotes }
+          onSelectionCoverageChange={ handleSelectionCoverageChange }
+        />
+      ) }
       <NotesWrapperContainer ref={ containerRef } columns={ numberOfColumns }>
         { notesLoading
           ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } size={ LoaderSize.Medium } />
