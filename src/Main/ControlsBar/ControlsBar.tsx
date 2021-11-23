@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, ReactElement, useEffect } from 'react';
+import { ChangeEvent, MouseEvent, ReactElement } from 'react';
 import UiActions from '../../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';

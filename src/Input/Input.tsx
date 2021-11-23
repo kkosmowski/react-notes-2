@@ -14,7 +14,7 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 interface Props {
   id: string;
   label?: string;
-  value: any;
+  value: string | number;
   type?: 'text' | 'number' | 'textarea';
   disabled?: boolean;
   required?: boolean;

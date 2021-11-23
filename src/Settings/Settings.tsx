@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import SettingsActions from '../store/actionCreators/settings.action-creators';
 import { ErrorText, LeftSide, RightSide, Section, Subtitle, Wrapper } from './Settings.styled';
 import { Button } from '../Button/Button';
@@ -24,7 +24,6 @@ import { getPluralizedSecondsUtil } from '../utils/get-pluralized-seconds.util';
 import { RouterUtil } from '../domain/utils/router.util';
 
 export const Settings = (): ReactElement => {
-  const location = useLocation<{ previous?: string }>();
   const { t } = useTranslation('SETTINGS');
   const { theme, direction, language, snackbarDuration } = useSelector(selectAllSettings);
   const [form, setForm] = useState<SettingsModel>({ theme, direction, language, snackbarDuration });

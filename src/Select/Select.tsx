@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   label?: string;
   options: SelectOption[];
-  initialValue?: any;
+  initialValue?: string | number;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
