@@ -8,43 +8,66 @@ export class HttpService {
     'Content-Type': 'application/json',
   };
 
-  private static json = (response: Response) => response.json();
-
-  static get(url: string): Promise<any> {
+  static get<R>(url: string): Promise<R> {
     return fetch(this.apiUrl + url, {
       method: 'GET',
       headers: this.headers
-    }).then(this.json);
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 
-  static post<T>(url: string, body: T): Promise<any> {
+  static post<B, R>(url: string, body: B): Promise<R> {
     return fetch(this.apiUrl + url, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: this.headers
-    }).then(this.json);
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 
-  static put<T>(url: string, body: T): Promise<any> {
+  static put<B, R>(url: string, body: B): Promise<R> {
     return fetch(this.apiUrl + url, {
       method: 'PUT',
       body: JSON.stringify(body),
       headers: this.headers
-    }).then(this.json);
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 
-  static patch<T>(url: string, body: T): Promise<any> {
+  static patch<B, R>(url: string, body: B): Promise<R> {
     return fetch(this.apiUrl + url, {
       method: 'PATCH',
       body: JSON.stringify(body),
       headers: this.headers
-    }).then(this.json);
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 
-  static delete(url: string): Promise<any> {
+  static delete<R>(url: string): Promise<R> {
     return fetch(this.apiUrl + url, {
       method: 'DELETE',
       headers: this.headers
-    }).then(this.json);
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 }

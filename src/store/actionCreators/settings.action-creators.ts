@@ -19,8 +19,8 @@ const SettingsActions = {
     return function(dispatch): Promise<void> {
       dispatch(settingsActions.fetchSettings());
       return HttpService
-        .get('/settings')
-        .then((settings: SettingsModel) => {
+        .get<SettingsModel>('/settings')
+        .then((settings) => {
           dispatch(settingsActions.fetchSettingsSuccess(settings));
         })
         .catch((error) => {
@@ -35,7 +35,7 @@ const SettingsActions = {
       dispatch(settingsActions.updateTheme());
 
       return HttpService
-        .patch('/settings', { theme })
+        .patch<{ theme: Theme }, Theme>('/settings', { theme })
         .then(() => {
           dispatch(settingsActions.updateThemeSuccess(theme));
         })
@@ -49,7 +49,7 @@ const SettingsActions = {
     return function(dispatch): Promise<void> {
       dispatch(settingsActions.updateDirection());
       return HttpService
-        .patch('/settings', { direction })
+        .patch<{ direction: Direction }, Direction>('/settings', { direction })
         .then(() => {
           dispatch(settingsActions.updateDirectionSuccess(direction));
         })
@@ -64,7 +64,7 @@ const SettingsActions = {
       dispatch(settingsActions.updateLanguage());
 
       return HttpService
-        .patch('/settings', { language })
+        .patch<{ language: Language }, Language>('/settings', { language })
         .then(() => {
           dispatch(settingsActions.updateLanguageSuccess(language));
         })
@@ -79,7 +79,7 @@ const SettingsActions = {
       dispatch(settingsActions.updateSnackbarDuration());
 
       return HttpService
-        .patch('/settings', { snackbarDuration })
+        .patch<{ snackbarDuration: number }, number>('/settings', { snackbarDuration })
         .then(() => {
           dispatch(settingsActions.updateSnackbarDurationSuccess(snackbarDuration));
         })

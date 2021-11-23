@@ -6,6 +6,6 @@ export interface NoteInterface extends NoteDialogFormValue {
   archived: boolean;
   deleted: boolean;
   createdAt: string;
-  updatedAt?: string;
-  archivedAt?: string;
+  updatedAt?: string | null;
+  archivedAt?: string | null;
 }

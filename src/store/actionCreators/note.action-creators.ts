@@ -19,8 +19,8 @@ const NoteActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.getNotes());
       return HttpService
-        .get('/notes')
-        .then((notes: NoteInterface[]) => {
+        .get<NoteInterface[]>('/notes')
+        .then((notes) => {
           dispatch(noteActions.getNotesSuccess(notes));
         })
         .catch(error => {
@@ -41,7 +41,7 @@ const NoteActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.createNote());
       return HttpService
-        .post<NoteInterface>('/notes', note)
+        .post<NoteInterface, NoteInterface>('/notes', note)
         .then(() => {
           dispatch(noteActions.createNoteSuccess(note));
           HistoryActions.push(noteActions.createNoteSuccess(note))(dispatch);
@@ -97,11 +97,11 @@ const NoteActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.archiveNote());
       return HttpService
-        .patch(`/notes/${ noteId }`, {
+        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
           archived: true,
           archivedAt: new Date().toISOString(),
         })
-        .then((note: NoteInterface) => {
+        .then((note) => {
           dispatch(noteActions.archiveNoteSuccess(note));
           HistoryActions.push(noteActions.archiveNoteSuccess(note))(dispatch);
           dispatch(NoteActions.clearSelection());
@@ -117,10 +117,10 @@ const NoteActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.deleteNote());
       return HttpService
-        .patch(`/notes/${ noteId }`, {
+        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
           deleted: true
         })
-        .then((note: NoteInterface) => {
+        .then((note) => {
           dispatch(noteActions.deleteNoteSuccess(note));
           HistoryActions.push(noteActions.deleteNoteSuccess(note))(dispatch);
           dispatch(NoteActions.clearSelection());
@@ -156,7 +156,7 @@ const NoteActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.restoreNote());
       return HttpService
-        .patch(`/notes/${ noteId }`, {
+        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
           archived: false,
           archivedAt: null,
         })
@@ -196,9 +196,9 @@ const NoteActions = {
       dispatch(noteActions.fetchShowArchived());
 
       return HttpService
-        .get('/showArchived')
-        .then((data: { showArchived: boolean }) => {
-          dispatch(noteActions.fetchShowArchivedSuccess(data.showArchived));
+        .get<{ showArchived: boolean }>('/showArchived')
+        .then(({ showArchived }) => {
+          dispatch(noteActions.fetchShowArchivedSuccess(showArchived));
         })
         .catch((error) => {
           console.error(error);
@@ -212,7 +212,7 @@ const NoteActions = {
       dispatch(noteActions.setShowArchived());
 
       return HttpService
-        .put('/showArchived', { showArchived })
+        .put<{ showArchived: boolean }, { showArchived: boolean }>('/showArchived', { showArchived })
         .then(() => {
           dispatch(noteActions.setShowArchivedSuccess(showArchived));
         })
@@ -238,7 +238,7 @@ const archiveOrDeleteOrRestoreMultiple = (
     return new Promise((resolve) => {
       noteIds.forEach((noteId: EntityUid) => {
         HttpService
-          .patch(`/notes/${ noteId }`, {
+          .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
             ...(actionName === 'deleteMultipleNotes'
               ? { deleted: true }
               : {
@@ -288,7 +288,7 @@ const removeOrRestore = (
       : [...note.categories, payload.categoryId];
 
     return HttpService
-      .patch(`/notes/${ payload.noteId }`, { categories: noteCategories })
+      .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ payload.noteId }`, { categories: noteCategories })
       .then((updatedNote: NoteInterface) => {
         dispatch(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }));
         HistoryActions.push(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
@@ -324,7 +324,7 @@ const removeOrRestoreMultiple = (
     new Promise((resolve) => {
       updatedNotes.forEach((note: NoteInterface) => {
         HttpService
-          .put(`/notes/${ note.id }`, note)
+          .put<NoteInterface, NoteInterface>(`/notes/${ note.id }`, note)
           .catch((error) => {
             console.error(error);
             dispatch(noteActions[failAction]());
@@ -360,7 +360,7 @@ const updateOrRevert = (
       updatedAt: new Date().toISOString(),
     };
     return HttpService
-      .put(`/notes/${ note.id }`, _note)
+      .put<NoteInterface, NoteInterface>(`/notes/${ note.id }`, _note)
       .then(() => {
         dispatch(noteActions[successAction](_note));
         HistoryActions.push(noteActions[successAction](originalNote))(dispatch);

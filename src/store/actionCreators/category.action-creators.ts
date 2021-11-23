@@ -16,8 +16,8 @@ const CategoryActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.getCategories());
       return HttpService
-        .get('/categories')
-        .then((categories: Category[]) => {
+        .get<Category[]>('/categories')
+        .then((categories) => {
           dispatch(categoryActions.getCategoriesSuccess(categories));
         })
         .catch(error => {
@@ -38,7 +38,7 @@ const CategoryActions = {
     return function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.createCategory());
       return HttpService
-        .post<Category>('/categories', category)
+        .post<Category, Category>('/categories', category)
         .then(() => {
           dispatch(categoryActions.createCategorySuccess(category));
           HistoryActions.push(categoryActions.createCategorySuccess(category))(dispatch);
@@ -124,7 +124,7 @@ const deleteAndRestore = (
   return function (dispatch: Dispatch): Promise<void> {
     dispatch((categoryActions[actionName])());
     return HttpService
-      .patch(`/categories/${ category.id }`, { deleted: actionName === 'deleteCategory' })
+      .patch<Partial<Category>, Category>(`/categories/${ category.id }`, { deleted: actionName === 'deleteCategory' })
       .then(() => {
         dispatch(categoryActions[successAction](category));
         HistoryActions.push(categoryActions[successAction](category))(dispatch);
@@ -148,7 +148,7 @@ const updateOrRevert = (
   return function (dispatch: Dispatch): Promise<void> {
     dispatch(categoryActions[actionName]());
     return HttpService
-      .put(`/categories/${ category.id }`, category)
+      .put<Category, Category>(`/categories/${ category.id }`, category)
       .then(() => {
         dispatch(categoryActions[successAction](category));
         HistoryActions.push(categoryActions[successAction](originalCategory))(dispatch);
