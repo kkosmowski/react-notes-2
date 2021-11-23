@@ -27,6 +27,7 @@ export const Dialog = (
           width={ config?.width }
           height={ config?.height }
           flex={ config?.flex }
+          smallerPadding={ config?.smallerPadding }
         >
           { children }
         </DialogContainer>

@@ -8,10 +8,14 @@ export const DialogWrapper = styled.div`
   top: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   animation: 0.15s forwards fadeIn ease-in-out;
+  
+  @media (min-width: 600px) {
+    align-items: center;
+  }
 `;
 
 export const DialogHeader = styled.header`
@@ -25,7 +29,7 @@ export const DialogContainer = styled.div<DialogConfig>`
   width: 100%;
   ${ ({ flex }) => flex ? 'display: flex; flex-direction: column;' : '' }
   height: ${ ({ height }) => height || '100%' };
-  padding: 24px;
+  ${ ({ smallerPadding }) => `padding: ${ smallerPadding ? '16' : '24' }px;` }
   background-color: var(--background300);
   
   @media (min-width: 600px) {
