@@ -23,8 +23,9 @@ export const ShortcutsDialog = (): ReactElement => {
   const [shortcutsList, setShortcutsList] = useState<ReactElement[]>([]);
   const dialogConfig: DialogConfig = {
     width: '800px',
-    height: 'auto',
-    flex: true
+    height: '100%',
+    flex: true,
+    smallerPadding: true,
   };
 
   useEffect(() => {
