@@ -108,7 +108,7 @@ export const Settings = (): ReactElement => {
           <Select
             options={ themes }
             initialValue={ theme }
-            onChange={ (e) => handleFormChange('theme', e.target.value) }
+            onChange={ (value) => handleFormChange('theme', value) }
           />
           <Button
             onClick={ handleThemeSave }
@@ -131,7 +131,7 @@ export const Settings = (): ReactElement => {
           <Select
             options={ directions }
             initialValue={ direction }
-            onChange={ (e) => handleFormChange('direction', e.target.value) }
+            onChange={ (value) => handleFormChange('direction', value) }
           />
           <Button
             onClick={ handleDirectionSave }
@@ -154,7 +154,7 @@ export const Settings = (): ReactElement => {
           <Select
             options={ languages }
             initialValue={ language }
-            onChange={ (e) => handleFormChange('language', e.target.value) }
+            onChange={ (value) => handleFormChange('language', value) }
           />
           <Button
             onClick={ handleLanguageSave }
@@ -184,7 +184,7 @@ export const Settings = (): ReactElement => {
             id="snackbarDuration"
             type="number"
             value={ form.snackbarDuration }
-            onChange={ e => handleFormChange('snackbarDuration', +e.target.value) }
+            onChange={ value => handleFormChange('snackbarDuration', +value) }
             style={{ width: '120px' }}
           />
           <Button
