@@ -3,7 +3,6 @@ import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { createReducer, Draft } from '@reduxjs/toolkit';
 import noteActions from '../actions/note.actions';
-import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
@@ -32,10 +31,10 @@ export const initialNoteState: NoteState = {
 
 const removeOrRestoreReducer = (
   state: Draft<NoteState>,
-  { payload }: { payload: RemoveFromCategorySuccessPayload }
+  { payload }: { payload: NoteInterface }
 ) => {
-  state.notes = state.notes.map((note) => note.id === payload.updatedNote.id
-    ? payload.updatedNote
+  state.notes = state.notes.map((note) => note.id === payload.id
+    ? payload
     : note
   );
   state.noteRestorationToCategoryInProgress = false;

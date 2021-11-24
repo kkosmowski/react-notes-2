@@ -1,6 +1,5 @@
 import { Category } from '../domain/interfaces/category.interface';
 import { NoteInterface } from '../domain/interfaces/note.interface';
-import { RemoveFromCategorySuccessPayload } from '../domain/interfaces/remove-from-category-payload.interface';
 import { ActionDetails } from '../domain/interfaces/action-details.interface';
 
 export interface TranslationData {
@@ -83,12 +82,12 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
 
     case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
       message = 'NOTE_REMOVED_FROM_CATEGORY';
-      options.name = (payload as RemoveFromCategorySuccessPayload).updatedNote.title;
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'RESTORE_NOTE_TO_CATEGORY_SUCCESS':
       message = 'NOTE_RESTORED_TO_CATEGORY';
-      options.name = (payload as RemoveFromCategorySuccessPayload).updatedNote.title;
+      options.name = (payload as NoteInterface).title;
       break;
 
     case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':

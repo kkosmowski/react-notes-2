@@ -1,7 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
-import { RemoveFromCategorySuccessPayload } from '../../domain/interfaces/remove-from-category-payload.interface';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
@@ -50,10 +49,10 @@ const noteActions = {
   restoreMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
 
   removeNoteFromCategory: createAction<void>('REMOVE_NOTE_FROM_CATEGORY'),
-  removeNoteFromCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('REMOVE_NOTE_FROM_CATEGORY_SUCCESS'),
+  removeNoteFromCategorySuccess: createAction<NoteInterface>('REMOVE_NOTE_FROM_CATEGORY_SUCCESS'),
 
   restoreNoteToCategory: createAction<void>('RESTORE_NOTE_TO_CATEGORY'),
-  restoreNoteToCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('RESTORE_NOTE_TO_CATEGORY_SUCCESS'),
+  restoreNoteToCategorySuccess: createAction<NoteInterface>('RESTORE_NOTE_TO_CATEGORY_SUCCESS'),
 
   removeMultipleNotesFromCategory: createAction<void>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY'),
   removeMultipleNotesFromCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS'),

@@ -106,18 +106,16 @@ const NoteActions = {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.deleteNote());
 
-      const deletedNote = await StorageService.update<NoteInterface>(
-        'notes',
-        { id: noteId },
-        {
-          deleted: true
-        }
-      );
+      const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
 
-      dispatch(noteActions.deleteNoteSuccess(deletedNote));
-      HistoryActions.push(noteActions.deleteNoteSuccess(deletedNote))(dispatch);
-      dispatch(NoteActions.clearSelection());
-      dispatch(UiActions.checkIfSnackbarInformsAboutThis(deletedNote.id));
+      if (note) {
+        await StorageService.update<NoteInterface>('notes', { id: noteId }, { deleted: true });
+
+        dispatch(noteActions.deleteNoteSuccess({ ...note, deleted: true }));
+        HistoryActions.push(noteActions.deleteNoteSuccess({ ...note, deleted: true }))(dispatch);
+        dispatch(NoteActions.clearSelection());
+        dispatch(UiActions.checkIfSnackbarInformsAboutThis(noteId));
+      }
     };
   },
 
@@ -276,22 +274,20 @@ const removeOrRestore = (
   return async function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
 
-    const note: NoteInterface = (store.getState() as RootState).note.notes.find((note) => note.id === payload.noteId)!;
-    const noteCategories: EntityUid[] = actionName === 'removeNoteFromCategory'
-      ? note.categories.filter((catId) => catId !== payload.categoryId)
-      : [...note.categories, payload.categoryId];
+    const note = (store.getState() as RootState).note.notes.find((note) => note.id === payload.noteId);
 
-    const updatedNote = await StorageService.update<NoteInterface>(
-      'notes',
-      { id: payload.noteId },
-      {
-        categories: noteCategories
-      }
-    );
+    if (note) {
+      const noteCategories: EntityUid[] = actionName === 'removeNoteFromCategory'
+        ? note.categories.filter((catId) => catId !== payload.categoryId)
+        : [...note.categories, payload.categoryId];
+      const part: Partial<NoteInterface> = { categories: noteCategories };
 
-    dispatch(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }));
-    HistoryActions.push(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
-    clearSelection && dispatch(NoteActions.clearSelection());
+      await StorageService.update<NoteInterface>('notes', { id: payload.noteId }, part);
+
+      dispatch(noteActions[successAction]({ ...note, ...part }));
+      HistoryActions.push(noteActions[successAction]({ ...note, ...part }))(dispatch);
+      clearSelection && dispatch(NoteActions.clearSelection());
+    }
   };
 };
 
