@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+<header style="text-align: center;">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Notes v2
 
-## Available Scripts
+by <a rel="author" href="http://github.com/kkosmowski/">kkosmowski</a>
 
-In the project directory, you can run:
+</header>
 
+---
+
+## Table of contents
+
+* [Description](#description)
+* [Technologies](#technologies)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Features](#features)
+* [Author](#author)
+
+---
+
+## Description
+
+React Notes v2 is a web application written with *React* library.
+
+This app allows you to create notes with title and optional content, as well as to create categories which can help you filter out useful notes.
+For more features head out to [features](#features) section.
+
+The application was created solely for learning purposes, although it may be used to track daily activities.
+
+
+
+## Technologies
+* `react` as the fundamental library 
+* `typescript` for safe typing
+* `react-redux` for state management
+* `styled-components` and `sass` for styling
+* `i18next` & `react-i18next` for translation handling
+* `localbase` for storing the data in indexed-db
+
+### Important
+
+There are 2 main branches, one being `master` and second `json-server`.
+
+The latter branch is an alternative app where instead of `localbase`, a `json-server` library is used.<br>
+**More details can be found in readme on `json-server` branch.**
+
+
+
+## Installation
+
+In order to be able to properly install and run the application, **Node** and either **npm**  or **yarn** must be installed.
+
+To install the app dependencies, run either yarn or npm command:
+### `yarn install`
+### `npm install`
+depending on your package manager of choice.
+
+
+
+## Usage
+
+To run the app, run either one of these:
 ### `yarn start`
+### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This will compile TypeScript and open a new tab in your default browser, most likely at http://localhost:3000/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
+- Creating, viewing, updating and deleting notes;
+- Creating, renaming and deleting categories;
+- Archiving and restoring notes;
+- Assigning notes to specific categories or removing notes from them;
+- Filtering notes based on currently viewed category;
+- Filtering only not-archived notes;
+- Undoing some operations with snackbar;
+- Setting a different theme, direction (left-to-right or right-to-left), language and snackbar duration;
+- (Desktop only) operating with keyboard shortcuts (see Shortcuts Dialog for details);
+- (Desktop only) selecting notes on mouse click-and-drag;
 
-### `yarn build`
+Application is available on both Desktop and mobile.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Author
 
-### `yarn eject`
+React Notes v2 was created by <a rel="author" href="http://github.com/kkosmowski/">kkosmowski</a>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+You are free to use the app for free (both personal and professional use), however it is prohibited to claim to be the author or owner of this app.
