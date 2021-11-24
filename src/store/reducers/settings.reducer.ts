@@ -28,9 +28,6 @@ const settingsReducer = createReducer(initialSettingsState, (builder) => {
       state.language = payload[2].language;
       state.snackbarDuration = payload[3].snackbarDuration;
     })
-    .addCase(settingsActions.fetchSettingsFail, (state) => {
-      state.fetchInProgress = false;
-    })
 
     .addCase(settingsActions.updateThemeSuccess, (state, { payload }) => {
       state.theme = payload;
