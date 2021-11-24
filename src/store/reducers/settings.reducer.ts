@@ -23,10 +23,10 @@ const settingsReducer = createReducer(initialSettingsState, (builder) => {
     })
     .addCase(settingsActions.fetchSettingsSuccess, (state, { payload }) => {
       state.fetchInProgress = false;
-      state.theme = payload.theme;
-      state.direction = payload.direction;
-      state.language = payload.language;
-      state.snackbarDuration = payload.snackbarDuration;
+      state.theme = payload[0].theme;
+      state.direction = payload[1].direction;
+      state.language = payload[2].language;
+      state.snackbarDuration = payload[3].snackbarDuration;
     })
     .addCase(settingsActions.fetchSettingsFail, (state) => {
       state.fetchInProgress = false;

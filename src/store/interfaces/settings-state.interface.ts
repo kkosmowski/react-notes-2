@@ -1,6 +1,6 @@
-import { SettingsModel } from '../../domain/model/settings.model';
+import { SettingsInterface } from '../../domain/model/settings.model';
 
-export interface SettingsState extends SettingsModel {
+export interface SettingsState extends SettingsInterface {
   opened: boolean;
   fetchInProgress: boolean;
 }

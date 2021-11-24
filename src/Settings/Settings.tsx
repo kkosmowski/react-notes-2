@@ -11,7 +11,7 @@ import { selectAllSettings } from '../store/selectors/settings.selectors';
 import { Color } from '../domain/enums/color.enum';
 import { Select } from '../Select/Select';
 import { Input } from '../Input/Input';
-import { SettingsModel } from '../domain/model/settings.model';
+import { SettingsInterface } from '../domain/model/settings.model';
 import {
   directions,
   languages,
@@ -26,7 +26,7 @@ import { RouterUtil } from '../domain/utils/router.util';
 export const Settings = (): ReactElement => {
   const { t } = useTranslation('SETTINGS');
   const { theme, direction, language, snackbarDuration } = useSelector(selectAllSettings);
-  const [form, setForm] = useState<SettingsModel>({ theme, direction, language, snackbarDuration });
+  const [form, setForm] = useState<SettingsInterface>({ theme, direction, language, snackbarDuration });
   const [durationError, setDurationError] = useState<string>('');
   const dispatch = useDispatch();
   const history = useHistory();
@@ -44,7 +44,7 @@ export const Settings = (): ReactElement => {
     setForm({ theme, direction, language, snackbarDuration });
   }, [ theme, direction, language, snackbarDuration ]);
 
-  const handleFormChange = (property: keyof SettingsModel, value: string | number): void => {
+  const handleFormChange = (property: keyof SettingsInterface, value: string | number): void => {
     if (typeof value === 'number') {
       if (value < MIN_SNACKBAR_DURATION) {
         setDurationError('DURATION_TOO_SMALL');
