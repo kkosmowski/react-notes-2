@@ -2,9 +2,9 @@ import { SelectOption } from '../../Select/select-option.interface';
 import { Theme } from '../enums/theme.enum';
 import { Language } from '../enums/language.enum';
 import { defaultSnackbarDuration } from './snackbar.const';
-import { SettingsModel } from '../model/settings.model';
+import { SettingsInterface } from '../model/settings.model';
 
-export const defaultSettings: SettingsModel = {
+export const defaultSettings: SettingsInterface = {
   theme: Theme.DarkGreen,
   direction: 'ltr',
   language: Language.EN,

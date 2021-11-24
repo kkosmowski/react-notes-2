@@ -186,7 +186,7 @@ const NoteActions = {
         await StorageService.add<ShowArchivedModel>('showArchived', { id: 'showArchived', showArchived: false });
       }
 
-      dispatch(noteActions.fetchShowArchivedSuccess(showArchived.showArchived));
+      dispatch(noteActions.fetchShowArchivedSuccess(false));
     };
   },
 

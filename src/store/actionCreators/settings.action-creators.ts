@@ -1,13 +1,20 @@
 import { Action } from '../../domain/interfaces/action.interface';
 import settingsActions from '../actions/settings.actions';
 import { ActionFunction } from '../../domain/types/action-function.type';
-import { HttpService } from '../../services/http.service';
-import { SettingsModel } from '../../domain/model/settings.model';
+import {
+  DirectionSetting,
+  LanguageSetting,
+  SettingsModel,
+  SnackbarDurationSetting,
+  ThemeSetting
+} from '../../domain/model/settings.model';
 import { Theme } from '../../domain/enums/theme.enum';
 import { Direction } from '../../domain/types/direction.type';
 import { Language } from '../../domain/enums/language.enum';
 import { Dispatch } from 'redux';
 import categoryActions from '../actions/category.actions';
+import { StorageService } from '../../services/storage.service';
+import { defaultSettings } from '../../domain/consts/settings.consts';
 
 const SettingsActions = {
   openSettings(): ActionFunction<void> {
@@ -21,77 +28,71 @@ const SettingsActions = {
   },
 
   load(): ActionFunction<Promise<void>> {
-    return function(dispatch): Promise<void> {
+    return async function(dispatch): Promise<void> {
       dispatch(settingsActions.fetchSettings());
-      return HttpService
-        .get<SettingsModel>('/settings')
-        .then((settings) => {
-          dispatch(settingsActions.fetchSettingsSuccess(settings));
-        })
-        .catch((error) => {
-          dispatch(settingsActions.fetchSettingsFail());
-          console.error(error);
-        });
+
+      const settings = await StorageService.getAll<SettingsModel>('settings');
+
+      if (settings.length === 4) {
+        dispatch(settingsActions.fetchSettingsSuccess(settings));
+      } else {
+        const settings = await StorageService.set<SettingsModel>('settings', null, [
+          { id: 'theme', theme: defaultSettings.theme },
+          { id: 'direction', direction: defaultSettings.direction },
+          { id: 'language', language: defaultSettings.language },
+          { id: 'snackbarDuration', snackbarDuration: defaultSettings.snackbarDuration },
+        ]);
+        dispatch(settingsActions.fetchSettingsSuccess(settings));
+      }
     };
   },
 
   updateTheme(theme: Theme): ActionFunction<Promise<void>> {
-    return function(dispatch): Promise<void> {
+    return async function(dispatch): Promise<void> {
       dispatch(settingsActions.updateTheme());
 
-      return HttpService
-        .patch<{ theme: Theme }, Theme>('/settings', { theme })
-        .then(() => {
-          dispatch(settingsActions.updateThemeSuccess(theme));
-        })
-        .catch((error) => {
-          dispatch(settingsActions.updateThemeFail());
-          console.error(error);
-        });
+      const setting = await StorageService.update<ThemeSetting>(
+        'settings',
+        { id: 'theme' },
+        { theme }
+      );
+      dispatch(settingsActions.updateThemeSuccess(setting.theme));
     };
   },
   updateDirection(direction: Direction): ActionFunction<Promise<void>> {
-    return function(dispatch): Promise<void> {
+    return async function(dispatch): Promise<void> {
       dispatch(settingsActions.updateDirection());
-      return HttpService
-        .patch<{ direction: Direction }, Direction>('/settings', { direction })
-        .then(() => {
-          dispatch(settingsActions.updateDirectionSuccess(direction));
-        })
-        .catch((error) => {
-          dispatch(settingsActions.updateDirectionFail());
-          console.error(error);
-        });
+
+      const setting = await StorageService.update<DirectionSetting>(
+        'settings',
+        { id: 'direction' },
+        { direction }
+      );
+      dispatch(settingsActions.updateDirectionSuccess(setting.direction));
     };
   },
   updateLanguage(language: Language): ActionFunction<Promise<void>> {
-    return function(dispatch): Promise<void> {
+    return async function(dispatch): Promise<void> {
       dispatch(settingsActions.updateLanguage());
 
-      return HttpService
-        .patch<{ language: Language }, Language>('/settings', { language })
-        .then(() => {
-          dispatch(settingsActions.updateLanguageSuccess(language));
-        })
-        .catch((error) => {
-          dispatch(settingsActions.updateLanguageFail());
-          console.error(error);
-        });
+      const setting = await StorageService.update<LanguageSetting>(
+        'settings',
+        { id: 'language' },
+        { language }
+      );
+      dispatch(settingsActions.updateLanguageSuccess(setting.language));
     };
   },
   updateSnackbarDuration(snackbarDuration: number): ActionFunction<Promise<void>> {
-    return function(dispatch): Promise<void> {
+    return async function(dispatch): Promise<void> {
       dispatch(settingsActions.updateSnackbarDuration());
 
-      return HttpService
-        .patch<{ snackbarDuration: number }, number>('/settings', { snackbarDuration })
-        .then(() => {
-          dispatch(settingsActions.updateSnackbarDurationSuccess(snackbarDuration));
-        })
-        .catch((error) => {
-          dispatch(settingsActions.updateSnackbarDurationFail());
-          console.error(error);
-        });
+      const setting = await StorageService.update<SnackbarDurationSetting>(
+        'settings',
+        { id: 'snackbarDuration' },
+        { snackbarDuration }
+      );
+      dispatch(settingsActions.updateSnackbarDurationSuccess(setting.snackbarDuration));
     };
   },
 };

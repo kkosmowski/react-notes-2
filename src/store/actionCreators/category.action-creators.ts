@@ -1,6 +1,5 @@
 import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
-import { HttpService } from '../../services/http.service';
 import { Category } from '../../domain/interfaces/category.interface';
 import categoryActions from '../actions/category.actions';
 import { Action } from '../../domain/interfaces/action.interface';
@@ -10,20 +9,15 @@ import { EntityUid } from '../../domain/types/entity-uid.type';
 import UiActions from './ui.action-creators';
 import store from '../store';
 import { RootState } from '../interfaces/root-state.interface';
+import { StorageService } from '../../services/storage.service';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.getCategories());
-      return HttpService
-        .get<Category[]>('/categories')
-        .then((categories) => {
-          dispatch(categoryActions.getCategoriesSuccess(categories));
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(categoryActions.getCategoriesFail());
-        });
+
+      const categories = await StorageService.getAll<Category[]>('categories');
+      dispatch(categoryActions.getCategoriesSuccess(categories));
     };
   },
 
@@ -35,18 +29,12 @@ const CategoryActions = {
   },
 
   createFromTemporary(category: Category): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.createCategory());
-      return HttpService
-        .post<Category, Category>('/categories', category)
-        .then(() => {
-          dispatch(categoryActions.createCategorySuccess(category));
-          HistoryActions.push(categoryActions.createCategorySuccess(category))(dispatch);
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(categoryActions.createCategoryFail());
-        });
+
+      const newCategory = await StorageService.add<Category>('categories', category);
+      dispatch(categoryActions.createCategorySuccess(newCategory));
+      HistoryActions.push(categoryActions.createCategorySuccess(newCategory))(dispatch);
     };
   },
 
@@ -119,20 +107,19 @@ const deleteAndRestore = (
   actionName: 'deleteCategory' | 'restoreCategory',
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
-  const failAction = actionName + 'Fail' as 'deleteCategoryFail' | 'restoreCategoryFail';
 
-  return function (dispatch: Dispatch): Promise<void> {
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch((categoryActions[actionName])());
-    return HttpService
-      .patch<Partial<Category>, Category>(`/categories/${ category.id }`, { deleted: actionName === 'deleteCategory' })
-      .then(() => {
-        dispatch(categoryActions[successAction](category));
-        HistoryActions.push(categoryActions[successAction](category))(dispatch);
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(categoryActions[failAction]());
-      });
+
+    const updatedCategory = await StorageService.update<Category>(
+      'categories',
+      { id: category.id },
+      { deleted:
+          actionName === 'deleteCategory'
+      }
+    );
+    dispatch(categoryActions[successAction](updatedCategory));
+    HistoryActions.push(categoryActions[successAction](updatedCategory))(dispatch);
   };
 };
 
@@ -141,22 +128,14 @@ const updateOrRevert = (
   actionName: 'updateCategory' | 'revertCategoryUpdate',
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'updateCategorySuccess' | 'revertCategoryUpdateSuccess';
-  const failAction = actionName + 'Fail' as 'updateCategoryFail' | 'revertCategoryUpdateFail';
-
   const originalCategory: Category = (store.getState() as RootState).category.categories.find((c) => c.id === category.id)!;
 
-  return function (dispatch: Dispatch): Promise<void> {
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch(categoryActions[actionName]());
-    return HttpService
-      .put<Category, Category>(`/categories/${ category.id }`, category)
-      .then(() => {
-        dispatch(categoryActions[successAction](category));
-        HistoryActions.push(categoryActions[successAction](originalCategory))(dispatch);
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(categoryActions[failAction]());
-      });
+
+    const updatedCategory = await StorageService.set('categories', { id: category.id }, category);
+    dispatch(categoryActions[successAction](updatedCategory));
+    HistoryActions.push(categoryActions[successAction](originalCategory))(dispatch);
   };
 };
 
