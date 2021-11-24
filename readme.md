@@ -1,10 +1,10 @@
-<header style="text-align: center;">
+<div align="center">
 
 # React Notes v2
 
 by <a rel="author" href="http://github.com/kkosmowski/">kkosmowski</a>
 
-</header>
+</div>
 
 ---
 
