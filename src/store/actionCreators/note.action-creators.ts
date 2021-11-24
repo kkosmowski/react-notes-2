@@ -85,18 +85,20 @@ const NoteActions = {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.archiveNote());
 
-      const updatedNote = await StorageService.update<NoteInterface>(
-        'notes',
-        { id: noteId },
-        {
+      const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
+
+      if (note) {
+        const part: Partial<NoteInterface> = {
           archived: true,
           archivedAt: new Date().toISOString(),
-        }
-      );
+        };
 
-      dispatch(noteActions.archiveNoteSuccess(updatedNote));
-      HistoryActions.push(noteActions.archiveNoteSuccess(updatedNote))(dispatch);
-      dispatch(NoteActions.clearSelection());
+        await StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+
+        dispatch(noteActions.archiveNoteSuccess({ ...note, ...part }));
+        HistoryActions.push(noteActions.archiveNoteSuccess({ ...note, ...part }))(dispatch);
+        dispatch(NoteActions.clearSelection());
+      }
     };
   },
 
@@ -142,17 +144,19 @@ const NoteActions = {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.restoreNote());
 
-      const restoredNote = await StorageService.update<NoteInterface>(
-        'notes',
-        { id: noteId },
-        {
+      const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
+
+      if (note) {
+        const part: Partial<NoteInterface> = {
           archived: false,
           archivedAt: null,
-        }
-      );
+        };
 
-      dispatch(noteActions.restoreNoteSuccess(restoredNote));
-      HistoryActions.push(noteActions.restoreNoteSuccess(restoredNote))(dispatch);
+        await StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+
+        dispatch(noteActions.restoreNoteSuccess({ ...note, ...part }));
+        HistoryActions.push(noteActions.restoreNoteSuccess({ ...note, ...part }))(dispatch);
+      }
     };
   },
 
@@ -180,13 +184,13 @@ const NoteActions = {
     return async function(dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.fetchShowArchived());
 
-      const showArchived = await StorageService.get<ShowArchivedModel>('showArchived', { id: 'showArchived' });
+      let showArchived = await StorageService.get<ShowArchivedModel>('showArchived', { id: 'showArchived' });
 
       if (!showArchived) {
-        await StorageService.add<ShowArchivedModel>('showArchived', { id: 'showArchived', showArchived: false });
+        showArchived = await StorageService.add<ShowArchivedModel>('showArchived', { id: 'showArchived', showArchived: false });
       }
 
-      dispatch(noteActions.fetchShowArchivedSuccess(false));
+      dispatch(noteActions.fetchShowArchivedSuccess(showArchived.showArchived));
     };
   },
 
