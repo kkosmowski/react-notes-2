@@ -9,11 +9,9 @@ import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
   getNotesSuccess: createAction<NoteInterface[]>('GET_NOTES_SUCCESS'),
-  getNotesFail: createAction<void>('GET_NOTES_FAIL'),
 
   createNote: createAction<void>('CREATE_NOTE'),
   createNoteSuccess: createAction<NoteInterface>('CREATE_NOTE_SUCCESS'),
-  createNoteFail: createAction<void>('CREATE_NOTE_FAIL'),
 
   toggleSelectionMode: createAction<void>('TOGGLE_SELECTION_MODE'),
   setSelectionMode: createAction<NoteSelectionMode>('SET_SELECTION_MODE'),
@@ -29,59 +27,45 @@ const noteActions = {
 
   updateNote: createAction<void>('UPDATE_NOTE'),
   updateNoteSuccess: createAction<NoteInterface>('UPDATE_NOTE_SUCCESS'),
-  updateNoteFail: createAction<void>('UPDATE_NOTE_FAIL'),
 
   revertNoteUpdate: createAction<void>('REVERT_NOTE_UPDATE'),
   revertNoteUpdateSuccess: createAction<NoteInterface>('REVERT_NOTE_UPDATE_SUCCESS'),
-  revertNoteUpdateFail: createAction<void>('REVERT_NOTE_UPDATE_FAIL'),
 
   archiveNote: createAction<void>('ARCHIVE_NOTE'),
   archiveNoteSuccess: createAction<NoteInterface>('ARCHIVE_NOTE_SUCCESS'),
-  archiveNoteFail: createAction<void>('ARCHIVE_NOTE_FAIL'),
 
   deleteNote: createAction<void>('DELETE_NOTE'),
   deleteNoteSuccess: createAction<NoteInterface>('DELETE_NOTE_SUCCESS'),
-  deleteNoteFail: createAction<void>('DELETE_NOTE_FAIL'),
 
   restoreNote: createAction<void>('RESTORE_NOTE'),
   restoreNoteSuccess: createAction<NoteInterface>('RESTORE_NOTE_SUCCESS'),
-  restoreNoteFail: createAction<void>('RESTORE_NOTE_FAIL'),
 
   deleteMultipleNotes: createAction<void>('DELETE_MULTIPLE_NOTES'),
   deleteMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('DELETE_MULTIPLE_NOTES_SUCCESS'),
-  deleteMultipleNotesFail: createAction<void>('DELETE_MULTIPLE_NOTES_FAIL'),
 
   archiveMultipleNotes: createAction<void>('ARCHIVE_MULTIPLE_NOTES'),
   archiveMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('ARCHIVE_MULTIPLE_NOTES_SUCCESS'),
-  archiveMultipleNotesFail: createAction<void>('ARCHIVE_MULTIPLE_NOTES_FAIL'),
 
   restoreMultipleNotes: createAction<void>('RESTORE_MULTIPLE_NOTES'),
   restoreMultipleNotesSuccess: createAction<ArchiveOrDeleteOrRestoreMultipleNotesPayload | EntityUid[]>('RESTORE_MULTIPLE_NOTES_SUCCESS'),
-  restoreMultipleNotesFail: createAction<void>('RESTORE_MULTIPLE_NOTES_FAIL'),
 
   removeNoteFromCategory: createAction<void>('REMOVE_NOTE_FROM_CATEGORY'),
   removeNoteFromCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('REMOVE_NOTE_FROM_CATEGORY_SUCCESS'),
-  removeNoteFromCategoryFail: createAction<void>('REMOVE_NOTE_FROM_CATEGORY_FAIL'),
 
   restoreNoteToCategory: createAction<void>('RESTORE_NOTE_TO_CATEGORY'),
   restoreNoteToCategorySuccess: createAction<RemoveFromCategorySuccessPayload>('RESTORE_NOTE_TO_CATEGORY_SUCCESS'),
-  restoreNoteToCategoryFail: createAction<void>('RESTORE_NOTE_TO_CATEGORY_FAIL'),
 
   removeMultipleNotesFromCategory: createAction<void>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY'),
   removeMultipleNotesFromCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS'),
-  removeMultipleNotesFromCategoryFail: createAction<void>('REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_FAIL'),
 
   restoreMultipleNotesToCategory: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY'),
   restoreMultipleNotesToCategorySuccess: createAction<RemoveMultipleNotesFromCategorySuccesPayload>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS'),
-  restoreMultipleNotesToCategoryFail: createAction<void>('RESTORE_MULTIPLE_NOTES_TO_CATEGORY_FAIL'),
 
   fetchShowArchived: createAction<void>('FETCH_SHOW_ARCHIVED'),
   fetchShowArchivedSuccess: createAction<boolean>('FETCH_SHOW_ARCHIVED_SUCCESS'),
-  fetchShowArchivedFail: createAction<void>('FETCH_SHOW_ARCHIVED_FAIL'),
 
   setShowArchived: createAction<void>('SET_SHOW_ARCHIVED'),
   setShowArchivedSuccess: createAction<boolean>('SET_SHOW_ARCHIVED_SUCCESS'),
-  setShowArchivedFail: createAction<void>('SET_SHOW_ARCHIVED_FAIL'),
 };
 
 export default noteActions;

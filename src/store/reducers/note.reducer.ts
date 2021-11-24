@@ -90,9 +90,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         state.notes = (action.payload as NoteInterface[]).filter((note) => !note.deleted).reverse();
       }
     })
-    .addCase(noteActions.getNotesFail, (state) => {
-      state.notesLoading = false;
-    })
 
     .addCase(noteActions.createNote, (state) => {
       state.noteCreationInProgress = true;
@@ -102,9 +99,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       if (action.payload) {
         state.notes = [action.payload, ...state.notes];
       }
-    })
-    .addCase(noteActions.createNoteFail, (state) => {
-      state.noteCreationInProgress = false;
     })
 
     .addCase(noteActions.toggleSelectionMode, (state) => {
@@ -182,9 +176,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         state.notes = state.notes.map((note) => note.id === updated.id ? updated : note);
       }
     })
-    .addCase(noteActions.updateNoteFail, (state) => {
-      state.noteUpdateInProgress = false;
-    })
 
     .addCase(noteActions.revertNoteUpdate, (state) => {
       state.noteUpdateRevertInProgress = true;
@@ -192,9 +183,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.revertNoteUpdateSuccess, (state, { payload }) => {
       state.noteUpdateRevertInProgress = false;
       state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
-    })
-    .addCase(noteActions.revertNoteUpdateFail, (state) => {
-      state.noteUpdateRevertInProgress = false;
     })
 
     .addCase(noteActions.archiveNote, (state) => {
@@ -204,9 +192,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteArchivingInProgress = false;
       state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
     })
-    .addCase(noteActions.archiveNoteFail, (state) => {
-      state.noteArchivingInProgress = false;
-    })
 
     .addCase(noteActions.deleteNote, (state) => {
       state.noteDeletionInProgress = true;
@@ -214,9 +199,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.deleteNoteSuccess, (state, { payload }) => {
       state.noteDeletionInProgress = false;
       state.notes = state.notes.filter((note) => note.id !== payload.id);
-    })
-    .addCase(noteActions.deleteNoteFail, (state) => {
-      state.noteDeletionInProgress = false;
     })
 
     .addCase(noteActions.deleteMultipleNotes, (state) => {
@@ -226,9 +208,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteDeletionInProgress = false;
       const { noteIds } = archiveOrDeleteOrRestoreHelper(payload);
       state.notes = state.notes.filter((note) => !noteIds.includes(note.id));
-    })
-    .addCase(noteActions.deleteMultipleNotesFail, (state) => {
-      state.noteDeletionInProgress = false;
     })
 
     .addCase(noteActions.archiveMultipleNotes, (state) => {
@@ -243,9 +222,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         ...(date ? { archivedAt: date } : {}),
       }));
     })
-    .addCase(noteActions.archiveMultipleNotesFail, (state) => {
-      state.noteArchivingInProgress = false;
-    })
 
     .addCase(noteActions.restoreMultipleNotes, (state) => {
       state.noteRestorationInProgress = true;
@@ -259,9 +235,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
         archivedAt: undefined,
       }));
     })
-    .addCase(noteActions.restoreMultipleNotesFail, (state) => {
-      state.noteRestorationInProgress = false;
-    })
 
     .addCase(noteActions.restoreNote, (state) => {
       state.noteRestorationInProgress = true;
@@ -270,41 +243,26 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
       state.noteRestorationInProgress = false;
     })
-    .addCase(noteActions.restoreNoteFail, (state) => {
-      state.noteRestorationInProgress = false;
-    })
 
     .addCase(noteActions.removeNoteFromCategory, (state) => {
       state.noteRemovalFromCategoryInProgress = true;
     })
     .addCase(noteActions.removeNoteFromCategorySuccess, removeOrRestoreReducer)
-    .addCase(noteActions.removeNoteFromCategoryFail, (state) => {
-      state.noteRemovalFromCategoryInProgress = false;
-    })
 
     .addCase(noteActions.restoreNoteToCategory, (state) => {
       state.noteRestorationToCategoryInProgress = true;
     })
     .addCase(noteActions.restoreNoteToCategorySuccess, removeOrRestoreReducer)
-    .addCase(noteActions.restoreNoteToCategoryFail, (state) => {
-      state.noteRestorationToCategoryInProgress = false;
-    })
 
     .addCase(noteActions.removeMultipleNotesFromCategory, (state) => {
       state.notesRemovalFromCategoryInProgress = true;
     })
     .addCase(noteActions.removeMultipleNotesFromCategorySuccess, removeOrRestoreMultipleReducer)
-    .addCase(noteActions.removeMultipleNotesFromCategoryFail, (state) => {
-      state.notesRemovalFromCategoryInProgress = false;
-    })
 
     .addCase(noteActions.restoreMultipleNotesToCategory, (state) => {
       state.notesRemovalFromCategoryInProgress = true;
     })
     .addCase(noteActions.restoreMultipleNotesToCategorySuccess, removeOrRestoreMultipleReducer)
-    .addCase(noteActions.restoreMultipleNotesToCategoryFail, (state) => {
-      state.notesRemovalFromCategoryInProgress = false;
-    })
 
     .addCase(noteActions.fetchShowArchived, (state) => {
       state.showArchivedFetchInProgress = true;
@@ -312,9 +270,6 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.fetchShowArchivedSuccess, (state, { payload }) => {
       state.showArchivedFetchInProgress = false;
       showArchivedHelper(state, payload);
-    })
-    .addCase(noteActions.fetchShowArchivedFail, (state) => {
-      state.showArchivedFetchInProgress = false;
     })
 
     .addCase(noteActions.setShowArchived, (state) => {
@@ -324,9 +279,7 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.showArchivedUpdateInProgress = false;
       showArchivedHelper(state, payload);
     })
-    .addCase(noteActions.setShowArchivedFail, (state) => {
-      state.showArchivedUpdateInProgress = false;
-    })
+
   ;
 });
 

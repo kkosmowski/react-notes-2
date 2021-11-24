@@ -28,9 +28,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       }
       state.categoriesLoading = false;
     })
-    .addCase(categoryActions.getCategoriesFail, (state) => {
-      state.categoriesLoading = false;
-    })
 
     .addCase(categoryActions.createTemporaryCategory, (state, action) => {
       state.temporaryCategory = action.payload || null;
@@ -48,9 +45,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       if (action.payload) {
         state.categories = [...state.categories, action.payload];
       }
-      state.categoryCreationInProgress = false;
-    })
-    .addCase(categoryActions.createCategoryFail, (state) => {
       state.categoryCreationInProgress = false;
     })
 
@@ -81,9 +75,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       );
       state.categoryUpdateInProgress = false;
     })
-    .addCase(categoryActions.updateCategoryFail, (state) => {
-      state.categoryUpdateInProgress = false;
-    })
 
     .addCase(categoryActions.revertCategoryUpdate, (state) => {
       state.categoryUpdateRevertInProgress = true;
@@ -93,9 +84,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
         ? payload
         : category
       );
-      state.categoryUpdateRevertInProgress = false;
-    })
-    .addCase(categoryActions.revertCategoryUpdateFail, (state) => {
       state.categoryUpdateRevertInProgress = false;
     })
 
@@ -109,9 +97,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
       );
       state.categoryDeletionInProgress = false;
     })
-    .addCase(categoryActions.deleteCategoryFail, (state) => {
-      state.categoryDeletionInProgress = false;
-    })
 
     .addCase(categoryActions.restoreCategory, (state) => {
       state.categoryRestorationInProgress = true;
@@ -121,9 +106,6 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
         ? { ...category, deleted: false }
         : category
       );
-      state.categoryRestorationInProgress = false;
-    })
-    .addCase(categoryActions.restoreCategoryFail, (state) => {
       state.categoryRestorationInProgress = false;
     })
 
