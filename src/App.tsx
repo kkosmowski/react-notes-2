@@ -14,6 +14,7 @@ import { selectDirection, selectLanguage, selectTheme } from './store/selectors/
 import i18n from './i18n';
 import NoteActions from './store/actionCreators/note.action-creators';
 import { KeyboardHandler } from './KeyboardHandler/KeyboardHandler';
+import { StorageService } from './services/storage.service';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export const App = (): ReactElement => {
     dispatch(SettingsActions.load());
     dispatch(NoteActions.fetchShowArchived());
     window.addEventListener('resize', debounce(checkIfMobile, 100));
+    StorageService.init();
 
     return () => {
       window.removeEventListener('resize', debounce(checkIfMobile, 100));

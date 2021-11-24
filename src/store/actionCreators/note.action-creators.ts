@@ -1,6 +1,5 @@
 import { ActionFunction } from '../../domain/types/action-function.type';
 import { Dispatch } from 'redux';
-import { HttpService } from '../../services/http.service';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import noteActions from '../actions/note.actions';
@@ -13,20 +12,16 @@ import { RemoveMultipleNotesFromCategoryPayload } from '../../domain/interfaces/
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 import UiActions from './ui.action-creators';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
+import { StorageService } from '../../services/storage.service';
+import { ShowArchivedModel } from '../../domain/interfaces/show-archived.model';
 
 const NoteActions = {
-  get(): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+  get(): ActionFunction<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.getNotes());
-      return HttpService
-        .get<NoteInterface[]>('/notes')
-        .then((notes) => {
-          dispatch(noteActions.getNotesSuccess(notes));
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.getNotesFail());
-        });
+
+      const notes = await StorageService.getAll<NoteInterface[]>('notes');
+      dispatch(noteActions.getNotesSuccess(notes));
     };
   },
 
@@ -37,19 +32,12 @@ const NoteActions = {
     };
   },
 
-  create(note: NoteInterface): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+  create(note: NoteInterface): ActionFunction<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.createNote());
-      return HttpService
-        .post<NoteInterface, NoteInterface>('/notes', note)
-        .then(() => {
-          dispatch(noteActions.createNoteSuccess(note));
-          HistoryActions.push(noteActions.createNoteSuccess(note))(dispatch);
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.createNoteFail());
-        });
+
+      await StorageService.add<NoteInterface>('notes', note);
+      dispatch(noteActions.createNoteSuccess(note));
     };
   },
 
@@ -94,42 +82,40 @@ const NoteActions = {
   },
 
   archiveNote(noteId: EntityUid): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.archiveNote());
-      return HttpService
-        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
+
+      const updatedNote = await StorageService.update<NoteInterface>(
+        'notes',
+        { id: noteId },
+        {
           archived: true,
           archivedAt: new Date().toISOString(),
-        })
-        .then((note) => {
-          dispatch(noteActions.archiveNoteSuccess(note));
-          HistoryActions.push(noteActions.archiveNoteSuccess(note))(dispatch);
-          dispatch(NoteActions.clearSelection());
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.archiveNoteFail());
-        });
+        }
+      );
+
+      dispatch(noteActions.archiveNoteSuccess(updatedNote));
+      HistoryActions.push(noteActions.archiveNoteSuccess(updatedNote))(dispatch);
+      dispatch(NoteActions.clearSelection());
     };
   },
 
   deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.deleteNote());
-      return HttpService
-        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
+
+      const deletedNote = await StorageService.update<NoteInterface>(
+        'notes',
+        { id: noteId },
+        {
           deleted: true
-        })
-        .then((note) => {
-          dispatch(noteActions.deleteNoteSuccess(note));
-          HistoryActions.push(noteActions.deleteNoteSuccess(note))(dispatch);
-          dispatch(NoteActions.clearSelection());
-          dispatch(UiActions.checkIfSnackbarInformsAboutThis(note.id));
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.deleteNoteFail());
-        });
+        }
+      );
+
+      dispatch(noteActions.deleteNoteSuccess(deletedNote));
+      HistoryActions.push(noteActions.deleteNoteSuccess(deletedNote))(dispatch);
+      dispatch(NoteActions.clearSelection());
+      dispatch(UiActions.checkIfSnackbarInformsAboutThis(deletedNote.id));
     };
   },
 
@@ -153,21 +139,20 @@ const NoteActions = {
   },
 
   restoreNote(noteId: EntityUid): ActionFunction<Promise<void>> {
-    return function (dispatch: Dispatch): Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.restoreNote());
-      return HttpService
-        .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
+
+      const restoredNote = await StorageService.update<NoteInterface>(
+        'notes',
+        { id: noteId },
+        {
           archived: false,
           archivedAt: null,
-        })
-        .then((note) => {
-          dispatch(noteActions.restoreNoteSuccess(note));
-          HistoryActions.push(noteActions.restoreNoteSuccess(note))(dispatch);
-        })
-        .catch(error => {
-          console.error(error);
-          dispatch(noteActions.restoreNoteFail());
-        });
+        }
+      );
+
+      dispatch(noteActions.restoreNoteSuccess(restoredNote));
+      HistoryActions.push(noteActions.restoreNoteSuccess(restoredNote))(dispatch);
     };
   },
 
@@ -192,34 +177,32 @@ const NoteActions = {
   },
 
   fetchShowArchived(): ActionFunction<Promise<void>> {
-    return function(dispatch: Dispatch): Promise<void> {
+    return async function(dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.fetchShowArchived());
 
-      return HttpService
-        .get<{ showArchived: boolean }>('/showArchived')
-        .then(({ showArchived }) => {
-          dispatch(noteActions.fetchShowArchivedSuccess(showArchived));
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(noteActions.fetchShowArchivedFail());
-        });
+      const showArchived = await StorageService.get<ShowArchivedModel>('showArchived', { id: 'showArchived' });
+
+      if (!showArchived) {
+        await StorageService.add<ShowArchivedModel>('showArchived', { id: 'showArchived', showArchived: false });
+      }
+
+      dispatch(noteActions.fetchShowArchivedSuccess(showArchived.showArchived));
     };
   },
 
-  setShowArchived(showArchived: boolean): ActionFunction<Promise<void>> {
-    return function(dispatch: Dispatch): Promise<void> {
+  setShowArchived(value: boolean): ActionFunction<Promise<void>> {
+    return async function(dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.setShowArchived());
 
-      return HttpService
-        .put<{ showArchived: boolean }, { showArchived: boolean }>('/showArchived', { showArchived })
-        .then(() => {
-          dispatch(noteActions.setShowArchivedSuccess(showArchived));
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(noteActions.setShowArchivedFail());
-        });
+      const { showArchived } = await StorageService.update<ShowArchivedModel>(
+        'showArchived',
+        { id: 'showArchived' },
+        {
+          showArchived: value
+        }
+      );
+
+      dispatch(noteActions.setShowArchivedSuccess(showArchived));
     };
   },
 };
@@ -229,16 +212,18 @@ const archiveOrDeleteOrRestoreMultiple = (
   actionName: 'archiveMultipleNotes' | 'deleteMultipleNotes' | 'restoreMultipleNotes'
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'archiveMultipleNotesSuccess' | 'deleteMultipleNotesSuccess' | 'restoreMultipleNotesSuccess';
-  const failAction = actionName + 'Fail' as 'archiveMultipleNotesFail' | 'deleteMultipleNotesFail' | 'restoreMultipleNotesFail';
 
-  return function (dispatch: Dispatch): Promise<void> {
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
 
     const date = new Date().toISOString();
-    return new Promise((resolve) => {
+
+    await new Promise( (resolve) => {
       noteIds.forEach((noteId: EntityUid) => {
-        HttpService
-          .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ noteId }`, {
+        StorageService.update<NoteInterface>(
+          'notes',
+          { id: noteId },
+          {
             ...(actionName === 'deleteMultipleNotes'
               ? { deleted: true }
               : {
@@ -248,27 +233,20 @@ const archiveOrDeleteOrRestoreMultiple = (
                   : null
               }
             )
-          })
-          .catch((error) => {
-            console.error(error);
-            dispatch(noteActions[failAction]());
-          });
+          }
+        );
       });
       resolve(true);
-    })
-      .then(() => {
-        const payload: ArchiveOrDeleteOrRestoreMultipleNotesPayload = {
-          noteIds,
-          ...(actionName === 'archiveMultipleNotes' && { date })
-        };
-        dispatch(noteActions[successAction](payload));
-        HistoryActions.push(noteActions[successAction](noteIds))(dispatch);
-        dispatch(NoteActions.clearSelection());
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(noteActions[failAction]());
-      });
+    });
+
+    const payload: ArchiveOrDeleteOrRestoreMultipleNotesPayload = {
+      noteIds,
+      ...(actionName === 'archiveMultipleNotes' && { date })
+    };
+
+    dispatch(noteActions[successAction](payload));
+    HistoryActions.push(noteActions[successAction](noteIds))(dispatch);
+    dispatch(NoteActions.clearSelection());
   };
 };
 
@@ -278,26 +256,26 @@ const removeOrRestore = (
   clearSelection: boolean,
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'removeNoteFromCategorySuccess' | 'restoreNoteToCategorySuccess';
-  const failAction = actionName + 'Fail' as 'removeNoteFromCategoryFail' | 'restoreNoteToCategoryFail';
 
-  return function (dispatch: Dispatch): Promise<void> {
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
+
     const note: NoteInterface = (store.getState() as RootState).note.notes.find((note) => note.id === payload.noteId)!;
     const noteCategories: EntityUid[] = actionName === 'removeNoteFromCategory'
       ? note.categories.filter((catId) => catId !== payload.categoryId)
       : [...note.categories, payload.categoryId];
 
-    return HttpService
-      .patch<Partial<NoteInterface>, NoteInterface>(`/notes/${ payload.noteId }`, { categories: noteCategories })
-      .then((updatedNote: NoteInterface) => {
-        dispatch(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }));
-        HistoryActions.push(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
-        clearSelection && dispatch(NoteActions.clearSelection());
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(noteActions[failAction]());
-      });
+    const updatedNote = await StorageService.update<NoteInterface>(
+      'notes',
+      { id: payload.noteId },
+      {
+        categories: noteCategories
+      }
+    );
+
+    dispatch(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }));
+    HistoryActions.push(noteActions[successAction]({ updatedNote, categoryId: payload.categoryId }))(dispatch);
+    clearSelection && dispatch(NoteActions.clearSelection());
   };
 };
 
@@ -307,8 +285,8 @@ const removeOrRestoreMultiple = (
   clearSelection: boolean,
 ): ActionFunction<void> => {
   const successAction = actionName + 'Success' as 'removeMultipleNotesFromCategorySuccess' | 'restoreMultipleNotesToCategorySuccess';
-  const failAction = actionName + 'Fail' as 'removeMultipleNotesFromCategoryFail' | 'restoreMultipleNotesToCategoryFail';
-  return function (dispatch: Dispatch): void {
+
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
 
     const notes: NoteInterface[] = (store.getState() as RootState).note.notes;
@@ -321,26 +299,16 @@ const removeOrRestoreMultiple = (
           : [...note.categories, payload.categoryId],
       }));
 
-    new Promise((resolve) => {
+    await new Promise((resolve) => {
       updatedNotes.forEach((note: NoteInterface) => {
-        HttpService
-          .put<NoteInterface, NoteInterface>(`/notes/${ note.id }`, note)
-          .catch((error) => {
-            console.error(error);
-            dispatch(noteActions[failAction]());
-          });
+        StorageService.update<NoteInterface>('notes', { id: note.id }, note);
       });
       resolve(true);
-    })
-      .then(() => {
-        dispatch(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }));
-        HistoryActions.push(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }))(dispatch);
-        clearSelection && dispatch(NoteActions.clearSelection());
-      })
-      .catch((error) => {
-        console.error(error);
-        dispatch(noteActions[failAction]());
-      });
+    });
+
+    dispatch(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }));
+    HistoryActions.push(noteActions[successAction]({ updatedNotes, categoryId: payload.categoryId }))(dispatch);
+    clearSelection && dispatch(NoteActions.clearSelection());
   };
 };
 
@@ -349,26 +317,19 @@ const updateOrRevert = (
   actionName: 'updateNote' | 'revertNoteUpdate'
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'updateNoteSuccess' | 'revertNoteUpdateSuccess';
-  const failAction = actionName + 'Fail' as 'updateNoteFail' | 'revertNoteUpdateFail';
-
   const originalNote: NoteInterface = (store.getState() as RootState).note.notes.find((n) => n.id === note.id)!;
 
-  return function (dispatch: Dispatch): Promise<void> {
+  return async function (dispatch: Dispatch): Promise<void> {
     dispatch(noteActions[actionName]());
-    const _note = {
+    const updatedNote = {
       ...note,
       updatedAt: new Date().toISOString(),
     };
-    return HttpService
-      .put<NoteInterface, NoteInterface>(`/notes/${ note.id }`, _note)
-      .then(() => {
-        dispatch(noteActions[successAction](_note));
-        HistoryActions.push(noteActions[successAction](originalNote))(dispatch);
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch(noteActions[failAction]());
-      });
+
+    await StorageService.update<NoteInterface>('notes', { id: note.id }, updatedNote);
+
+    dispatch(noteActions[successAction](updatedNote));
+    HistoryActions.push(noteActions[successAction](originalNote))(dispatch);
   };
 };
 
