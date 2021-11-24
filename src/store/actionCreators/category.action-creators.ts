@@ -111,15 +111,11 @@ const deleteAndRestore = (
   return async function (dispatch: Dispatch): Promise<void> {
     dispatch((categoryActions[actionName])());
 
-    const updatedCategory = await StorageService.update<Category>(
-      'categories',
-      { id: category.id },
-      { deleted:
-          actionName === 'deleteCategory'
-      }
-    );
-    dispatch(categoryActions[successAction](updatedCategory));
-    HistoryActions.push(categoryActions[successAction](updatedCategory))(dispatch);
+    const part: Partial<Category> = { deleted: actionName === 'deleteCategory' };
+
+    await StorageService.update<Category>('categories', { id: category.id }, part);
+    dispatch(categoryActions[successAction]({ ...category, ...part }));
+    HistoryActions.push(categoryActions[successAction]({ ...category, ...part }))(dispatch);
   };
 };
 
