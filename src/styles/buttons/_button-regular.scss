@@ -1,14 +1,4 @@
 .button.--regular {
-  padding: 0 16px;
-  height: 32px;
-  line-height: 1;
-  border-radius: 2px;
-  background-color: var(--foreground-7);
-
-  @media (max-width: 599px) {
-    font-size: 15px;
-  }
-
   &:not(:disabled) {
     &:hover {
       background-color: var(--foreground-11);

@@ -23,4 +23,22 @@
   &:hover {
     background-color: var(--foreground-7);
   }
+
+  &.--regular,
+  &.--contained {
+    padding: 0 16px;
+    height: 32px;
+    line-height: 1;
+    border-radius: 2px;
+    background-color: var(--foreground-7);
+
+    @media (max-width: 599px) {
+      font-size: 15px;
+    }
+
+    @media (min-width: 1320px) {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
 }

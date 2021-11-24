@@ -66,7 +66,7 @@ export const RightSide = styled.div`
   @media (min-width: 600px) {
     flex-direction: row;
     align-items: flex-end;
-    column-gap: 24px;
+    column-gap: 8px;
     row-gap: unset;
   }
 `;
