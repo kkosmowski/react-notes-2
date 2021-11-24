@@ -140,11 +140,23 @@ const NoteActions = {
     return updateOrRevert(note, 'revertNoteUpdate');
   },
 
-  restoreNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+  restoreNote(data: EntityUid | NoteInterface): ActionFunction<Promise<void>> {
+    let note: NoteInterface | undefined;
+    let noteId: EntityUid;
+
+    if (typeof data === 'string') {
+      noteId = data;
+    } else {
+      note = data;
+      noteId = data.id;
+    }
+
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.restoreNote());
 
-      const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
+      if (!note) {
+        note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
+      }
 
       if (note) {
         const part: Partial<NoteInterface> = {
