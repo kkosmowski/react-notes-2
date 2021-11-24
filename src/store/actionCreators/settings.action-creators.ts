@@ -31,19 +31,18 @@ const SettingsActions = {
     return async function(dispatch): Promise<void> {
       dispatch(settingsActions.fetchSettings());
 
-      const settings = await StorageService.getAll<SettingsModel>('settings');
+      let settings = await StorageService.getAll<SettingsModel>('settings');
 
-      if (settings.length === 4) {
-        dispatch(settingsActions.fetchSettingsSuccess(settings));
-      } else {
-        const settings = await StorageService.set<SettingsModel>('settings', null, [
+      if (settings.length !== 4) {
+        settings = await StorageService.set<SettingsModel>('settings', null, [
           { id: 'theme', theme: defaultSettings.theme },
           { id: 'direction', direction: defaultSettings.direction },
           { id: 'language', language: defaultSettings.language },
           { id: 'snackbarDuration', snackbarDuration: defaultSettings.snackbarDuration },
         ]);
-        dispatch(settingsActions.fetchSettingsSuccess(settings));
       }
+
+      dispatch(settingsActions.fetchSettingsSuccess(settings));
     };
   },
 
