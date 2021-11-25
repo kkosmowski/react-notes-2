@@ -3,6 +3,7 @@ import { SnackbarInstance } from '../../domain/interfaces/snackbar-instance.inte
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import { ColorDialogData } from '../../domain/interfaces/color-dialog-data.interface';
 
 const uiActions = {
   openNoteDialog: createAction<void>('OPEN_NOTE_DIALOG'),
@@ -27,6 +28,9 @@ const uiActions = {
 
   openShortcutsDialog: createAction<void>('OPEN_SHORTCUTS_DIALOG'),
   closeShortcutsDialog: createAction<void>('CLOSE_SHORTCUTS_DIALOG'),
+
+  openColorDialog: createAction<ColorDialogData>('OPEN_COLOR_DIALOG'),
+  closeColorDialog: createAction<void>('CLOSE_COLOR_DIALOG'),
 };
 
 export default uiActions;

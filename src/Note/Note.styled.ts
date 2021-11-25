@@ -3,7 +3,7 @@ import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.in
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { getNoteSelectionStyles } from './get-note-selection-styles.util';
 import { getNoteStyles } from './get-notes-styles.util';
-import { ColorOverlay } from '../ColorPicker/ColorPicker';
+import { NoteColorOverlay } from '../ColorPicker/ColorPicker.styled';
 
 export const NoteElement = styled.article<NoteSelectionProps & { color?: string }>`
   display: flex;
@@ -14,7 +14,7 @@ export const NoteElement = styled.article<NoteSelectionProps & { color?: string 
   ${ transition('box-shadow', '0.15s') }
   ${ (props) => getNoteSelectionStyles(props) }
   user-select: none;
-  ${ ColorOverlay }
+  ${ NoteColorOverlay }
   ${ ({ isArchived }) => isArchived 
     ? css`
       &::before {

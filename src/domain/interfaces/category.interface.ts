@@ -4,4 +4,5 @@ export interface Category {
   id: EntityUid;
   name: string;
   deleted: boolean;
+  color?: string;
 }

@@ -18,6 +18,7 @@ export const en = {
     SETTINGS: 'Settings',
     SHORTCUTS: 'Shortcuts',
     SELECT_CATEGORIES: 'Select categories',
+    CHANGE_COLOR: 'Change color',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
@@ -139,5 +140,10 @@ export const en = {
     OPEN_NOTE_CONTEXT_MENU: 'Right clicking note will open its context menu.',
     PERSIST_OPENED_SIDEBAR: 'Clicking on a Sidebar directly will keep it opened. To close it, click anywhere except the Sidebar.',
     MANUAL_NOTES_SELECTION: 'You can quickly select notes by pressing down the mouse and dragging it across the desired notes.',
+  },
+  COLOR_DIALOG: {
+    SELECT_COLOR: 'Select color',
+    SUBTITLE_FOR_CATEGORY: 'Select color for category "{{ name }}"',
+    SUBTITLE_FOR_NOTE: 'Select color for note "{{ name }}"',
   }
 };

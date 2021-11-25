@@ -18,12 +18,16 @@ import { Settings } from '../Settings/Settings';
 import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 import { useTranslation } from 'react-i18next';
 import { ShortcutsDialog } from '../ShortcutsDialog/ShortcutsDialog';
+import { selectColorDialogOpened } from '../store/selectors/ui.selectors';
+import { ColorDialog } from '../ColorDialog/ColorDialog';
 
 const AppRoutes = (): ReactElement => {
+  const colorDialogOpened = useSelector(selectColorDialogOpened);
   const app: ReactElement = (
     <>
       <ControlsBar />
       <NotesContainer />
+      { colorDialogOpened && <ColorDialog /> }
 
       <Route path="*/add-note">
         <NoteDialog />

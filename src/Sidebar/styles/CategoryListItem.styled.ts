@@ -1,7 +1,9 @@
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { textEllipsis } from '../../styles/styled-components-utils/text-ellipsis.mixin';
+import { Folder } from '@material-ui/icons';
+import { CategoryColorOverlay } from '../../ColorPicker/ColorPicker.styled';
 
-export const ListItem = styled.li`
+export const ListItem = styled.li<{ color?: string }>`
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -12,6 +14,7 @@ export const ListItem = styled.li`
   flex-shrink: 0;
   padding-inline-start: calc((var(--sidebar-width) - var(--icon-size)) / 2);
   padding-inline-end: 4px;
+  ${ CategoryColorOverlay }
 
   > span {
     flex: 1;
@@ -50,4 +53,10 @@ export const ListItem = styled.li`
     padding-bottom: 3px;
     height: 47px;
   }
+`;
+
+export const StyledFolderIcon = styled(Folder)<{ iconColor?: string }>`
+  ${ ({ iconColor }) => iconColor && iconColor !== 'transparent'
+    ? css`color: ${ iconColor }; opacity: 0.7;`
+    : '' }
 `;

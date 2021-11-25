@@ -61,6 +61,10 @@ export const Note = (
     onDelete(data.id);
   };
 
+  const handleColorChange = (): void => {
+    dispatch(UiActions.openColorDialog('note', data));
+  };
+
   const getTestId = (): string => {
     return isSelected
       ? noteSelectedTestId
@@ -87,6 +91,10 @@ export const Note = (
         {
           label: data.archived ? 'COMMON:RESTORE' : 'COMMON:ARCHIVE',
           callback: handleArchive,
+        },
+        {
+          label: 'COMMON:CHANGE_COLOR',
+          callback: () => handleColorChange(),
         },
         {
           label: 'COMMON:DELETE',

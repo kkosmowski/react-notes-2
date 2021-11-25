@@ -16,6 +16,8 @@ export const initialUiState: UiState = {
   contextMenuData: null,
   isMobile: true,
   shortcutsDialogOpened: false,
+  colorDialogOpened: false,
+  colorDialogData: null,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -95,6 +97,15 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     })
     .addCase(uiActions.closeShortcutsDialog, (state) => {
       state.shortcutsDialogOpened = false;
+    })
+
+    .addCase(uiActions.openColorDialog, (state, { payload }) => {
+      state.colorDialogOpened = true;
+      state.colorDialogData = payload;
+    })
+    .addCase(uiActions.closeColorDialog, (state) => {
+      state.colorDialogOpened = false;
+      state.colorDialogData = null;
     })
   ;
 });

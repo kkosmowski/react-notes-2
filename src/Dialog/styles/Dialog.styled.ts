@@ -1,6 +1,5 @@
 import styled from 'styled-components/macro';
 import { DialogConfig } from '../../domain/interfaces/dialog-config.interface';
-import { ColorOverlay } from '../../ColorPicker/ColorPicker';
 
 export const DialogWrapper = styled.div`
   position: absolute;

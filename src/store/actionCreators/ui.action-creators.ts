@@ -7,6 +7,8 @@ import { HistoryUtil } from '../../domain/utils/history.util';
 import { ContextMenuData } from '../../domain/interfaces/context-menu-data.interface';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { EntityUid } from '../../domain/types/entity-uid.type';
+import { NoteInterface } from '../../domain/interfaces/note.interface';
+import { Category } from '../../domain/interfaces/category.interface';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -68,6 +70,13 @@ const UiActions = {
   },
   closeShortcutsDialog(): Action {
     return uiActions.closeShortcutsDialog();
+  },
+
+  openColorDialog(type: 'category' | 'note', data: Category | NoteInterface): Action {
+    return uiActions.openColorDialog({ type, data });
+  },
+  closeColorDialog(): Action {
+    return uiActions.closeColorDialog();
   },
 };
 
