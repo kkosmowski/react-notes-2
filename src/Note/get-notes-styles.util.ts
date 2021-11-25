@@ -1,9 +1,11 @@
 import { css, FlattenSimpleInterpolation } from 'styled-components/macro';
 
+export const noteBackgroundColor = 'var(--background200)';
+
 export const getNoteStyles = (isArchived?: boolean): FlattenSimpleInterpolation => {
   return isArchived
     ? css`
-      background-color: var(--background250);
+      background-color: var(--background300);
       color: var(--foreground-77);
       
       > p {
@@ -11,6 +13,6 @@ export const getNoteStyles = (isArchived?: boolean): FlattenSimpleInterpolation 
       }
     `
     : css`
-      background-color: var(--background200);
+      background-color: ${ noteBackgroundColor };
     `;
 };

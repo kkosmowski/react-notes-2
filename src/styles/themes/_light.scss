@@ -1,9 +1,12 @@
 body[class^="light"] {
+  --note-color-opacity: 0.155;
+  --note-archived-color-opacity: 0.075;
+
   --foreground: #222;
   --foreground-82: rgba(34, 34, 34, 0.87);
   --foreground-77: rgba(34, 34, 34, 0.83);
   --foreground-64: rgba(34, 34, 34, 0.70);
-  --foreground-61: rgba(34, 34, 34, 0.66 );
+  --foreground-61: rgba(17, 17, 17, 0.70);
   --foreground-43: rgba(34, 34, 34, 0.47);
   --foreground-27: rgba(34, 34, 34, 0.30);
   --foreground-16: rgba(34, 34, 34, 0.18);
@@ -16,16 +19,17 @@ body[class^="light"] {
   --background0-47: rgba(172, 172, 172, 0.47);
   --background50: #efefef;
   --background100: #dbdbdb;
-  --background150: #c3c3c3;
+  --background150: #d9d9d9;
   --background150-60: #c3c3c399;
-  --background200: #d9d9d9;
+  --background200: #d1d1d1;
   --background250: #e0e0e0;
-  --background300: #ebebeb;
+  --background300: #d9d9d9;
   --background350: #c3c3c3;
   --background400: #bdbdbd;
   --background500: #b1b1b1;
 
   --shadow: #bbb;
+  --backdrop-color: rgba(34, 34, 34, 0.35);
 
   --warn: #d32711;
   --warn-7: #d3271112;

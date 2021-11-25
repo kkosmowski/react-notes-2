@@ -107,6 +107,7 @@ export const Note = (
       isSelectionCovered={ isSelectionCovered }
       selectionMode={ selectionMode }
       className="note"
+      color={ data.color }
       data-testid={ getTestId() }
     >
       <NoteTitle>{ title }</NoteTitle>

@@ -1,4 +1,7 @@
 body[class^="dark"] {
+  --note-color-opacity: 0.135;
+  --note-archived-color-opacity: 0.085;
+
   --foreground: #fff;
   --foreground-82: rgba(255, 255, 255, 0.82);
   --foreground-77: rgba(255, 255, 255, 0.77);
@@ -15,17 +18,18 @@ body[class^="dark"] {
   --background0-61: rgba(0, 0, 0, 0.61);
   --background0-47: rgba(0, 0, 0, 0.47);
   --background50: #101010;
-  --background100: #161616;
-  --background150: #181818;
+  --background100: #151515;
+  --background150: #171717;
   --background150-60: #18181899;
-  --background200: #1a1a1a;
+  --background200: #191919;
   --background250: #1e1e1e;
-  --background300: #222;
+  --background300: #242424;
   --background350: #2a2a2a;
   --background400: #333;
   --background500: #4a4a4a;
 
   --shadow: #161616;
+  --backdrop-color: #18181899;
 
   --warn: #ff325b;
   --warn-7: #ff325b12;

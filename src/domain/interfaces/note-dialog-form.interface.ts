@@ -4,4 +4,5 @@ export interface NoteDialogFormValue {
   title: string;
   content: string;
   categories: EntityUid[];
+  color?: string;
 }

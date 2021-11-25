@@ -42,6 +42,7 @@ import { NoteDetails } from './NoteDialog.styled';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { RouterUtil } from '../domain/utils/router.util';
 import { rootCategory } from '../domain/consts/root-category.const';
+import { ColorPicker } from '../ColorPicker/ColorPicker';
 
 export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
@@ -220,6 +221,20 @@ export const NoteDialog = (): ReactElement => {
 
   const handlePartialEditModeChange = (mode: NoteEditMode): void => setEditMode(mode);
 
+  const handleColorChange = (color: string): void => {
+    if (openedNote) {
+      dispatch(NoteActions.updateNote({
+        ...openedNote,
+        color,
+      }));
+    } else {
+      setForm({
+        ...form,
+        color,
+      });
+    }
+  };
+
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
     <Button
       onClick={ handleAddAndNext }
@@ -260,6 +275,11 @@ export const NoteDialog = (): ReactElement => {
           onCancel={ handleEditCancel }
           onReset={ handleEditReset }
           onEditModeChange={ handleEditModeChange }
+        />
+        <ColorPicker
+          onColorChange={ handleColorChange }
+          initialColor={ openedNote?.color }
+          style={ { marginLeft: 'auto' } }
         />
       </DialogHeader>
 
