@@ -6,20 +6,20 @@ import { useTranslation } from 'react-i18next';
 import {
   isContentEdited,
   isEditMode,
-  isEditModeBoth,
   isTitleEdited,
   NoteEditMode
 } from '../domain/interfaces/note-edit-mode.interface';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
-import { Checkbox, CheckboxLabel } from '../Checkbox/Checkbox';
 import { EntityUid } from '../domain/types/entity-uid.type';
-import { Categories, CategoriesWrapper, FormWrapper } from './NoteDialogForm.styled';
+import { FormWrapper } from './NoteDialogForm.styled';
 import { NoteDialogUtil } from './note-dialog.util';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import {
   noteDialogContentInputTestId,
   noteDialogTitleInputTestId
 } from '../domain/consts/test-ids.consts';
+import { Select } from '../Select/Select';
+import { SelectOption } from '../Select/select-option.interface';
 
 export interface NoteDialogFormPayload {
   form: NoteDialogFormValue;
@@ -46,6 +46,7 @@ export const NoteDialogForm = (
     content: initialForm.content,
     categories: initialForm.categories,
   });
+  const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
     onFormChange({
@@ -76,6 +77,13 @@ export const NoteDialogForm = (
     }
   }, [openedNote]);
 
+  useEffect(() => {
+    setCategoryOptions(categories.map(category => ({
+      label: category.name,
+      value: category.id,
+    })));
+  }, [categories]);
+
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
     setForm({
       ...form,
@@ -83,10 +91,10 @@ export const NoteDialogForm = (
     });
   };
 
-  const handleCategoriesChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const newCategories: EntityUid[] = form.categories.includes(e.target.value)
-      ? form.categories.filter((id) => id !== e.target.value)
-      : [...form.categories, e.target.value];
+  const handleCategoriesChange = (selectedId: EntityUid): void => {
+    const newCategories: EntityUid[] = form.categories.includes(selectedId)
+      ? form.categories.filter((id) => id !== selectedId)
+      : [...form.categories, selectedId];
 
     setForm({
       ...form,
@@ -140,25 +148,13 @@ export const NoteDialogForm = (
         testid={ noteDialogContentInputTestId }
       />
 
-      <CategoriesWrapper>
-        <p>{ t('CATEGORIES') }</p>
-        <Categories>
-          { categories.map((category) => (
-            <CheckboxLabel key={ category.id }>
-              <Checkbox
-                onChange={ handleCategoriesChange }
-                type="checkbox"
-                id="category"
-                name={ category.id }
-                value={ category.id }
-                checked={ form.categories.includes(category.id) }
-                disabled={ !isEditModeBoth(editMode) }
-              />
-              { category.name }
-            </CheckboxLabel>
-          )) }
-        </Categories>
-      </CategoriesWrapper>
+      <Select
+        label={ t('CATEGORIES') }
+        placeholder={ t('COMMON:SELECT_CATEGORIES') }
+        onChange={ handleCategoriesChange }
+        options={ categoryOptions }
+        multi
+      />
     </FormWrapper>
   );
 };

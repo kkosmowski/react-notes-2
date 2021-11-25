@@ -19,6 +19,7 @@ export const pl: typeof en = {
     RESTORE: 'Przywróć',
     SETTINGS: 'Ustawienia',
     SHORTCUTS: 'Skróty klawiszowe',
+    SELECT_CATEGORIES: 'Wybierz kategorie',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
