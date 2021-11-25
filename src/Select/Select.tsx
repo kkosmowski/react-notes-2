@@ -123,14 +123,19 @@ export const Select = (
   };
 
   const toggleOptionsVisibility = (): void => {
-    setOptionsVisible(!optionsVisible);
+    if (options.length) {
+      setOptionsVisible(!optionsVisible);
+    }
   };
 
   return (
     <div ref={ ref }>
       <SelectWrapper opened={ optionsVisible }>
         { label && <Label>{ label }</Label> }
-        <CustomSelect onClick={ toggleOptionsVisibility } className={ disabled ? 'disabled' : '' }>
+        <CustomSelect
+          onClick={ toggleOptionsVisibility }
+          className={ disabled || !options.length ? 'disabled' : '' }
+        >
           <CurrentOption>
             { currentValueText || placeholder }
           </CurrentOption>
