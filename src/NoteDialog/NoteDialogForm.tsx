@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import {
   isContentEdited,
   isEditMode,
+  isEditModeBoth,
   isTitleEdited,
   NoteEditMode
 } from '../domain/interfaces/note-edit-mode.interface';
@@ -91,14 +92,10 @@ export const NoteDialogForm = (
     });
   };
 
-  const handleCategoriesChange = (selectedId: EntityUid): void => {
-    const newCategories: EntityUid[] = form.categories.includes(selectedId)
-      ? form.categories.filter((id) => id !== selectedId)
-      : [...form.categories, selectedId];
-
+  const handleCategoriesChange = (selectedIds: EntityUid[]): void => {
     setForm({
       ...form,
-      categories: newCategories,
+      categories: selectedIds,
     });
   };
 
@@ -153,6 +150,8 @@ export const NoteDialogForm = (
         placeholder={ t('COMMON:SELECT_CATEGORIES') }
         onChange={ handleCategoriesChange }
         options={ categoryOptions }
+        initialValue={ form.categories }
+        disabled={ !isEditModeBoth(editMode) }
         multi
       />
     </FormWrapper>

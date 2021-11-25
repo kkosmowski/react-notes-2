@@ -50,7 +50,8 @@ export const Checkbox = styled.input`
   }
 
   &:disabled {
-    background-color: var(--foreground-7);
+    cursor: not-allowed;
+    background-color: var(--foreground-11);
 
     &:checked {
       background-color: var(--primary400);

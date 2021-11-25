@@ -7,7 +7,6 @@ export const SelectWrapper = styled.div<{ opened: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 
   &::after {
     position: absolute;
@@ -18,7 +17,8 @@ export const SelectWrapper = styled.div<{ opened: boolean }>`
     border-right: 1px solid;
     border-bottom: 1px solid;
     right: 10px;
-    ${ ({ opened }) => `transform: translateY(${ opened ? '17px' : '13px' }) rotate(${ opened ? '585deg' : '45deg' });` }
+    bottom: 0;
+    ${ ({ opened }) => `transform: translateY(${ opened ? '-13px' : '-16px' }) rotate(${ opened ? '585deg' : '45deg' });` }
     ${ transition('transform', '0.3s') }
   }
 `;
@@ -28,6 +28,7 @@ export const CustomSelect = styled.div`
   ${ InputStyles };
   padding: 4px 32px 4px 20px;
   min-width: 140px;
+  cursor: pointer;
   
   @media (max-width: 599px) {
     width: 100%;
@@ -35,7 +36,12 @@ export const CustomSelect = styled.div`
 `;
 
 export const CurrentOption = styled.span`
+  user-select: none;
   white-space: nowrap;
+  
+  .disabled & {
+    color: var(--foreground-43)
+  }
 `;
 
 export const OptionsContainer = styled.div<{ visible: boolean, above: boolean }>`
@@ -48,6 +54,8 @@ export const OptionsContainer = styled.div<{ visible: boolean, above: boolean }>
   overflow: auto;
   ${ ({ visible }) => `display: ${ visible ? 'flex' : 'none' };` }
   flex-direction: column;
+  background-color: var(--background150);
+  user-select: none;
 `;
 
 export const Option = styled.div`
@@ -56,11 +64,14 @@ export const Option = styled.div`
   flex-shrink: 0;
   padding: 0 16px;
   height: ${ SELECT_OPTION_HEIGHT }px;
-  background-color: var(--background150);
   cursor: pointer;
   white-space: nowrap;
   
   &:hover {
     background-color: var(--background250);
+  }
+  
+  .disabled & {
+    color: var(--foreground-64)
   }
 `;
