@@ -1,0 +1,2 @@
+export const SELECT_OPTIONS_MAX_HEIGHT = 220;
+export const SELECT_OPTION_HEIGHT = 40;

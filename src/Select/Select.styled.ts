@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { InputStyles } from '../Input/Input.styled';
+import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/consts/select.consts';
 
 export const SelectWrapper = styled.div<{ opened: boolean }>`
   position: relative;
@@ -24,7 +25,6 @@ export const SelectWrapper = styled.div<{ opened: boolean }>`
 
 export const CustomSelect = styled.div`
   position: relative;
-  display: inline-block;
   ${ InputStyles };
   padding: 4px 32px 4px 20px;
   min-width: 140px;
@@ -38,13 +38,13 @@ export const CurrentOption = styled.span`
   white-space: nowrap;
 `;
 
-export const OptionsContainer = styled.div<{ visible: boolean }>`
+export const OptionsContainer = styled.div<{ visible: boolean, above: boolean }>`
   position: absolute;
   z-index: 100;
   left: 0;
-  top: 100%;
+  ${ ({ above }) => above ? 'bottom' : 'top' }: 100%;
   width: 100%;
-  max-height: 300px;
+  max-height: ${ SELECT_OPTIONS_MAX_HEIGHT }px;
   overflow: auto;
   ${ ({ visible }) => `display: ${ visible ? 'flex' : 'none' };` }
   flex-direction: column;
@@ -55,7 +55,7 @@ export const Option = styled.div`
   align-items: center;
   flex-shrink: 0;
   padding: 0 16px;
-  height: 40px;
+  height: ${ SELECT_OPTION_HEIGHT }px;
   background-color: var(--background150);
   cursor: pointer;
   white-space: nowrap;

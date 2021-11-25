@@ -17,6 +17,7 @@ export const en = {
     RESTORE: 'Restore',
     SETTINGS: 'Settings',
     SHORTCUTS: 'Shortcuts',
+    SELECT_CATEGORIES: 'Select categories',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
