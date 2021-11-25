@@ -1,10 +1,11 @@
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.interface';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { getNoteSelectionStyles } from './get-note-selection-styles.util';
 import { getNoteStyles } from './get-notes-styles.util';
+import { ColorOverlay } from '../ColorPicker/ColorPicker';
 
-export const NoteElement = styled.article<NoteSelectionProps>`
+export const NoteElement = styled.article<NoteSelectionProps & { color?: string }>`
   display: flex;
   flex-direction: column;
   padding: 8px 12px;
@@ -13,6 +14,13 @@ export const NoteElement = styled.article<NoteSelectionProps>`
   ${ transition('box-shadow', '0.15s') }
   ${ (props) => getNoteSelectionStyles(props) }
   user-select: none;
+  ${ ColorOverlay }
+  ${ ({ isArchived }) => isArchived 
+    ? css`
+      &::before {
+        opacity: var(--note-archived-color-opacity);
+      }`
+    : '' }
 `;
 
 export const NoteTitle = styled.h3`

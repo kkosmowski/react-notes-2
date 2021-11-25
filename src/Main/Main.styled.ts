@@ -5,7 +5,7 @@ export const MainWrapper = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  background-color: var(--background300);
+  background-color: var(--background250);
   padding: 16px 0;
   color: var(--foreground);
   margin-inline-start: var(--sidebar-width);

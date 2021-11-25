@@ -1,0 +1,17 @@
+export const COLORS = [
+  'transparent',
+  '#ff0000',
+  '#ff0086',
+  '#d300ff',
+  '#6900ff',
+  '#2e00ff',
+  '#006bff',
+  '#00c9ff',
+  '#00ffe3',
+  '#00ff90',
+  '#00ff03',
+  '#d1ff00',
+  '#ffdb00',
+  '#ffa000',
+  '#ff5a00',
+];
