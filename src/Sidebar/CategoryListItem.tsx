@@ -1,7 +1,7 @@
 import { KeyboardEvent, MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
 import { Delete, Edit, Folder, FolderOpen, Save } from '@material-ui/icons';
 import { Category } from '../domain/interfaces/category.interface';
-import { ListItem } from './styles/CategoryListItem.styled';
+import { ListItem, StyledFolderIcon } from './styles/CategoryListItem.styled';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../Button/Button';
 import { Color } from '../domain/enums/color.enum';
@@ -101,6 +101,10 @@ export const CategoryListItem = (
     setEditMode(!editMode);
   };
 
+  const handleColorChange = (): void => {
+    dispatch(UiActions.openColorDialog('category', data));
+  };
+
   const EditModeView: ReactElement = (
     <>
       <input
@@ -144,6 +148,10 @@ export const CategoryListItem = (
         {
           label: 'COMMON:EDIT',
           callback: () => handleEditModeToggle(),
+        },
+        {
+          label: 'COMMON:CHANGE_COLOR',
+          callback: () => handleColorChange(),
         },
         {
           label: 'COMMON:DELETE',
@@ -191,8 +199,12 @@ export const CategoryListItem = (
       onClick={ handleSelect }
       onContextMenu={ handleContextMenu }
       className={ getListItemClasses() }
+      color={ data.color }
     >
-      { current ? <FolderOpen className="icon --current" /> : <Folder className="icon" /> }
+      { current
+        ? <FolderOpen className="icon --current" />
+        : <StyledFolderIcon className="icon" iconColor={ data.color } />
+      }
       { edited || editMode ? EditModeView : RegularView }
     </ListItem>
   );

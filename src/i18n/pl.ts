@@ -13,13 +13,14 @@ export const pl: typeof en = {
     EDIT: 'Edytuj',
     CLOSE: 'Zamknij',
     RESET: 'Resetuj',
-    SELECT: 'Zmień',
+    SELECT: 'Wybierz',
     NO_NOTES: 'Brak notatek do wyświetlenia.',
     ARCHIVE: 'Zarchiwizuj',
     RESTORE: 'Przywróć',
     SETTINGS: 'Ustawienia',
     SHORTCUTS: 'Skróty klawiszowe',
     SELECT_CATEGORIES: 'Wybierz kategorie',
+    CHANGE_COLOR: 'Zmień kolor',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
@@ -141,5 +142,10 @@ export const pl: typeof en = {
     OPEN_NOTE_CONTEXT_MENU: 'Kliknięcie prawym przyciskiem na notatkę otworzy jej menu kontekstowe.',
     PERSIST_OPENED_SIDEBAR: 'Klikięcie na Sidebar spowoduje jego otwarcie na stałe. Aby go zamknąć kliknij poza Sidebar.',
     MANUAL_NOTES_SELECTION: 'Aby szybko zaznaczać notatki, przytrzymaj lewy przycisk myszki i przeciągnij zaznaczenie na notatki.',
+  },
+  COLOR_DIALOG: {
+    SELECT_COLOR: 'Wybierz kolor',
+    SUBTITLE_FOR_CATEGORY: 'Wybierz kolor dla kategorii "{{ name }}"',
+    SUBTITLE_FOR_NOTE: 'Wybierz kolor dla notatki "{{ name }}"',
   }
 };

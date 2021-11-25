@@ -47,3 +47,11 @@ export const selectSnackbarDataWasChanged = createSelector(
 export const selectShortcutsDialogOpened = createSelector(
   uiSelector, (ui: UiState) => ui.shortcutsDialogOpened
 );
+
+export const selectColorDialogOpened = createSelector(
+  uiSelector, (ui: UiState) => ui.colorDialogOpened
+);
+
+export const selectColorDialogData = createSelector(
+  uiSelector, (ui: UiState) => ui.colorDialogData
+);

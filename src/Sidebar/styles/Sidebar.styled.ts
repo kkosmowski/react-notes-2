@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
 import { transition } from '../../styles/styled-components-utils/transition.mixin';
 
+export const sidebarBackgroundColor = 'var(--background200)';
+
 export const SidebarWrapper = styled.aside<{ animated: boolean }>`
   position: absolute;
   z-index: 100;
@@ -8,7 +10,7 @@ export const SidebarWrapper = styled.aside<{ animated: boolean }>`
   flex-direction: column;
   width: var(--sidebar-width);
   height: 100%;
-  background-color: var(--background200);
+  background-color: ${ sidebarBackgroundColor };
   color: var(--foreground-82);
   overflow: hidden;
   cursor: pointer;
