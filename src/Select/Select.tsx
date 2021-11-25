@@ -11,20 +11,25 @@ import {
   SelectWrapper
 } from './Select.styled';
 import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/consts/select.consts';
+import { Checkbox } from '../Checkbox/Checkbox';
 
 interface Props {
   label?: string;
   placeholder?: string;
   options: SelectOption[];
-  initialValue?: string;
+  initialValue?: string | string[];
   multi?: boolean;
-  onChange: (value: string) => void;
+  disabled?: boolean;
+  onChange: (value: string[]) => void;
 }
 
-export const Select = ({ options, label, placeholder, initialValue, multi, onChange }: Props): ReactElement => {
-  const [value, setValue] = useState<string | undefined>(initialValue);
+export const Select = (
+  { options, label, placeholder, initialValue, multi, disabled, onChange }: Props
+): ReactElement => {
+  const [values, setValues] = useState<string[]>([]);
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [openAbove, setOpenAbove] = useState(false);
+  const [currentValueText, setCurrentValueText] = useState('');
   const ref = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
 
@@ -42,15 +47,79 @@ export const Select = ({ options, label, placeholder, initialValue, multi, onCha
     }
   }, [options]);
 
+  useEffect(() => {
+    if (multi) {
+      const n = Math.max(0, values.length - 2);
+      const textValue = [...values.slice(0, 2).map(findLabelOfValue)];
+      const text = textValue.join(', ') + (n > 0 ? ` + ${ n }` : '');
 
-  useEffect(() => { setValue(initialValue); }, [initialValue]);
+      setCurrentValueText(text);
+    } else if (values.length === 1) {
+      const label = findLabelOfValue(values[0]);
+
+      if (label) {
+        setCurrentValueText(label);
+      }
+    }
+  }, [values]);
+
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      if (typeof initialValue !== 'string' && multi) {
+        setValues(initialValue);
+      } else if (typeof initialValue === 'string' && !multi) {
+        setValues([initialValue]);
+      } else {
+        throw new Error('Cannot set multiple initial values to a non-multi Select.');
+      }
+    }
+  }, [initialValue]);
+
+  const findLabelOfValue = (value: string): string | null => {
+    const option = options.find(o => o.value === value);
+
+    if (option) {
+      return option.translate ? t(option.label) : option.label;
+    }
+    return null;
+  };
 
   const handleOptionClick = (e: MouseEvent<HTMLElement>): void => {
-    const selectedValue = (e.target as HTMLElement).dataset?.value;
-    if (selectedValue) {
-      setValue(selectedValue);
-      onChange(selectedValue);
+    if (disabled) {
+      e.stopPropagation();
+      return;
     }
+
+    const selectedValue = (e.target as HTMLElement).dataset?.value;
+
+    if (multi) {
+      e.stopPropagation();
+      if (selectedValue) {
+        handleOptionCheckboxChange(selectedValue);
+      }
+      return;
+    }
+
+    if (selectedValue) {
+      setValues([selectedValue]);
+      onChange([selectedValue]);
+    }
+  };
+
+  const handleOptionCheckboxChange = (selected: string): void => {
+    if (!multi || disabled) {
+      return;
+    }
+
+    let newValues: string[];
+
+    if (values.includes(selected)) {
+      newValues = values.filter(v => v !== selected);
+    } else {
+      newValues = [...values, selected];
+    }
+    setValues(newValues);
+    onChange(newValues);
   };
 
   const toggleOptionsVisibility = (): void => {
@@ -61,14 +130,24 @@ export const Select = ({ options, label, placeholder, initialValue, multi, onCha
     <div ref={ ref }>
       <SelectWrapper opened={ optionsVisible }>
         { label && <Label>{ label }</Label> }
-        <CustomSelect onClick={ toggleOptionsVisibility }>
+        <CustomSelect onClick={ toggleOptionsVisibility } className={ disabled ? 'disabled' : '' }>
           <CurrentOption>
-            { value ? t(options.find(o => o.value === value)!.label) : placeholder }
+            { currentValueText || placeholder }
           </CurrentOption>
           <OptionsContainer visible={ optionsVisible } above={ openAbove }>
-            { options.map(({ label, value, translate }) => (
-              <Option onClick={ handleOptionClick } data-value={ value } key={ value }>
-                { translate ? t(label) : label }
+            { options.map((option) => (
+              <Option onClick={ handleOptionClick } data-value={ option.value } key={ option.value }>
+                { multi && (
+                  <Checkbox
+                    onChange={ (e) => handleOptionCheckboxChange(e.target.value) }
+                    type="checkbox"
+                    checked={ values.includes(option.value) }
+                    value={ option.value }
+                    disabled={ disabled }
+                    style={ { marginInlineEnd: '8px' } }
+                  />
+                ) }
+                { option.translate ? t(option.label) : option.label }
               </Option>
             ))}
           </OptionsContainer>

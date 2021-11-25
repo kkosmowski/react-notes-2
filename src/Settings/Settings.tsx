@@ -44,7 +44,7 @@ export const Settings = (): ReactElement => {
     setForm({ theme, direction, language, snackbarDuration });
   }, [ theme, direction, language, snackbarDuration ]);
 
-  const handleFormChange = (property: keyof SettingsInterface, value: string | number): void => {
+  const handleFormChange = (property: keyof SettingsInterface, value: string[] | number): void => {
     if (typeof value === 'number') {
       if (value < MIN_SNACKBAR_DURATION) {
         setDurationError('DURATION_TOO_SMALL');
@@ -54,9 +54,10 @@ export const Settings = (): ReactElement => {
         setDurationError('');
       }
     }
+
     setForm({
       ...form,
-      [property]: value,
+      [property]: typeof value === 'number' ? value : value[0],
     });
   };
 

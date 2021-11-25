@@ -20,18 +20,18 @@ export const InputStyles = css`
   outline: none;
   border: 2px solid transparent;
 
-  &[disabled] {
+  &[disabled]
+  &.disabled {
     padding: 8px;
     background-color: transparent;
     resize: none;
   }
   
-  &:not([disabled]):hover {
-    background-color: var(--foreground-7);
-  }
-  
-  &:not([disabled]):focus {
-    border-color: var(--foreground-16);
+  &:not([disabled]),
+  &:not(.disabled) {
+    &:focus {
+      border-color: var(--foreground-16);
+    }
   }
   
   &:invalid.--touched {
