@@ -22,12 +22,10 @@ import { selectColorDialogOpened } from '../store/selectors/ui.selectors';
 import { ColorDialog } from '../ColorDialog/ColorDialog';
 
 const AppRoutes = (): ReactElement => {
-  const colorDialogOpened = useSelector(selectColorDialogOpened);
   const app: ReactElement = (
     <>
       <ControlsBar />
       <NotesContainer />
-      { colorDialogOpened && <ColorDialog /> }
 
       <Route path="*/add-note">
         <NoteDialog />
@@ -67,6 +65,7 @@ export const Main = (): ReactElement => {
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const settingsOpened: boolean = useSelector(selectSettingsOpened);
+  const colorDialogOpened = useSelector(selectColorDialogOpened);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -102,6 +101,7 @@ export const Main = (): ReactElement => {
       <AppRoutes />
 
       <ConfirmationDialog />
+      { colorDialogOpened && <ColorDialog /> }
       <SnackbarContainer />
     </MainWrapper>
   );
