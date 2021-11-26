@@ -47,7 +47,7 @@ import { ColorPicker } from '../ColorPicker/ColorPicker';
 export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
   const config: DialogConfig = {
-    width: '400px',
+    width: '420px',
     flex: true
   };
   const location = useLocation<{ previous?: string }>();
