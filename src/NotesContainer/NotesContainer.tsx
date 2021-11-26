@@ -226,7 +226,11 @@ export const NotesContainer = (): ReactElement => {
 
   const handleNoteOpen = (noteToOpen: NoteInterface, openWithEdit = false): void => {
     dispatch(NoteActions.setOpenedNote(noteToOpen));
-    RouterUtil.push(`/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }`, history);
+    RouterUtil.push(
+      `/note/${ noteToOpen.id }${ openWithEdit ? '/edit' : '' }`,
+      history,
+      { dontCompareWithPrevious: true }
+    );
   };
 
   const handleArchive = (note: NoteInterface): void => {
