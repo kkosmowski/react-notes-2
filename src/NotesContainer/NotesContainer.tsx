@@ -88,8 +88,12 @@ export const NotesContainer = (): ReactElement => {
       if (categoryId !== currentCategoryId) {
         dispatch(CategoryActions.change(categoryId, true));
       }
-    } else if (!history.location.pathname.endsWith('/shortcuts')) {
-      dispatch(CategoryActions.change(rootCategory.id, true));
+    } else {
+      const path = history.location.pathname;
+
+      if (!(path.endsWith('/shortcuts') || path.includes('note'))) {
+        dispatch(CategoryActions.change(rootCategory.id, true));
+      }
     }
   }, [categoryId]);
 

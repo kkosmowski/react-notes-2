@@ -125,6 +125,7 @@ export const CategoriesList = (): ReactElement => {
 
   const handleCategorySelect = (category: Category): void => {
     if (currentCategoryId !== category.id) {
+      console.log(category);
       dispatch(CategoryActions.change(category.id));
 
       const pathname: string = isRootCategory(category.id)
