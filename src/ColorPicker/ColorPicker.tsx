@@ -1,8 +1,7 @@
-import styled, { css } from 'styled-components/macro';
 import { CSSProperties, ReactElement, useEffect, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { ColorPickerGrid } from './ColorPickerGrid';
-import { ColorPickerButton, ColorPickerWrapper } from './ColorPicker.styled';
+import { ColorPickerButton, ColorPickerWrapper } from './styles/ColorPicker.styled';
 
 interface Props {
   style?: CSSProperties;

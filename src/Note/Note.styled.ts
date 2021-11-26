@@ -3,7 +3,7 @@ import { NoteSelectionProps } from '../domain/interfaces/note-selection-props.in
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { getNoteSelectionStyles } from './get-note-selection-styles.util';
 import { getNoteStyles } from './get-notes-styles.util';
-import { NoteColorOverlay } from '../ColorPicker/ColorPicker.styled';
+import { NoteColorOverlay } from '../ColorPicker/styles/ColorPicker.styled';
 
 export const NoteElement = styled.article<NoteSelectionProps & { color?: string }>`
   display: flex;

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/macro';
 import { textEllipsis } from '../../styles/styled-components-utils/text-ellipsis.mixin';
 import { Folder } from '@material-ui/icons';
-import { CategoryColorOverlay } from '../../ColorPicker/ColorPicker.styled';
+import { CategoryColorOverlay } from '../../ColorPicker/styles/ColorPicker.styled';
 
 export const ListItem = styled.li<{ color?: string }>`
   display: flex;

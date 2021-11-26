@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { COLORS } from './colors.const';
-import { ColorOption, ColorPickerGridWrapper } from './ColorpickerGrid.styled';
+import { ColorOption, ColorPickerGridWrapper } from './styles/ColorPickerGrid.styled';
 
 interface Props {
   opened: boolean;
