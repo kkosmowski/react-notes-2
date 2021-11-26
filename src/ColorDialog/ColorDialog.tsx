@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectColorDialogData } from '../store/selectors/ui.selectors';
@@ -18,6 +18,7 @@ import { sidebarBackgroundColor } from '../Sidebar/styles/Sidebar.styled';
 import { Color } from '../domain/enums/color.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import NoteActions from '../store/actionCreators/note.action-creators';
+import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 
 export const ColorDialog = (): ReactElement => {
   const { t } = useTranslation('COLOR_DIALOG');
@@ -31,6 +32,13 @@ export const ColorDialog = (): ReactElement => {
     width: '400px',
     flex: true,
   };
+
+  useEffect(() => {
+    if (data && data.type === 'note') {
+      dispatch(NoteActions.selectNote(data.data.id));
+      dispatch(NoteActions.setSelectionMode(NoteSelectionMode.Single));
+    }
+  }, [data]);
 
   const handleClose = (): void => {
     dispatch(UiActions.closeColorDialog());

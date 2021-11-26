@@ -145,19 +145,24 @@ export const CategoryListItem = (
           label: 'COMMON:SELECT',
           callback: () => handleSelect(),
         },
-        {
-          label: 'COMMON:EDIT',
-          callback: () => handleEditModeToggle(),
-        },
-        {
-          label: 'COMMON:CHANGE_COLOR',
-          callback: () => handleColorChange(),
-        },
-        {
-          label: 'COMMON:DELETE',
-          callback: () => handleDelete(),
-          warn: true,
-        },
+        ...(data.id !== rootCategory.id
+          ? [
+            {
+              label: 'COMMON:EDIT',
+              callback: () => handleEditModeToggle(),
+            },
+            {
+              label: 'COMMON:CHANGE_COLOR',
+              callback: () => handleColorChange(),
+            },
+            {
+              label: 'COMMON:DELETE',
+              callback: () => handleDelete(),
+              warn: true,
+            },
+          ]
+          : []
+        )
       ]
     }));
   };
