@@ -31,6 +31,7 @@ export class HistoryUtil {
 
       case 'ARCHIVE_NOTE_SUCCESS':
         revertedAction = NoteActions.restoreNote;
+        payload = (payload as NoteInterface).id;
         break;
 
       case 'ARCHIVE_MULTIPLE_NOTES_SUCCESS':

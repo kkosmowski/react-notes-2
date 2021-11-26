@@ -82,24 +82,11 @@ const NoteActions = {
   },
 
   archiveNote(noteId: EntityUid): ActionFunction<Promise<void>> {
-    return async function (dispatch: Dispatch): Promise<void> {
-      dispatch(noteActions.archiveNote());
+    return archiveOrRestore(noteId, 'archiveNote');
+  },
 
-      const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
-
-      if (note) {
-        const part: Partial<NoteInterface> = {
-          archived: true,
-          archivedAt: new Date().toISOString(),
-        };
-
-        await StorageService.update<NoteInterface>('notes', { id: noteId }, part);
-
-        dispatch(noteActions.archiveNoteSuccess({ ...note, ...part }));
-        HistoryActions.push(noteActions.archiveNoteSuccess({ ...note, ...part }))(dispatch);
-        dispatch(NoteActions.clearSelection());
-      }
-    };
+  restoreNote(noteId: EntityUid): ActionFunction<Promise<void>> {
+    return archiveOrRestore(noteId, 'restoreNote');
   },
 
   deleteNote(noteId: EntityUid): ActionFunction<Promise<void>> {
@@ -136,38 +123,6 @@ const NoteActions = {
 
   revertNoteUpdate(note: NoteInterface): ActionFunction<Promise<void>> {
     return updateOrRevert(note, 'revertNoteUpdate');
-  },
-
-  restoreNote(data: EntityUid | NoteInterface): ActionFunction<Promise<void>> {
-    let note: NoteInterface | undefined;
-    let noteId: EntityUid;
-
-    if (typeof data === 'string') {
-      noteId = data;
-    } else {
-      note = data;
-      noteId = data.id;
-    }
-
-    return async function (dispatch: Dispatch): Promise<void> {
-      dispatch(noteActions.restoreNote());
-
-      if (!note) {
-        note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
-      }
-
-      if (note) {
-        const part: Partial<NoteInterface> = {
-          archived: false,
-          archivedAt: null,
-        };
-
-        await StorageService.update<NoteInterface>('notes', { id: noteId }, part);
-
-        dispatch(noteActions.restoreNoteSuccess({ ...note, ...part }));
-        HistoryActions.push(noteActions.restoreNoteSuccess({ ...note, ...part }))(dispatch);
-      }
-    };
   },
 
   removeFromCategory({ noteId, categoryId }: RemoveFromCategoryPayload): ActionFunction<Promise<void>> {
@@ -342,6 +297,29 @@ const updateOrRevert = (
 
     dispatch(noteActions[successAction](updatedNote));
     HistoryActions.push(noteActions[successAction](originalNote))(dispatch);
+  };
+};
+
+const archiveOrRestore = (noteId: EntityUid, action: 'archiveNote' | 'restoreNote'): ActionFunction<Promise<void>> => {
+  const successAction = action + 'Success' as 'archiveNoteSuccess' | 'restoreNoteSuccess';
+
+  return async function (dispatch: Dispatch): Promise<void> {
+    dispatch(noteActions[action]());
+
+    const note = (store.getState() as RootState).note.notes.find(n => n.id === noteId);
+
+    if (note) {
+      const part: Partial<NoteInterface> = {
+        archived: action === 'archiveNote',
+        archivedAt: action === 'archiveNote' ? new Date().toISOString() : null,
+      };
+
+      await StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+
+      dispatch(noteActions[successAction]({ ...note, ...part }));
+      HistoryActions.push(noteActions[successAction]({ ...note, ...part }))(dispatch);
+      dispatch(NoteActions.clearSelection());
+    }
   };
 };
 
