@@ -82,7 +82,7 @@ export const Main = (): ReactElement => {
 
   const handleOnWrapperDoubleClick = (e: MouseEvent): void => {
     e.stopPropagation();
-    if (selectionMode === NoteSelectionMode.Multi && selectedNotesCount) {
+    if (selectionMode === NoteSelectionMode.Multi) {
       dispatch(NoteActions.clearSelection());
       dispatch(NoteActions.toggleSelectionMode());
     }
