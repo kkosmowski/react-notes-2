@@ -21,7 +21,7 @@ import {
 } from '../domain/consts/test-ids.consts';
 import { Select } from '../Select/Select';
 import { SelectOption } from '../Select/select-option.interface';
-import { MAX_TITLE_LENGTH, MAX_VISIBLE_TITLE_LENGTH } from '../domain/consts/note.consts';
+import { MAX_TITLE_LENGTH } from '../domain/consts/note.consts';
 
 export interface NoteDialogFormPayload {
   form: NoteDialogFormValue;
