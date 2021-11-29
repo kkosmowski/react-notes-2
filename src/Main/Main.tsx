@@ -62,6 +62,7 @@ export const Main = (): ReactElement => {
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const categories: Category[] = useSelector(selectCategories);
   const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
+  const [titleIsCut, setTitleIsCut] = useState(true);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const settingsOpened: boolean = useSelector(selectSettingsOpened);
@@ -88,16 +89,25 @@ export const Main = (): ReactElement => {
     }
   };
 
+  const handleTitleClick = (): void => {
+    setTitleIsCut(!titleIsCut);
+  };
+
   return (
     <MainWrapper
       onClick={ handleOnWrapperClick }
       onDoubleClick={ handleOnWrapperDoubleClick }
     >
-      <CategoryTitle data-testid={ categoryTitleTestId }>
+      <CategoryTitle
+        onClick={ handleTitleClick }
+        data-testid={ categoryTitleTestId }
+        className={ titleIsCut ? '--cut' : '' }
+      >
         { settingsOpened
           ? t('COMMON:SETTINGS')
           : activeCategory?.name || t(rootCategory.name)
-        }</CategoryTitle>
+        }
+      </CategoryTitle>
       <AppRoutes />
 
       <ConfirmationDialog />
