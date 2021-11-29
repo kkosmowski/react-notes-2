@@ -18,6 +18,9 @@ export const themes: SelectOption[] = [
   { label: 'SETTINGS:THEME.DARK_GRAY', value: Theme.DarkGray, translate: true, },
   { label: 'SETTINGS:THEME.LIGHT_PURPLE', value: Theme.LightPurple, translate: true, },
   { label: 'SETTINGS:THEME.LIGHT_RED', value: Theme.LightRed, translate: true, },
+  { label: 'SETTINGS:THEME.LIGHT_GREEN', value: Theme.LightGreen, translate: true, },
+  { label: 'SETTINGS:THEME.LIGHT_BROWN', value: Theme.LightBrown, translate: true, },
+  { label: 'SETTINGS:THEME.LIGHT_BLUE', value: Theme.LightBlue, translate: true, },
 ];
 export const directions: SelectOption[] = [
   { label: 'SETTINGS:DIRECTION_LTR', value: 'ltr', translate: true, },

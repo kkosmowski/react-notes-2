@@ -114,6 +114,9 @@ export const pl: typeof en = {
       LIGHT_PURPLE: 'Jasny purpurowy',
       DARK_VIOLET: 'Ciemny fioletowy',
       DARK_GRAY: 'Ciemny szary',
+      LIGHT_GREEN: 'Jasny zielony',
+      LIGHT_BROWN: 'Jasny brązowy',
+      LIGHT_BLUE: 'Jasny niebieski',
     }
   },
   SHORTCUTS_DIALOG: {

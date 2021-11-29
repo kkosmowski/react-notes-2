@@ -112,6 +112,9 @@ export const en = {
       LIGHT_PURPLE: 'Light purple',
       DARK_VIOLET: 'Dark violet',
       DARK_GRAY: 'Dark gray',
+      LIGHT_GREEN: 'Light green',
+      LIGHT_BROWN: 'Light brown',
+      LIGHT_BLUE: 'Light blue',
     }
   },
   SHORTCUTS_DIALOG: {
