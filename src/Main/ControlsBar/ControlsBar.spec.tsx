@@ -16,7 +16,6 @@ import store from '../../store/store';
 import { getMockedNote } from '../../utils/get-mocked-note.util';
 import { initialNoteState } from '../../store/reducers/note.reducer';
 import NoteActions from '../../store/actionCreators/note.action-creators';
-import { MemoryRouter } from 'react-router-dom';
 
 describe('ControlsBar', function () {
   let mockedStore: MockStoreEnhanced<RootState>;

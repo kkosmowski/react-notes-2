@@ -16,6 +16,16 @@
 
     --ghost-icon-button-size: 28px;
   }
+
+  @media (max-width: 350px) {
+    --icon-button-size: 34px;
+    --icon-button-icon-size: 20px;
+
+    --icon-button-size-small: 24px;
+    --icon-button-icon-size-small: 16px;
+
+    --ghost-icon-button-size: 28px;
+  }
 }
 
 .button {

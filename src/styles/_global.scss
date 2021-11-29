@@ -5,15 +5,19 @@
   --sidebar-width-opened: 80%;
   --sidebar-backdrop-transition: opacity 0.25s ease-in-out;
 
-  --icon-size: 20px;
+  --icon-size: 24px;
   --wrapper-horizontal-padding: 16px;
 
   @media (min-width: 600px) {
     --sidebar-width: 64px;
     --sidebar-width-opened: 268px;
 
-    --icon-size: 24px;
     --wrapper-horizontal-padding: 32px;
+  }
+
+  @media (max-width: 350px) {
+    --sidebar-width: 52px;
+    --sidebar-width-opened: 240px;
   }
 }
 
