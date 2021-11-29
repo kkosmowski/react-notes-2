@@ -103,8 +103,8 @@ export const en = {
     SECOND: 'second',
     SECONDS: 'seconds',
     SECONDS2: 'seconds',
-    DURATION_TOO_SMALL: 'Minimum duration time is {{ min }} ms',
-    DURATION_TOO_LARGE: 'Maximum duration time is {{ max }} ms',
+    DURATION_TOO_SMALL: 'Minimum duration time is {{ min }}s',
+    DURATION_TOO_LARGE: 'Maximum duration time is {{ max }}s',
     THEME: {
       DARK_GREEN: 'Dark green',
       DARK_BLUE: 'Dark blue',

@@ -32,5 +32,5 @@ export const languages: SelectOption[] = [
   { label: 'Polski', value: Language.PL },
 ];
 
-export const MIN_SNACKBAR_DURATION = 2000;
-export const MAX_SNACKBAR_DURATION = 20000;
+export const MIN_SNACKBAR_DURATION = 2;
+export const MAX_SNACKBAR_DURATION = 20;

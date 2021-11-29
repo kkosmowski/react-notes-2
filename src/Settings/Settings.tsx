@@ -30,7 +30,7 @@ export const Settings = (): ReactElement => {
   const [durationError, setDurationError] = useState<string>('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const seconds = getPluralizedSecondsUtil(snackbarDuration / 1000);
+  const seconds = getPluralizedSecondsUtil(snackbarDuration);
 
   useEffect(() => {
     dispatch(SettingsActions.openSettings());
@@ -171,7 +171,7 @@ export const Settings = (): ReactElement => {
       <Section>
         <LeftSide>
           <Subtitle>{ t('SNACKBAR_DURATION') } </Subtitle>
-          <p>{ t('CURRENT_SNACKBAR_DURATION') } <strong>{ snackbarDuration / 1000 } { t(seconds) }</strong></p>
+          <p>{ t('CURRENT_SNACKBAR_DURATION') } <strong>{ snackbarDuration } { t(seconds) }</strong></p>
           { durationError && (
             <ErrorText>{ t(durationError, {
               min: MIN_SNACKBAR_DURATION,
@@ -184,8 +184,9 @@ export const Settings = (): ReactElement => {
           <Input
             id="snackbarDuration"
             type="number"
+            step={ 0.1 }
             value={ form.snackbarDuration }
-            onChange={ value => handleFormChange('snackbarDuration', +value) }
+            onChange={ e => handleFormChange('snackbarDuration', +e.target.value) }
             style={{ width: '120px' }}
           />
           <Button

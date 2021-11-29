@@ -16,6 +16,7 @@ interface Props {
   label?: string;
   value: string | number;
   type?: 'text' | 'number' | 'textarea';
+  step?: number;
   disabled?: boolean;
   required?: boolean;
   autofocus?: boolean;
@@ -31,6 +32,7 @@ export const Input = ({
   label,
   value,
   type,
+  step,
   disabled,
   required,
   testid,
@@ -87,6 +89,7 @@ export const Input = ({
             onKeyDown={ handleKeyDown }
             className={ touched.current ? '--touched' : '' }
             type={ type }
+            step={ type === 'number' ? step : undefined }
             id={ id }
             value={ value }
             disabled={ disabled }

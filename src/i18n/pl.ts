@@ -105,8 +105,8 @@ export const pl: typeof en = {
     SECOND: 'sekunda',
     SECONDS: 'sekund',
     SECONDS2: 'sekundy',
-    DURATION_TOO_SMALL: 'Minimalny czas trwania to {{ min }} ms',
-    DURATION_TOO_LARGE: 'Maksymalny czas trwania to {{ max }} ms',
+    DURATION_TOO_SMALL: 'Minimalny czas trwania to {{ min }} sekundy',
+    DURATION_TOO_LARGE: 'Maksymalny czas trwania to {{ max }} sekund',
     THEME: {
       DARK_GREEN: 'Ciemny zielony',
       DARK_BLUE: 'Ciemny niebieski',

@@ -56,7 +56,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   }, [snackbarIdsToDisableUndoButton]);
 
   const setSnackbarTimeout = (): void => {
-    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration + snackbarHidingDuration);
+    timeout.current = setTimeout(() => hideSnackbar(), snackbarDuration * 1000 + snackbarHidingDuration);
   };
 
   const setSnackbarMessage = (): void => {
@@ -89,7 +89,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
         className={ 'snackbar' + (hiding ? ' --hiding' : '') }
         data-testid={ snackbarTestId }
       >
-        <SnackbarTimeIndicator duration={ snackbarDuration } />
+        <SnackbarTimeIndicator duration={ snackbarDuration * 1000 } />
         <SnackbarContent>
           <SnackbarMessage>{ t(translation.message, translation.options) }</SnackbarMessage>
           <SnackbarActions>
