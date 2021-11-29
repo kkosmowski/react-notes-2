@@ -9,6 +9,7 @@ import { ContextMenuItem } from './ContextMenuItem';
 import { ContextMenuItemInterface } from '../domain/interfaces/context-menu-item.interface';
 import { useTranslation } from 'react-i18next';
 import { contextMenuTestId } from '../domain/consts/test-ids.consts';
+import { Backdrop } from '../Backdrop/Backdrop';
 
 export const ContextMenu = (): ReactElement | null => {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ export const ContextMenu = (): ReactElement | null => {
   const [children, setChildren] = useState<ReactNode>(<></>);
   const dispatch = useDispatch();
 
-  const handleBackdropClick = (e: MouseEvent): void => {
+  const stopPropagationAndHide = (e: MouseEvent): void => {
     e.stopPropagation();
     dispatch(UiActions.hideContextMenu());
   };
@@ -38,31 +39,25 @@ export const ContextMenu = (): ReactElement | null => {
 
   return data
     ? (
-      <Backdrop onClick={ handleBackdropClick }>
+      <>
         <StyledDiv
+          onClick={ stopPropagationAndHide }
           coords={ data.coords }
           data-testid={ contextMenuTestId }
         >
           { children }
         </StyledDiv>
-      </Backdrop>
+        { data && <Backdrop onClick={ stopPropagationAndHide } /> }
+      </>
     )
     : null;
 };
 
-const Backdrop = styled.div`
-  position: fixed;
-  z-index: 400;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`;
-
 const StyledDiv = styled.div<{ coords: Coords }>`
   position: absolute;
+  z-index: 51;
   ${ ({ coords }) => `left: ${ coords.x }px; top: ${ coords.y }px;` }
   display: flex;
   flex-direction: column;
-  background-color: var(--background250);
+  background-color: var(--background150);
 `;

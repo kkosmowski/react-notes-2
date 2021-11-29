@@ -5,19 +5,15 @@
     height: 36px;
     line-height: 36px;
     font-size: 14px;
-    background-color: transparent;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid var(--background350);
-    }
+    background-color: inherit;
 
     &:not(:disabled):hover {
-      background-color: var(--foreground-4);
+      background-color: var(--background250);
     }
 
     &.--warn {
       &:not(:disabled):hover {
-        background-color: var(--warn-7);
+        background-color: var(--warn-14);
       }
     }
   }

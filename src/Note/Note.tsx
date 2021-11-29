@@ -40,8 +40,7 @@ export const Note = (
     string.length > maxLength ? string.slice(0, maxLength) + '...' : string
   );
 
-  const handleSelect = (e: MouseEvent): void => {
-    e.stopPropagation();
+  const handleSelect = (): void => {
     onSelect(data.id);
   };
 
@@ -94,7 +93,7 @@ export const Note = (
         },
         {
           label: 'COMMON:CHANGE_COLOR',
-          callback: () => handleColorChange(),
+          callback: handleColorChange,
         },
         {
           label: 'COMMON:DELETE',
