@@ -30,6 +30,7 @@ export const ColorDialog = (): ReactElement => {
   const dispatch = useDispatch();
   const dialogConfig: DialogConfig = {
     width: '400px',
+    height: 'auto',
     flex: true,
   };
 
