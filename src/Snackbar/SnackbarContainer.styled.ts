@@ -14,6 +14,6 @@ export const StyledContainer = styled.div`
   transition: width 0.2s;
   
   @media (max-width: 600px) {
-    max-width: 40%;
+    width: 100%;
   }
 `;

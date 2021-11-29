@@ -8,14 +8,10 @@ export const DialogWrapper = styled.div`
   top: 0;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   height: 100%;
   animation: 0.15s forwards fadeIn ease-in-out;
-  
-  @media (min-width: 600px) {
-    align-items: center;
-  }
 `;
 
 export const DialogHeader = styled.header`
