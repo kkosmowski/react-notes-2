@@ -27,6 +27,9 @@ export const Settings = (): ReactElement => {
   const { t } = useTranslation('SETTINGS');
   const { theme, direction, language, snackbarDuration } = useSelector(selectAllSettings);
   const [form, setForm] = useState<SettingsInterface>({ theme, direction, language, snackbarDuration });
+  const [touched, setTouched] = useState<Record<keyof SettingsInterface, boolean | null>>(
+    { language: null, snackbarDuration: null, theme: null, direction: null }
+  );
   const [durationError, setDurationError] = useState<string>('');
   const dispatch = useDispatch();
   const history = useHistory();
@@ -41,8 +44,23 @@ export const Settings = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    setForm({ theme, direction, language, snackbarDuration });
-  }, [ theme, direction, language, snackbarDuration ]);
+    if (theme && direction && language && snackbarDuration) {
+      let newValues: SettingsInterface = { theme, direction, language, snackbarDuration };
+
+      for (const p in newValues) {
+        const property = p as keyof SettingsInterface;
+
+        if (touched[property]) {
+          newValues = {
+            ...newValues,
+            [property]: form[property]
+          };
+        }
+      }
+
+      setForm(newValues);
+    }
+  }, [theme, direction, language, snackbarDuration]);
 
   const handleFormChange = (property: keyof SettingsInterface, value: string[] | number): void => {
     if (typeof value === 'number') {
@@ -59,29 +77,34 @@ export const Settings = (): ReactElement => {
       ...form,
       [property]: typeof value === 'number' ? value : value[0],
     });
+    setTouched({ ...touched, [property]: true });
   };
 
   const handleThemeSave = (): void => {
     if (form.theme !== theme) {
       dispatch(SettingsActions.updateTheme(form.theme));
+      setTouched({ ...touched, theme: false });
     }
   };
 
   const handleDirectionSave = (): void => {
     if (form.direction !== direction) {
       dispatch(SettingsActions.updateDirection(form.direction));
+      setTouched({ ...touched, direction: false });
     }
   };
 
   const handleLanguageSave = (): void => {
     if (form.language !== language) {
       dispatch(SettingsActions.updateLanguage(form.language));
+      setTouched({ ...touched, language: false });
     }
   };
 
   const handleSnackbarDurationSave = (): void => {
     if (form.snackbarDuration !== snackbarDuration) {
       dispatch(SettingsActions.updateSnackbarDuration(form.snackbarDuration));
+      setTouched({ ...touched, snackbarDuration: false });
     }
   };
 
@@ -115,7 +138,7 @@ export const Settings = (): ReactElement => {
             onClick={ handleThemeSave }
             color={ Color.Primary }
             variant={ Variant.Contained }
-            disabled={ form.theme === theme }
+            disabled={ touched.theme !== true }
           >
             { t('CHANGE_THEME') }
           </Button>
@@ -138,7 +161,7 @@ export const Settings = (): ReactElement => {
             onClick={ handleDirectionSave }
             color={ Color.Primary }
             variant={ Variant.Contained }
-            disabled={ form.direction === direction }
+            disabled={ touched.direction !== true }
           >
             { t('CHANGE_DIRECTION') }
           </Button>
@@ -161,7 +184,7 @@ export const Settings = (): ReactElement => {
             onClick={ handleLanguageSave }
             color={ Color.Primary }
             variant={ Variant.Contained }
-            disabled={ form.language === language }
+            disabled={ touched.language !== true }
           >
             { t('CHANGE_LANGUAGE') }
           </Button>
@@ -193,7 +216,7 @@ export const Settings = (): ReactElement => {
             onClick={ handleSnackbarDurationSave }
             color={ Color.Primary }
             variant={ Variant.Contained }
-            disabled={ form.snackbarDuration === snackbarDuration || !!durationError }
+            disabled={ touched.snackbarDuration !== true || !!durationError }
           >
             { t('CHANGE_SNACKBAR_DURATION') }
           </Button>

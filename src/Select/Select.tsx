@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
+import { MouseEvent, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { SelectOption } from './select-option.interface';
 import { Label } from '../Label/Label';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,9 @@ import {
 } from './Select.styled';
 import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/consts/select.consts';
 import { Checkbox } from '../Checkbox/Checkbox';
+import { useSelector } from 'react-redux';
+import { selectLanguage } from '../store/selectors/settings.selectors';
+import { debounce } from '@material-ui/core';
 
 interface Props {
   label?: string;
@@ -30,6 +33,7 @@ export const Select = (
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [openAbove, setOpenAbove] = useState(false);
   const [currentValueText, setCurrentValueText] = useState('');
+  const language = useSelector(selectLanguage);
   const ref = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
 
@@ -47,21 +51,27 @@ export const Select = (
     }
   }, [options]);
 
-  useEffect(() => {
-    if (multi) {
-      const n = Math.max(0, values.length - 2);
-      const textValue = [...values.slice(0, 2).map(findLabelOfValue)];
-      const text = textValue.join(', ') + (n > 0 ? ` + ${ n }` : '');
+  const renderCurrentValue = useCallback(debounce(() => {
+    if (language) {
+      if (multi) {
+        const n = Math.max(0, values.length - 2);
+        const textValue = [...values.slice(0, 2).map(findLabelOfValue)];
+        const text = textValue.join(', ') + (n > 0 ? ` + ${ n }` : '');
 
-      setCurrentValueText(text);
-    } else if (values.length === 1) {
-      const label = findLabelOfValue(values[0]);
+        setCurrentValueText(text);
+      } else if (values.length === 1) {
+        const label = findLabelOfValue(values[0]);
 
-      if (label) {
-        setCurrentValueText(label);
+        if (label) {
+          setCurrentValueText(label);
+        }
       }
     }
-  }, [values]);
+  }, 0), [values, language]);
+
+  useEffect(() => {
+    renderCurrentValue();
+  }, [renderCurrentValue]);
 
   useEffect(() => {
     if (initialValue !== undefined) {
