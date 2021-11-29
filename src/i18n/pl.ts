@@ -45,6 +45,7 @@ export const pl: typeof en = {
     CONTENT: 'Treść',
     CATEGORIES: 'Kategorie',
     INVALID_OR_EMPTY_FORM: 'Formularz jest niewypełniony lub zawiera błędy.',
+    MAX_TITLE_WARNING: 'Tytuł nie może być dłuższy niż {{ max }} znaków.'
   },
   CONFIRMATION: {
     TITLE: {

@@ -22,7 +22,7 @@ export class HistoryUtil {
         return CategoryActions.revertCategoryUpdate(payload);
 
       case 'CREATE_NOTE_SUCCESS':
-        return NoteActions.deleteNote(payload);
+        return NoteActions.deleteNote((payload as NoteInterface).id);
 
       case 'ARCHIVE_NOTE_SUCCESS':
         return NoteActions.restoreNote((payload as NoteInterface).id);

@@ -6,7 +6,11 @@ export const FormWrapper = styled.div`
   margin: 24px 0 8px;
   flex: 1;
 
-  > *:not(:last-child) {
-    margin-bottom: 32px;
+  > * + div {
+    margin-top: 32px;
   }
+`;
+
+export const TitleWarning = styled.p`
+  color: var(--warn);
 `;

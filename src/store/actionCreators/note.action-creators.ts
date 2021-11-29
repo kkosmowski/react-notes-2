@@ -38,6 +38,7 @@ const NoteActions = {
 
       await StorageService.add<NoteInterface>('notes', note);
       dispatch(noteActions.createNoteSuccess(note));
+      HistoryActions.push(noteActions.createNoteSuccess(note))(dispatch);
     };
   },
 

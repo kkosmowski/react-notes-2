@@ -12,7 +12,7 @@ import {
 } from '../domain/interfaces/note-edit-mode.interface';
 import { InputOrTextarea } from '../domain/types/input-or-textarea.type';
 import { EntityUid } from '../domain/types/entity-uid.type';
-import { FormWrapper } from './NoteDialogForm.styled';
+import { FormWrapper, TitleWarning } from './NoteDialogForm.styled';
 import { NoteDialogUtil } from './note-dialog.util';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import {
@@ -21,6 +21,7 @@ import {
 } from '../domain/consts/test-ids.consts';
 import { Select } from '../Select/Select';
 import { SelectOption } from '../Select/select-option.interface';
+import { MAX_TITLE_LENGTH, MAX_VISIBLE_TITLE_LENGTH } from '../domain/consts/note.consts';
 
 export interface NoteDialogFormPayload {
   form: NoteDialogFormValue;
@@ -47,6 +48,7 @@ export const NoteDialogForm = (
     content: initialForm.content,
     categories: initialForm.categories,
   });
+  const [titleWarning, setTitleWarning] = useState('');
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
 
   useEffect(() => {
@@ -86,9 +88,15 @@ export const NoteDialogForm = (
   }, [categories]);
 
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
+    if (e.target.id === 'title' && e.target.value.length > MAX_TITLE_LENGTH) {
+      setTitleWarning('MAX_TITLE_WARNING');
+    } else {
+      setTitleWarning('');
+    }
+
     setForm({
       ...form,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value.slice(0, 120),
     });
   };
 
@@ -133,6 +141,7 @@ export const NoteDialogForm = (
         required
         testid={ noteDialogTitleInputTestId }
       />
+      { titleWarning && <TitleWarning>{ t(titleWarning, { max: MAX_TITLE_LENGTH }) }</TitleWarning> }
 
       <Input
         id="content"
