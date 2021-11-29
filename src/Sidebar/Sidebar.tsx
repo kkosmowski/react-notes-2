@@ -95,12 +95,14 @@ export const Sidebar = (): ReactElement => {
           <SettingsIcon />
         </SidebarButton>
 
-        <SidebarButton
-          onClick={ handleShortcutsClick }
-          label="COMMON:SHORTCUTS"
-        >
-          <Keyboard />
-        </SidebarButton>
+        { !isMobile && (
+          <SidebarButton
+            onClick={ handleShortcutsClick }
+            label="COMMON:SHORTCUTS"
+          >
+            <Keyboard />
+          </SidebarButton>
+        ) }
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
     </>
