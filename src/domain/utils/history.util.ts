@@ -1,4 +1,3 @@
-import { Action } from '../interfaces/action.interface';
 import CategoryActions from '../../store/actionCreators/category.action-creators';
 import NoteActions from '../../store/actionCreators/note.action-creators';
 import { ActionFunction } from '../types/action-function.type';
@@ -8,61 +7,47 @@ import { NoteInterface } from '../interfaces/note.interface';
 import { ActionDetails } from '../interfaces/action-details.interface';
 
 export class HistoryUtil {
-  static getRevertedAction(details: ActionDetails): Action | ActionFunction<any> {
+  static getRevertedAction(details: ActionDetails): ActionFunction<Promise<void> | void> {
     const type = details.action.type;
-    let payload = details.action.payload;
-    let revertedAction: (payload: any) => Action | ActionFunction<any>;
+    const payload = details.action.payload;
+
     switch (type) {
       case 'CREATE_CATEGORY_SUCCESS':
-        revertedAction = CategoryActions.deleteCategory;
-        break;
+        return CategoryActions.deleteCategory(payload);
 
       case 'DELETE_CATEGORY_SUCCESS':
-        revertedAction = CategoryActions.restoreCategory;
-        break;
+        return CategoryActions.restoreCategory(payload);
 
       case 'UPDATE_CATEGORY_SUCCESS':
-        revertedAction = CategoryActions.revertCategoryUpdate;
-        break;
+        return CategoryActions.revertCategoryUpdate(payload);
 
       case 'CREATE_NOTE_SUCCESS':
-        revertedAction = NoteActions.deleteNote;
-        break;
+        return NoteActions.deleteNote(payload);
 
       case 'ARCHIVE_NOTE_SUCCESS':
-        revertedAction = NoteActions.restoreNote;
-        payload = (payload as NoteInterface).id;
-        break;
+        return NoteActions.restoreNote((payload as NoteInterface).id);
 
       case 'ARCHIVE_MULTIPLE_NOTES_SUCCESS':
-        revertedAction = NoteActions.restoreMultipleNotes;
-        break;
+        return NoteActions.restoreMultipleNotes(payload);
 
       case 'UPDATE_NOTE_SUCCESS':
-        revertedAction = NoteActions.revertNoteUpdate;
-        break;
+        return NoteActions.revertNoteUpdate(payload);
 
       case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
-        revertedAction = NoteActions.restoreToCategory;
-        payload = ({
+        return NoteActions.restoreToCategory({
           noteId: payload.updatedNote.id,
           categoryId: payload.categoryId,
         } as RemoveFromCategoryPayload);
-        break;
 
       case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':
-        revertedAction = NoteActions.restoreMultipleNotesToCategory;
-        payload = ({
+        return NoteActions.restoreMultipleNotesToCategory({
           noteIds: payload.updatedNotes.map((note: NoteInterface) => note.id),
           categoryId: payload.categoryId,
         } as RemoveMultipleNotesFromCategoryPayload);
-        break;
 
       default:
         throw new Error('Unknown action type.');
     }
-
-    return revertedAction(payload);
   }
 
   static isReversible(type: string): boolean {

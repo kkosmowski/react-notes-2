@@ -217,7 +217,7 @@ export const CategoryListItem = (
     >
       { current
         ? <FolderOpen className="icon --current" />
-        : <StyledFolderIcon className="icon" iconColor={ data.color } />
+        : <StyledFolderIcon className="icon" iconcolor={ data.color } />
       }
       { edited || editMode ? EditModeView : RegularView }
     </ListItem>

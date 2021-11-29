@@ -62,8 +62,8 @@ export const ListItem = styled.li<{ color?: string }>`
   }
 `;
 
-export const StyledFolderIcon = styled(Folder)<{ iconColor?: string }>`
-  ${ ({ iconColor }) => iconColor && iconColor !== 'transparent'
-    ? css`color: ${ iconColor }; opacity: 0.7;`
+export const StyledFolderIcon = styled(Folder)<{ iconcolor?: string }>`
+  ${ ({ iconcolor }) => iconcolor && iconcolor !== 'transparent'
+    ? css`color: ${ iconcolor }; opacity: 0.7;`
     : '' }
 `;
