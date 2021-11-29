@@ -16,6 +16,8 @@ import NoteActions from './store/actionCreators/note.action-creators';
 import { KeyboardHandler } from './KeyboardHandler/KeyboardHandler';
 import { StorageService } from './services/storage.service';
 
+export const version = '0.1.1';
+
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const theme = useSelector(selectTheme);
@@ -29,6 +31,7 @@ export const App = (): ReactElement => {
     dispatch(NoteActions.fetchShowArchived());
     window.addEventListener('resize', debounce(checkIfMobile, 100));
     StorageService.init();
+    setRootElementVersion();
 
     return () => {
       window.removeEventListener('resize', debounce(checkIfMobile, 100));
@@ -48,6 +51,14 @@ export const App = (): ReactElement => {
   useEffect(() => {
     dispatch(UiActions.setIsMobile(isMobile));
   }, [dispatch, isMobile]);
+
+  const setRootElementVersion = (): void => {
+    const root: HTMLElement | null = document.getElementById('root');
+
+    if (root) {
+      root.dataset.version = version;
+    }
+  };
 
   const checkIfMobile = (): void => {
     setIsMobile(window.innerWidth < 600);

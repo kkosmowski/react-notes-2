@@ -52,8 +52,12 @@ export const SidebarWrapper = styled.aside<{ animated: boolean }>`
       width: var(--sidebar-width-opened);
     }
   }
-    
-  @media (max-width: 350px) {
-    
-  }
+`;
+
+export const Version = styled.span`
+  max-width: var(--sidebar-width);
+  color: var(--foreground-25);
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 4px;
 `;

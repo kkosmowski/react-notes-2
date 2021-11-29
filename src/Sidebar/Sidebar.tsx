@@ -2,7 +2,7 @@ import { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { SidebarButton } from './SidebarButton';
 import { CategoriesList } from './CategoriesList';
-import { SidebarWrapper } from './styles/Sidebar.styled';
+import { SidebarWrapper, Version } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
@@ -12,6 +12,7 @@ import { useHistory } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
 import { selectSettingsOpened } from '../store/selectors/settings.selectors';
+import { version } from '../App';
 
 export const Sidebar = (): ReactElement => {
   const opened = useSelector(selectSidebarOpened);
@@ -103,6 +104,8 @@ export const Sidebar = (): ReactElement => {
             <Keyboard />
           </SidebarButton>
         ) }
+
+        <Version>v. { version }</Version>
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
     </>
