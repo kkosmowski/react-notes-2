@@ -176,6 +176,19 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       }
     })
 
+    .addCase(noteActions.updateMultipleNotes, (state) => {
+      state.noteUpdateInProgress = true;
+    })
+    .addCase(noteActions.updateMultipleNotesSuccess, (state, { payload }) => {
+      state.noteUpdateInProgress = false;
+      const { noteIds, part } = payload;
+
+      state.notes = state.notes.map((note) => noteIds.includes(note.id)
+        ? { ...note, ...part }
+        : note
+      );
+    })
+
     .addCase(noteActions.revertNoteUpdate, (state) => {
       state.noteUpdateRevertInProgress = true;
     })

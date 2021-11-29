@@ -151,5 +151,6 @@ export const pl: typeof en = {
     SELECT_COLOR: 'Wybierz kolor',
     SUBTITLE_FOR_CATEGORY: 'Wybierz kolor dla kategorii "{{ name }}"',
     SUBTITLE_FOR_NOTE: 'Wybierz kolor dla notatki "{{ name }}"',
+    SUBTITLE_FOR_MULTIPLE_NOTES: 'Wybierz kolor dla wybranych notatek',
   }
 };

@@ -145,6 +145,26 @@ const NoteActions = {
     return removeOrRestoreMultiple('restoreMultipleNotesToCategory', { noteIds, categoryId }, false);
   },
 
+  updateMultipleNotes(
+    noteIds: EntityUid[],
+    part: Partial<NoteInterface>
+  ): ActionFunction<Promise<void>> {
+
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.updateMultipleNotes());
+
+      await new Promise( (resolve) => {
+        noteIds.forEach((noteId: EntityUid) => {
+          StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+        });
+        resolve(true);
+      });
+
+      dispatch(noteActions.updateMultipleNotesSuccess({ noteIds, part }));
+      // HistoryActions.push(noteActions.updateMultipleNotesSuccess(originalNotes))(dispatch);
+    };
+  },
+
   fetchShowArchived(): ActionFunction<Promise<void>> {
     return async function(dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.fetchShowArchived());

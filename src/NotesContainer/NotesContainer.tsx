@@ -14,6 +14,8 @@ import { NoNotesText, NotesWrapper, NotesWrapperContainer } from './NotesContain
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectAreAllSelectedNotesArchived,
+  selectAreAllSelectedNotesNotArchived,
   selectNotes,
   selectNoteSelectionMode,
   selectNotesLoading,
@@ -33,6 +35,7 @@ import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
 import { selectConfirmationResult, selectIsMobile } from '../store/selectors/ui.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
+import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -59,6 +62,8 @@ export const NotesContainer = (): ReactElement => {
   const containerRef = useRef<HTMLElement | null>(null);
   const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
   const shiftPressed = useRef<boolean>(false);
+  const allSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesArchived);
+  const noSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesNotArchived);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -127,6 +132,7 @@ export const NotesContainer = (): ReactElement => {
             onOpen={ handleNoteOpen }
             onArchive={ handleArchive }
             onDelete={ handleDelete }
+            onColorChange={ handleColorChange }
             data={ note }
             isSelected={ !!selectedNotes[note.id] }
             isSelectionCovered={ selectionCoveredNotes.includes(note.id) }
@@ -234,11 +240,27 @@ export const NotesContainer = (): ReactElement => {
   };
 
   const handleArchive = (note: NoteInterface): void => {
-    dispatch(note.archived ? NoteActions.restoreNote(note.id) : NoteActions.archiveNote(note.id));
+    if (selectedNotesCount > 1) {
+      if (allSelectedNotesAreArchived) {
+        dispatch(NoteActions.restoreMultipleNotes(Object.keys(selectedNotes)));
+      } else if (noSelectedNotesAreArchived) {
+        dispatch(NoteActions.archiveMultipleNotes(Object.keys(selectedNotes)));
+      }
+    } else {
+      dispatch(note.archived ? NoteActions.restoreNote(note.id) : NoteActions.archiveNote(note.id));
+    }
   };
 
-  const handleDelete = (noteId: EntityUid): void => {
-    dispatch(NoteActions.deleteNote(noteId));
+  const handleDelete = (): void => {
+    dispatch(UiActions.openConfirmationDialog(ConfirmationAction.DeleteNote));
+  };
+
+  const handleColorChange = (note: NoteInterface): void => {
+    if (selectedNotesCount > 1) {
+      dispatch(UiActions.openColorDialog(ColorDialogType.MultipleNotes, Object.keys(selectedNotes)));
+    } else {
+      dispatch(UiActions.openColorDialog(ColorDialogType.Note, note));
+    }
   };
 
   return (

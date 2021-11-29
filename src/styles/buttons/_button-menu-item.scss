@@ -11,6 +11,10 @@
       background-color: var(--background250);
     }
 
+    &:disabled:hover {
+      background-color: inherit;
+    }
+
     &.--warn {
       &:not(:disabled):hover {
         background-color: var(--warn-14);

@@ -6,6 +6,8 @@ import { Button } from '../../Button/Button';
 import { Color } from '../../domain/enums/color.enum';
 import { Variant } from '../../domain/enums/variant.enum';
 import {
+  selectAreAllSelectedNotesArchived,
+  selectAreAllSelectedNotesNotArchived,
   selectNoteSelectionMode,
   selectSelectedNotes,
   selectSelectedNotesCount,
@@ -43,10 +45,10 @@ export const ControlsBar = (): ReactElement => {
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const isMobile = useSelector(selectIsMobile);
   const showArchived = useSelector(selectShowArchived);
+  const allSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesArchived);
+  const noSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesNotArchived);
   const dispatch = useDispatch();
   const history = useHistory();
-  const allSelectedNotesAreArchived = Object.values(selectedNotes).every((note) => note.archived);
-  const noSelectedNotesAreArchived = !Object.values(selectedNotes).some((note) => note.archived);
   const archiveOrRestoreButtonEnabled = !!selectedNotesCount && (allSelectedNotesAreArchived || noSelectedNotesAreArchived);
 
   const handleBarClick = (e: MouseEvent): void => {

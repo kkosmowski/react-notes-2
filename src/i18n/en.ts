@@ -149,5 +149,6 @@ export const en = {
     SELECT_COLOR: 'Select color',
     SUBTITLE_FOR_CATEGORY: 'Select color for category "{{ name }}"',
     SUBTITLE_FOR_NOTE: 'Select color for note "{{ name }}"',
+    SUBTITLE_FOR_MULTIPLE_NOTES: 'Select color for selected notes',
   }
 };

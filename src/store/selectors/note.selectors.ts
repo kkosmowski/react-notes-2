@@ -32,6 +32,12 @@ export const selectNoteSelectionMode = createSelector(
 export const selectSelectedNotes = createSelector(
   noteSelector, (note: NoteState) => note.selectedNotes
 );
+export const selectAreAllSelectedNotesArchived = createSelector(
+  noteSelector, (note: NoteState) => Object.values(note.selectedNotes).every((note) => note.archived)
+);
+export const selectAreAllSelectedNotesNotArchived = createSelector(
+  noteSelector, (note: NoteState) => !Object.values(note.selectedNotes).some((note) => note.archived)
+);
 export const selectSelectedNotesCount = createSelector(
   noteSelector, (note: NoteState) => Object.values(note.selectedNotes).length
 );

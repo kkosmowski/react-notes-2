@@ -18,7 +18,8 @@ import { sidebarBackgroundColor } from '../Sidebar/styles/Sidebar.styled';
 import { Color } from '../domain/enums/color.enum';
 import CategoryActions from '../store/actionCreators/category.action-creators';
 import NoteActions from '../store/actionCreators/note.action-creators';
-import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
+import { EntityUid } from '../domain/types/entity-uid.type';
+import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
 
 export const ColorDialog = (): ReactElement => {
   const { t } = useTranslation('COLOR_DIALOG');
@@ -27,6 +28,7 @@ export const ColorDialog = (): ReactElement => {
     ? (data!.data as Category).name
     : (data!.data as NoteInterface).title;
   const [selectedColor, setSelectedColor] = useState<string | undefined>();
+  const [subtitle, setSubtitle] = useState('');
   const dispatch = useDispatch();
   const dialogConfig: DialogConfig = {
     width: '400px',
@@ -35,11 +37,22 @@ export const ColorDialog = (): ReactElement => {
   };
 
   useEffect(() => {
-    if (data && data.type === 'note') {
-      dispatch(NoteActions.selectNote(data.data.id));
-      dispatch(NoteActions.setSelectionMode(NoteSelectionMode.Single));
+    if (data?.type) {
+      switch (data.type) {
+        case ColorDialogType.Category:
+          setSubtitle('SUBTITLE_FOR_CATEGORY');
+          break;
+
+        case ColorDialogType.Note:
+          setSubtitle('SUBTITLE_FOR_NOTE');
+          break;
+
+        case ColorDialogType.MultipleNotes:
+          setSubtitle('SUBTITLE_FOR_MULTIPLE_NOTES');
+          break;
+      }
     }
-  }, [data]);
+  }, [data])
 
   const handleClose = (): void => {
     dispatch(UiActions.closeColorDialog());
@@ -51,16 +64,30 @@ export const ColorDialog = (): ReactElement => {
 
   const handleSave = (): void => {
     if (data && selectedColor) {
-      if (data.type === 'category') {
-        dispatch(CategoryActions.updateCategory({
-          ...(data.data as Category),
-          color: selectedColor,
-        }));
-      } else {
-        dispatch(NoteActions.updateNote({
-          ...(data.data as NoteInterface),
-          color: selectedColor,
-        }));
+      switch (data.type) {
+        case ColorDialogType.Category: {
+          dispatch(CategoryActions.updateCategory({
+            ...(data.data as Category),
+            color: selectedColor,
+          }));
+          break;
+        }
+
+        case ColorDialogType.MultipleNotes: {
+          dispatch(NoteActions.updateMultipleNotes(
+            data.data as EntityUid[],
+            { color: selectedColor }
+          ));
+          break;
+        }
+
+        case ColorDialogType.Note: {
+          dispatch(NoteActions.updateNote({
+            ...(data.data as NoteInterface),
+            color: selectedColor,
+          }));
+          break;
+        }
       }
     }
 
@@ -77,7 +104,7 @@ export const ColorDialog = (): ReactElement => {
 
       <ColorDialogContent>
         <ColorDialogSubtitle>
-          { t(data!.type === 'category' ? 'SUBTITLE_FOR_CATEGORY' : 'SUBTITLE_FOR_NOTE', { name }) }
+          { t(subtitle, { name }) }
         </ColorDialogSubtitle>
 
         <ColorPickerGrid

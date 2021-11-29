@@ -13,6 +13,7 @@ import { handleEventAndReturnCoords } from '../ContextMenu/handle-event-and-retu
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch } from 'react-redux';
 import { rootCategory } from '../domain/consts/root-category.const';
+import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
 
 interface Props {
   onSelect: (category: Category) => void;
@@ -102,7 +103,7 @@ export const CategoryListItem = (
   };
 
   const handleColorChange = (): void => {
-    dispatch(UiActions.openColorDialog('category', data));
+    dispatch(UiActions.openColorDialog(ColorDialogType.Category, data));
   };
 
   const EditModeView: ReactElement = (
@@ -149,15 +150,15 @@ export const CategoryListItem = (
           ? [
             {
               label: 'COMMON:EDIT',
-              callback: () => handleEditModeToggle(),
+              callback: handleEditModeToggle,
             },
             {
               label: 'COMMON:CHANGE_COLOR',
-              callback: () => handleColorChange(),
+              callback: handleColorChange,
             },
             {
               label: 'COMMON:DELETE',
-              callback: () => handleDelete(),
+              callback: handleDelete,
               warn: true,
             },
           ]

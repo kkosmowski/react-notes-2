@@ -10,10 +10,12 @@ import { ContextMenuItemInterface } from '../domain/interfaces/context-menu-item
 import { useTranslation } from 'react-i18next';
 import { contextMenuTestId } from '../domain/consts/test-ids.consts';
 import { Backdrop } from '../Backdrop/Backdrop';
+import { selectSelectedNotesCount } from '../store/selectors/note.selectors';
 
 export const ContextMenu = (): ReactElement | null => {
   const { t } = useTranslation();
   const data: ContextMenuData | null = useSelector(selectContextMenuData);
+  const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const [children, setChildren] = useState<ReactNode>(<></>);
   const dispatch = useDispatch();
 
@@ -27,6 +29,7 @@ export const ContextMenu = (): ReactElement | null => {
       setChildren(data.items.map((item: ContextMenuItemInterface) => (
         <ContextMenuItem
           onClick={ item.callback }
+          disabled={ !item.multi && selectedNotesCount > 1 }
           warn={ item.warn }
           testid={ item.testid }
           key={ item.label }
@@ -47,7 +50,7 @@ export const ContextMenu = (): ReactElement | null => {
         >
           { children }
         </StyledDiv>
-        { data && <Backdrop onClick={ stopPropagationAndHide } /> }
+        { data && <Backdrop onClick={ stopPropagationAndHide } zIndex={ 200 } /> }
       </>
     )
     : null;
@@ -55,9 +58,9 @@ export const ContextMenu = (): ReactElement | null => {
 
 const StyledDiv = styled.div<{ coords: Coords }>`
   position: absolute;
-  z-index: 51;
+  z-index: 201;
   ${ ({ coords }) => `left: ${ coords.x }px; top: ${ coords.y }px;` }
   display: flex;
   flex-direction: column;
-  background-color: var(--background150);
+  background-color: var(--background50);
 `;

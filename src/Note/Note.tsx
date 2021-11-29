@@ -21,12 +21,21 @@ interface Props extends NoteSelectionProps {
   onSelect: (id: EntityUid) => void;
   onOpen: (note: NoteInterface, openWithEdit?: boolean) => void;
   onArchive: (note: NoteInterface) => void;
-  onDelete: (noteId: EntityUid) => void;
+  onDelete: () => void;
+  onColorChange: (note: NoteInterface) => void;
 }
 
-export const Note = (
-  { data, isSelected, isSelectionCovered, selectionMode, onSelect, onOpen, onArchive, onDelete }: Props
-): ReactElement => {
+export const Note = ({
+  data,
+  isSelected,
+  isSelectionCovered,
+  selectionMode,
+  onSelect,
+  onOpen,
+  onArchive,
+  onDelete,
+  onColorChange
+}: Props): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const dispatch = useDispatch();
@@ -56,12 +65,8 @@ export const Note = (
     onArchive(data);
   };
 
-  const handleDelete = (): void => {
-    onDelete(data.id);
-  };
-
   const handleColorChange = (): void => {
-    dispatch(UiActions.openColorDialog('note', data));
+    onColorChange(data);
   };
 
   const getTestId = (): string => {
@@ -73,6 +78,8 @@ export const Note = (
   };
 
   const handleContextMenu = (e: MouseEvent): void => {
+    !isSelected && handleSelect();
+
     const coords: Coords = handleEventAndReturnCoords(e);
 
     dispatch(UiActions.showContextMenu({
@@ -90,15 +97,18 @@ export const Note = (
         {
           label: data.archived ? 'COMMON:RESTORE' : 'COMMON:ARCHIVE',
           callback: handleArchive,
+          multi: true,
         },
         {
           label: 'COMMON:CHANGE_COLOR',
           callback: handleColorChange,
+          multi: true,
         },
         {
           label: 'COMMON:DELETE',
-          callback: handleDelete,
+          callback: onDelete,
           warn: true,
+          multi: true,
         },
       ]
     }));

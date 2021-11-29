@@ -9,6 +9,7 @@ import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum'
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import { NoteInterface } from '../../domain/interfaces/note.interface';
 import { Category } from '../../domain/interfaces/category.interface';
+import { ColorDialogType } from '../../domain/enums/color-dialog-type.enum';
 
 const UiActions = {
   openNoteDialog(): ActionFunction<Promise<Action>> {
@@ -72,7 +73,7 @@ const UiActions = {
     return uiActions.closeShortcutsDialog();
   },
 
-  openColorDialog(type: 'category' | 'note', data: Category | NoteInterface): Action {
+  openColorDialog(type: ColorDialogType, data: Category | NoteInterface | EntityUid[]): Action {
     return uiActions.openColorDialog({ type, data });
   },
   closeColorDialog(): Action {
