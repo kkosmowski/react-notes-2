@@ -52,7 +52,7 @@ export const ColorDialog = (): ReactElement => {
           break;
       }
     }
-  }, [data])
+  }, [data]);
 
   const handleClose = (): void => {
     dispatch(UiActions.closeColorDialog());
@@ -60,6 +60,11 @@ export const ColorDialog = (): ReactElement => {
 
   const handleColorSelect = (color: string): void => {
     setSelectedColor(color);
+  };
+
+  const handleQuickSelect = (color: string): void => {
+    handleColorSelect(color);
+    handleSave();
   };
 
   const handleSave = (): void => {
@@ -109,6 +114,7 @@ export const ColorDialog = (): ReactElement => {
 
         <ColorPickerGrid
           onColorSelect={ handleColorSelect }
+          onQuickSelect={ handleQuickSelect }
           active={ selectedColor }
           baseColor={ data!.type === 'category' ? sidebarBackgroundColor : noteBackgroundColor }
           opened

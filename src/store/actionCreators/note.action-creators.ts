@@ -161,7 +161,7 @@ const NoteActions = {
       });
 
       dispatch(noteActions.updateMultipleNotesSuccess({ noteIds, part }));
-      // HistoryActions.push(noteActions.updateMultipleNotesSuccess(originalNotes))(dispatch);
+      HistoryActions.push(noteActions.updateMultipleNotesSuccess({ noteIds, part }))(dispatch);
     };
   },
 

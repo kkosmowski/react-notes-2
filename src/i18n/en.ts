@@ -74,6 +74,7 @@ export const en = {
     MULTIPLE_NOTES_DELETED: 'Multiple notes deleted',
     MULTIPLE_NOTES_ARCHIVED: 'Multiple notes archived',
     MULTIPLE_NOTES_RESTORED: 'Multiple notes restored',
+    MULTIPLE_NOTES_UPDATED: 'Multiple notes updated',
     CATEGORY_CREATED: 'Category "{{ name }}" created',
     CATEGORY_UPDATED: 'Category "{{ name }}" updated',
     CATEGORY_UPDATE_REVERTED: 'Category "{{ name }}" update reverted',

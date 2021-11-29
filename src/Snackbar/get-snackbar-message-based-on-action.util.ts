@@ -98,6 +98,10 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       message = 'NOTES_RESTORED_TO_CATEGORY';
       break;
 
+    case 'UPDATE_MULTIPLE_NOTES_SUCCESS':
+      message = 'MULTIPLE_NOTES_UPDATED';
+      break;
+
     default:
       throw new Error('Unknown action type.');
   }

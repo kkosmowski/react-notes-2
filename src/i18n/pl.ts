@@ -76,6 +76,7 @@ export const pl: typeof en = {
     MULTIPLE_NOTES_DELETED: 'Wiele notatek usuniętych',
     MULTIPLE_NOTES_ARCHIVED: 'Wiele notatek zarchiwizowanych',
     MULTIPLE_NOTES_RESTORED: 'Wiele notatek przywróconych',
+    MULTIPLE_NOTES_UPDATED: 'Wiele notatek zaktualizowanych',
     CATEGORY_CREATED: 'Kategoria "{{ name }}" utworzona',
     CATEGORY_UPDATED: 'Kategoria "{{ name }}" zaktualizowana',
     CATEGORY_UPDATE_REVERTED: 'Cofnięto aktualizację kategorii "{{ name }}"',
