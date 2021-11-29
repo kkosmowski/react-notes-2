@@ -27,7 +27,8 @@ export const ColorDialog = (): ReactElement => {
   const name = data!.type === 'category'
     ? (data!.data as Category).name
     : (data!.data as NoteInterface).title;
-  const [selectedColor, setSelectedColor] = useState<string | undefined>();
+  const initialColor = (data!.data as Category | NoteInterface).color;
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(initialColor);
   const [subtitle, setSubtitle] = useState('');
   const dispatch = useDispatch();
   const dialogConfig: DialogConfig = {
