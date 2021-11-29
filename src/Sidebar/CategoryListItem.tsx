@@ -81,10 +81,18 @@ export const CategoryListItem = (
 
   const handleKeyDown = (event: KeyboardEvent): void => {
     event.stopPropagation();
+
+    if (event.key === 'Enter') {
+      save();
+    }
   };
 
   const handleSave = (e?: MouseEvent): void => {
     e && e.stopPropagation();
+    save();
+  };
+
+  const save = (): void => {
     if (editMode) {
       if (name !== data.name) {
         onUpdate({ ...data, name });
