@@ -3,6 +3,7 @@ export const enum Theme {
   DarkBlue = 'darkblue',
   DarkViolet = 'darkviolet',
   DarkGray = 'darkgray',
+  DarkYellow = 'darkyellow',
   LightRed = 'lightred',
   LightPurple = 'lightpurple',
   LightGreen = 'lightgreen',

@@ -115,6 +115,7 @@ export const en = {
       LIGHT_GREEN: 'Light green',
       LIGHT_BROWN: 'Light brown',
       LIGHT_BLUE: 'Light blue',
+      DARK_YELLOW: 'Dark yellow',
     }
   },
   SHORTCUTS_DIALOG: {

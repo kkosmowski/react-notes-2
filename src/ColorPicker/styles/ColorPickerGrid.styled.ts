@@ -35,7 +35,7 @@ export const ColorOption = styled.div<ColorOptionInterface>`
     : css`width: 48px; height: 32px;`
 }
   ${ ({ isActive }) => isActive 
-    ? css`box-shadow: 0 0 0 1px var(--primary400);`
+    ? css`box-shadow: 0 0 0 1px var(--primary100);`
     : '' }
   ${ ColorElementStyles };
 `;
