@@ -16,8 +16,23 @@ export const LeftContainer = styled.div`
   padding: 8px var(--wrapper-horizontal-padding) 0;
 
   > .button {
-    margin-inline-end: 8px;
     margin-bottom: 8px;
+    
+    &:not(:last-child) {
+      margin-inline-end: 8px;
+    }
+  }
+  
+  @media (max-width: 350px) {
+    padding-top: 6px;
+
+    > .button {
+      margin-bottom: 6px;
+
+      &:not(:last-child) {
+        margin-inline-end: 6px;
+      }
+    }
   }
 `;
 
@@ -37,4 +52,10 @@ export const ArchivedSwitch = withStyles({
 
 export const RightContainer = styled.div`
   font-size: 13.3333px;
+  
+  @media (max-width: 350px) {
+    svg {
+      font-size: 20px;
+    }
+  }
 `;

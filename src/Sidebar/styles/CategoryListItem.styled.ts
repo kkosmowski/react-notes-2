@@ -31,6 +31,7 @@ export const ListItem = styled.li<{ color?: string }>`
   }
 
   > .icon {
+    font-size: var(--icon-size);
     margin-inline-end: calc((var(--sidebar-width) - var(--icon-size)) / 2);
 
     &.--current {
@@ -52,6 +53,12 @@ export const ListItem = styled.li<{ color?: string }>`
     padding-top: 3px;
     padding-bottom: 3px;
     height: 47px;
+  }
+
+  @media (max-width: 350px) {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    height: 45px;
   }
 `;
 

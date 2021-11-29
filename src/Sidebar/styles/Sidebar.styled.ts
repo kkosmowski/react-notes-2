@@ -50,5 +50,10 @@ export const SidebarWrapper = styled.aside<{ animated: boolean }>`
     &.--opened,
     &:hover {
       width: var(--sidebar-width-opened);
+    }
+  }
+    
+  @media (max-width: 350px) {
+    
   }
 `;
