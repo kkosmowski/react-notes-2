@@ -79,6 +79,13 @@ const UiActions = {
   closeColorDialog(): Action {
     return uiActions.closeColorDialog();
   },
+
+  openAddToCategoryDialog(): Action {
+    return uiActions.openAddToCategoryDialog();
+  },
+  closeAddToCategoryDialog(): Action {
+    return uiActions.closeAddToCategoryDialog();
+  },
 };
 
 export default UiActions;

@@ -195,6 +195,24 @@ const NoteActions = {
       dispatch(noteActions.setShowArchivedSuccess(showArchived));
     };
   },
+
+  addCategories(noteIds: EntityUid[], categoryIds: EntityUid[]): ActionFunction<Promise<void>> {
+    return async function(dispatch: Dispatch): Promise<void> {
+      dispatch(noteActions.addCategories());
+
+      const part: Partial<NoteInterface> = { categories: categoryIds };
+
+      await new Promise( (resolve) => {
+        noteIds.forEach((noteId: EntityUid) => {
+          StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+        });
+        resolve(true);
+      });
+
+      dispatch(noteActions.addCategoriesSuccess({ noteIds, categoryIds }));
+      HistoryActions.push(noteActions.addCategoriesSuccess({ noteIds, categoryIds }))(dispatch);
+    };
+  },
 };
 
 const archiveOrDeleteOrRestoreMultiple = (

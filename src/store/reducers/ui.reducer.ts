@@ -18,6 +18,7 @@ export const initialUiState: UiState = {
   shortcutsDialogOpened: false,
   colorDialogOpened: false,
   colorDialogData: null,
+  addToCategoryDialogOpened: false,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -106,6 +107,13 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     .addCase(uiActions.closeColorDialog, (state) => {
       state.colorDialogOpened = false;
       state.colorDialogData = null;
+    })
+
+    .addCase(uiActions.openAddToCategoryDialog, (state) => {
+      state.addToCategoryDialogOpened = true;
+    })
+    .addCase(uiActions.closeAddToCategoryDialog, (state) => {
+      state.addToCategoryDialogOpened = false;
     })
   ;
 });

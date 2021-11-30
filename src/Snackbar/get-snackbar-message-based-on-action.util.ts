@@ -1,6 +1,7 @@
 import { Category } from '../domain/interfaces/category.interface';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ActionDetails } from '../domain/interfaces/action-details.interface';
+import { AddNoteCategoriesPayload } from '../domain/interfaces/add-note-categories-payload.interface';
 
 export interface TranslationData {
   message: string;
@@ -96,6 +97,12 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
 
     case 'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS':
       message = 'NOTES_RESTORED_TO_CATEGORY';
+      break;
+
+    case 'ADD_CATEGORIES_SUCCESS_TO_NOTE':
+      message = (payload as AddNoteCategoriesPayload).noteIds.length > 1
+        ? 'MULTIPLE_NOTES_UPDATED'
+        : 'SINGLE_NOTE_UPDATED';
       break;
 
     case 'UPDATE_MULTIPLE_NOTES_SUCCESS':

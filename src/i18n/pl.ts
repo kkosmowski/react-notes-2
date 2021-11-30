@@ -21,6 +21,7 @@ export const pl: typeof en = {
     SHORTCUTS: 'Skróty klawiszowe',
     SELECT_CATEGORIES: 'Wybierz kategorie',
     CHANGE_COLOR: 'Zmień kolor',
+    ADD_TO_CATEGORY: 'Dodaj do kategorii',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Zaznacz wiele',
@@ -78,6 +79,7 @@ export const pl: typeof en = {
     MULTIPLE_NOTES_ARCHIVED: 'Wiele notatek zarchiwizowanych',
     MULTIPLE_NOTES_RESTORED: 'Wiele notatek przywróconych',
     MULTIPLE_NOTES_UPDATED: 'Wiele notatek zaktualizowanych',
+    SINGLE_NOTE_UPDATED: 'Notatka zaktualizowana',
     CATEGORY_CREATED: 'Kategoria "{{ name }}" utworzona',
     CATEGORY_UPDATED: 'Kategoria "{{ name }}" zaktualizowana',
     CATEGORY_UPDATE_REVERTED: 'Cofnięto aktualizację kategorii "{{ name }}"',
@@ -154,5 +156,10 @@ export const pl: typeof en = {
     SUBTITLE_FOR_CATEGORY: 'Wybierz kolor dla kategorii "{{ name }}"',
     SUBTITLE_FOR_NOTE: 'Wybierz kolor dla notatki "{{ name }}"',
     SUBTITLE_FOR_MULTIPLE_NOTES: 'Wybierz kolor dla wybranych notatek',
+  },
+  ADD_TO_CATEGORY_DIALOG: {
+    TITLE: 'Dodaj do kategorii',
+    CHOOSE_CATEGORIES: 'Wybierz kategorie, do których chcesz dodać zaznaczone notatki.',
+    CHOOSE_CATEGORIES_PLACEHOLDER: 'Wybierz kategorie...',
   }
 };

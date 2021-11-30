@@ -5,6 +5,7 @@ import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/inter
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
 import { NoteSelectionMode } from '../../domain/enums/note-selection-mode.enum';
 import { UpdateMultipleNotesPayload } from '../../domain/interfaces/update-multiple-notes.payload';
+import { AddNoteCategoriesPayload } from '../../domain/interfaces/add-note-categories-payload.interface';
 
 const noteActions = {
   getNotes: createAction<void>('GET_NOTES'),
@@ -69,6 +70,9 @@ const noteActions = {
 
   setShowArchived: createAction<void>('SET_SHOW_ARCHIVED'),
   setShowArchivedSuccess: createAction<boolean>('SET_SHOW_ARCHIVED_SUCCESS'),
+
+  addCategories: createAction<void>('ADD_CATEGORIES_TO_NOTE'),
+  addCategoriesSuccess: createAction<AddNoteCategoriesPayload>('ADD_CATEGORIES_SUCCESS_TO_NOTE'),
 };
 
 export default noteActions;

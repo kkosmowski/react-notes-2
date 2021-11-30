@@ -133,6 +133,7 @@ export const NotesContainer = (): ReactElement => {
             onArchive={ handleArchive }
             onDelete={ handleDelete }
             onColorChange={ handleColorChange }
+            onAddToCategory={ handleAddToCategory }
             data={ note }
             isSelected={ !!selectedNotes[note.id] }
             isSelectionCovered={ selectionCoveredNotes.includes(note.id) }
@@ -261,6 +262,10 @@ export const NotesContainer = (): ReactElement => {
     } else {
       dispatch(UiActions.openColorDialog(ColorDialogType.Note, note));
     }
+  };
+
+  const handleAddToCategory = (): void => {
+    dispatch(UiActions.openAddToCategoryDialog());
   };
 
   return (

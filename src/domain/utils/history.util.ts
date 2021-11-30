@@ -62,6 +62,7 @@ export class HistoryUtil {
       'DELETE_NOTE_SUCCESS',
       'DELETE_MULTIPLE_NOTES_SUCCESS',
       'UPDATE_MULTIPLE_NOTES_SUCCESS',
+      'ADD_CATEGORIES_SUCCESS_TO_NOTE',
     ];
     return !irreversibleActionTypes.includes(type);
   }

@@ -17,6 +17,7 @@ export const Checkbox = styled.input`
   justify-content: center;
   align-items: center;
   border-radius: 2px;
+  flex-shrink: 0;
 
   &:checked::after {
     content: '';

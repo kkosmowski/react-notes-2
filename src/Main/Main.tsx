@@ -18,8 +18,12 @@ import { Settings } from '../Settings/Settings';
 import { selectSettingsOpened } from '../store/selectors/settings.selectors';
 import { useTranslation } from 'react-i18next';
 import { ShortcutsDialog } from '../ShortcutsDialog/ShortcutsDialog';
-import { selectColorDialogOpened } from '../store/selectors/ui.selectors';
+import {
+  selectColorDialogOpened,
+  selectAddToCategoryDialogOpened
+} from '../store/selectors/ui.selectors';
 import { ColorDialog } from '../ColorDialog/ColorDialog';
+import { AddToCategoryDialog } from '../AddToCategoryDialog/AddToCategoryDialog';
 
 const AppRoutes = (): ReactElement => {
   const app: ReactElement = (
@@ -67,6 +71,7 @@ export const Main = (): ReactElement => {
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
   const settingsOpened: boolean = useSelector(selectSettingsOpened);
   const colorDialogOpened = useSelector(selectColorDialogOpened);
+  const moveToCategoryDialogOpened = useSelector(selectAddToCategoryDialogOpened);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -112,6 +117,7 @@ export const Main = (): ReactElement => {
 
       <ConfirmationDialog />
       { colorDialogOpened && <ColorDialog /> }
+      { moveToCategoryDialogOpened && <AddToCategoryDialog /> }
       <SnackbarContainer />
     </MainWrapper>
   );

@@ -50,3 +50,14 @@ export const DialogControls = styled.div`
     margin-inline-start: auto;
   }
 `;
+
+export const DialogContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+`;
+
+export const DialogSubtitle = styled.p`
+  margin-bottom: 16px;
+  color: var(--foreground-82);
+`;
