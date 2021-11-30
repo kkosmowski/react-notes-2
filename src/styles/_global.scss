@@ -22,6 +22,8 @@
 }
 
 body {
+  overflow: hidden;
+
   &.ltr { direction: ltr; }
   &.rtl { direction: rtl; }
 }
