@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import {
+  selectAddToCategoryDialogOpened,
   selectColorDialogOpened,
   selectConfirmationDialogOpened,
   selectNoteDialogOpened,
@@ -17,7 +18,14 @@ import { rootCategory } from '../domain/consts/root-category.const';
 import { selectAddCategoryInProgress } from '../store/selectors/category.selectors';
 import { RouterUtil } from '../domain/utils/router.util';
 
-type ObservedDialogs = 'noteDialog' | 'confirmationDialog' | 'shortcutsDialog' | 'settings' | 'colorDialog';
+type ObservedDialogs =
+  | 'noteDialog'
+  | 'confirmationDialog'
+  | 'shortcutsDialog'
+  | 'settings'
+  | 'colorDialog'
+  | 'addToCategoryDialog'
+  ;
 
 export const KeyboardHandler = (): ReactElement => {
   const dispatch = useDispatch();
@@ -38,6 +46,8 @@ export const KeyboardHandler = (): ReactElement => {
   const addCategoryInProgressRef = useRef(addCategoryInProgress);
   const colorDialogOpened = useSelector(selectColorDialogOpened);
   const colorDialogOpenedRef = useRef(colorDialogOpened);
+  const addToCategoryDialogOpened = useSelector(selectAddToCategoryDialogOpened);
+  const addToCategoryDialogOpenedRef = useRef(addToCategoryDialogOpened);
   const allSelectedNotesAreArchived = useRef<boolean>();
   const noSelectedNotesAreArchived = useRef<boolean>();
   const archiveOrRestoreEnabled = useRef<boolean>();
@@ -62,13 +72,15 @@ export const KeyboardHandler = (): ReactElement => {
   useEffect(() => { settingsOpenedRef.current = settingsOpened; }, [settingsOpened]);
   useEffect(() => { addCategoryInProgressRef.current = addCategoryInProgress; }, [addCategoryInProgress]);
   useEffect(() => { colorDialogOpenedRef.current = colorDialogOpened; }, [colorDialogOpened]);
+  useEffect(() => { addToCategoryDialogOpenedRef.current = addToCategoryDialogOpened; }, [addToCategoryDialogOpened]);
 
   const anyDialogOrSettingsOpened = (except?: ObservedDialogs[]): boolean => (
     noteDialogOpenedRef.current && !except?.includes('noteDialog') ||
     confirmationDialogOpenedRef.current && !except?.includes('confirmationDialog') ||
     shortcutsDialogOpenedRef.current && !except?.includes('shortcutsDialog') ||
     settingsOpenedRef.current && !except?.includes('settings') ||
-    colorDialogOpenedRef.current && !except?.includes('colorDialog')
+    colorDialogOpenedRef.current && !except?.includes('colorDialog') ||
+    addToCategoryDialogOpenedRef.current && !except?.includes('addToCategoryDialog')
   );
 
   const handleKeyDown = (event: KeyboardEvent): void => {
@@ -136,12 +148,14 @@ export const KeyboardHandler = (): ReactElement => {
   const handleEscape = (): void => {
     if (confirmationDialogOpenedRef.current) {
       dispatch(UiActions.closeConfirmationDialog(false));
-    } else if (anyDialogOrSettingsOpened(['confirmationDialog', 'colorDialog'])) {
+    } else if (anyDialogOrSettingsOpened(['colorDialog', 'addToCategoryDialog'])) {
       RouterUtil.back(history, { keepPrevious: true });
     } else if (addCategoryInProgressRef.current) {
       dispatch(CategoryActions.deleteTemporary(true));
     } else if (colorDialogOpenedRef.current) {
       dispatch(UiActions.closeColorDialog());
+    } else if (addToCategoryDialogOpenedRef.current) {
+      dispatch(UiActions.closeAddToCategoryDialog());
     }
   };
 
