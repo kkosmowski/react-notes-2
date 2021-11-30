@@ -16,6 +16,10 @@ import { Checkbox } from '../Checkbox/Checkbox';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '../store/selectors/settings.selectors';
 import { debounce } from '@material-ui/core';
+import {
+  MAX_OPTION_LABEL_LENGTH_WHEN_MORE_THAN_ONE,
+  MAX_OPTIONS_IN_CURRENT_VALUE
+} from './select.consts';
 
 interface Props {
   label?: string;
@@ -56,13 +60,17 @@ export const Select = (
   const renderCurrentValue = useCallback(debounce(() => {
     if (language) {
       if (multi) {
-        const n = Math.max(0, values.length - 2);
-        const text = [...values.slice(0, 2).map(findLabelOfValue)].join(', ');
+        const n = Math.max(0, values.length - MAX_OPTIONS_IN_CURRENT_VALUE);
+        const textArray = [...values]
+          .slice(0, MAX_OPTIONS_IN_CURRENT_VALUE)
+          .map(value => findLabelOfValueAndSliceIt(value, values.length > 1))
+          .join(', ');
 
-        setCurrentValueText(text);
+        setCurrentValueText(textArray);
+
         setAndMore(n > 0 ? `+ ${ n }` : '');
       } else if (values.length === 1) {
-        const label = findLabelOfValue(values[0]);
+        const label = findLabelOfValueAndSliceIt(values[0]);
 
         if (label) {
           setCurrentValueText(label);
@@ -88,13 +96,16 @@ export const Select = (
     }
   }, [initialValue]);
 
-  const findLabelOfValue = (value: string): string | null => {
+  const findLabelOfValueAndSliceIt = (value: string, slice?: boolean): string | '' => {
     const option = options.find(o => o.value === value);
 
     if (option) {
-      return option.translate ? t(option.label) : option.label;
+      const value = option.translate ? t(option.label) : option.label;
+      return slice && value.length > MAX_OPTION_LABEL_LENGTH_WHEN_MORE_THAN_ONE
+        ? value.slice(0, MAX_OPTION_LABEL_LENGTH_WHEN_MORE_THAN_ONE).trimRight() + '...'
+        : value;
     }
-    return null;
+    return '';
   };
 
   const handleOptionClick = (e: MouseEvent<HTMLElement>): void => {
