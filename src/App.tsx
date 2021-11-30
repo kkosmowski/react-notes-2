@@ -16,7 +16,7 @@ import NoteActions from './store/actionCreators/note.action-creators';
 import { KeyboardHandler } from './KeyboardHandler/KeyboardHandler';
 import { StorageService } from './services/storage.service';
 
-export const version = '0.1.2';
+export const version = '0.1.3';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -46,7 +46,6 @@ export const App = (): ReactElement => {
 
   useEffect(() => {
     document.body.className = `${ theme } ${ direction }`;
-    setMetaTheme();
   }, [theme, direction]);
 
   useEffect(() => {
@@ -63,15 +62,6 @@ export const App = (): ReactElement => {
 
   const checkIfMobile = (): void => {
     setIsMobile(window.innerWidth < 600);
-  };
-
-  const setMetaTheme = (): void => {
-    const meta = document.querySelector('meta[name="theme-color"]');
-
-    if (meta) {
-      const primaryHexCode = getComputedStyle(document.body).getPropertyValue('--primary').trim();
-      meta.setAttribute('content', primaryHexCode);
-    }
   };
 
   return (
