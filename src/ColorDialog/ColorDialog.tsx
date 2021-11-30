@@ -6,10 +6,9 @@ import { DialogConfig } from '../domain/interfaces/dialog-config.interface';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { Dialog } from '../Dialog/Dialog';
 import { DialogTitle } from '../Dialog/DialogTitle';
-import { DialogControls } from '../Dialog/styles/Dialog.styled';
+import { DialogContent, DialogControls, DialogSubtitle } from '../Dialog/styles/Dialog.styled';
 import { Button } from '../Button/Button';
 import { Variant } from '../domain/enums/variant.enum';
-import styled from 'styled-components/macro';
 import { Category } from '../domain/interfaces/category.interface';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { ColorPickerGrid } from '../ColorPicker/ColorPickerGrid';
@@ -108,10 +107,10 @@ export const ColorDialog = (): ReactElement => {
     >
       <DialogTitle>{ t('SELECT_COLOR') }</DialogTitle>
 
-      <ColorDialogContent>
-        <ColorDialogSubtitle>
+      <DialogContent>
+        <DialogSubtitle>
           { t(subtitle, { name }) }
-        </ColorDialogSubtitle>
+        </DialogSubtitle>
 
         <ColorPickerGrid
           onColorSelect={ handleColorSelect }
@@ -120,7 +119,7 @@ export const ColorDialog = (): ReactElement => {
           baseColor={ data!.type === 'category' ? sidebarBackgroundColor : noteBackgroundColor }
           opened
         />
-      </ColorDialogContent>
+      </DialogContent>
 
       <DialogControls>
         <Button onClick={ handleClose } variant={ Variant.Regular }>
@@ -134,14 +133,3 @@ export const ColorDialog = (): ReactElement => {
     </Dialog>
   );
 };
-
-const ColorDialogContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 24px 0;
-`;
-
-const ColorDialogSubtitle = styled.p`
-  margin-bottom: 16px;
-  color: var(--foreground-82);
-`;

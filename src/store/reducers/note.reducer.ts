@@ -6,6 +6,7 @@ import noteActions from '../actions/note.actions';
 import { RemoveMultipleNotesFromCategorySuccesPayload } from '../../domain/interfaces/remove-multiple-notes-from-category-payload.interface';
 import { EntityUid } from '../../domain/types/entity-uid.type';
 import { ArchiveOrDeleteOrRestoreMultipleNotesPayload } from '../../domain/interfaces/archive-or-delete-or-restore-multiple-notes-payload.interface';
+import { concatTwoArraysUtil } from '../../utils/concat-arrays-without-duplicates.util';
 
 export const initialNoteState: NoteState = {
   notes: [],
@@ -292,6 +293,27 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       showArchivedHelper(state, payload);
     })
 
+    .addCase(noteActions.addCategories, (state) => {
+      state.noteUpdateInProgress = true;
+    })
+    .addCase(noteActions.addCategoriesSuccess, (state, { payload }) => {
+      state.noteUpdateInProgress = false;
+      const { noteIds, categoryIds } = payload;
+
+      state.notes = state.notes.map((note) => noteIds.includes(note.id)
+        ? { ...note, categories: concatTwoArraysUtil<EntityUid>(note.categories, categoryIds) }
+        : note
+      );
+
+      for (const id in state.selectedNotes) {
+        if (noteIds.includes(id)) {
+          state.selectedNotes[id] = {
+            ...state.selectedNotes[id],
+            categories: concatTwoArraysUtil<EntityUid>(state.selectedNotes[id].categories, categoryIds)
+          };
+        }
+      }
+    })
   ;
 });
 

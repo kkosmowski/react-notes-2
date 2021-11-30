@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import { transition } from '../styles/styled-components-utils/transition.mixin';
 import { InputStyles } from '../Input/Input.styled';
 import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/consts/select.consts';
+import { textEllipsis } from '../styles/styled-components-utils/text-ellipsis.mixin';
 
 export const SelectWrapper = styled.div<{ opened: boolean }>`
   position: relative;
@@ -37,7 +38,15 @@ export const CustomSelect = styled.div`
 
 export const CurrentOption = styled.span`
   user-select: none;
-  white-space: nowrap;
+  display: flex;
+  
+  > span:first-child {
+    ${ textEllipsis }
+  }
+  
+  > span:last-child {
+    flex-shrink: 0;
+  }
   
   .disabled & {
     color: var(--foreground-43)
@@ -74,4 +83,8 @@ export const Option = styled.div`
   .disabled & {
     color: var(--foreground-64)
   }
+`;
+
+export const OptionText = styled.span`
+  ${ textEllipsis }
 `;

@@ -19,6 +19,7 @@ export const en = {
     SHORTCUTS: 'Shortcuts',
     SELECT_CATEGORIES: 'Select categories',
     CHANGE_COLOR: 'Change color',
+    ADD_TO_CATEGORY: 'Add to category',
   },
   CONTROL_BAR: {
     MULTISELECT: 'Multiselect',
@@ -76,6 +77,7 @@ export const en = {
     MULTIPLE_NOTES_ARCHIVED: 'Multiple notes archived',
     MULTIPLE_NOTES_RESTORED: 'Multiple notes restored',
     MULTIPLE_NOTES_UPDATED: 'Multiple notes updated',
+    SINGLE_NOTE_UPDATED: 'Note updated',
     CATEGORY_CREATED: 'Category "{{ name }}" created',
     CATEGORY_UPDATED: 'Category "{{ name }}" updated',
     CATEGORY_UPDATE_REVERTED: 'Category "{{ name }}" update reverted',
@@ -152,5 +154,10 @@ export const en = {
     SUBTITLE_FOR_CATEGORY: 'Select color for category "{{ name }}"',
     SUBTITLE_FOR_NOTE: 'Select color for note "{{ name }}"',
     SUBTITLE_FOR_MULTIPLE_NOTES: 'Select color for selected notes',
+  },
+  ADD_TO_CATEGORY_DIALOG: {
+    TITLE: 'Add to category',
+    CHOOSE_CATEGORIES: 'Choose categories where selected notes should be added.',
+    CHOOSE_CATEGORIES_PLACEHOLDER: 'Choose categories...',
   }
 };

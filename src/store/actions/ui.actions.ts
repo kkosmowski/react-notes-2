@@ -31,6 +31,9 @@ const uiActions = {
 
   openColorDialog: createAction<ColorDialogData>('OPEN_COLOR_DIALOG'),
   closeColorDialog: createAction<void>('CLOSE_COLOR_DIALOG'),
+
+  openAddToCategoryDialog: createAction<void>('OPEN_ADD_TO_CATEGORY_DIALOG'),
+  closeAddToCategoryDialog: createAction<void>('CLOSE_ADD_TO_CATEGORY_DIALOG'),
 };
 
 export default uiActions;
