@@ -16,7 +16,7 @@ import NoteActions from './store/actionCreators/note.action-creators';
 import { KeyboardHandler } from './KeyboardHandler/KeyboardHandler';
 import { StorageService } from './services/storage.service';
 
-export const version = '0.1.1';
+export const version = '0.1.2';
 
 export const App = (): ReactElement => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
