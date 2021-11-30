@@ -40,5 +40,9 @@
     ],
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/react-in-jsx-scope": "off"
-  }
+  },
+  "ignorePatterns": [
+    "src/service-worker.ts",
+    "src/serviceWorkerRegistration.ts"
+  ]
 }

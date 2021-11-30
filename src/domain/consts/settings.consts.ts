@@ -4,8 +4,13 @@ import { Language } from '../enums/language.enum';
 import { defaultSnackbarDuration } from './snackbar.const';
 import { SettingsInterface } from '../model/settings.model';
 
+const getDefaultThemeBasedOnMedia = (): Theme => {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return prefersDark ? Theme.DarkBlue : Theme.LightBlue;
+};
+
 export const defaultSettings: SettingsInterface = {
-  theme: Theme.DarkGreen,
+  theme: getDefaultThemeBasedOnMedia(),
   direction: 'ltr',
   language: Language.EN,
   snackbarDuration: defaultSnackbarDuration,
