@@ -8,6 +8,7 @@ import {
   CustomSelect,
   Option,
   OptionsContainer,
+  OptionText,
   SelectWrapper
 } from './Select.styled';
 import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/consts/select.consts';
@@ -33,6 +34,7 @@ export const Select = (
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [openAbove, setOpenAbove] = useState(false);
   const [currentValueText, setCurrentValueText] = useState('');
+  const [andMore, setAndMore] = useState('');
   const language = useSelector(selectLanguage);
   const ref = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslation();
@@ -55,16 +57,17 @@ export const Select = (
     if (language) {
       if (multi) {
         const n = Math.max(0, values.length - 2);
-        const textValue = [...values.slice(0, 2).map(findLabelOfValue)];
-        const text = textValue.join(', ') + (n > 0 ? ` + ${ n }` : '');
+        const text = [...values.slice(0, 2).map(findLabelOfValue)].join(', ');
 
         setCurrentValueText(text);
+        setAndMore(n > 0 ? `+ ${ n }` : '');
       } else if (values.length === 1) {
         const label = findLabelOfValue(values[0]);
 
         if (label) {
           setCurrentValueText(label);
         }
+        setAndMore('');
       }
     }
   }, 0), [values, language]);
@@ -100,8 +103,9 @@ export const Select = (
       return;
     }
 
-    const selectedValue = (e.target as HTMLElement).dataset?.value;
-
+    const target = e.target as HTMLElement;
+    const selectedValue = target.dataset.value || target.parentElement?.dataset.value;
+    console.log(selectedValue);
     if (multi) {
       e.stopPropagation();
       if (selectedValue) {
@@ -128,6 +132,8 @@ export const Select = (
     } else {
       newValues = [...values, selected];
     }
+
+    console.log(newValues);
     setValues(newValues);
     onChange(newValues);
   };
@@ -147,7 +153,8 @@ export const Select = (
           className={ disabled || !options.length ? 'disabled' : '' }
         >
           <CurrentOption>
-            { currentValueText || placeholder }
+            <span>{ currentValueText || placeholder }</span>
+            <span>{ andMore }</span>
           </CurrentOption>
           <OptionsContainer visible={ optionsVisible } above={ openAbove }>
             { options.map((option) => (
@@ -162,7 +169,7 @@ export const Select = (
                     style={ { marginInlineEnd: '8px' } }
                   />
                 ) }
-                { option.translate ? t(option.label) : option.label }
+                <OptionText>{ option.translate ? t(option.label) : option.label }</OptionText>
               </Option>
             ))}
           </OptionsContainer>

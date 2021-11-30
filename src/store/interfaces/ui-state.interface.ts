@@ -20,4 +20,5 @@ export interface UiState {
   shortcutsDialogOpened: boolean;
   colorDialogOpened: boolean;
   colorDialogData: ColorDialogData | null;
+  addToCategoryDialogOpened: boolean;
 }

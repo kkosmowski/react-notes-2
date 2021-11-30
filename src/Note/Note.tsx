@@ -23,6 +23,7 @@ interface Props extends NoteSelectionProps {
   onArchive: (note: NoteInterface) => void;
   onDelete: () => void;
   onColorChange: (note: NoteInterface) => void;
+  onAddToCategory: () => void;
 }
 
 export const Note = ({
@@ -34,7 +35,8 @@ export const Note = ({
   onOpen,
   onArchive,
   onDelete,
-  onColorChange
+  onColorChange,
+  onAddToCategory,
 }: Props): ReactElement => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -102,6 +104,11 @@ export const Note = ({
         {
           label: 'COMMON:CHANGE_COLOR',
           callback: handleColorChange,
+          multi: true,
+        },
+        {
+          label: 'COMMON:ADD_TO_CATEGORY',
+          callback: onAddToCategory,
           multi: true,
         },
         {

@@ -55,3 +55,7 @@ export const selectColorDialogOpened = createSelector(
 export const selectColorDialogData = createSelector(
   uiSelector, (ui: UiState) => ui.colorDialogData
 );
+
+export const selectAddToCategoryDialogOpened = createSelector(
+  uiSelector, (ui: UiState) => ui.addToCategoryDialogOpened
+);
