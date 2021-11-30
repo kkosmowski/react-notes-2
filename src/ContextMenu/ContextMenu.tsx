@@ -1,4 +1,4 @@
-import { MouseEvent, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { MouseEvent, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch, useSelector } from 'react-redux';
 import { Coords } from '../domain/interfaces/coords.interface';
@@ -16,12 +16,34 @@ export const ContextMenu = (): ReactElement | null => {
   const { t } = useTranslation();
   const data: ContextMenuData | null = useSelector(selectContextMenuData);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
+  const [menuCoords, setMenuCoords] = useState<Coords | undefined>(data?.coords);
   const [children, setChildren] = useState<ReactNode>(<></>);
   const dispatch = useDispatch();
+  const ref = useRef<HTMLDivElement | null>(null);
+  const menuMargin = 8;
 
   const stopPropagationAndHide = (e: MouseEvent): void => {
     e.stopPropagation();
     dispatch(UiActions.hideContextMenu());
+  };
+
+  const validateCoords = (coords: Coords): void => {
+    const _coords = { ...coords };
+
+    setTimeout(() => {
+      if (ref.current) {
+        const menuDOMRect = ref.current!.getBoundingClientRect();
+
+        if (_coords.x + menuDOMRect.width + menuMargin > window.innerWidth) {
+          _coords.x = window.innerWidth - menuDOMRect.width - menuMargin;
+        }
+        if (_coords.y + menuDOMRect.height + menuMargin > window.innerHeight) {
+          _coords.y = window.innerHeight - menuDOMRect.height - menuMargin;
+        }
+      }
+
+      setMenuCoords(_coords);
+    });
   };
 
   useEffect(() => {
@@ -37,6 +59,10 @@ export const ContextMenu = (): ReactElement | null => {
           { t(item.label) }
         </ContextMenuItem>
       )));
+
+      validateCoords(data.coords);
+    } else {
+      setMenuCoords(undefined);
     }
   }, [data]);
 
@@ -45,7 +71,8 @@ export const ContextMenu = (): ReactElement | null => {
       <>
         <StyledDiv
           onClick={ stopPropagationAndHide }
-          coords={ data.coords }
+          coords={ menuCoords || data.coords }
+          ref={ ref }
           data-testid={ contextMenuTestId }
         >
           { children }
