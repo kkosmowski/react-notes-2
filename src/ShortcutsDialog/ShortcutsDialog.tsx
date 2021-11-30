@@ -20,7 +20,7 @@ export const ShortcutsDialog = (): ReactElement => {
   const { t } = useTranslation('SHORTCUTS_DIALOG');
   const opened: boolean = useSelector(selectShortcutsDialogOpened);
   const dispatch = useDispatch();
-  const history = useHistory<{ previous: string }>();
+  const history = useHistory();
   const [shortcutsList, setShortcutsList] = useState<ReactElement[]>([]);
   const dialogConfig: DialogConfig = {
     width: '800px',
