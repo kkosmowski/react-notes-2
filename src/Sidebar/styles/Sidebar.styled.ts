@@ -54,10 +54,14 @@ export const SidebarWrapper = styled.aside<{ animated: boolean }>`
   }
 `;
 
-export const Version = styled.span`
+export const VersionLink = styled.a`
   max-width: var(--sidebar-width);
   color: var(--foreground-25);
   text-align: center;
   font-size: 12px;
   margin-bottom: 4px;
+  
+  &:not(:hover) {
+    text-decoration: none;
+  }
 `;
