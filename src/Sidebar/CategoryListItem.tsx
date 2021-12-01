@@ -1,5 +1,5 @@
 import { KeyboardEvent, MouseEvent, ReactElement, useEffect, useRef, useState } from 'react';
-import { Delete, Edit, FolderOpen, Save } from '@material-ui/icons';
+import { Delete, Edit, FolderOpen, Save } from '@mui/icons-material';
 import { Category } from '../domain/interfaces/category.interface';
 import { ListItem, StyledFolderIcon } from './styles/CategoryListItem.styled';
 import { useTranslation } from 'react-i18next';

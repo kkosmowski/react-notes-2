@@ -15,7 +15,7 @@ import { SELECT_OPTION_HEIGHT, SELECT_OPTIONS_MAX_HEIGHT } from '../domain/const
 import { Checkbox } from '../Checkbox/Checkbox';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '../store/selectors/settings.selectors';
-import { debounce } from '@material-ui/core';
+import { debounce } from '@mui/material';
 import {
   MAX_OPTION_LABEL_LENGTH_WHEN_MORE_THAN_ONE,
   MAX_OPTIONS_IN_CURRENT_VALUE
