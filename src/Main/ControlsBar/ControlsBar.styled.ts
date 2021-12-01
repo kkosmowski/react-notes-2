@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { Switch, withStyles } from '@mui/material';
+import { Switch } from '@mui/material';
 
 export const Bar = styled.div`
   background-color: var(--background200);
