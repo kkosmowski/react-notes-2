@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import { ReactElement, useEffect, useRef } from 'react';
 import { getCenterStylesForLoader } from './get-center-styles-for-loader.util';
 import { LoaderCentered } from '../domain/enums/loader-centered.enum';

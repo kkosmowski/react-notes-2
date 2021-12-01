@@ -5,7 +5,7 @@ import store from './store/store';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ContextMenu } from './ContextMenu/ContextMenu';
-import { debounce } from '@material-ui/core';
+import { debounce } from '@mui/material';
 import UiActions from './store/actionCreators/ui.action-creators';
 import { ThemeProvider } from 'styled-components/macro';
 import theme from './theme';

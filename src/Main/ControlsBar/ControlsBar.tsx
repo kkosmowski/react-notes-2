@@ -31,7 +31,7 @@ import {
   Done as DoneIcon,
   DoneAll as DoneAllIcon,
   NoteAdd as NoteAddIcon,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { ArchivedSwitch, Bar, LeftContainer, RightContainer } from './ControlsBar.styled';
 import { ConfirmationAction } from '../../domain/enums/confirmation-action.enum';
 import { RouterUtil } from '../../domain/utils/router.util';

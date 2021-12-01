@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 import SHORTCUTS from './shortcuts';
 import { Explanation, Key, ListItem, ShortcutsList, Spacer } from './ShortcutsDialog.styled';
 import { RouterUtil } from '../domain/utils/router.util';
-import { debounce } from '@material-ui/core';
+import { debounce } from '@mui/material';
 
 export const ShortcutsDialog = (): ReactElement => {
   const { t } = useTranslation('SHORTCUTS_DIALOG');

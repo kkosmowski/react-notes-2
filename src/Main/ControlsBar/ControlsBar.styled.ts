@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { Switch, withStyles } from '@material-ui/core';
+import { Switch, withStyles } from '@mui/material';
 
 export const Bar = styled.div`
   background-color: var(--background200);
@@ -36,7 +36,7 @@ export const LeftContainer = styled.div`
   }
 `;
 
-export const ArchivedSwitch = withStyles({
+export const ArchivedSwitch = styled(Switch)(() => ({
   switchBase: {
     color: 'var(--primary200)',
     '&$checked': {
@@ -48,7 +48,7 @@ export const ArchivedSwitch = withStyles({
   },
   checked: {},
   track: {},
-})(Switch);
+}));
 
 export const RightContainer = styled.div`
   font-size: 13.3333px;

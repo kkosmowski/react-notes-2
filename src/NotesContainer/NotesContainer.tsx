@@ -2,7 +2,7 @@ import { MouseEvent, ReactElement, useCallback, useEffect, useRef, useState } fr
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
 import { COLUMN_MIN_WIDTH_PX, MAX_CLICK_DURATION_MS } from '../domain/consts/note-container.consts';
-import { debounce } from '@material-ui/core';
+import { debounce } from '@mui/material';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '../Loader/Loader';
