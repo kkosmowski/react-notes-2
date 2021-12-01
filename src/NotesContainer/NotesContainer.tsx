@@ -36,6 +36,7 @@ import { selectConfirmationResult, selectIsMobile } from '../store/selectors/ui.
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
 import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
+import { Masonry } from '@mui/lab';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -282,10 +283,12 @@ export const NotesContainer = (): ReactElement => {
           onSelectionCoverageChange={ handleSelectionCoverageChange }
         />
       ) }
-      <NotesWrapperContainer ref={ containerRef } columns={ numberOfColumns }>
+      <NotesWrapperContainer ref={ containerRef }>
         { notesLoading
           ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } size={ LoaderSize.Medium } />
-          : notesToRender.length ? notesToRender : noNotesText
+          : notesToRender.length
+            ? <Masonry columns={ numberOfColumns }>{ notesToRender }</Masonry>
+            : noNotesText
         }
       </NotesWrapperContainer>
     </NotesWrapper>
