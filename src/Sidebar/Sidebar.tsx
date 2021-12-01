@@ -2,7 +2,7 @@ import { MouseEvent, ReactElement, useEffect, useState } from 'react';
 import { Backdrop } from '../Backdrop/Backdrop';
 import { SidebarButton } from './SidebarButton';
 import { CategoriesList } from './CategoriesList';
-import { SidebarWrapper, Version } from './styles/Sidebar.styled';
+import { SidebarWrapper, VersionLink } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
@@ -105,7 +105,12 @@ export const Sidebar = (): ReactElement => {
           </SidebarButton>
         ) }
 
-        <Version>v. { version }</Version>
+        <VersionLink
+          href="https://github.com/kkosmowski/react-notes-2/blob/master/changelog.md"
+          target="_blank"
+        >
+          v. { version }
+        </VersionLink>
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
     </>
