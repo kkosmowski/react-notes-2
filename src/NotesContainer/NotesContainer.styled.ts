@@ -5,16 +5,9 @@ export const NotesWrapper = styled.div`
   height: 100%;
 `;
 
-export const NotesWrapperContainer= styled.section<{ columns: number }>`
+export const NotesWrapperContainer = styled.section`
   position: relative;
-  display: grid; // @todo to optional refactor into custom masonry
-  grid-template-columns: repeat(${ ({ columns }) => columns }, 1fr);
-  grid-gap: 16px;
   padding: var(--wrapper-horizontal-padding);
-  
-  @media (min-width: 600px) {
-    grid-gap: 8px;
-  }
 `;
 
 export const NoNotesText = styled.p`

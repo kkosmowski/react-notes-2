@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "@mui/icons-material": "^5.2.0",
+    "@mui/lab": "^5.0.0-alpha.58",
     "@mui/material": "^5.2.2",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "^5.1.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.11.4",
@@ -37,8 +39,7 @@
     "stylelint-selector-no-empty": "^1.0.8",
     "typescript": "^4.1.2",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+    "web-vitals": "^1.0.1"
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
