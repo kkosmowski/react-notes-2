@@ -4,6 +4,8 @@
 
 by <a rel="author" href="http://github.com/kkosmowski/">kkosmowski</a>
 
+LIVE: <a href="http://kkosmowski-notes.netlify.app/" target="_blank">kkosmowski-notes.netlify.app</a>
+
 </div>
 
 ---
@@ -37,6 +39,7 @@ The application was created solely for learning purposes, although it may be use
 * `styled-components` and `sass` for styling
 * `i18next` & `react-i18next` for translation handling
 * `localbase` for storing the data in indexed-db
+* `material-ui` for icons
 
 ### Important
 
@@ -52,8 +55,9 @@ The latter branch is an alternative app where instead of `localbase`, a `json-se
 In order to be able to properly install and run the application, **Node** and either **npm**  or **yarn** must be installed.
 
 To install the app dependencies, run either yarn or npm command:
-### `yarn install`
-### `npm install`
+* `yarn install`
+* `npm install`
+
 depending on your package manager of choice.
 
 
@@ -61,8 +65,8 @@ depending on your package manager of choice.
 ## Usage
 
 To run the app, run either one of these:
-### `yarn start`
-### `npm start`
+* `yarn start`
+* `npm start`
 
 This will compile TypeScript and open a new tab in your default browser, most likely at http://localhost:3000/
 
@@ -79,8 +83,11 @@ This will compile TypeScript and open a new tab in your default browser, most li
 - Setting a different theme, direction (left-to-right or right-to-left), language and snackbar duration;
 - (Desktop only) operating with keyboard shortcuts (see Shortcuts Dialog for details);
 - (Desktop only) selecting notes on mouse click-and-drag;
+- Changing colors of notes and categories;
+- Bulk adding notes to the categories;
 
 Application is available on both Desktop and mobile.
+Application is also available as PWA.
 
 
 
@@ -88,4 +95,4 @@ Application is available on both Desktop and mobile.
 
 React Notes v2 was created by <a rel="author" href="http://github.com/kkosmowski/">kkosmowski</a>
 
-You are free to use the app for free (both personal and professional use), however it is prohibited to claim to be the author or owner of this app.
+You are free to use the app without any costs (both personal and professional use), however it is prohibited to claim to be the author or owner of this app.
