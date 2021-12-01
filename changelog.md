@@ -1,3 +1,11 @@
+## v0.2.0
+
+* implemented a masonry layout
+* implemented new way of sorting notes: by update/create time (newest first)
+* improved styling of notes
+* updated version of material-ui (mui)
+* fixed a bug where note content could not be longer than 120 characters
+
 ## v0.1.4
 
 * updated readme with LIVE link and missing functionalities
