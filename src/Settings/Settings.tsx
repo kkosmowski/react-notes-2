@@ -5,7 +5,7 @@ import SettingsActions from '../store/actionCreators/settings.action-creators';
 import { ErrorText, LeftSide, RightSide, Section, Subtitle, Wrapper } from './Settings.styled';
 import { Button } from '../Button/Button';
 import { Variant } from '../domain/enums/variant.enum';
-import { ArrowBack as ArrowBackIcon, ArrowForward as ArrowForwardIcon } from '@material-ui/icons';
+import { ArrowBack as ArrowBackIcon, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { selectAllSettings } from '../store/selectors/settings.selectors';
 import { Color } from '../domain/enums/color.enum';

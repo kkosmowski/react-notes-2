@@ -6,7 +6,7 @@ import { SidebarWrapper, VersionLink } from './styles/Sidebar.styled';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsMobile, selectSidebarOpened } from '../store/selectors/ui.selectors';
-import { CreateNewFolder, Keyboard, Settings as SettingsIcon } from '@material-ui/icons';
+import { CreateNewFolder, Keyboard, Settings as SettingsIcon } from '@mui/icons-material';
 import { Color } from '../domain/enums/color.enum';
 import { useHistory } from 'react-router-dom';
 import CategoryActions from '../store/actionCreators/category.action-creators';
