@@ -1,4 +1,4 @@
-import { History as H } from 'history';
+import { History } from 'history';
 
 interface RouterUtilOptions {
   customPrevious?: string;
@@ -7,7 +7,7 @@ interface RouterUtilOptions {
 }
 
 export class RouterUtil {
-  static push(path: string, history: H<{ previous: string }>, options?: RouterUtilOptions): void {
+  static push(path: string, history: History, options?: RouterUtilOptions): void {
     if (options?.customPrevious && options.keepPrevious) {
       throw new Error('Please specify either customPrevious or keepPrevious.');
     }
@@ -20,7 +20,7 @@ export class RouterUtil {
     history.push({ pathname }, { previous });
   }
 
-  static back(history: H<{ previous: string }>, options?: RouterUtilOptions): void {
+  static back(history: History, options?: RouterUtilOptions): void {
     const path = !history.location.state
       ? '/'
       : history.location.state.previous;
@@ -31,7 +31,7 @@ export class RouterUtil {
     });
   }
 
-  private static getPathname(path: string, history: H<{ previous: string }>): string {
+  private static getPathname(path: string, history: History): string {
     return !history.location.state
       ? path
       : history.location.state.previous === path
@@ -39,7 +39,7 @@ export class RouterUtil {
         : path;
   }
 
-  private static getPrevious(path: string, history: H<{ previous: string }>): string {
+  private static getPrevious(path: string, history: History): string {
     return history.location.pathname === path
       ? history.location.state?.previous || '/'
       : history.location.pathname;
