@@ -1,3 +1,9 @@
+## v0.1.4
+
+* updated readme with LIVE link and missing functionalities
+* cleaned up formatting of readme
+* version in the sidebar is now a link pointing to this changelog
+
 ## v0.1.3
 
 * app is now available as PWA
