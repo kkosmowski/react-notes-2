@@ -8,6 +8,7 @@ import { NoteColorOverlay } from '../ColorPicker/styles/ColorPicker.styled';
 export const NoteElement = styled.article<NoteSelectionProps & { color?: string }>`
   display: flex;
   flex-direction: column;
+  min-width: 200px;
   min-height: 60px;
   padding: 8px 12px;
   cursor: pointer;
@@ -25,16 +26,18 @@ export const NoteElement = styled.article<NoteSelectionProps & { color?: string 
 `;
 
 export const NoteTitle = styled.h3`
+  --line-height: 22px;
   letter-spacing: 0.4px;
   word-break: break-word;
-  max-height: 44px;
+  max-height: calc(2 * var(--line-height));
   overflow: hidden;
 `;
 
 export const NoteContent = styled.p`
+  --line-height: 19px;
   color: var(--foreground-61);
   word-break: break-word;
-  max-height: 57px;
+  max-height: calc(5 * var(--line-height));
   white-space: pre-wrap;
   overflow: hidden;
 `;

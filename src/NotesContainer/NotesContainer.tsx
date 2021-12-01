@@ -1,7 +1,7 @@
 import { MouseEvent, ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { NoteInterface } from '../domain/interfaces/note.interface';
 import { Note } from '../Note/Note';
-import { COLUMN_MIN_WIDTH_PX, MAX_CLICK_DURATION_MS } from '../domain/consts/note-container.consts';
+import { COLUMN_MAX_WIDTH_PX, MAX_CLICK_DURATION_MS } from '../domain/consts/note-container.consts';
 import { debounce } from '@mui/material';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import { LoaderCentered } from '../domain/enums/loader-centered.enum';
 import { LoaderSize } from '../domain/enums/loader-size.enum';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
-import { NoNotesText, NotesWrapper, NotesWrapperContainer } from './NotesContainer.styled';
+import { NoNotesText, NotesWrapper, NotesWrapperContainer, StyledMasonry } from './NotesContainer.styled';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -36,7 +36,6 @@ import { selectConfirmationResult, selectIsMobile } from '../store/selectors/ui.
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
 import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
-import { Masonry } from '@mui/lab';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -104,16 +103,11 @@ export const NotesContainer = (): ReactElement => {
   }, [categoryId]);
 
   useEffect(() => {
-    if (notes.length) {
-      calculateNumberOfColumns();
-      initResizeListener();
-
-      if (noteToOpen && !openedNote) {
-        const note: NoteInterface | undefined = notes.find((note) => note.id === noteToOpen);
-        note && dispatch(NoteActions.setOpenedNote(note));
-      }
+    if (notes.length && noteToOpen && !openedNote) {
+      const note: NoteInterface | undefined = notes.find((note) => note.id === noteToOpen);
+      note && dispatch(NoteActions.setOpenedNote(note));
     }
-  }, [dispatch, notes, noteToOpen]);
+  }, [dispatch, notes, noteToOpen, openedNote]);
 
   useEffect(() => {
     if (currentCategoryId === rootCategory.id) {
@@ -123,6 +117,11 @@ export const NotesContainer = (): ReactElement => {
       setCurrentCategoryNotes((filteredNotes));
     }
   }, [notes, currentCategoryId]);
+
+  useEffect(() => {
+    calculateNumberOfColumns();
+    initResizeListener();
+  }, [currentCategoryNotes]);
 
   useEffect(() => {
     if (selectedNotes && selectionMode) {
@@ -212,13 +211,13 @@ export const NotesContainer = (): ReactElement => {
   const wasAClick = (): boolean => clickDuration.current !== null && clickDuration.current <= MAX_CLICK_DURATION_MS;
 
   const calculateNumberOfColumns = useCallback((): void => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !currentCategoryNotes.length) return;
 
     const containerWidth: number = containerRef.current.clientWidth;
-    const theoreticalNumberOfColumns: number = Math.floor(containerWidth / COLUMN_MIN_WIDTH_PX) || 1;
+    const theoreticalNumberOfColumns: number = Math.ceil(containerWidth / COLUMN_MAX_WIDTH_PX) || 1;
 
-    setNumberOfColumns(Math.min(theoreticalNumberOfColumns, notes.length));
-  }, [setNumberOfColumns, containerRef, notes, COLUMN_MIN_WIDTH_PX]);
+    setNumberOfColumns(Math.min(theoreticalNumberOfColumns, currentCategoryNotes.length));
+  }, [setNumberOfColumns, currentCategoryNotes, COLUMN_MAX_WIDTH_PX]);
 
   const handleNoteSelect = (noteId: EntityUid): void => {
     if (selectedNotesCount === 1 && shiftPressed.current) {
@@ -287,7 +286,7 @@ export const NotesContainer = (): ReactElement => {
         { notesLoading
           ? <Loader absolute={ true } centered={ LoaderCentered.Horizontally } size={ LoaderSize.Medium } />
           : notesToRender.length
-            ? <Masonry columns={ numberOfColumns }>{ notesToRender }</Masonry>
+            ? <StyledMasonry columns={ numberOfColumns }>{ notesToRender }</StyledMasonry>
             : noNotesText
         }
       </NotesWrapperContainer>
