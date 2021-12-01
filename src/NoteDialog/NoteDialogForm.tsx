@@ -96,7 +96,9 @@ export const NoteDialogForm = (
 
     setForm({
       ...form,
-      [e.target.id]: e.target.value.slice(0, 120),
+      [e.target.id]: e.target.id == 'title'
+        ? e.target.value.trim().slice(0, 120)
+        : e.target.value.trim()
     });
   };
 
