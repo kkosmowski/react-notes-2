@@ -79,16 +79,25 @@ const removeOrRestoreMultipleReducer = (
   state.notesRemovalFromCategoryInProgress = false;
 };
 
+const sortNotesHelper = (state: Draft<NoteState>, notes = state.notes) => {
+  state.notes = notes
+    .filter((note) => !note.deleted)
+    .sort((noteA, noteB) => {
+      const lastEditTime = (n: NoteInterface): number =>
+        new Date(n.updatedAt ? n.updatedAt : n.createdAt).getTime();
+
+      return lastEditTime(noteB) > lastEditTime(noteA) ? 1 : -1;
+    });
+};
+
 const noteReducer = createReducer(initialNoteState, (builder) => {
   builder
     .addCase(noteActions.getNotes, (state) => {
       state.notesLoading = true;
     })
-    .addCase(noteActions.getNotesSuccess, (state, action) => {
+    .addCase(noteActions.getNotesSuccess, (state, { payload }) => {
       state.notesLoading = false;
-      if (action.payload) {
-        state.notes = (action.payload as NoteInterface[]).filter((note) => !note.deleted).reverse();
-      }
+      sortNotesHelper(state, payload);
     })
 
     .addCase(noteActions.createNote, (state) => {
@@ -169,25 +178,25 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     .addCase(noteActions.updateNote, (state) => {
       state.noteUpdateInProgress = true;
     })
-    .addCase(noteActions.updateNoteSuccess, (state, action) => {
+    .addCase(noteActions.updateNoteSuccess, (state, { payload }) => {
       state.noteUpdateInProgress = false;
-      if (action.payload) {
-        const updated: NoteInterface = action.payload;
-        state.notes = state.notes.map((note) => note.id === updated.id ? updated : note);
-      }
+      state.notes = [
+        payload,
+        ...state.notes.filter((note) => note.id !== payload.id),
+      ];
     })
 
     .addCase(noteActions.updateMultipleNotes, (state) => {
       state.noteUpdateInProgress = true;
     })
     .addCase(noteActions.updateMultipleNotesSuccess, (state, { payload }) => {
-      state.noteUpdateInProgress = false;
       const { noteIds, part } = payload;
 
-      state.notes = state.notes.map((note) => noteIds.includes(note.id)
+      state.noteUpdateInProgress = false;
+      sortNotesHelper(state, state.notes.map((note) => noteIds.includes(note.id)
         ? { ...note, ...part }
         : note
-      );
+      ));
     })
 
     .addCase(noteActions.revertNoteUpdate, (state) => {
@@ -195,7 +204,8 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
     })
     .addCase(noteActions.revertNoteUpdateSuccess, (state, { payload }) => {
       state.noteUpdateRevertInProgress = false;
-      state.notes = state.notes.map((note) => note.id === payload.id ? payload : note);
+
+      sortNotesHelper(state, state.notes.map((note) => note.id === payload.id ? payload : note));
     })
 
     .addCase(noteActions.archiveNote, (state) => {

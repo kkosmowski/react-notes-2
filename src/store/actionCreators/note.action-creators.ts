@@ -329,7 +329,7 @@ const updateOrRevert = (
     dispatch(noteActions[actionName]());
     const updatedNote = {
       ...note,
-      updatedAt: new Date().toISOString(),
+      updatedAt: actionName === 'updateNote' ? new Date().toISOString() : note.updatedAt,
     };
 
     await StorageService.update<NoteInterface>('notes', { id: note.id }, updatedNote);
