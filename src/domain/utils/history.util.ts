@@ -5,15 +5,17 @@ import { RemoveFromCategoryPayload } from '../interfaces/remove-from-category-pa
 import { RemoveMultipleNotesFromCategoryPayload } from '../interfaces/remove-multiple-notes-from-category-payload.interface';
 import { NoteInterface } from '../interfaces/note.interface';
 import { ActionDetails } from '../interfaces/action-details.interface';
+import { History } from 'history';
 
 export class HistoryUtil {
-  static getRevertedAction(details: ActionDetails): ActionFunction<Promise<void> | void> {
+  static getRevertedAction(details: ActionDetails, history?: History): ActionFunction<Promise<void> | void> | void {
     const type = details.action.type;
     const payload = details.action.payload;
 
     switch (type) {
       case 'CREATE_CATEGORY_SUCCESS':
-        return CategoryActions.deleteCategory(payload);
+        if (!history) return;
+        return CategoryActions.deleteCategory(payload, history);
 
       case 'DELETE_CATEGORY_SUCCESS':
         return CategoryActions.restoreCategory(payload);
