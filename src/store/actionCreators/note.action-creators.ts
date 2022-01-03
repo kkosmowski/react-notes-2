@@ -148,21 +148,26 @@ const NoteActions = {
 
   updateMultipleNotes(
     noteIds: EntityUid[],
-    part: Partial<NoteInterface>
+    partial: Partial<NoteInterface>
   ): ActionFunction<Promise<void>> {
 
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(noteActions.updateMultipleNotes());
 
+      const update: Partial<NoteInterface> = {
+        ...partial,
+        updatedAt: new Date().toISOString(),
+      };
+
       await new Promise( (resolve) => {
         noteIds.forEach((noteId: EntityUid) => {
-          StorageService.update<NoteInterface>('notes', { id: noteId }, part);
+          StorageService.update<NoteInterface>('notes', { id: noteId }, update);
         });
         resolve(true);
       });
 
-      dispatch(noteActions.updateMultipleNotesSuccess({ noteIds, part }));
-      HistoryActions.push(noteActions.updateMultipleNotesSuccess({ noteIds, part }))(dispatch);
+      dispatch(noteActions.updateMultipleNotesSuccess({ noteIds, update }));
+      HistoryActions.push(noteActions.updateMultipleNotesSuccess({ noteIds, update }))(dispatch);
     };
   },
 
