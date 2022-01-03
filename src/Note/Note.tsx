@@ -51,7 +51,8 @@ export const Note = ({
     string.length > maxLength ? string.slice(0, maxLength) + '...' : string
   );
 
-  const handleSelect = (): void => {
+  const handleSelect = (e?: MouseEvent<HTMLElement>): void => {
+    e && e.stopPropagation();
     onSelect(data.id);
   };
 
