@@ -108,18 +108,6 @@ export const Selection = (
     );
   };
 
-  const handleMouseUp = (e: MouseEvent): void => {
-    e.stopPropagation();
-    isMouseDown.current = false;
-
-    if (selectionCoveredNotes.length) {
-      dispatch(NoteActions.selectMultipleNotes(selectionCoveredNotes));
-    }
-
-    onSelectionCoverageChange([]);
-    setSelection(initialSelection);
-  };
-
   const handleMouseDown = (e: MouseEvent): void => {
     e.stopPropagation();
     isMouseDown.current = true;
@@ -154,6 +142,18 @@ export const Selection = (
         ),
       });
     }
+  };
+
+  const handleMouseUp = (e: MouseEvent): void => {
+    e.stopPropagation();
+    isMouseDown.current = false;
+
+    if (selectionCoveredNotes.length) {
+      dispatch(NoteActions.selectMultipleNotes(selectionCoveredNotes));
+    }
+
+    onSelectionCoverageChange([]);
+    setSelection(initialSelection);
   };
 
   return <SelectionDiv style={ style } />;
