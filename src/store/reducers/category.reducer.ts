@@ -46,6 +46,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
         state.categories = [...state.categories, action.payload];
       }
       state.categoryCreationInProgress = false;
+      state.addCategoryInProgress = false;
     })
 
     .addCase(categoryActions.changeCategory, (state, { payload }) => {
