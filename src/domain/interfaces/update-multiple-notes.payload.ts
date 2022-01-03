@@ -3,5 +3,5 @@ import { NoteInterface } from './note.interface';
 
 export interface UpdateMultipleNotesPayload {
   noteIds: EntityUid[];
-  part: Partial<NoteInterface>;
+  update: Partial<NoteInterface>;
 }

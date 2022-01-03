@@ -190,11 +190,11 @@ const noteReducer = createReducer(initialNoteState, (builder) => {
       state.noteUpdateInProgress = true;
     })
     .addCase(noteActions.updateMultipleNotesSuccess, (state, { payload }) => {
-      const { noteIds, part } = payload;
+      const { noteIds, update } = payload;
 
       state.noteUpdateInProgress = false;
       sortNotesHelper(state, state.notes.map((note) => noteIds.includes(note.id)
-        ? { ...note, ...part }
+        ? { ...note, ...update }
         : note
       ));
     })
