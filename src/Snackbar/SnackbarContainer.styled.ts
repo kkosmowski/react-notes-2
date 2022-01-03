@@ -10,7 +10,7 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   min-width: 200px;
-  max-width: 90%;
+  max-width: min(600px, 90%);
   transition: width 0.2s;
   
   @media (max-width: 600px) {
