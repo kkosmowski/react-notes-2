@@ -25,6 +25,8 @@ import HistoryActions from '../store/actionCreators/history.action-creators';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { selectSnackbarDataWasChanged } from '../store/selectors/ui.selectors';
 import { selectSnackbarDuration } from '../store/selectors/settings.selectors';
+import { History } from 'history';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   id: EntityUid;
@@ -42,6 +44,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
   const snackbarIdsToDisableUndoButton: EntityUid[] = useSelector(selectSnackbarDataWasChanged);
   const snackbarDuration = useSelector(selectSnackbarDuration);
   const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const history = useHistory();
 
   useEffect(() => {
     setSnackbarTimeout();
@@ -63,10 +66,10 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
     setTranslation(getSnackbarMessageBasedOnAction(details));
   };
 
-  const handleUndoButtonClick = (): void => {
+  const handleUndoButtonClick = (history: History): void => {
     if (details.reversible && !undoButtonDisabled) {
       dispatch(HistoryActions.pop());
-      dispatch(HistoryUtil.getRevertedAction(details));
+      dispatch(HistoryUtil.getRevertedAction(details, history));
       setUndoButtonDisabled(true);
       hideSnackbar(500);
     }
@@ -95,7 +98,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
           <SnackbarActions>
             { undoButtonVisible
               ? <Button
-                onClick={ handleUndoButtonClick }
+                onClick={ () => handleUndoButtonClick(history) }
                 variant={ Variant.Contained }
                 color={ Color.Primary }
                 disabled={ undoButtonDisabled }

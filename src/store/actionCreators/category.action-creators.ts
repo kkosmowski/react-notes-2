@@ -10,6 +10,9 @@ import UiActions from './ui.action-creators';
 import store from '../store';
 import { RootState } from '../interfaces/root-state.interface';
 import { StorageService } from '../../services/storage.service';
+import { rootCategory } from '../../domain/consts/root-category.const';
+import { RouterUtil } from '../../domain/utils/router.util';
+import { History } from 'history';
 
 const CategoryActions = {
   get(): ActionFunction<Promise<void>> {
@@ -88,8 +91,8 @@ const CategoryActions = {
     };
   },
 
-  deleteCategory(category: Category): ActionFunction<Promise<void>> {
-    return deleteAndRestore(category, 'deleteCategory');
+  deleteCategory(category: Category, history: History): ActionFunction<Promise<void>> {
+    return deleteAndRestore(category, 'deleteCategory', history);
   },
 
   restoreCategory(category: Category): ActionFunction<Promise<void>> {
@@ -101,10 +104,20 @@ const CategoryActions = {
   },
 };
 
+const redirectIfNeeded = (categoryId: EntityUid, dispatch: Dispatch, history?: History): void => {
+  const currentCategoryId = (store.getState() as RootState).category.currentCategoryId;
+
+  if (history && categoryId === currentCategoryId) {
+    CategoryActions.change(rootCategory.id)(dispatch);
+    RouterUtil.push('/', history);
+  }
+};
+
 // no idea if this is incredibly genius or extremely wrong, gonna keep it, though
 const deleteAndRestore = (
   category: Category,
   actionName: 'deleteCategory' | 'restoreCategory',
+  history?: History,
 ): ActionFunction<Promise<void>> => {
   const successAction = actionName + 'Success' as 'deleteCategorySuccess' | 'restoreCategorySuccess';
 
@@ -116,6 +129,10 @@ const deleteAndRestore = (
     await StorageService.update<Category>('categories', { id: category.id }, part);
     dispatch(categoryActions[successAction]({ ...category, ...part }));
     HistoryActions.push(categoryActions[successAction]({ ...category, ...part }))(dispatch);
+
+    if (history && actionName === 'deleteCategory') {
+      redirectIfNeeded(category.id, dispatch, history);
+    }
   };
 };
 

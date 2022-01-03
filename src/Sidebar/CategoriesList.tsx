@@ -161,11 +161,7 @@ export const CategoriesList = (): ReactElement => {
   };
 
   const deleteCategory = (category: Category): void => {
-    dispatch(CategoryActions.deleteCategory(category));
-
-    if (category.id === currentCategoryId) {
-      dispatch(CategoryActions.change(rootCategory.id));
-    }
+    dispatch(CategoryActions.deleteCategory(category, history));
   };
 
   return (
