@@ -1,3 +1,8 @@
+## v0.3.1
+
+* fixed a bug which prevented user from entering Settings (caused by preventing user from entering deleted category)
+* fixed a bug where "Show archived" switch wasn't colored according to current theme 
+
 ## v0.3.0
 
 * fixed a bug which prevented user from creating new categories
