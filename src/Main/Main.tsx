@@ -84,7 +84,7 @@ export const Main = (): ReactElement => {
 
       if (currentCategory) {
         setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);
-      } else {
+      } else if (history.location.pathname.includes('category')) {
         setActiveCategory(null);
         RouterUtil.push('/', history);
       }
