@@ -36,19 +36,17 @@ export const LeftContainer = styled.div`
   }
 `;
 
-export const ArchivedSwitch = styled(Switch)(() => ({
-  switchBase: {
-    color: 'var(--primary200)',
-    '&$checked': {
-      color: 'var(--primary100)',
-    },
-    '&$checked + $track': {
-      backgroundColor: 'var(--primary)',
-    },
-  },
-  checked: {},
-  track: {},
-}));
+export const ArchivedSwitch = styled(Switch)`
+  .MuiSwitch-switchBase.Mui-checked {
+    .MuiSwitch-thumb {
+      color: var(--primary200);
+    }
+    
+    + .MuiSwitch-track {
+      background-color: var(--primary200);
+    }
+  }
+`;
 
 export const RightContainer = styled.div`
   font-size: 13.3333px;
