@@ -10,7 +10,7 @@ import NoteActions from '../store/actionCreators/note.action-creators';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { selectNoteSelectionMode, selectSelectedNotesCount } from '../store/selectors/note.selectors';
 import { SnackbarContainer } from '../Snackbar/SnackbarContainer';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { CategoryTitle, MainWrapper } from './Main.styled';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { categoryTitleTestId } from '../domain/consts/test-ids.consts';
@@ -24,6 +24,7 @@ import {
 } from '../store/selectors/ui.selectors';
 import { ColorDialog } from '../ColorDialog/ColorDialog';
 import { AddToCategoryDialog } from '../AddToCategoryDialog/AddToCategoryDialog';
+import { RouterUtil } from '../domain/utils/router.util';
 
 const AppRoutes = (): ReactElement => {
   const app: ReactElement = (
@@ -65,7 +66,7 @@ const AppRoutes = (): ReactElement => {
 export const Main = (): ReactElement => {
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const categories: Category[] = useSelector(selectCategories);
-  const [activeCategory, setActiveCategory] = useState<Category>(rootCategory);
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [titleIsCut, setTitleIsCut] = useState(true);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode: NoteSelectionMode = useSelector(selectNoteSelectionMode);
@@ -73,10 +74,21 @@ export const Main = (): ReactElement => {
   const colorDialogOpened = useSelector(selectColorDialogOpened);
   const moveToCategoryDialogOpened = useSelector(selectAddToCategoryDialogOpened);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { t } = useTranslation();
 
   useEffect(() => {
-    setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);
+    if (categories.length) {
+      const currentCategory: Category | undefined = categories
+        .find((category) => category.id === currentCategoryId);
+
+      if (currentCategory) {
+        setActiveCategory(categories.find((category) => category.id === currentCategoryId)!);
+      } else {
+        setActiveCategory(null);
+        RouterUtil.push('/', history);
+      }
+    }
   }, [currentCategoryId, categories]);
 
   const handleOnWrapperClick = (e: MouseEvent): void => {

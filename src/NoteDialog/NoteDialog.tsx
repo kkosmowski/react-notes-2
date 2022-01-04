@@ -19,7 +19,7 @@ import { selectConfirmationResult } from '../store/selectors/ui.selectors';
 import { selectOpenedNote } from '../store/selectors/note.selectors';
 import {
   selectCurrentCategoryId,
-  selectUndeletedCategories
+  selectCategories
 } from '../store/selectors/category.selectors';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import UiActions from '../store/actionCreators/ui.action-creators';
@@ -52,7 +52,7 @@ export const NoteDialog = (): ReactElement => {
   };
   const location = useLocation<{ previous?: string }>();
   const { noteId } = useParams<{ noteId: string }>();
-  const categories = useSelector(selectUndeletedCategories);
+  const categories = useSelector(selectCategories);
   const confirmationResult = useSelector(selectConfirmationResult);
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const openedNote = useSelector(selectOpenedNote);

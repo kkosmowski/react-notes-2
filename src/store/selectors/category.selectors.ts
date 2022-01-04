@@ -6,9 +6,6 @@ const categorySelector = (state: RootState) => state.category;
 
 export const selectCategories = createSelector(
   categorySelector, (category: CategoryState) => category.categories
-);
-export const selectUndeletedCategories = createSelector(
-  categorySelector, (category: CategoryState) => category.categories
     .filter((category) => !category.deleted)
 );
 export const selectCategoriesLoading = createSelector(
