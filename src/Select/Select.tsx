@@ -116,7 +116,7 @@ export const Select = (
 
     const target = e.target as HTMLElement;
     const selectedValue = target.dataset.value || target.parentElement?.dataset.value;
-    console.log(selectedValue);
+
     if (multi) {
       e.stopPropagation();
       if (selectedValue) {
@@ -144,7 +144,6 @@ export const Select = (
       newValues = [...values, selected];
     }
 
-    console.log(newValues);
     setValues(newValues);
     onChange(newValues);
   };

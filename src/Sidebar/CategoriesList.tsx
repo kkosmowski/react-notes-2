@@ -13,7 +13,8 @@ import {
   selectEditedCategory,
   selectCurrentCategoryId,
   selectTemporaryCategory,
-  selectUndeletedCategories, selectAddCategoryInProgress
+  selectCategories,
+  selectAddCategoryInProgress
 } from '../store/selectors/category.selectors';
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { ConfirmationAction } from '../domain/enums/confirmation-action.enum';
@@ -32,7 +33,7 @@ const emptyCategory: Category = {
 
 export const CategoriesList = (): ReactElement => {
   const loading: boolean = useSelector(selectCategoriesLoading);
-  const categories: Category[] = useSelector(selectUndeletedCategories);
+  const categories: Category[] = useSelector(selectCategories);
   const temporary: Category | null = useSelector(selectTemporaryCategory);
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const edited: Category | null = useSelector(selectEditedCategory);
@@ -125,7 +126,6 @@ export const CategoriesList = (): ReactElement => {
 
   const handleCategorySelect = (category: Category): void => {
     if (currentCategoryId !== category.id) {
-      console.log(category);
       dispatch(CategoryActions.change(category.id));
 
       const pathname: string = isRootCategory(category.id)
