@@ -1,3 +1,12 @@
+## v0.3.0
+
+* fixed a bug which prevented user from creating new categories
+* fixed a bug which deselected previous note instead of selecting clicked one
+* modifying multiple notes updates their updatedAt now
+* snackbar width limit adjusted
+* fixed a bug which left user at route of category, which was reverted right after creation
+* user can no longer access route of a deleted category
+
 ## v0.2.0
 
 * implemented a masonry layout
