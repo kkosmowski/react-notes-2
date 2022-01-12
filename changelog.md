@@ -1,3 +1,8 @@
+## v0.3.2
+
+* improved code quality and readability (note, notes container, note dialog, selection)
+* added translations to "created at", "updated at" and "archived at" 
+
 ## v0.3.1
 
 * fixed a bug which prevented user from entering Settings (caused by preventing user from entering deleted category)

@@ -56,21 +56,10 @@ export const Note = ({
     onSelect(data.id);
   };
 
-  const handleOpen = (): void => {
-    onOpen(data);
-  };
-
-  const handleOpenAndEdit = (): void => {
-    onOpen(data, true);
-  };
-
-  const handleArchive = (): void => {
-    onArchive(data);
-  };
-
-  const handleColorChange = (): void => {
-    onColorChange(data);
-  };
+  const handleOpen = (): void => onOpen(data);
+  const handleOpenAndEdit = (): void => onOpen(data, true);
+  const handleArchive = (): void => onArchive(data);
+  const handleColorChange = (): void => onColorChange(data);
 
   const getTestId = (): string => {
     return isSelected

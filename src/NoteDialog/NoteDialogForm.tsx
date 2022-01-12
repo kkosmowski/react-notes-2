@@ -43,13 +43,17 @@ export const NoteDialogForm = (
 ): ReactElement => {
   const { t } = useTranslation('NOTE_DIALOG');
   const initialRun = useRef<boolean>(true);
-  const [form, setForm] = useState<NoteDialogFormValue>({
-    title: initialForm.title,
-    content: initialForm.content,
-    categories: initialForm.categories,
-  });
+  const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [titleWarning, setTitleWarning] = useState('');
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
+
+  const fillFormWithOpenedNote = (openedNote: NoteInterface): void => {
+    setForm({
+      title: openedNote.title,
+      content: openedNote.content,
+      categories: openedNote.categories,
+    });
+  };
 
   useEffect(() => {
     onFormChange({
@@ -60,24 +64,16 @@ export const NoteDialogForm = (
 
   useEffect(() => {
     if (!initialRun.current) {
-      setForm({
-        title: initialForm.title,
-        content: initialForm.content,
-        categories: initialForm.categories,
-      });
+      openedNote
+        ? fillFormWithOpenedNote(openedNote)
+        : setForm(initialForm);
     } else {
       initialRun.current = false;
     }
-  }, [clear]);
+  }, [clear, openedNote]);
 
   useEffect(() => {
-    if (openedNote) {
-      setForm({
-        title: openedNote.title,
-        content: openedNote.content,
-        categories: openedNote.categories,
-      });
-    }
+    openedNote && fillFormWithOpenedNote(openedNote);
   }, [openedNote]);
 
   useEffect(() => {
@@ -97,7 +93,7 @@ export const NoteDialogForm = (
     setForm({
       ...form,
       [e.target.id]: e.target.id == 'title'
-        ? e.target.value.slice(0, 120)
+        ? e.target.value.slice(0, MAX_TITLE_LENGTH)
         : e.target.value
     });
   };

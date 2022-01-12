@@ -10,12 +10,12 @@ import {
 } from 'react';
 import { SelectionCoords } from '../domain/interfaces/selection-coords.interface';
 import { MIN_SELECTION_SIZE_PX } from '../domain/consts/note-container.consts';
-import { UICoords } from '../domain/interfaces/ui-coords.interface';
 import NoteActions from '../store/actionCreators/note.action-creators';
 import { EntityUid } from '../domain/types/entity-uid.type';
 import { RenderedNote } from '../domain/interfaces/rendered-note.interface';
 import { MouseAction, MouseActionPayload } from '../domain/interfaces/mouse-action.interface';
 import { useDispatch } from 'react-redux';
+import { getXYCoords, updateSelection } from './selection.utils';
 
 interface Props {
   renderedNotes: RenderedNote[];
@@ -75,21 +75,11 @@ export const Selection = (
   }, [mouseAction]);
 
   const checkIfContainsNotes = () => {
-    const getCoords = (uiCoords: UICoords) => [
-      {
-        y: uiCoords.top,
-        x: uiCoords.left,
-      },
-      {
-        y: uiCoords.top + uiCoords.height,
-        x: uiCoords.left + uiCoords.width,
-      },
-    ];
-    const [selectionStart, selectionEnd] = getCoords(selection);
+    const [selectionStart, selectionEnd] = getXYCoords(selection);
 
     onSelectionCoverageChange(renderedNotes
       .filter((note) => {
-        const [noteStart, noteEnd] = getCoords(note);
+        const [noteStart, noteEnd] = getXYCoords(note);
         const selectionEndsBeforeNote = selectionEnd.x <= noteStart.x || selectionEnd.y <= noteStart.y;
         const selectionStartsAfterNote = selectionStart.x >= noteEnd.x || selectionStart.y >= noteEnd.y;
 
@@ -124,23 +114,7 @@ export const Selection = (
 
   const handleMouseMove = (e: MouseEvent): void => {
     if (isMouseDown.current) {
-      setSelection({
-        ...selection,
-        ...(e.clientX - selection.startX >= 0
-          ? { width: e.clientX - selection.left }
-          : {
-            width: Math.abs(e.clientX - selection.startX),
-            left: e.clientX,
-          }
-        ),
-        ...(e.clientY - selection.startY >= 0
-          ? { height: e.clientY - selection.top }
-          : {
-            height: Math.abs(e.clientY - selection.startY),
-            top: e.clientY,
-          }
-        ),
-      });
+      setSelection(updateSelection(selection, e));
     }
   };
 

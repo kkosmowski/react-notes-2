@@ -37,12 +37,12 @@ import {
   noteDialogTitleTestId
 } from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { DateUtil } from '../domain/utils/date.util';
-import { NoteDetails } from './NoteDialog.styled';
+import { NoteDetails } from './NoteDetails';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { RouterUtil } from '../domain/utils/router.util';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { ColorPicker } from '../ColorPicker/ColorPicker';
+import { areCategoriesTouched } from './are-categories-touched.util';
 
 export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
@@ -61,7 +61,9 @@ export const NoteDialog = (): ReactElement => {
   const emptyForm: NoteDialogFormValue = {
     title: '',
     content: '',
-    categories: currentCategoryId && currentCategoryId !== rootCategory.id ? [currentCategoryId] : [],
+    categories: currentCategoryId && currentCategoryId !== rootCategory.id
+      ? [currentCategoryId]
+      : [],
   };
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
@@ -99,7 +101,8 @@ export const NoteDialog = (): ReactElement => {
       RouterUtil.push(
         `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }`,
         history,
-        { keepPrevious: true });
+        { keepPrevious: true }
+      );
     } else if (noteId) {
       dispatch(NoteActions.findOpenedNote(noteId));
     } else {
@@ -109,49 +112,37 @@ export const NoteDialog = (): ReactElement => {
   }, [openedNote, noteId, editMode]);
 
   useEffect(() => {
-    if (confirmationResult) {
-      const { action, result } = confirmationResult;
-      switch (action) {
-        case ConfirmationAction.LeaveNoteProgress:
-          if (result) {
-            closeDialog();
-            dispatch(UiActions.clearConfirmationDialogData());
-          }
-          break;
-        case ConfirmationAction.DeleteNote:
-          if (result) {
-            closeDialog();
-          }
-          break;
-      }
+    if (!confirmationResult) return;
+
+    const { action, result } = confirmationResult;
+
+    switch (action) {
+      case ConfirmationAction.LeaveNoteProgress:
+        if (result) {
+          closeDialog();
+          dispatch(UiActions.clearConfirmationDialogData());
+        }
+        break;
+      case ConfirmationAction.DeleteNote:
+        if (result) {
+          closeDialog();
+        }
+        break;
     }
   }, [confirmationResult]);
 
   const handleClose = (): void => {
-    if (!isFormTouched()) {
-      closeDialog();
-    } else {
-      dispatch(UiActions.openConfirmationDialog(ConfirmationAction.LeaveNoteProgress));
-    }
+    !isFormTouched()
+      ? closeDialog()
+      : dispatch(UiActions.openConfirmationDialog(ConfirmationAction.LeaveNoteProgress));
   };
 
   const isFormTouched = (): boolean => {
-    if (!isEditMode(editMode)) {
-      return false;
-    }
-    const initialForm = openedNote || emptyForm;
-    return form.title !== initialForm.title || form.content !== initialForm.content || areCategoriesTouched(initialForm);
-  };
+    if (!isEditMode(editMode)) return false;
 
-  const areCategoriesTouched = (initialForm: NoteDialogFormValue): boolean => {
-    for (const category of categories) {
-      const onlyInitialFormIncludes = initialForm.categories.includes(category.id) && !form.categories.includes(category.id);
-      const onlyCurrentFormIncludes = !initialForm.categories.includes(category.id) && form.categories.includes(category.id);
-      if (onlyInitialFormIncludes || onlyCurrentFormIncludes) {
-        return true;
-      }
-    }
-    return false;
+    const initial = openedNote || emptyForm;
+    const categoriesTouched = areCategoriesTouched(initial, form, categories);
+    return form.title !== initial.title || form.content !== initial.content || categoriesTouched;
   };
 
   const closeDialog = (): void => {
@@ -171,15 +162,12 @@ export const NoteDialog = (): ReactElement => {
       deleted: false,
       createdAt: new Date().toISOString(),
     };
-    dispatch(NoteActions.create(note));
+    NoteActions.create(note)(dispatch);
   };
 
   const updateNote = (): void => {
     if (isFormTouched() && valid) {
-      dispatch(NoteActions.updateNote({
-        ...openedNote!,
-        ...form
-      }));
+      dispatch(NoteActions.updateNote({ ...openedNote!, ...form }));
     }
   };
 
@@ -222,17 +210,9 @@ export const NoteDialog = (): ReactElement => {
   const handlePartialEditModeChange = (mode: NoteEditMode): void => setEditMode(mode);
 
   const handleColorChange = (color: string): void => {
-    if (openedNote) {
-      dispatch(NoteActions.updateNote({
-        ...openedNote,
-        color,
-      }));
-    } else {
-      setForm({
-        ...form,
-        color,
-      });
-    }
+    openedNote
+      ? dispatch(NoteActions.updateNote({ ...openedNote, color }))
+      : setForm({ ...form, color });
   };
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
@@ -287,23 +267,13 @@ export const NoteDialog = (): ReactElement => {
         editMode={ editMode }
         onFormChange={ handleFormChange }
         onPartialEditModeChange={ handlePartialEditModeChange }
-        initialForm={ openedNote || emptyForm }
+        initialForm={ emptyForm }
         openedNote={ openedNote }
         categories={ categories }
         clear={ clearForm }
       />
 
-      { openedNote && (
-        <NoteDetails>
-          <span>Created at { DateUtil.formatDate(openedNote.createdAt) }</span>
-          { openedNote.updatedAt && (
-            <span>Updated at { DateUtil.formatDate(openedNote.updatedAt) }</span>
-          ) }
-          { openedNote.archivedAt && (
-            <span>Archived at { DateUtil.formatDate(openedNote.archivedAt) }</span>
-          ) }
-        </NoteDetails>
-      ) }
+      { openedNote && (<NoteDetails note={ openedNote } />) }
 
       <DialogControls>
         <div>
@@ -318,7 +288,6 @@ export const NoteDialog = (): ReactElement => {
 
         <div>
           { openedNote ? deleteNoteButton : saveAndContinueButton }
-
           <Button
             onClick={ handleSaveAndClose }
             color={ Color.Primary }
