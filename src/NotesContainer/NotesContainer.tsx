@@ -36,6 +36,7 @@ import { selectConfirmationResult, selectIsMobile } from '../store/selectors/ui.
 import UiActions from '../store/actionCreators/ui.action-creators';
 import { RouterUtil } from '../domain/utils/router.util';
 import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
+import { getRenderedNotes } from './get-rendered-notes.util';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
@@ -147,26 +148,15 @@ export const NotesContainer = (): ReactElement => {
 
   useEffect(() => {
     if (notes.length && notesToRender.length) {
-      const rendered: RenderedNote[] = [];
-
-      Array.from(document.getElementsByClassName('note')).forEach((note: Element, index) => {
-        if (currentCategoryNotes[index]) {
-          const { top, left, width, height } = note.getBoundingClientRect();
-          rendered.push({ top, left, width, height, id: currentCategoryNotes[index].id });
-        }
-      });
-
-      setRenderedNotes(rendered);
+      setRenderedNotes(getRenderedNotes(currentCategoryNotes));
     }
   }, [notes, notesToRender]);
 
   const deleteNote = (): void => {
     dispatch(UiActions.clearConfirmationDialogData());
-    if (selectedNotesCount === 1) {
-      dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]));
-    } else {
-      dispatch(NoteActions.deleteMultipleNotes(Object.keys(selectedNotes)));
-    }
+    selectedNotesCount === 1
+      ? dispatch(NoteActions.deleteNote(Object.keys(selectedNotes)[0]))
+      : dispatch(NoteActions.deleteMultipleNotes(Object.keys(selectedNotes)));
   };
 
   const setShiftDown = (event: KeyboardEvent): void  => {
