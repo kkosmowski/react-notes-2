@@ -42,6 +42,7 @@ import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { RouterUtil } from '../domain/utils/router.util';
 import { rootCategory } from '../domain/consts/root-category.const';
 import { ColorPicker } from '../ColorPicker/ColorPicker';
+import { areCategoriesTouched } from './are-categories-touched.util';
 
 export const NoteDialog = (): ReactElement => {
   const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
@@ -100,7 +101,8 @@ export const NoteDialog = (): ReactElement => {
       RouterUtil.push(
         `/note/${ noteId }${ isEditMode(editMode) ? '/edit' : '' }`,
         history,
-        { keepPrevious: true });
+        { keepPrevious: true }
+      );
     } else if (noteId) {
       dispatch(NoteActions.findOpenedNote(noteId));
     } else {
@@ -110,21 +112,22 @@ export const NoteDialog = (): ReactElement => {
   }, [openedNote, noteId, editMode]);
 
   useEffect(() => {
-    if (confirmationResult) {
-      const { action, result } = confirmationResult;
-      switch (action) {
-        case ConfirmationAction.LeaveNoteProgress:
-          if (result) {
-            closeDialog();
-            dispatch(UiActions.clearConfirmationDialogData());
-          }
-          break;
-        case ConfirmationAction.DeleteNote:
-          if (result) {
-            closeDialog();
-          }
-          break;
-      }
+    if (!confirmationResult) return;
+
+    const { action, result } = confirmationResult;
+
+    switch (action) {
+      case ConfirmationAction.LeaveNoteProgress:
+        if (result) {
+          closeDialog();
+          dispatch(UiActions.clearConfirmationDialogData());
+        }
+        break;
+      case ConfirmationAction.DeleteNote:
+        if (result) {
+          closeDialog();
+        }
+        break;
     }
   }, [confirmationResult]);
 
@@ -135,22 +138,11 @@ export const NoteDialog = (): ReactElement => {
   };
 
   const isFormTouched = (): boolean => {
-    if (!isEditMode(editMode)) {
-      return false;
-    }
-    const initialForm = openedNote || emptyForm;
-    return form.title !== initialForm.title || form.content !== initialForm.content || areCategoriesTouched(initialForm);
-  };
+    if (!isEditMode(editMode)) return false;
 
-  const areCategoriesTouched = (initialForm: NoteDialogFormValue): boolean => {
-    for (const category of categories) {
-      const onlyInitialFormIncludes = initialForm.categories.includes(category.id) && !form.categories.includes(category.id);
-      const onlyCurrentFormIncludes = !initialForm.categories.includes(category.id) && form.categories.includes(category.id);
-      if (onlyInitialFormIncludes || onlyCurrentFormIncludes) {
-        return true;
-      }
-    }
-    return false;
+    const initial = openedNote || emptyForm;
+    const categoriesTouched = areCategoriesTouched(initial, form, categories);
+    return form.title !== initial.title || form.content !== initial.content || categoriesTouched;
   };
 
   const closeDialog = (): void => {
@@ -296,7 +288,6 @@ export const NoteDialog = (): ReactElement => {
 
         <div>
           { openedNote ? deleteNoteButton : saveAndContinueButton }
-
           <Button
             onClick={ handleSaveAndClose }
             color={ Color.Primary }
