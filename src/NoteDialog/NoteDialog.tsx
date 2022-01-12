@@ -61,7 +61,9 @@ export const NoteDialog = (): ReactElement => {
   const emptyForm: NoteDialogFormValue = {
     title: '',
     content: '',
-    categories: currentCategoryId && currentCategoryId !== rootCategory.id ? [currentCategoryId] : [],
+    categories: currentCategoryId && currentCategoryId !== rootCategory.id
+      ? [currentCategoryId]
+      : [],
   };
   const [form, setForm] = useState<NoteDialogFormValue>(emptyForm);
   const [valid, setValid] = useState<boolean>(false);
@@ -128,11 +130,9 @@ export const NoteDialog = (): ReactElement => {
   }, [confirmationResult]);
 
   const handleClose = (): void => {
-    if (!isFormTouched()) {
-      closeDialog();
-    } else {
-      dispatch(UiActions.openConfirmationDialog(ConfirmationAction.LeaveNoteProgress));
-    }
+    !isFormTouched()
+      ? closeDialog()
+      : dispatch(UiActions.openConfirmationDialog(ConfirmationAction.LeaveNoteProgress));
   };
 
   const isFormTouched = (): boolean => {
@@ -171,15 +171,12 @@ export const NoteDialog = (): ReactElement => {
       deleted: false,
       createdAt: new Date().toISOString(),
     };
-    dispatch(NoteActions.create(note));
+    NoteActions.create(note)(dispatch);
   };
 
   const updateNote = (): void => {
     if (isFormTouched() && valid) {
-      dispatch(NoteActions.updateNote({
-        ...openedNote!,
-        ...form
-      }));
+      dispatch(NoteActions.updateNote({ ...openedNote!, ...form }));
     }
   };
 
@@ -222,17 +219,9 @@ export const NoteDialog = (): ReactElement => {
   const handlePartialEditModeChange = (mode: NoteEditMode): void => setEditMode(mode);
 
   const handleColorChange = (color: string): void => {
-    if (openedNote) {
-      dispatch(NoteActions.updateNote({
-        ...openedNote,
-        color,
-      }));
-    } else {
-      setForm({
-        ...form,
-        color,
-      });
-    }
+    openedNote
+      ? dispatch(NoteActions.updateNote({ ...openedNote, color }))
+      : setForm({ ...form, color });
   };
 
   const saveAndContinueButton: ReactElement<HTMLButtonElement> = (
@@ -287,7 +276,7 @@ export const NoteDialog = (): ReactElement => {
         editMode={ editMode }
         onFormChange={ handleFormChange }
         onPartialEditModeChange={ handlePartialEditModeChange }
-        initialForm={ openedNote || emptyForm }
+        initialForm={ emptyForm }
         openedNote={ openedNote }
         categories={ categories }
         clear={ clearForm }
@@ -295,12 +284,12 @@ export const NoteDialog = (): ReactElement => {
 
       { openedNote && (
         <NoteDetails>
-          <span>Created at { DateUtil.formatDate(openedNote.createdAt) }</span>
+          <span>Created at { DateUtil.format(openedNote.createdAt) }</span>
           { openedNote.updatedAt && (
-            <span>Updated at { DateUtil.formatDate(openedNote.updatedAt) }</span>
+            <span>Updated at { DateUtil.format(openedNote.updatedAt) }</span>
           ) }
           { openedNote.archivedAt && (
-            <span>Archived at { DateUtil.formatDate(openedNote.archivedAt) }</span>
+            <span>Archived at { DateUtil.format(openedNote.archivedAt) }</span>
           ) }
         </NoteDetails>
       ) }

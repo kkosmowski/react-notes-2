@@ -1,5 +1,5 @@
 export class DateUtil {
-  static formatDate(isoString: string): string {
+  static format(isoString: string): string {
     const date = new Date(isoString);
     const addZero = (s: number): string => String(s).padStart(2, '0');
     const DD = addZero(date.getDate());
