@@ -44,7 +44,10 @@ export const en = {
     CONTENT: 'Content',
     CATEGORIES: 'Categories',
     INVALID_OR_EMPTY_FORM: 'The form is invalid or not filled.',
-    MAX_TITLE_WARNING: 'Title cannot be longer than {{ max }} characters.'
+    MAX_TITLE_WARNING: 'Title cannot be longer than {{ max }} characters.',
+    CREATED_AT: 'Created at',
+    UPDATED_AT: 'Updated at',
+    ARCHIVED_AT: 'Archived at',
   },
   CONFIRMATION: {
     TITLE: {

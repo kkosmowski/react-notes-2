@@ -37,8 +37,7 @@ import {
   noteDialogTitleTestId
 } from '../domain/consts/test-ids.consts';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { DateUtil } from '../domain/utils/date.util';
-import { NoteDetails } from './NoteDialog.styled';
+import { NoteDetails } from './NoteDetails';
 import { NoteSelectionMode } from '../domain/enums/note-selection-mode.enum';
 import { RouterUtil } from '../domain/utils/router.util';
 import { rootCategory } from '../domain/consts/root-category.const';
@@ -282,17 +281,7 @@ export const NoteDialog = (): ReactElement => {
         clear={ clearForm }
       />
 
-      { openedNote && (
-        <NoteDetails>
-          <span>Created at { DateUtil.format(openedNote.createdAt) }</span>
-          { openedNote.updatedAt && (
-            <span>Updated at { DateUtil.format(openedNote.updatedAt) }</span>
-          ) }
-          { openedNote.archivedAt && (
-            <span>Archived at { DateUtil.format(openedNote.archivedAt) }</span>
-          ) }
-        </NoteDetails>
-      ) }
+      { openedNote && (<NoteDetails note={ openedNote } />) }
 
       <DialogControls>
         <div>
