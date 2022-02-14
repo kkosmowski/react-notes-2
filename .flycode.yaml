@@ -7,5 +7,5 @@ apps:
   - name: react-notes-2
     path: ""
     text-resources:
-      - path: src/i18n/*.ts
-        format: nested-key-value
+      - path: src/lang/*.json
+        format: angular-hardcoded
