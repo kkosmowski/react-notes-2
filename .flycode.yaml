@@ -4,8 +4,8 @@ environments:
     branch: master
     mode: pull-request
 apps:
-  - name: react-notes-2
+  - name: testt
     path: ""
     text-resources:
       - path: src/i18n/*.ts
-        format: nested-key-value
+        format: react-hardcoded
