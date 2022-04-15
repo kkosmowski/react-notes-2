@@ -1,0 +1,11 @@
+version: "0.1"
+environments:
+  - name: master
+    branch: master
+    mode: pull-request
+apps:
+  - name: react-notes-2
+    path: src/
+    text-resources:
+      - path: "*.tsx"
+        format: react-hardcoded
