@@ -7,5 +7,5 @@ apps:
   - name: testt
     path: ""
     text-resources:
-      - path: src/i18n/*.ts
-        format: react-hardcoded
+      - path: ""
+        format: flat-key-value
