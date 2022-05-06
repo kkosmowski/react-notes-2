@@ -109,7 +109,7 @@ export const Sidebar = (): ReactElement => {
           href="https://github.com/kkosmowski/react-notes-2/blob/master/changelog.md"
           target="_blank"
         >
-          v. { version }
+          v { version }
         </VersionLink>
       </SidebarWrapper>
       <Backdrop onClick={ handleSidebarClose } className="sidebar-backdrop" />
