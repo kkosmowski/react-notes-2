@@ -4,7 +4,7 @@ environments:
     branch: master
     mode: pull-request
 apps:
-  - name: my notes
+  - name: react-notes-22222
     path: ""
     text-resources:
       - path: "*.tsx"
