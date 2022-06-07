@@ -121,7 +121,7 @@ export const Main = (): ReactElement => {
         className={ titleIsCut ? '--cut' : '' }
       >
         { settingsOpened
-          ? t('COMMON:SETTINGS')
+          ? t('COMMON.SETTINGS')
           : activeCategory?.name || t(rootCategory.name)
         }
       </CategoryTitle>

@@ -24,7 +24,7 @@ import { getPluralizedSecondsUtil } from '../utils/get-pluralized-seconds.util';
 import { RouterUtil } from '../domain/utils/router.util';
 
 export const Settings = (): ReactElement => {
-  const { t } = useTranslation('SETTINGS');
+  const { t } = useTranslation();
   const { theme, direction, language, snackbarDuration } = useSelector(selectAllSettings);
   const [form, setForm] = useState<SettingsInterface>({ theme, direction, language, snackbarDuration });
   const [touched, setTouched] = useState<Record<keyof SettingsInterface, boolean | null>>(
@@ -65,9 +65,9 @@ export const Settings = (): ReactElement => {
   const handleFormChange = (property: keyof SettingsInterface, value: string[] | number): void => {
     if (typeof value === 'number') {
       if (value < MIN_SNACKBAR_DURATION) {
-        setDurationError('DURATION_TOO_SMALL');
+        setDurationError('SETTINGS.DURATION_TOO_SMALL');
       } else if (value > MAX_SNACKBAR_DURATION) {
-        setDurationError('DURATION_TOO_LARGE');
+        setDurationError('SETTINGS.DURATION_TOO_LARGE');
       } else {
         setDurationError('');
       }
@@ -119,13 +119,13 @@ export const Settings = (): ReactElement => {
         variant={ Variant.Regular }
       >
         { direction === 'ltr' ? <ArrowBackIcon /> : <ArrowForwardIcon /> }
-        { t('GO_BACK') }
+        { t('SETTINGS.GO_BACK') }
       </Button>
 
       <Section>
         <LeftSide>
-          <Subtitle>{ t('THEME_TITLE') }</Subtitle>
-          <p>{ t('CURRENT_THEME') } <strong>{ t(getThemeLabel(theme)) }</strong></p>
+          <Subtitle>{ t('SETTINGS.THEME_TITLE') }</Subtitle>
+          <p>{ t('SETTINGS.CURRENT_THEME') } <strong>{ t(getThemeLabel(theme)) }</strong></p>
         </LeftSide>
 
         <RightSide>
@@ -140,15 +140,15 @@ export const Settings = (): ReactElement => {
             variant={ Variant.Contained }
             disabled={ touched.theme !== true }
           >
-            { t('CHANGE_THEME') }
+            { t('SETTINGS.CHANGE_THEME') }
           </Button>
         </RightSide>
       </Section>
 
       <Section>
         <LeftSide>
-          <Subtitle>{ t('DIRECTION') }</Subtitle>
-          <p>{ t('CURRENT_DIRECTION') } <strong>{ t(getDirectionLabel(direction)) }</strong></p>
+          <Subtitle>{ t('SETTINGS.DIRECTION') }</Subtitle>
+          <p>{ t('SETTINGS.CURRENT_DIRECTION') } <strong>{ t(getDirectionLabel(direction)) }</strong></p>
         </LeftSide>
 
         <RightSide>
@@ -163,15 +163,15 @@ export const Settings = (): ReactElement => {
             variant={ Variant.Contained }
             disabled={ touched.direction !== true }
           >
-            { t('CHANGE_DIRECTION') }
+            { t('SETTINGS.CHANGE_DIRECTION') }
           </Button>
         </RightSide>
       </Section>
 
       <Section>
         <LeftSide>
-          <Subtitle>{ t('LANGUAGE') }</Subtitle>
-          <p>{ t('CURRENT_LANGUAGE') } <strong>{ t(getLanguageLabel(language)) }</strong></p>
+          <Subtitle>{ t('SETTINGS.LANGUAGE') }</Subtitle>
+          <p>{ t('SETTINGS.CURRENT_LANGUAGE') } <strong>{ t(getLanguageLabel(language)) }</strong></p>
         </LeftSide>
 
         <RightSide>
@@ -186,15 +186,15 @@ export const Settings = (): ReactElement => {
             variant={ Variant.Contained }
             disabled={ touched.language !== true }
           >
-            { t('CHANGE_LANGUAGE') }
+            { t('SETTINGS.CHANGE_LANGUAGE') }
           </Button>
         </RightSide>
       </Section>
 
       <Section>
         <LeftSide>
-          <Subtitle>{ t('SNACKBAR_DURATION') } </Subtitle>
-          <p>{ t('CURRENT_SNACKBAR_DURATION') } <strong>{ snackbarDuration } { t(seconds) }</strong></p>
+          <Subtitle>{ t('SETTINGS.SNACKBAR_DURATION') } </Subtitle>
+          <p>{ t('SETTINGS.CURRENT_SNACKBAR_DURATION') } <strong>{ snackbarDuration } { t(seconds) }</strong></p>
           { durationError && (
             <ErrorText>{ t(durationError, {
               min: MIN_SNACKBAR_DURATION,
@@ -218,7 +218,7 @@ export const Settings = (): ReactElement => {
             variant={ Variant.Contained }
             disabled={ touched.snackbarDuration !== true || !!durationError }
           >
-            { t('CHANGE_SNACKBAR_DURATION') }
+            { t('SETTINGS.CHANGE_SNACKBAR_DURATION') }
           </Button>
         </RightSide>
       </Section>

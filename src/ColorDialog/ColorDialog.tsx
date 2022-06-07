@@ -21,7 +21,7 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import { ColorDialogType } from '../domain/enums/color-dialog-type.enum';
 
 export const ColorDialog = (): ReactElement => {
-  const { t } = useTranslation('COLOR_DIALOG');
+  const { t } = useTranslation();
   const data = useSelector(selectColorDialogData);
   const name = data!.type === 'category'
     ? (data!.data as Category).name
@@ -40,15 +40,15 @@ export const ColorDialog = (): ReactElement => {
     if (data?.type) {
       switch (data.type) {
         case ColorDialogType.Category:
-          setSubtitle('SUBTITLE_FOR_CATEGORY');
+          setSubtitle('COLOR_DIALOG.SUBTITLE_FOR_CATEGORY');
           break;
 
         case ColorDialogType.Note:
-          setSubtitle('SUBTITLE_FOR_NOTE');
+          setSubtitle('COLOR_DIALOG.SUBTITLE_FOR_NOTE');
           break;
 
         case ColorDialogType.MultipleNotes:
-          setSubtitle('SUBTITLE_FOR_MULTIPLE_NOTES');
+          setSubtitle('COLOR_DIALOG.SUBTITLE_FOR_MULTIPLE_NOTES');
           break;
       }
     }
@@ -105,7 +105,7 @@ export const ColorDialog = (): ReactElement => {
       config={ dialogConfig }
       onClose={ handleClose }
     >
-      <DialogTitle>{ t('SELECT_COLOR') }</DialogTitle>
+      <DialogTitle>{ t('COLOR_DIALOG.SELECT_COLOR') }</DialogTitle>
 
       <DialogContent>
         <DialogSubtitle>
@@ -123,11 +123,11 @@ export const ColorDialog = (): ReactElement => {
 
       <DialogControls>
         <Button onClick={ handleClose } variant={ Variant.Regular }>
-          { t('COMMON:CLOSE') }
+          { t('COMMON.CLOSE') }
         </Button>
 
         <Button onClick={ handleSave } variant={ Variant.Contained } color={ Color.Primary }>
-          { t('COMMON:SAVE') }
+          { t('COMMON.SAVE') }
         </Button>
       </DialogControls>
     </Dialog>

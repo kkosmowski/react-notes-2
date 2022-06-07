@@ -29,7 +29,7 @@ interface Props {
 export const CategoryListItem = (
   { data, current, edited, onSelect, onSave, onUpdate, onCancel, onDelete }: Props
 ): ReactElement => {
-  const { t } = useTranslation('SIDEBAR');
+  const { t } = useTranslation();
   const [name, setName] = useState<string>(data.name);
   const [editMode, setEditMode] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
@@ -124,7 +124,7 @@ export const CategoryListItem = (
         value={ name }
         ref={ nameInputRef }
         className="input --text category-name"
-        placeholder={ t('CATEGORY_NAME_PLACEHOLDER') }
+        placeholder={ t('SIDEBAR.CATEGORY_NAME_PLACEHOLDER') }
         type="text"
       />
       <Button
@@ -151,21 +151,21 @@ export const CategoryListItem = (
       coords,
       items: [
         {
-          label: 'COMMON:SELECT',
+          label: 'COMMON.SELECT',
           callback: () => handleSelect(),
         },
         ...(data.id !== rootCategory.id
           ? [
             {
-              label: 'COMMON:EDIT',
+              label: 'COMMON.EDIT',
               callback: handleEditModeToggle,
             },
             {
-              label: 'COMMON:CHANGE_COLOR',
+              label: 'COMMON.CHANGE_COLOR',
               callback: handleColorChange,
             },
             {
-              label: 'COMMON:DELETE',
+              label: 'COMMON.DELETE',
               callback: handleDelete,
               warn: true,
             },

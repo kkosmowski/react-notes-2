@@ -9,16 +9,16 @@ interface Props {
 }
 
 export const NoteDetails = ({ note }: Props): ReactElement => {
-  const { t } = useTranslation('NOTE_DIALOG');
+  const { t } = useTranslation();
 
   return (
     <NoteDetailsContainer>
-      <span>{ t('CREATED_AT') } { DateUtil.format(note.createdAt) }</span>
+      <span>{ t('NOTE_DIALOG.CREATED_AT') } { DateUtil.format(note.createdAt) }</span>
       { note.updatedAt && (
-        <span>{ t('UPDATED_AT') } { DateUtil.format(note.updatedAt) }</span>
+        <span>{ t('NOTE_DIALOG.UPDATED_AT') } { DateUtil.format(note.updatedAt) }</span>
       ) }
       { note.archivedAt && (
-        <span>{ t('ARCHIVED_AT') } { DateUtil.format(note.archivedAt) }</span>
+        <span>{ t('NOTE_DIALOG.ARCHIVED_AT') } { DateUtil.format(note.archivedAt) }</span>
       ) }
     </NoteDetailsContainer>
   );

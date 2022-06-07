@@ -38,7 +38,7 @@ import { RouterUtil } from '../../domain/utils/router.util';
 import { rootCategory } from '../../domain/consts/root-category.const';
 
 export const ControlsBar = (): ReactElement => {
-  const { t } = useTranslation(['CONTROL_BAR', 'COMMON']);
+  const { t } = useTranslation();
   const selectedNotes = useSelector(selectSelectedNotes);
   const selectedNotesCount = useSelector(selectSelectedNotesCount);
   const selectionMode = useSelector(selectNoteSelectionMode);
@@ -117,7 +117,7 @@ export const ControlsBar = (): ReactElement => {
         >
           { isMobile
             ? <NoteAddIcon />
-            : t('COMMON:ADD_NOTE')
+            : t('COMMON.ADD_NOTE')
           }
         </Button>
 
@@ -129,7 +129,7 @@ export const ControlsBar = (): ReactElement => {
         >
           { isMobile
             ? selectionMode === NoteSelectionMode.Single ? <DoneIcon /> : <DoneAllIcon />
-            : t(selectionMode === NoteSelectionMode.Single ? 'MULTISELECT' : 'SINGLE_SELECTION')
+            : t(selectionMode === NoteSelectionMode.Single ? 'CONTROL_BAR.MULTISELECT' : 'CONTROL_BAR.SINGLE_SELECTION')
           }
         </Button>
 
@@ -142,8 +142,8 @@ export const ControlsBar = (): ReactElement => {
           { isMobile
             ? <DeleteIcon />
             : t(selectedNotesCount > 1
-              ? noSelectedNotesAreArchived ? 'ARCHIVE_NOTES' : 'RESTORE_NOTES'
-              : noSelectedNotesAreArchived ? 'ARCHIVE_NOTE' : 'RESTORE_NOTE'
+              ? noSelectedNotesAreArchived ? 'CONTROL_BAR.ARCHIVE_NOTES' : 'CONTROL_BAR.RESTORE_NOTES'
+              : noSelectedNotesAreArchived ? 'CONTROL_BAR.ARCHIVE_NOTE' : 'CONTROL_BAR.RESTORE_NOTE'
             )
           }
         </Button>
@@ -157,7 +157,7 @@ export const ControlsBar = (): ReactElement => {
         >
           { isMobile
             ? <DeleteIcon />
-            : t(selectedNotesCount > 1 ? 'DELETE_NOTES' : 'DELETE_NOTE')
+            : t(selectedNotesCount > 1 ? 'CONTROL_BAR.DELETE_NOTES' : 'CONTROL_BAR.DELETE_NOTE')
           }
         </Button>
 
@@ -171,7 +171,7 @@ export const ControlsBar = (): ReactElement => {
           >
             { isMobile
               ? selectedNotesCount > 1 ? <BookmarksOutlinedIcon /> : <BookmarkBorderIcon />
-              : t('REMOVE_FROM_CATEGORY')
+              : t('CONTROL_BAR.REMOVE_FROM_CATEGORY')
             }
           </Button>
         }
@@ -181,7 +181,7 @@ export const ControlsBar = (): ReactElement => {
         <label htmlFor="showArchived">
           { isMobile
             ? <AssignmentTurnedIn />
-            : t('SHOW_ARCHIVED')
+            : t('CONTROL_BAR.SHOW_ARCHIVED')
           }
         </label>
         <ArchivedSwitch

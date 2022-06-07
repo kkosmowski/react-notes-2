@@ -1,3 +1,7 @@
+## v0.3.3
+
+* switch to JSON translation files
+
 ## v0.3.2
 
 * improved code quality and readability (note, notes container, note dialog, selection)

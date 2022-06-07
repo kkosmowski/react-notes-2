@@ -7,6 +7,6 @@ i18next.init(i18nConfig); // @todo find out why is this necessary for tests to p
 
 export const rootCategory: Category = {
   id: NIL,
-  name: 'COMMON:ROOT_CATEGORY',
+  name: 'COMMON.ROOT_CATEGORY',
   deleted: false,
 };

@@ -15,88 +15,88 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
 
   switch (type) {
     case 'CREATE_CATEGORY_SUCCESS':
-      message = 'CATEGORY_CREATED';
+      message = 'SNACKBAR.CATEGORY_CREATED';
       options.name = (payload as Category).name;
       break;
 
     case 'DELETE_CATEGORY_SUCCESS':
-      message = 'CATEGORY_DELETED';
+      message = 'SNACKBAR.CATEGORY_DELETED';
       options.name = (payload as Category).name;
       break;
 
     case 'UPDATE_CATEGORY_SUCCESS':
-      message = 'CATEGORY_UPDATED';
+      message = 'SNACKBAR.CATEGORY_UPDATED';
       options.name = (payload as Category).name;
       break;
 
     case 'REVERT_CATEGORY_UPDATE_SUCCESS':
-      message = 'CATEGORY_UPDATE_REVERTED';
+      message = 'SNACKBAR.CATEGORY_UPDATE_REVERTED';
       options.name = (payload as Category).name;
       break;
 
     case 'RESTORE_CATEGORY_SUCCESS':
-      message = 'CATEGORY_RESTORED';
+      message = 'SNACKBAR.CATEGORY_RESTORED';
       options.name = (payload as Category).name;
       break;
 
     case 'CREATE_NOTE_SUCCESS':
-      message = 'NOTE_CREATED';
+      message = 'SNACKBAR.NOTE_CREATED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'ARCHIVE_NOTE_SUCCESS':
-      message = 'NOTE_ARCHIVED';
+      message = 'SNACKBAR.NOTE_ARCHIVED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'DELETE_NOTE_SUCCESS':
-      message = 'NOTE_DELETED';
+      message = 'SNACKBAR.NOTE_DELETED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'UPDATE_NOTE_SUCCESS':
-      message = 'NOTE_UPDATED';
+      message = 'SNACKBAR.NOTE_UPDATED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'REVERT_NOTE_UPDATE_SUCCESS':
-      message = 'NOTE_UPDATE_REVERTED';
+      message = 'SNACKBAR.NOTE_UPDATE_REVERTED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'RESTORE_NOTE_SUCCESS':
-      message = 'NOTE_RESTORED';
+      message = 'SNACKBAR.NOTE_RESTORED';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'DELETE_MULTIPLE_NOTES_SUCCESS':
-      message = 'MULTIPLE_NOTES_DELETED';
+      message = 'SNACKBAR.MULTIPLE_NOTES_DELETED';
       break;
 
     case 'ARCHIVE_MULTIPLE_NOTES_SUCCESS':
-      message = 'MULTIPLE_NOTES_ARCHIVED';
+      message = 'SNACKBAR.MULTIPLE_NOTES_ARCHIVED';
       break;
 
     case 'RESTORE_MULTIPLE_NOTES_SUCCESS':
-      message = 'MULTIPLE_NOTES_RESTORED';
+      message = 'SNACKBAR.MULTIPLE_NOTES_RESTORED';
       break;
 
     case 'REMOVE_NOTE_FROM_CATEGORY_SUCCESS':
-      message = 'NOTE_REMOVED_FROM_CATEGORY';
+      message = 'SNACKBAR.NOTE_REMOVED_FROM_CATEGORY';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'RESTORE_NOTE_TO_CATEGORY_SUCCESS':
-      message = 'NOTE_RESTORED_TO_CATEGORY';
+      message = 'SNACKBAR.NOTE_RESTORED_TO_CATEGORY';
       options.name = (payload as NoteInterface).title;
       break;
 
     case 'REMOVE_MULTIPLE_NOTES_FROM_CATEGORY_SUCCESS':
-      message = 'NOTES_REMOVED_FROM_CATEGORY';
+      message = 'SNACKBAR.NOTES_REMOVED_FROM_CATEGORY';
       break;
 
     case 'RESTORE_MULTIPLE_NOTES_TO_CATEGORY_SUCCESS':
-      message = 'NOTES_RESTORED_TO_CATEGORY';
+      message = 'SNACKBAR.NOTES_RESTORED_TO_CATEGORY';
       break;
 
     case 'ADD_CATEGORIES_SUCCESS_TO_NOTE':
@@ -106,7 +106,7 @@ export const getSnackbarMessageBasedOnAction = (details: ActionDetails): Transla
       break;
 
     case 'UPDATE_MULTIPLE_NOTES_SUCCESS':
-      message = 'MULTIPLE_NOTES_UPDATED';
+      message = 'SNACKBAR.MULTIPLE_NOTES_UPDATED';
       break;
 
     default:

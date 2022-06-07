@@ -9,28 +9,28 @@ export const getConfirmationDialogData = (
     case (ConfirmationAction.LeaveNoteProgress):
       return {
         action,
-        title: 'TITLE.LEAVE_PROGRESS',
-        message: 'MESSAGE.LEAVE_PROGRESS',
-        cancelButtonText: 'CONTROLS.NO_CANCEL',
-        confirmButtonText: 'CONTROLS.YES_LEAVE',
+        title: 'CONFIRMATION.TITLE.LEAVE_PROGRESS',
+        message: 'CONFIRMATION.MESSAGE.LEAVE_PROGRESS',
+        cancelButtonText: 'CONFIRMATION.CONTROLS.NO_CANCEL',
+        confirmButtonText: 'CONFIRMATION.CONTROLS.YES_LEAVE',
       };
 
     case ConfirmationAction.DeleteNote:
       return {
         action,
-        title: selectedNotesCount > 1 ? 'TITLE.DELETE_NOTES' : 'TITLE.DELETE_NOTE',
-        message: selectedNotesCount > 1 ? 'MESSAGE.DELETE_NOTES' : 'MESSAGE.DELETE_NOTE',
-        cancelButtonText: 'CONTROLS.NO_CANCEL',
-        confirmButtonText: 'CONTROLS.YES_DELETE',
+        title: selectedNotesCount > 1 ? 'CONFIRMATION.TITLE.DELETE_NOTES' : 'CONFIRMATION.TITLE.DELETE_NOTE',
+        message: selectedNotesCount > 1 ? 'CONFIRMATION.MESSAGE.DELETE_NOTES' : 'CONFIRMATION.MESSAGE.DELETE_NOTE',
+        cancelButtonText: 'CONFIRMATION.CONTROLS.NO_CANCEL',
+        confirmButtonText: 'CONFIRMATION.CONTROLS.YES_DELETE',
       };
 
     case ConfirmationAction.DeleteCategory:
       return {
         action,
-        title: 'TITLE.DELETE_CATEGORY',
-        message: 'MESSAGE.DELETE_CATEGORY',
-        cancelButtonText: 'CONTROLS.NO_CANCEL',
-        confirmButtonText: 'CONTROLS.YES_DELETE',
+        title: 'CONFIRMATION.TITLE.DELETE_CATEGORY',
+        message: 'CONFIRMATION.MESSAGE.DELETE_CATEGORY',
+        cancelButtonText: 'CONFIRMATION.CONTROLS.NO_CANCEL',
+        confirmButtonText: 'CONFIRMATION.CONTROLS.YES_DELETE',
       };
   }
 

@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const SidebarButton = ({ onClick, children, label, color }: Props): ReactElement => {
-  const { t } = useTranslation('SIDEBAR');
+  const { t } = useTranslation();
   return (
     <SidebarButtonWrapper onClick={ onClick }>
       <StyledButton className={ `button --icon --lighter ${ color }` } type="button">
