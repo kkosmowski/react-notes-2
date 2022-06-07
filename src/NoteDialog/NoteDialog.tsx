@@ -45,7 +45,7 @@ import { ColorPicker } from '../ColorPicker/ColorPicker';
 import { areCategoriesTouched } from './are-categories-touched.util';
 
 export const NoteDialog = (): ReactElement => {
-  const { t } = useTranslation(['COMMON', 'NOTE_DIALOG']);
+  const { t } = useTranslation();
   const config: DialogConfig = {
     width: '420px',
     flex: true
@@ -57,7 +57,7 @@ export const NoteDialog = (): ReactElement => {
   const currentCategoryId = useSelector(selectCurrentCategoryId);
   const openedNote = useSelector(selectOpenedNote);
   const [editMode, setEditMode] = useState<NoteEditMode>(NoteEditMode.None);
-  const [dialogTitleKey, setDialogTitleKey] = useState<string>('ADD_NOTE');
+  const [dialogTitleKey, setDialogTitleKey] = useState<string>('COMMON.ADD_NOTE');
   const emptyForm: NoteDialogFormValue = {
     title: '',
     content: '',
@@ -92,8 +92,8 @@ export const NoteDialog = (): ReactElement => {
     if (openedNote) {
       setDialogTitleKey(
         isEditMode(editMode)
-          ? 'NOTE_DIALOG:EDIT_NOTE'
-          : 'NOTE_DIALOG:VIEW_NOTE'
+          ? 'NOTE_DIALOG.EDIT_NOTE'
+          : 'NOTE_DIALOG.VIEW_NOTE'
       );
 
       dispatch(NoteActions.selectNote(noteId));
@@ -107,7 +107,7 @@ export const NoteDialog = (): ReactElement => {
       dispatch(NoteActions.findOpenedNote(noteId));
     } else {
       setEditMode(NoteEditMode.Both);
-      setDialogTitleKey('ADD_NOTE');
+      setDialogTitleKey('COMMON.ADD_NOTE');
     }
   }, [openedNote, noteId, editMode]);
 
@@ -220,11 +220,11 @@ export const NoteDialog = (): ReactElement => {
       onClick={ handleAddAndNext }
       color={ Color.Primary }
       variant={ Variant.Contained }
-      title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
+      title={ !valid ? t('NOTE_DIALOG.INVALID_OR_EMPTY_FORM') : '' }
       disabled={ !valid }
       testid={ noteDialogSaveAndNextButtonTestId }
     >
-      { t('SAVE_AND_NEXT') }
+      { t('COMMON.SAVE_AND_NEXT') }
     </Button>
   );
 
@@ -235,7 +235,7 @@ export const NoteDialog = (): ReactElement => {
       variant={ Variant.Contained }
       testid={ noteDialogDeleteButtonTestId }
     >
-      { t('DELETE') }
+      { t('COMMON.DELETE') }
     </Button>
   );
 
@@ -282,7 +282,7 @@ export const NoteDialog = (): ReactElement => {
             variant={ Variant.Regular }
             testid={ noteDialogCancelButtonTestId }
           >
-            { t('CANCEL') }
+            { t('COMMON.CANCEL') }
           </Button>
         </div>
 
@@ -292,11 +292,11 @@ export const NoteDialog = (): ReactElement => {
             onClick={ handleSaveAndClose }
             color={ Color.Primary }
             variant={ Variant.Contained }
-            title={ !valid ? t('NOTE_DIALOG:INVALID_OR_EMPTY_FORM') : '' }
+            title={ !valid ? t('NOTE_DIALOG.INVALID_OR_EMPTY_FORM') : '' }
             disabled={ !valid }
             testid={ noteDialogCloseButtonTestId }
           >
-            { t(isEditMode(editMode) ? 'SAVE_AND_CLOSE' : 'CLOSE') }
+            { t(isEditMode(editMode) ? 'COMMON.SAVE_AND_CLOSE' : 'COMMON.CLOSE') }
           </Button>
         </div>
       </DialogControls>

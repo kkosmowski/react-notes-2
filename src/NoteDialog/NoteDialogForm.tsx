@@ -41,7 +41,7 @@ interface Props {
 export const NoteDialogForm = (
   { initialForm, openedNote, clear, categories, editMode, onFormChange, onPartialEditModeChange }: Props
 ): ReactElement => {
-  const { t } = useTranslation('NOTE_DIALOG');
+  const { t } = useTranslation();
   const initialRun = useRef<boolean>(true);
   const [form, setForm] = useState<NoteDialogFormValue>(initialForm);
   const [titleWarning, setTitleWarning] = useState('');
@@ -85,7 +85,7 @@ export const NoteDialogForm = (
 
   const handleChange = (e: ChangeEvent<InputOrTextarea>): void => {
     if (e.target.id === 'title' && e.target.value.length > MAX_TITLE_LENGTH) {
-      setTitleWarning('MAX_TITLE_WARNING');
+      setTitleWarning('NOTE_DIALOG.MAX_TITLE_WARNING');
     } else {
       setTitleWarning('');
     }
@@ -133,7 +133,7 @@ export const NoteDialogForm = (
         onChange={ handleChange }
         onDoubleClick={ handleEditModeChange }
         value={ form.title }
-        label={ t('TITLE') }
+        label={ t('NOTE_DIALOG.TITLE') }
         disabled={ !isTitleEdited(editMode) }
         autofocus={ !openedNote || isEditMode(editMode) }
         required
@@ -146,15 +146,15 @@ export const NoteDialogForm = (
         onChange={ handleChange }
         onDoubleClick={ handleEditModeChange }
         value={ form.content }
-        label={ t('CONTENT') }
+        label={ t('NOTE_DIALOG.CONTENT') }
         type="textarea"
         disabled={ !isContentEdited(editMode) }
         testid={ noteDialogContentInputTestId }
       />
 
       <Select
-        label={ t('CATEGORIES') }
-        placeholder={ t('COMMON:SELECT_CATEGORIES') }
+        label={ t('NOTE_DIALOG.CATEGORIES') }
+        placeholder={ t('COMMON.SELECT_CATEGORIES') }
         onChange={ handleCategoriesChange }
         options={ categoryOptions }
         initialValue={ form.categories }

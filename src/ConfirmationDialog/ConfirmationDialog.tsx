@@ -21,7 +21,7 @@ import { Variant } from '../domain/enums/variant.enum';
 import { Color } from '../domain/enums/color.enum';
 
 export const ConfirmationDialog = (): ReactElement => {
-  const { t } = useTranslation('CONFIRMATION');
+  const { t } = useTranslation();
   const opened: boolean = useSelector(selectConfirmationDialogOpened);
   const action: ConfirmationAction | null = useSelector(selectConfirmationAction);
   const selectedNotesCount: number = useSelector(selectSelectedNotesCount);

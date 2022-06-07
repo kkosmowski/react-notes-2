@@ -81,7 +81,7 @@ export const Sidebar = (): ReactElement => {
         <SidebarButton
           onClick={ handleCategoryAdd }
           color={ Color.Primary }
-          label="ADD_CATEGORY"
+          label="SIDEBAR.ADD_CATEGORY"
         >
           <CreateNewFolder />
         </SidebarButton>
@@ -90,7 +90,7 @@ export const Sidebar = (): ReactElement => {
 
         <SidebarButton
           onClick={ handleSettingsClick }
-          label="COMMON:SETTINGS"
+          label="COMMON.SETTINGS"
           color={ settingsOpened ? Color.Primary : Color.None }
         >
           <SettingsIcon />
@@ -99,7 +99,7 @@ export const Sidebar = (): ReactElement => {
         { !isMobile && (
           <SidebarButton
             onClick={ handleShortcutsClick }
-            label="COMMON:SHORTCUTS"
+            label="COMMON.SHORTCUTS"
           >
             <Keyboard />
           </SidebarButton>

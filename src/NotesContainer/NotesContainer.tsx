@@ -40,7 +40,7 @@ import { getRenderedNotes } from './get-rendered-notes.util';
 
 export const NotesContainer = (): ReactElement => {
   const { categoryId } = useParams<{ categoryId: EntityUid | undefined }>();
-  const { t } = useTranslation('COMMON');
+  const { t } = useTranslation();
   const notes: NoteInterface[] = useSelector(selectNotes);
   const notesLoading: boolean = useSelector(selectNotesLoading);
   const currentCategoryId = useSelector(selectCurrentCategoryId);
@@ -61,7 +61,7 @@ export const NotesContainer = (): ReactElement => {
   const [numberOfColumns, setNumberOfColumns] = useState<number>(1);
   const isMouseDown = useRef<boolean>(false);
   const containerRef = useRef<HTMLElement | null>(null);
-  const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('NO_NOTES') }</NoNotesText>;
+  const noNotesText: ReactElement = <NoNotesText data-testid={ noNotesTextTestId }>{ t('COMMON.NO_NOTES') }</NoNotesText>;
   const shiftPressed = useRef<boolean>(false);
   const allSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesArchived);
   const noSelectedNotesAreArchived = useSelector(selectAreAllSelectedNotesNotArchived);

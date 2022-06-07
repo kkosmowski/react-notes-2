@@ -34,7 +34,7 @@ interface Props {
 }
 
 export const Snackbar = ({ id, details }: Props): ReactElement | null => {
-  const { t } = useTranslation('SNACKBAR');
+  const { t } = useTranslation();
   const [visible, setVisible] = useState<boolean>(true);
   const [hiding, setHiding] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -103,7 +103,7 @@ export const Snackbar = ({ id, details }: Props): ReactElement | null => {
                 color={ Color.Primary }
                 disabled={ undoButtonDisabled }
               >
-                { t('UNDO') }
+                { t('SNACKBAR.UNDO') }
               </Button>
               : null
             }

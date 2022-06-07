@@ -19,7 +19,7 @@ interface Props {
 export const NoteDialogActions = (
   { openedNote, isEditMode, onCancel, onReset, onEditModeChange }: Props
 ): ReactElement => {
-  const { t } = useTranslation(['COMMON']);
+  const { t } = useTranslation();
 
   return (
     <StyledAside>
@@ -30,7 +30,7 @@ export const NoteDialogActions = (
             color={ Color.Warn }
             variant={ Variant.Icon }
             small
-            title={ t('CANCEL') }
+            title={ t('COMMON.CANCEL') }
           >
             <Clear />
           </Button>
@@ -39,7 +39,7 @@ export const NoteDialogActions = (
             onClick={ onReset }
             variant={ Variant.Icon }
             small
-            title={ t('RESET') }
+            title={ t('COMMON.RESET') }
           >
             <Restore />
           </Button>
@@ -52,7 +52,7 @@ export const NoteDialogActions = (
           variant={ Variant.Icon }
           color={ Color.Primary }
           small
-          title={ t(isEditMode ? 'SAVE' : 'EDIT') }
+          title={ t(isEditMode ? 'COMMON.SAVE' : 'COMMON.EDIT') }
           testid={ noteDialogEditModeButtonTestId }
         >
           { isEditMode ? <Save /> : <Edit /> }

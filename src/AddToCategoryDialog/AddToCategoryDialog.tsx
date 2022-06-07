@@ -16,7 +16,7 @@ import { EntityUid } from '../domain/types/entity-uid.type';
 import NoteActions from '../store/actionCreators/note.action-creators';
 
 export const AddToCategoryDialog = (): ReactElement => {
-  const { t } = useTranslation('ADD_TO_CATEGORY_DIALOG');
+  const { t } = useTranslation();
   const selectedNotes = useSelector(selectSelectedNotes);
   const categories = useSelector(selectCategories);
   const initialNoteCategories = useMemo(() => {
@@ -53,16 +53,16 @@ export const AddToCategoryDialog = (): ReactElement => {
       config={ dialogConfig }
       onClose={ handleClose }
     >
-      <DialogTitle>{ t('TITLE') }</DialogTitle>
+      <DialogTitle>{ t('ADD_TO_CATEGORY_DIALOG.TITLE') }</DialogTitle>
 
       <DialogContent>
         <DialogSubtitle>
-          { t('CHOOSE_CATEGORIES') }
+          { t('ADD_TO_CATEGORY_DIALOG.CHOOSE_CATEGORIES') }
         </DialogSubtitle>
 
         <Select
           options={ categoryOptions }
-          placeholder={ t('CHOOSE_CATEGORIES_PLACEHOLDER') }
+          placeholder={ t('ADD_TO_CATEGORY_DIALOG.CHOOSE_CATEGORIES_PLACEHOLDER') }
           initialValue={ initialNoteCategories }
           onChange={ handleChange }
           multi
@@ -71,7 +71,7 @@ export const AddToCategoryDialog = (): ReactElement => {
 
       <DialogControls>
         <Button onClick={ handleClose } variant={ Variant.Regular }>
-          { t('COMMON:CLOSE') }
+          { t('COMMON.CLOSE') }
         </Button>
 
         <Button
@@ -80,7 +80,7 @@ export const AddToCategoryDialog = (): ReactElement => {
           color={ Color.Primary }
           disabled={ saveButtonDisabled }
         >
-          { t('COMMON:SAVE') }
+          { t('COMMON.SAVE') }
         </Button>
       </DialogControls>
     </Dialog>

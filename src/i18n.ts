@@ -1,10 +1,20 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { locales } from './i18n/locales';
+import enUS from './i18n/en-US.json';
+import plPL from './i18n/pl-PL.json';
+
+const resources = {
+  'en': {
+    translation: enUS,
+  },
+  'pl': {
+    translation: plPL,
+  },
+};
 
 export const i18nConfig = {
   lng: 'en',
-  resources: locales,
+  resources,
   interpolation: {
     escapeValue: false,
   },

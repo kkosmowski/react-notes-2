@@ -17,7 +17,7 @@ import { RouterUtil } from '../domain/utils/router.util';
 import { debounce } from '@mui/material';
 
 export const ShortcutsDialog = (): ReactElement => {
-  const { t } = useTranslation('SHORTCUTS_DIALOG');
+  const { t } = useTranslation();
   const opened: boolean = useSelector(selectShortcutsDialogOpened);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -75,7 +75,7 @@ export const ShortcutsDialog = (): ReactElement => {
       testid={ shortcutsDialogTestId }
       onClose={ handleClose }
     >
-      <DialogTitle>{ t('COMMON:SHORTCUTS') }</DialogTitle>
+      <DialogTitle>{ t('COMMON.SHORTCUTS') }</DialogTitle>
 
       <ShortcutsList>
         { shortcutsList }
@@ -83,7 +83,7 @@ export const ShortcutsDialog = (): ReactElement => {
 
       <DialogControls>
         <Button onClick={ handleClose } variant={ Variant.Regular }>
-          { t('COMMON:CLOSE') }
+          { t('COMMON.CLOSE') }
         </Button>
       </DialogControls>
     </Dialog>

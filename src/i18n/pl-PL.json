@@ -1,0 +1,166 @@
+{
+  "COMMON": {
+    "ADD_NOTE": "Dodaj notatkę",
+    "ROOT_CATEGORY": "Wszystkie",
+    "CANCEL": "Anuluj",
+    "DELETE": "Usuń",
+    "SAVE_AND_NEXT": "Zapisz",
+    "SAVE_AND_CLOSE": "Zapisz i zamknij",
+    "OPEN": "Otwórz",
+    "SAVE": "Zapisz",
+    "EDIT": "Edytuj",
+    "CLOSE": "Zamknij",
+    "RESET": "Resetuj",
+    "SELECT": "Wybierz",
+    "NO_NOTES": "Brak notatek do wyświetlenia.",
+    "ARCHIVE": "Zarchiwizuj",
+    "RESTORE": "Przywróć",
+    "SETTINGS": "Ustawienia",
+    "SHORTCUTS": "Skróty klawiszowe",
+    "SELECT_CATEGORIES": "Wybierz kategorie",
+    "CHANGE_COLOR": "Zmień kolor",
+    "ADD_TO_CATEGORY": "Dodaj do kategorii"
+  },
+  "CONTROL_BAR": {
+    "MULTISELECT": "Zaznacz wiele",
+    "SINGLE_SELECTION": "Pojedyncze zaznaczenie",
+    "ARCHIVE_NOTE": "Zarchiwizuj",
+    "ARCHIVE_NOTES": "Zarchiwizuj wiele",
+    "RESTORE_NOTE": "Przywróć",
+    "RESTORE_NOTES": "Przywróć wiele",
+    "DELETE_NOTE": "Usuń notatkę",
+    "DELETE_NOTES": "Usuń wiele notatek",
+    "REMOVE_FROM_CATEGORY": "Usuń z kategorii",
+    "SHOW_ARCHIVED": "Pokaż zarchiwizowane"
+  },
+  "SIDEBAR": {
+    "ADD_CATEGORY": "Dodaj kategorię",
+    "CATEGORY_NAME_PLACEHOLDER": "Nazwa kategorii..."
+  },
+  "NOTE_DIALOG": {
+    "EDIT_NOTE": "Edytuj notatkę",
+    "VIEW_NOTE": "Notatka",
+    "TITLE": "Tytuł",
+    "CONTENT": "Treść",
+    "CATEGORIES": "Kategorie",
+    "INVALID_OR_EMPTY_FORM": "Formularz jest niewypełniony lub zawiera błędy.",
+    "MAX_TITLE_WARNING": "Tytuł nie może być dłuższy niż {{ max }} znaków.",
+    "CREATED_AT": "Utworzona",
+    "UPDATED_AT": "Modyfikowana",
+    "ARCHIVED_AT": "Zarchiwizowana"
+  },
+  "CONFIRMATION": {
+    "TITLE": {
+      "LEAVE_PROGRESS": "Porzucić zmiany?",
+      "DELETE_NOTE": "Usunąć notatkę?",
+      "DELETE_NOTES": "Usunąć notatki?",
+      "DELETE_CATEGORY": "Usunąć kategorię?"
+    },
+    "MESSAGE": {
+      "LEAVE_PROGRESS": "Czy na pewno chcesz porzucić swoje zmiany?",
+      "DELETE_NOTE": "Czy na pewno chcesz usunąć tę notatkę? Tej operacji nie można cofnąć.",
+      "DELETE_NOTES": "Czy na pewno chcesz usunąć te notatki? Tej operacji nie można cofnąć.",
+      "DELETE_CATEGORY": "Kategoria nie jest pusta. Czy na pewno chcesz ją usunąć?\nNie usunie to żadnej notatki."
+    },
+    "CONTROLS": {
+      "NO_CANCEL": "Nie, anuluj",
+      "YES_LEAVE": "Tak, porzuć",
+      "YES_DELETE": "Tak, usuń"
+    }
+  },
+  "SNACKBAR": {
+    "UNDO": "Cofnij",
+    "NOTE_CREATED": "Notatka \"{{ name }}\" utworzona",
+    "NOTE_UPDATED": "Notatka \"{{ name }}\" zaktualizowana",
+    "NOTE_UPDATE_REVERTED": "Cofnięto aktualizację notatki \"{{ name }}\"",
+    "NOTE_DELETED": "Notatka \"{{ name }}\" usunięta",
+    "NOTE_ARCHIVED": "Notatka \"{{ name }}\" zarchiwizowana",
+    "NOTE_RESTORED": "Notatka \"{{ name }}\" przywrócona",
+    "MULTIPLE_NOTES_DELETED": "Wiele notatek usuniętych",
+    "MULTIPLE_NOTES_ARCHIVED": "Wiele notatek zarchiwizowanych",
+    "MULTIPLE_NOTES_RESTORED": "Wiele notatek przywróconych",
+    "MULTIPLE_NOTES_UPDATED": "Wiele notatek zaktualizowanych",
+    "SINGLE_NOTE_UPDATED": "Notatka zaktualizowana",
+    "CATEGORY_CREATED": "Kategoria \"{{ name }}\" utworzona",
+    "CATEGORY_UPDATED": "Kategoria \"{{ name }}\" zaktualizowana",
+    "CATEGORY_UPDATE_REVERTED": "Cofnięto aktualizację kategorii \"{{ name }}\"",
+    "CATEGORY_DELETED": "Kategoria \"{{ name }}\" usunięta",
+    "CATEGORY_RESTORED": "Kategoria \"{{ name }}\" przywrócona",
+    "NOTE_REMOVED_FROM_CATEGORY": "Notatka \"{{ name }}\" usunięta z kategorii",
+    "NOTE_RESTORED_TO_CATEGORY": "Notatka \"{{ name }}\" przywrócona do kategorii",
+    "NOTES_REMOVED_FROM_CATEGORY": "Wiele notatek usuniętych z kategorii",
+    "NOTES_RESTORED_TO_CATEGORY": "Wiele notatek przywróconych do kategorii"
+  },
+  "SETTINGS": {
+    "GO_BACK": "Cofnij",
+    "THEME_TITLE": "Motyw",
+    "CURRENT_THEME": "Obecny motyw to",
+    "CHANGE_THEME": "Zmień motyw",
+    "DIRECTION": "Kierunek tekstu",
+    "CURRENT_DIRECTION": "Obecny kierunek to",
+    "CHANGE_DIRECTION": "Zmień kierunek tekstu",
+    "LANGUAGE": "Język",
+    "CURRENT_LANGUAGE": "Obecny język to",
+    "CHANGE_LANGUAGE": "Zmień język",
+    "SNACKBAR_DURATION": "Czas trwania snackbara",
+    "CURRENT_SNACKBAR_DURATION": "Obecny czas trwania to",
+    "CHANGE_SNACKBAR_DURATION": "Zmień czas trwania",
+    "DIRECTION_LTR": "Od lewej do prawej",
+    "DIRECTION_RTL": "Od prawej do lewej",
+    "SECOND": "sekunda",
+    "SECONDS": "sekund",
+    "SECONDS2": "sekundy",
+    "DURATION_TOO_SMALL": "Minimalny czas trwania to {{ min }} sekundy",
+    "DURATION_TOO_LARGE": "Maksymalny czas trwania to {{ max }} sekund",
+    "THEME": {
+      "DARK_GREEN": "Ciemny zielony",
+      "DARK_BLUE": "Ciemny niebieski",
+      "LIGHT_RED": "Jasny czerwony",
+      "LIGHT_PURPLE": "Jasny purpurowy",
+      "DARK_VIOLET": "Ciemny fioletowy",
+      "DARK_GRAY": "Ciemny szary",
+      "LIGHT_GREEN": "Jasny zielony",
+      "LIGHT_BROWN": "Jasny brązowy",
+      "LIGHT_BLUE": "Jasny niebieski",
+      "DARK_YELLOW": "Ciemny żółty"
+    }
+  },
+  "SHORTCUTS_DIALOG": {
+    "OPEN_ADD_NEW_NOTE_DIALOG": "Otwiera dialog dodawania nowej notatki (jeżeli żaden dialog nie jest już otwarty).",
+    "CLOSE_MOST_RECENT_DIALOG_OR_SETTINGS": "Zamyka dialog bądź ustawienia (o ile otwarte).",
+    "OPEN_CURRENTLY_SELECTED_NOTE": "Otwiera obecnie zaznaczoną notatkę (pod warunkiem, że zaznaczona jest tylko jedna).",
+    "EDIT_NOTE": "Włącza tryb edycji jeżeli notatka jest otwarta. W przeciwnym wypadku edytuj zaznaczoną notatkę (pod warunkiem, że zanaczona jest tylko jedna).",
+    "DELETE_SELECTED_NOTE_OR_NOTES": "Usuwa zanaczoną notatkę (lub notatki).",
+    "ARCHIVE_OR_RESTORE_SELECTED_NOTE_OR_NOTES": "Archiwizuje lub przywraca zanaczoną notatkę (lub notatki).",
+    "CONFIRM_ACTION": "Potwierdza akcję (tylko w dialogu potwierdzenia).",
+    "CREATE_NEW_CATEGORY": "Tworzy nową kategorię.",
+    "OPEN_SETTINGS": "Otwiera ustawienia.",
+    "CATEGORY_QUICK_SELECT": "Szybki wybór kategorii, tylko dla pierwszych 10 kategorii.",
+    "OPEN_SHORTCUTS_DIALOG": "Otwiera dialog skrótów klawiaturowych (ten, który widzisz).",
+
+    "NOTE_SHIFT_CLICK": "Shift + kliknięcie notatki",
+    "NOTE_DOUBLE_CLICK": "Podwójnie kliknięcie notatki",
+    "APP_DOUBLE_CLICK": "Podwójnie kliknięcie",
+    "NOTE_RIGHT_CLICK": "Kliknięcie notatki prawym przyciskiem",
+    "SIDEBAR_CLICK": "Kliknięcie na sidebar",
+    "APP_CLICK_AND_DRAG": "Przytrzymanie i przeciągnięcie",
+
+    "TOGGLE_MULTISELECT_WHEN_HOLD": "Zaznaczając drugą notatkę z wciśniętym Shiftem włączony zostanie Multiselect (wybór wielu notatek).",
+    "OPEN_CLICKED_NOTE": "Podwójne kliknięcie na notatkę otworzy ją.",
+    "CLEAR_SELECTION_AND_TURN_SINGLE_SELECT": "Podwójne kliknięcie gdziekolwiek (poza Sidebarem i notatką) wyczyści zaznaczenie i wyłączy Multiselect.",
+    "OPEN_NOTE_CONTEXT_MENU": "Kliknięcie prawym przyciskiem na notatkę otworzy jej menu kontekstowe.",
+    "PERSIST_OPENED_SIDEBAR": "Klikięcie na Sidebar spowoduje jego otwarcie na stałe. Aby go zamknąć kliknij poza Sidebar.",
+    "MANUAL_NOTES_SELECTION": "Aby szybko zaznaczać notatki, przytrzymaj lewy przycisk myszki i przeciągnij zaznaczenie na notatki."
+  },
+  "COLOR_DIALOG": {
+    "SELECT_COLOR": "Wybierz kolor",
+    "SUBTITLE_FOR_CATEGORY": "Wybierz kolor dla kategorii \"{{ name }}\"",
+    "SUBTITLE_FOR_NOTE": "Wybierz kolor dla notatki \"{{ name }}\"",
+    "SUBTITLE_FOR_MULTIPLE_NOTES": "Wybierz kolor dla wybranych notatek"
+  },
+  "ADD_TO_CATEGORY_DIALOG": {
+    "TITLE": "Dodaj do kategorii",
+    "CHOOSE_CATEGORIES": "Wybierz kategorie, do których chcesz dodać zaznaczone notatki.",
+    "CHOOSE_CATEGORIES_PLACEHOLDER": "Wybierz kategorie..."
+  }
+}

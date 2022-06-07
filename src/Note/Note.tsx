@@ -78,31 +78,31 @@ export const Note = ({
       coords,
       items: [
         {
-          label: 'COMMON:OPEN',
+          label: 'COMMON.OPEN',
           callback: handleOpen,
         },
         {
-          label: 'COMMON:EDIT',
+          label: 'COMMON.EDIT',
           callback: handleOpenAndEdit,
           testid: contextMenuEditButtonTestId,
         },
         {
-          label: data.archived ? 'COMMON:RESTORE' : 'COMMON:ARCHIVE',
+          label: data.archived ? 'COMMON.RESTORE' : 'COMMON.ARCHIVE',
           callback: handleArchive,
           multi: true,
         },
         {
-          label: 'COMMON:CHANGE_COLOR',
+          label: 'COMMON.CHANGE_COLOR',
           callback: handleColorChange,
           multi: true,
         },
         {
-          label: 'COMMON:ADD_TO_CATEGORY',
+          label: 'COMMON.ADD_TO_CATEGORY',
           callback: onAddToCategory,
           multi: true,
         },
         {
-          label: 'COMMON:DELETE',
+          label: 'COMMON.DELETE',
           callback: onDelete,
           warn: true,
           multi: true,
