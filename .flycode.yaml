@@ -4,8 +4,8 @@ environments:
     branch: master
     mode: pull-request
 apps:
-  - name: react-notes-2sss
+  - name: react-notes-23
     path: ""
     text-resources:
       - path: src/i18n/*.json
-        format: nested-key-value
+        format: flat-key-value
