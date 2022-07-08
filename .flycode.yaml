@@ -4,8 +4,8 @@ environments:
     branch: master
     mode: pull-request
 apps:
-  - name: react-notes-2x
+  - name: react-notes-2
     path: ""
     text-resources:
-      - path: "*.tsx"
-        format: react-hardcoded
+      - path: src/i18n/*.json
+        format: flat-key-value
