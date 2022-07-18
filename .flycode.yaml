@@ -4,7 +4,7 @@ environments:
     branch: master
     mode: pull-request
 apps:
-  - name: react-notes-2cv
+  - name: react-notes-2
     path: ""
     text-resources:
       - path: src/i18n/*.json
