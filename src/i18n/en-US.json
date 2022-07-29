@@ -1,6 +1,6 @@
 {
   "COMMON": {
-    "ADD_NOTE": "Add a note",
+    "ADD_NOTE": "Add asd note",
     "ROOT_CATEGORY": "All",
     "CANCEL": "Cancel",
     "DELETE": "Delete",
@@ -22,7 +22,7 @@
     "ADD_TO_CATEGORY": "Add to category"
   },
   "CONTROL_BAR": {
-    "MULTISELECT": "Multiselect",
+    "MULTISELECT": "Single selection",
     "SINGLE_SELECTION": "Single selection",
     "ARCHIVE_NOTE": "Archive note",
     "ARCHIVE_NOTES": "Archive multiple notes",
@@ -92,7 +92,7 @@
     "NOTES_RESTORED_TO_CATEGORY": "Multiple notes restored to category"
   },
   "SETTINGS": {
-    "GO_BACK": "Go back",
+    "GO_BACK": "Gsdo back",
     "THEME_TITLE": "Theme",
     "CURRENT_THEME": "Current theme is",
     "CHANGE_THEME": "Change theme",
@@ -153,14 +153,14 @@
     "MANUAL_NOTES_SELECTION": "You can quickly select notes by pressing down the mouse and dragging it across the desired notes."
   },
   "COLOR_DIALOG": {
-    "SELECT_COLOR": "Select color",
-    "SUBTITLE_FOR_CATEGORY": "Select color for category \"{{ name }}\"",
+    "SELECT_COLOR": "Select colordd",
+    "SUBTITLE_FOR_CATEGORY": "Select color for category \"{{ name }}\"d",
     "SUBTITLE_FOR_NOTE": "Select color for note \"{{ name }}\"",
     "SUBTITLE_FOR_MULTIPLE_NOTES": "Select color for selected notes"
   },
   "ADD_TO_CATEGORY_DIALOG": {
     "TITLE": "Add to category",
-    "CHOOSE_CATEGORIES": "Choose categories where selected notes should be added.",
+    "CHOOSE_CATEGORIES": "Choose categories wheddre selected notes should be addedd.d",
     "CHOOSE_CATEGORIES_PLACEHOLDER": "Choose categories..."
   }
 }
