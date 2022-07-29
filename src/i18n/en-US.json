@@ -153,7 +153,7 @@
     "MANUAL_NOTES_SELECTION": "You can quickly select notes by pressing down the mouse and dragging it across the desired notes."
   },
   "COLOR_DIALOG": {
-    "SELECT_COLOR": "Select color",
+    "SELECT_COLOR": "Select colord",
     "SUBTITLE_FOR_CATEGORY": "Select color for category \"{{ name }}\"",
     "SUBTITLE_FOR_NOTE": "Select color for note \"{{ name }}\"",
     "SUBTITLE_FOR_MULTIPLE_NOTES": "Select color for selected notes"
