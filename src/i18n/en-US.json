@@ -161,6 +161,6 @@
   "ADD_TO_CATEGORY_DIALOG": {
     "TITLE": "Add to category",
     "CHOOSE_CATEGORIES": "Choose categories where selected notes should be addedd.",
-    "CHOOSE_CATEGORIES_PLACEHOLDER": "Choose categories..."
+    "CHOOSE_CATEGORIES_PLACEHOLDER": "Choose categories"
   }
 }
