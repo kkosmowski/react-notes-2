@@ -1,7 +1,7 @@
 {
   "COMMON": {
     "ADD_NOTE": "Add a note",
-    "ROOT_CATEGORY": "All",
+    "ROOT_CATEGORY": "All notes",
     "CANCEL": "Cancel",
     "DELETE": "Delete",
     "SAVE_AND_NEXT": "Save & next",
@@ -22,7 +22,7 @@
     "ADD_TO_CATEGORY": "Add to category"
   },
   "CONTROL_BAR": {
-    "MULTISELECT": "Multiselect",
+    "MULTISELECT": "Multi select",
     "SINGLE_SELECTION": "Single selection",
     "ARCHIVE_NOTE": "Archive note",
     "ARCHIVE_NOTES": "Archive multiple notes",
@@ -159,7 +159,7 @@
     "SUBTITLE_FOR_MULTIPLE_NOTES": "Select color for selected notes"
   },
   "ADD_TO_CATEGORY_DIALOG": {
-    "TITLE": "Add to categorysdd",
+    "TITLE": "Add to the category",
     "CHOOSE_CATEGORIES": "Choose categories where selected notes should be added.",
     "CHOOSE_CATEGORIES_PLACEHOLDER": "Choose categories...asd"
   }
